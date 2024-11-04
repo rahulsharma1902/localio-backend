@@ -1,121 +1,85 @@
-<!DOCTYPE html>
-<html lang="zxx" class="js">
 
-<head>
-    <base href="../../../">
-    <meta charset="utf-8">
-    <meta name="author" content="Softnio">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
-    <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="./images/favicon.png">
-    <!-- Page Title  -->
-    <title>Login | eliteserenevillas</title>
-    <!-- StyleSheets  -->
-    <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css')}}">
-    <link id="skin-default" rel="stylesheet" href="{{ asset('admin-theme/assets/css/theme.css') }}">
-</head>
+@extends('user_layout.master')
+@section('content')
 
-<body class="nk-body bg-white npc-general pg-auth">
-    <div class="nk-app-root">
-        <!-- main @s -->
-        <div class="nk-main ">
-            <!-- wrap @s -->
-            <div class="nk-wrap nk-wrap-nosidebar">
-                <!-- content @s -->
-                <div class="nk-content ">
-                    <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
-                        <div class="brand-logo pb-4 text-center">
-                            <a href="html/index.html" class="logo-link">
-                                <img class="logo-light logo-img logo-img-lg" src="{{('admin-theme/images/logo.png')}}" srcset="./images/logo2x.png 2x" alt="logo">
-                                <img class="logo-dark logo-img logo-img-lg" src="{{asset('admin-theme/images/logo-dark.png')}}" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
-                            </a>
+    <section class="banner_sec help-cntr-bnr inr-bnr dark lg_Bnr" style="background-color: #003F7D;">
+         <div class="bubble-wrp">
+            <img src="{{ asset('front/img/small-bnnr-bg.png') ?? '' }}" alt="">
+         </div>
+    </section>
+    <section class="contact_sec login_form p_120 pt-0 light">
+         <div class="container">
+            <div class="contact_content" data-aos="fade-up" data-aos-duration="1000">
+               <div class="hd_text">
+                  <h2 class="text-center">Login To Your Account</h2>
+                  <p class="text-center">Welcome back! Please choose a login method</p>
+               </div>
+               <div class="scl_login">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="login_box size18">
+                           <a href="#" class="login_link" style="background: #DB4437;">
+                           <span class="scl-icn"><i class="fa-brands fa-google"></i></span>
+                           Login with Google
+                           </a>
                         </div>
-                        <div class="card card-bordered">
-                            <div class="card-inner card-inner-lg">
-                                <div class="nk-block-head">
-                                    <div class="nk-block-head-content">
-                                        <h4 class="nk-block-title">Sign-In</h4>
-                                      
-                                    </div>
-                                </div>
-                                <form action="{{ url('loginprocc') }}" method="post">
-                                    @csrf
-                                    <div class="form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="default-01">Email or Username</label>
-                                        </div>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control form-control-lg" name="email" id="default-01" placeholder="Enter your email address or username">
-                                        </div>
-                                        @if ($errors->has('email'))
-                                            <span class="text-danger">{{ $errors->first('email') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="password">Password</label>
-                                            <a class="link link-primary link-sm" href="html/pages/auths/auth-reset-v2.html">Forgot Code?</a>
-                                        </div>
-                                        <div class="form-control-wrap">
-                                            <a href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
-                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                                            </a>
-                                            <input type="password" class="form-control form-control-lg" name ="password" id="password" placeholder="Enter your passcode">
-                                            @if ($errors->has('password'))
-                                            <span class="text-danger">{{ $errors->first('password') }}</span>
-                                             @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <!-- Here we use local host secret key we should change it with 6LetoOIlAAAAAMLtfUjMWwi82O070ZmLJZKk39s_  when our domain name logomax.com is working -->
-                                        <div class="g-recaptcha" data-sitekey="6LfWkd0mAAAAAHjVHtaMeA34uKJ-0SLcd33sUoqb"></div>
-                                        @if ($errors->has('g-recaptcha-response'))
-                                            <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
-                                        @endif
-                                    </div> 
-                                    <div class="form-group">
-                                        <button class="btn btn-lg btn-primary btn-block">Sign in</button>
-                                    </div>
-                                </form>
-                               
-                           
-                                
-                            </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="login_box size18">
+                           <a href="#" class="login_link">
+                           <span class="scl-icn"><i class="fa-brands fa-facebook"></i></span>
+                           Login with Facebook
+                           </a>
                         </div>
-                    </div>
-                   
-                </div>
-                <!-- wrap @e -->
+                     </div>
+                  </div>
+               </div>
+               <!-- Your existing form -->
+               <div class="or-separator">
+                  <span class="size16">or</span>
+               </div>
+               <!-- Continue with the rest of your form -->
+                <form class="login_form" action="{{ url('loginprocc') }}" method="post">
+                    @csrf
+                  <div class="form-group">
+                     <input type="email" class="form-control" name="email"  id="emailAddress" placeholder="Email">
+                  </div>
+                    @if ($errors->has('email'))
+                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                    @endif
+                  <div class="form-group">
+                     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                     <span id="togglePassword" class="eye-icon">
+                     <i class="fa fa-eye-slash"></i>
+                     </span>
+                  </div>
+                    @if ($errors->has('password'))
+                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                    @endif
+                  <div class="form-row align-items-center">
+                     <div class="col">
+                        <div class="form-check">
+                           <input class="form-check-input" type="checkbox" id="rememberMe">
+                           <label class="form-check-label small" for="rememberMe">
+                           Remember me
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col frgt_btn text-right">
+                        <a href="#" class="small">Forgot Passwoed?</a>
+                     </div>
+                  </div>
+                  <div class="accor-btn">
+                     <button type="submit" class="cta cta_white">Log In</button>
+                  </div>
+                  <p class="new-accnt text-center mt-4">
+                     New to Localio? <a href="#" class="sk_blu big-bld">Sign up</a>
+                  </p>
+               </form>
             </div>
-            <!-- content @e -->
-        </div>
-        <!-- main @e -->
-    </div>
-    <!-- app-root @e -->
-    <!-- JavaScript -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="{{ asset('admin-theme/assets/js/bundle.js') }}"></script>
-    <script src="{{ asset('admin-theme/assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('admin-theme/assets/js/example-toastr.js?ver=3.1.2') }}"></script>
-    @if(Session::get('error'))
-<script>
-    toastr.clear();
-    NioApp.Toast('{{ Session::get("error") }}', 'error', {position: 'top-right'});
-</script>
-@endif
-@if(Session::get('success'))
-<script>
-    toastr.clear();
-     NioApp.Toast('{{ Session::get("success") }}', 'info', {position: 'top-right'});
-</script>
-@endif
-    <!-- select region modal -->
+         </div>
+    </section>
 
 
-</html>
 
-
- <!-- site-key = 6LfWkd0mAAAAAHjVHtaMeA34uKJ-0SLcd33sUoqb
- secret-key = 6LfWkd0mAAAAAGzO6cmejBLvPy4WMBSZUP-CUoR2 -->
+@endsection

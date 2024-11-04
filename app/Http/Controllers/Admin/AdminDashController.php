@@ -4,15 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Order;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Hash;
 
-use Laravel\Socialite\Facades\Socialite;
 class AdminDashController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         return view('Admin.dashboard.index');
     }
@@ -24,23 +23,22 @@ class AdminDashController extends Controller
 
     //update profile
     public function ProfileUpdateProcc(Request $request)
-    {    
+    {
         $request->validate([
-            'user_name'=>'required',
-            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
+            'user_name' => 'required',
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
             'number' => 'required|unique:users,number,' . Auth::user()->id,
         ]);
-       
+
         $user = User::find(Auth::user()->id);
-    
+
         $user->update([
             'user_name' => $request->user_name,
             'email' => $request->email,
             'number' => $request->number,
         ]);
 
-        
-        return redirect()->back()->with('success','Your profile has been updated');
+        return redirect()->back()->with('success', 'Your profile has been updated');
     }
 
     public function updatePasswordProcc(Request $request)
@@ -49,7 +47,7 @@ class AdminDashController extends Controller
             [
                 'old_password' => 'required',
                 'new_password' => 'required|confirmed|min:6',
-                'new_password_confirmation' => 'required'
+                'new_password_confirmation' => 'required',
             ],
             [
                 'old_password.required' => 'The password field is required.',
@@ -72,5 +70,4 @@ class AdminDashController extends Controller
         return redirect()->back()->with(['error' => 'The old password is incorrect.']);
     }
 
-    
 }

@@ -22,6 +22,7 @@ class AdminSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => "password",
                 'user_type' => "admin",
+                'status'=>'active',
             ],
         ];
     
@@ -32,6 +33,7 @@ class AdminSeeder extends Seeder
                 'email' => $d['email'],
                 'password' => $d['password'],
                 'user_type' => $d['user_type'],
+                'status' => $d['status'],
             ]);
         }
     }
