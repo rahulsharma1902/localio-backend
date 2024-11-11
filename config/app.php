@@ -88,34 +88,10 @@ return [
 
     'available_locales' => [
         'de',
-        'en-it',
-        'en-au',
-        'es-ar',
-        'en-ca',
-        'es-ch',
-        'es-co',
-        'de-de',
-        'es-es',
-        'es-esu',
-        'en-hok',
-        'en-in',
-        'en-ir',
-        'en-is',
-        'en-ma',
-        'es-me',
-        'en-nez',
-        'de-os',
-        'en-pak',
-        'es-pe',
-        'en-ph',
-        'de-sc',
-        'en-sin',
-        'en-sa',
-        'en-uae',
-        'en-uk',
-        'en-us',
-        'es-ven',
-        'en-in'
+        'it',
+        'es',
+        'en',
+        
     ],
 
 

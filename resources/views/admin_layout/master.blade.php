@@ -48,10 +48,11 @@
                     </div>
                     <div class="nk-sidebar-brand">
                         <a href="{{ url('admin-dashboard') ?? ''}}" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="{{ asset('admin-theme/images/logo.png') }}" srcset="{{ asset('admin-theme/images/logo2x.png 2x') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('admin-theme/images/logo-dark.png') }}" srcset="{{ asset('admin-theme/images/logo-dark2x.png 2x') }}" alt="logo-dark">
+                            <img class="logo-light logo-img" src="{{ asset('front/img/logo.svg') }}" srcset="{{ asset('front/img/logo.svg') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('front/img/logo-dark.svg') }}" srcset="{{ asset('front/img/logo.svg') }}" alt="logo-dark">
                         </a>
                     </div>
+                    
                 </div><!-- .nk-sidebar-element -->
                 <div class="nk-sidebar-element nk-sidebar-body">
                     <div class="nk-sidebar-content">
@@ -61,20 +62,26 @@
                                 <li class="nk-menu-heading">
                                     <a href="{{ url('admin-dashboard') ?? ''}}"><h6 class="overline-title text-primary-alt">Dashboard</h6></a>
                                 </li>
-                                <!-- <li class="nk-menu-item has-sub">
+                                <li class="nk-menu-item has-sub">
+                                    <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
+                                        <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
+                                        <!-- <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span> -->
+                                        <span class="nk-menu-text">categories</span>
+                                    </a>
+                                    
+                                </li>
+                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
-                                        <span class="nk-menu-text">Projects</span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
+                                        <span class="nk-menu-text">Setting</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="html/project-card.html" class="nk-menu-link"><span class="nk-menu-text">Project Cards</span></a>
+                                            <a href="{{url('/admin-dashboard/site-languages')}}" class="nk-menu-link"><span class="nk-menu-text">Site - Languages</span></a>
                                         </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/project-list.html" class="nk-menu-link"><span class="nk-menu-text">Project List</span></a>
-                                        </li>
+
                                     </ul>
-                                </li> -->
+                                </li>
                                 <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
@@ -123,6 +130,25 @@
                             </div>
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
+                                <li>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-bs-toggle="dropdown">
+                                            Site Language: {{ Cookie::get('language_code', config('app.locale')) }}
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <ul class="link-list-opt no-bdr">
+                                                @foreach(\App\Models\SiteLanguages::where('status', 'active')->get() as $siteLanguage)
+                                                    <li>
+                                                        <a href="{{ url('set-site-active-language/' . $siteLanguage->handle) }}">
+                                                            <span>{{ $siteLanguage->name }} - {{ $siteLanguage->handle }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+
                                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                                         <!-- <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="quick-icon border border-light">
@@ -180,6 +206,7 @@
                                             </div>
                                         </div>
                                     </li>
+                                    
                                     <!-- <li class="dropdown notification-dropdown me-n1">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>

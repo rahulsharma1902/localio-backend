@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
-use App\Http\Controllers\Admin\{AdminDashController};
+use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController};
 
 
 use App\Http\Controllers\User\{ViewController};
@@ -54,17 +54,60 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 // });
 
 
-// Route::group(
-//     [
-//         'prefix' => LaravelLocalization::setLocale(),
-//         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
-//     ], function() {
-//         Route::get('/',[ViewController::class,'home']);
-//         /** Add other localized routes here **/
-//     });
     
 Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
 
     Route::get('/', [ViewController::class, 'home'])->name('/');
 
+    Route::get('/login',[AuthenticationController::class,'index']);
+    
+    Route::get('/logout',[AuthenticationController::class,'logout']);
+
+
+
+
 });
+
+Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
+
+Route::group(['middleware' =>['admin']],function(){
+    Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', 'en');
+    // Route::get('admin-dashboard',[AdminDashController::class,'index']);
+
+
+    // profile settings 
+    Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
+    Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
+    Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
+    
+    
+
+
+    //  CategoriesController  categories
+    Route::get('/admin-dashboard/categories-{language?}', [CategoriesController::class, 'index'])->name('categories');
+    Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
+    Route::get('/admin-dashboard/categories/add-new/{id?}', [CategoriesController::class, 'addCategories'])->name('add-categories');
+    Route::get('/admin-dashboard/categories/delete/{id}', [CategoriesController::class, 'delete']);
+    Route::get('/admin-dashboard/categories-get', [CategoriesController::class, 'getCategories']);
+    Route::get('/admin-dashboard/update-category/{categoryId}/{languageId?}', [CategoriesController::class, 'updateCategory'])->name('update-category');
+    Route::post('/admin-dashboard/update-category/updateProcc', [CategoriesController::class, 'updateProcc'])->name('update-category-updateProcc');
+
+
+    // SiteLanguagesController
+
+    Route::get('/admin-dashboard/site-languages', [SiteLanguagesController::class, 'index'])->name('site-languages');
+    Route::get('/admin-dashboard/site-languages/add', [SiteLanguagesController::class, 'add'])->name('site-languages-add');
+    Route::post('/admin-dashboard/site-languages/addProcc', [SiteLanguagesController::class, 'addProcc'])->name('site-languages-addProcc');
+    Route::get('/admin-dashboard/site-language/update/{id}', [SiteLanguagesController::class, 'update'])->name('site-language-update');
+    Route::post('/admin-dashboard/site-language/updateProcc', [SiteLanguagesController::class, 'updateProcc'])->name('site-language-updateProcc');
+
+    Route::get('/admin-dashboard/remove-site-language/{id}', [SiteLanguagesController::class, 'remove'])->name('site-language-remove');
+
+
+});
+
+
+
+Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
+
+

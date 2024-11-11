@@ -2,6 +2,6 @@
 
 return [
 
-    'heading' => 'Find the Best Deals and Save on Your Next Purchase!',
+    'heading' => 'Finden Sie die besten Angebote und sparen Sie bei Ihrem nächsten Einkauf!',
 
 ];

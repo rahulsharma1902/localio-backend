@@ -11,17 +11,31 @@
                     <form action="{{ url('admin-dashboard/update-profile-procc') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ Auth::user()->id }}">
+                        <div class="row">
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="user_name"> Name</label>
+                                    <label class="form-label" for="first_name">First Name</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="user_name" class="form-control" id="user_name" value="{{ Auth::user()->user_name}}" >
+                                        <input type="text" name="first_name" class="form-control" id="first_name" value="{{ Auth::user()->first_name}}" >
                                     </div>
-                                    @error('user_name')
+                                    @error('first_name')
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-lg-6 p-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="last_name">Last Name</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" name="last_name" class="form-control" id="last_name" value="{{ Auth::user()->last_name}}" >
+                                    </div>
+                                    @error('last_name')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
                                     <label class="form-label" for="name"> Email</label>
@@ -35,7 +49,7 @@
                             </div>
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="name"> Number</label>
+                                    <label class="form-label" for="name">Phone Number</label>
                                     <div class="form-control-wrap">
                                         <input type="number" name="number" class="form-control" id="number" value="{{ Auth::user()->number ?? '' }}" >
                                     </div>
@@ -43,6 +57,7 @@
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                            </div>
                             </div>
                         <div class="form-group mt-3">
                             <button type="submit"

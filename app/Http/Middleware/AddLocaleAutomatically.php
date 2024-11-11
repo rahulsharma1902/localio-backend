@@ -4,64 +4,43 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
+use App\Models\SiteLanguages;
 
 class AddLocaleAutomatically
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-
-     
     public function handle(Request $request, Closure $next)
-    {
+{
+    if ($request->isMethod('get')) {
+        // Retrieve an array of all active language handles
+        $availableLocales = SiteLanguages::where('status', 'active')->pluck('handle')->toArray();
 
-        // Handle GET requests only
-        if ($request->isMethod('get')) {
-            // If there is no 'locale' in the route, check the cookie
-            if (!$request->route('locale')) {
-                // Check if language is set in the cookie
-                $isLangSetInCookie = Cookie::get('language_code');
-                // If the language is found in the cookie
-                if ($isLangSetInCookie) {
-                    // Set the application locale
-                    App::setLocale($isLangSetInCookie);
+        // Retrieve the default language handle
+        $defaultlanguage = SiteLanguages::where('primary', 1)->value('handle');
 
-                    // Avoid redirect loops by checking if the current URL already contains the language
-                    if (!str_contains($request->getRequestUri(), $isLangSetInCookie)) {
-                        // Redirect the user to the same URL, but with the language code as a prefix
-                        return redirect('/' . $isLangSetInCookie . $request->getRequestUri());
-                    }
-                } else {
-                    $userIp = request()->ip();
-                    $userIPDetails = [];
-                    $ipDetails = getIpDetails($userIp);
-            
-                    $isLangSetInCookie = session()->get('language_code');
-                    App::setLocale($isLangSetInCookie);
-                    if (!str_contains($request->getRequestUri(), $isLangSetInCookie)) {
-                        // Redirect the user to the same URL, but with the language code as a prefix
-                        return redirect('/' . $isLangSetInCookie . $request->getRequestUri());
-                    }
-                }
-            } else {
-                
-                $isLangSetInCookie = Cookie::get('language_code');
-                $isLangSetInCookie='en';
-                App::setLocale($isLangSetInCookie);
-                if (!str_contains($request->getRequestUri(), $isLangSetInCookie)) {
-                    return redirect('/' . $isLangSetInCookie);
-                }
-            }
-           
+        $locale = $request->route('locale') ?? Cookie::get('language_code') ?? $defaultlanguage ?? config('app.locale');
+
+        if (!in_array($locale, $availableLocales)) {
+            $locale = config('app.locale');
         }
 
-        // Continue with the request after setting the language
-        return $next($request);
+        // Log locale setting
+        Log::info("Setting locale to: {$locale}");
+
+        App::setLocale($locale);
+        Cookie::queue('language_code', $locale, 60 * 24 * 30);
+
+        if (!$request->route('locale') || $request->route('locale') !== $locale) {
+            return redirect("/{$locale}" . $request->getRequestUri());
+        }
     }
+
+    return $next($request);
 }
 
+}
