@@ -84,10 +84,9 @@ Route::group(['middleware' =>['admin']],function(){
 
 
     //  CategoriesController  categories
-    Route::get('/admin-dashboard/categories-{language?}', [CategoriesController::class, 'index'])->name('categories');
+    Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
     Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
-    Route::get('/admin-dashboard/categories/add-new/{id?}', [CategoriesController::class, 'addCategories'])->name('add-categories');
-    Route::get('/admin-dashboard/categories/delete/{id}', [CategoriesController::class, 'delete']);
+    Route::get('/admin-dashboard/remove-category/{id}', [CategoriesController::class, 'remove']);
     Route::get('/admin-dashboard/categories-get', [CategoriesController::class, 'getCategories']);
     Route::get('/admin-dashboard/update-category/{categoryId}/{languageId?}', [CategoriesController::class, 'updateCategory'])->name('update-category');
     Route::post('/admin-dashboard/update-category/updateProcc', [CategoriesController::class, 'updateProcc'])->name('update-category-updateProcc');

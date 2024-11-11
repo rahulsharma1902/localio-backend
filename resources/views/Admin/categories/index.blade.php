@@ -59,14 +59,16 @@
                         <td class="nk-tb-col">
                             <div class="user-card">
                                 <div class="user-info">
-                                    <span class="tb-lead">{{ $category->name ?? ''}}</span>
+                                <span class="tb-lead">{{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name }}</span>
+
 
                                 </div>
                             </div>
                         </td>
                         <td class="nk-tb-col tb-col-mb">
                             <span class="tb-amount">
-                                {!! \Illuminate\Support\Str::words($category->description ?? 'No description available', 10, '...') !!}
+                            {!! \Illuminate\Support\Str::words( $category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description ?? 'No description available', 10, '...') !!}
+                                <!-- {!! \Illuminate\Support\Str::words($category->description ?? 'No description available', 10, '...') !!} -->
                             </span>
                         </td>
 
@@ -85,8 +87,12 @@
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a
                                                         href="{{ url('admin-dashboard/update-category') ?? '' }}/{{ $category->id ?? ''}}/{{ $category->language_id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
-                                                <li><a class="delete"
-                                                    href="{{ url('admin-dashboard/remove-product') ?? '' }}/"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a></li>
+                                                
+                                                @if($category->translations->isEmpty())
+                                                <li class="removeConfermation" data-url="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->id ?? ''}}">
+                                                    <a class="delete" href="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
+                                                </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>

@@ -42,7 +42,7 @@
                                 @enderror
                             </sup>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $category->name ?? '' ) }}" />
+                            <input type="text" class="form-control" id="name" name="name"  value="{{ old('name') ?? ($category->name ?? ($defaultCategory->name ?? '')) }}" />
                             </div>
                         </div>
                     </div>
@@ -54,13 +54,13 @@
                     @else
                         <input type="hidden" class="form-control" id="handle" name="handle" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
                     @endif
-                    <!-- <input type="text" name="category_id" id=""> -->
+                    <input type="hidden" name="category_id" id="category_id" value="{{ $defaultCategory->id ?? '' }}">
                 
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label" for="description">Description</label>
                             <div class="form-control-wrap">
-                                <textarea class="description" name="description" id="description">{{ old('slug', $category->description ?? '' ) }}</textarea>
+                            <textarea class="description" name="description" id="description">{{ old('description') ?? ($category->description ?? ($defaultCategory->description ?? '')) }}</textarea>
                             </div>
                             @error('description')
                                 <div class="error text-danger">{{ $message }}</div>
@@ -69,7 +69,8 @@
                     </div>
                     <div class="col-6">
                     <div class="form-group">
-                    @if($category)
+                        <img src="{{ asset('CategoryImages') ?? '' }}/{{ $defaultCategory->image ?? '' }}" alt="">
+                    <!-- @if($category)
                         @if( $category->image )
                         {{ $category->language->name ?? '' }}
                             <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->image ?? '' }}" alt="">
@@ -77,7 +78,7 @@
                             <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->category->image ?? '' }}" alt="">
                         @endif
                     @endif
-                   
+                    -->
                             
                         </div>
                     </div>

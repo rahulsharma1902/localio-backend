@@ -15,4 +15,11 @@ class CategoryTranslation extends Model
     public function category(){
         return $this->hasOne(Country::class,'id','category_id');
     }
+    protected $fillable = ['category_id', 'language_id', 'name', 'description', 'slug'];
+
+    // Define the category relationship
+    // public function categoryData()
+    // {
+    //     return $this->belongsTo(Category::class);
+    // }
 }
