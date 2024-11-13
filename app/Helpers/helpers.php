@@ -26,5 +26,5 @@ if (!function_exists('getLanguageRole')) {
          } else {
             return 'global';
          }
-    }
+    } 
 }
