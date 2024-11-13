@@ -1,7 +1,7 @@
 <?php 
 use Illuminate\Support\Facades\Cookie;
 use App\Models\{Category,SiteLanguages,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
-use DB;
+
 if (!function_exists('getCurrentLocale')) {
     function getCurrentLocale() {
         return Cookie::get('language_code', config('app.locale'));
