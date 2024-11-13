@@ -18,7 +18,7 @@
                   <div class="row">
                      <div class="col-md-6">
                         <div class="login_box size18">
-                           <a href="#" class="login_link" style="background: #DB4437;">
+                           <a href="{{route('google.login')}}" class="login_link" style="background: #DB4437;">
                            <span class="scl-icn"><i class="fa-brands fa-google"></i></span>
                            Login with Google
                            </a>
@@ -26,7 +26,7 @@
                      </div>
                      <div class="col-md-6">
                         <div class="login_box size18">
-                           <a href="#" class="login_link">
+                           <a href="{{ route('login.facebook') }}" class="login_link">
                            <span class="scl-icn"><i class="fa-brands fa-facebook"></i></span>
                            Login with Facebook
                            </a>
@@ -66,7 +66,7 @@
                         </div>
                      </div>
                      <div class="col frgt_btn text-right">
-                        <a href="#" class="small">Forgot Passwoed?</a>
+                        <a href="{{url('recover-password')}}" class="small">Forgot Passwoed?</a>
                      </div>
                   </div>
                   <div class="accor-btn">

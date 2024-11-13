@@ -15,6 +15,7 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"
          integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
          crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
       <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
          <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
@@ -234,6 +235,10 @@
 
       <script src="{{ asset('front/js/script.js') }}"></script>
       <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+      
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
       <script>
          $(function () {
              AOS.init();
@@ -241,5 +246,15 @@
 
       </script>
       <script type="text/javascript"></script>
+    <script>
+      $(document).ready(function() {
+         @if(Session::has('error'))
+               toastr.error("{{ Session::get('error') }}");
+         @endif
+         @if(Session::has('success'))
+               toastr.success("{{ Session::get('success') }}");
+         @endif
+      });
+   </script>
    </body>
 </html>

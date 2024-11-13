@@ -53,8 +53,12 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 // });
 
+Route::get('auth/google', [AuthenticationController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('login/google/callback', [AuthenticationController::class, 'handleGoogleCallback']);
 
-    
+Route::get('login/facebook', [AuthenticationController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [AuthenticationController::class, 'handleFacebookCallback']);
+
 Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
 
     Route::get('/', [ViewController::class, 'home'])->name('/');
@@ -63,9 +67,12 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     
     Route::get('/logout',[AuthenticationController::class,'logout']);
 
-
-
-
+    Route::get('/recover-password',[AuthenticationController::class,'forgotPassword'])->name('recover.password');
+    Route::post('/password-procc',[AuthenticationController::class,'forgotProcc'])->name('password.procc');
+    Route::get('/otp-confirm',[AuthenticationController::class,'otpConfirm'])->name('get.otp');
+    Route::post('opt-procc',[AuthenticationController::class,'optProcc'])->name('opt.procc');
+    Route::get('new-password',[AuthenticationController::class,'newPassword']);
+    Route::post('new-password-procc',[AuthenticationController::class,'newPasswordProcc'])->name('new.password.procc');
 });
 
 Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
