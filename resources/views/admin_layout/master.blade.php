@@ -70,6 +70,14 @@
                                     </a>
                                     
                                 </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="{{ url('admin-dashboard/filters') ?? '#' }}" class="nk-menu-link ">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-filter-fill"></em></span>
+                                        <!-- <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span> -->
+                                        <span class="nk-menu-text">Filter</span>
+                                    </a>
+                                    
+                                </li>
                                  <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>

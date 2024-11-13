@@ -10,30 +10,7 @@ use App;
 class CategoriesController extends Controller
 {
    
-    // public function index(Request $request) {
-    //     $locale = getCurrentLocale(); // Assuming this function returns the current locale (e.g., 'en', 'fr')
-        
-    //     // Fetch categories with translations filtered by the current language
-    //     $categories = Category::with(['translations' => function($query) use ($locale) {
-    //         // Only fetch translations for the current locale
-    //         $query->where('language_id', $locale);
-    //     }])->get();
-    
-    //     foreach ($categories as $category) {
-    //         // Check if translation exists for the given language
-    //         $category->translation = $category->translations->first();
-    
-    //         // If no translation exists, assign the default category data (fallback)
-    //         if (!$category->translation) {
-    //             // Use the default category's values (i.e., the first entry)
-    //             $category->translation = $category; // Ensure this is the fallback to default category
-    //         }
-    //     }
-    //     echo '<pre>';
-    //     print_r($categories);
-    //     die();
-    //     return view('Admin.categories.index', compact('categories'));
-    // }
+
     public function index(Request $request) {
         $locale = getCurrentLocale(); 
         
