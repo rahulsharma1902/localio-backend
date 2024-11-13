@@ -110,7 +110,7 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/remove-site-language/{id}', [SiteLanguagesController::class, 'remove'])->name('site-language-remove');
 
 
-    // FilterController
+    // FilterController :
     Route::get('/admin-dashboard/filters', [FilterController::class, 'index'])->name('filters');
     Route::get('/admin-dashboard/filter/add', [FilterController::class, 'add'])->name('filter-add');
     Route::post('/admin-dashboard/filter/addProcc', [FilterController::class, 'addProcc'])->name('filter-addProcc');
