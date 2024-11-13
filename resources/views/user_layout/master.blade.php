@@ -20,8 +20,8 @@
 
          <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
          <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
-
       <title>home page</title>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    </head>
    <body>
       <header>
@@ -33,8 +33,12 @@
                   </div>
                   <div class="header_button_col">
                      <div class="Header_buttons">
-                        <a href="{{ url('login') ?? '' }}" class="cta cta_trans">Login</a>
-                        <a href="{{ url('register') ?? '' }}" class="cta cta_orange">Sign Up</a>
+                        @if(auth()->user())
+                           <a href="{{ url('logout') ?? '' }}" class="cta cta_trans">Sign Out</a>
+                         @else
+                           <a href="{{ url('login') ?? '' }}" class="cta cta_trans">Login</a>
+                           <a href="{{ url('register') ?? '' }}" class="cta cta_orange">Sign Up</a>
+                        @endif
                      </div>
                   </div>
                </div>
@@ -58,19 +62,19 @@
                               <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                               <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
                                  <li class="dropdown_item-1">
-                                    <a href="#">Item 1</a>
+                                    <a href="#" class="business-cat">Business Software</a>
                                  </li>
                                  <li class="dropdown_item-2">
-                                    <a href="#">Item 2</a>
+                                    <a href="#">Marketing & Sales</a>
                                  </li>
                                  <li class="dropdown_item-3">
-                                    <a href="#">Item 3</a>
+                                    <a href="#">Development Tools</a>
                                  </li>
                                  <li class="dropdown_item-4">
-                                    <a href="#">Item 4</a>
+                                    <a href="#">IT & Security</a>
                                  </li>
                                  <li class="dropdown_item-5">
-                                    <a href="#">Item 5</a>
+                                    <a href="#">more</a>
                                  </li>
                               </ul>
                            </li>
@@ -255,6 +259,14 @@
                toastr.success("{{ Session::get('success') }}");
          @endif
       });
+      // $(document).ready(function(){
+      //    $('.business-cat').click(function(){
+      //       if (confirm('Are you sure you want to reload the page?')) {
+      //           window.location.reload();  // Reload the page if the user confirms
+      //       }
+      //    });
+      // });
    </script>
+   
    </body>
 </html>

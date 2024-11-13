@@ -19,7 +19,7 @@
                         <div class="search-bar-wrp">
                            <div class="search-box">
                               <input type="text"
-                                 placeholder="Enter a product, category, or what you’d like to compare...">
+                                 placeholder="Enter a product, category, or what you’d like to compare..." name="search_bar" id="searchBar">
                               <i class="fa fa-search"></i>
                            </div>
                         </div>
@@ -1539,5 +1539,13 @@
             <img src="{{ asset('front/img/right-tool-vector2.png') ?? '' }}" class="image-pattern2" alt="">
          </div>
       </section>
-
+<script>
+   $(document).ready(function(){
+      $('#searchBar').keyup(function(e){
+         if(e.keyCode === 13){
+            window.location.reload();
+         }
+      });
+   });
+</script>
 @endsection

@@ -27,6 +27,8 @@ class AuthenticationController extends Controller
     }
     public function loginProcc(Request $request)
     {
+        $lang = app()->getLocale();
+
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -35,13 +37,15 @@ class AuthenticationController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 
             if (Auth::user()->user_type == 'admin') {
-                return redirect('/admin-dashboard')->with('success', 'Successfully loggedin! Welcome Come Admin');
+                // return redirect('/admin-dashboard')->with('success', 'Successfully loggedin! Welcome Come Admin');
+                  return redirect("/{$lang}/admin-dashboard")->with('success', 'Successfully loggedin! Welcome Come Admin');
             } elseif (Auth::user()->user_type == 'user') {
                 // $changeID = $this->convertTemporaryIdToUserId();
                 if ($request->url != null) {
                     return redirect($request->url);
                 } else {
-                    return redirect('/')->with('success', 'Successfully loggedin');
+                    // return redirect('/')->with('success', 'Successfully loggedin');
+                    return redirect("/{$lang}")->with('success', 'Successfully loggedin');
                 }
             } else {
                 Auth::logout();
