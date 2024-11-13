@@ -43,4 +43,6 @@ class AddLocaleAutomatically
     return $next($request);
 }
 
+
+
 }
