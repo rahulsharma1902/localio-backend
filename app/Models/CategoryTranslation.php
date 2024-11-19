@@ -12,9 +12,9 @@ class CategoryTranslation extends Model
     {
         return $this->hasOne(SiteLanguages::class, 'id', 'language_id');
     }
-    public function category(){
-        return $this->hasOne(Country::class,'id','category_id');
-    }
+    // public function category(){
+    //     return $this->hasOne(Country::class,'id','category_id');
+    // }
     protected $fillable = ['category_id', 'language_id', 'name', 'description', 'slug'];
 
     // Define the category relationship
@@ -22,4 +22,8 @@ class CategoryTranslation extends Model
     // {
     //     return $this->belongsTo(Category::class);
     // }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

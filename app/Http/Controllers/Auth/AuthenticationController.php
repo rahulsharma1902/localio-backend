@@ -18,15 +18,20 @@ use App\Mail\ForgetPasswordMail;
 use Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str; 
+use App\Models\Country;
+
+
 class AuthenticationController extends Controller
 {
     public function index(){
 
+        $user = auth()->user();
         return view('Authentication.login');
 
     }
     public function loginProcc(Request $request)
     {
+        $lang = app()->getLocale();
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -35,13 +40,13 @@ class AuthenticationController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 
             if (Auth::user()->user_type == 'admin') {
-                return redirect('/admin-dashboard')->with('success', 'Successfully loggedin! Welcome Come Admin');
+                return redirect("/{$lang}/admin-dashboard")->with('success', 'Successfully loggedin! Welcome Come Admin');
             } elseif (Auth::user()->user_type == 'user') {
                 // $changeID = $this->convertTemporaryIdToUserId();
                 if ($request->url != null) {
                     return redirect($request->url);
                 } else {
-                    return redirect('/')->with('success', 'Successfully loggedin');
+                    return redirect("/{$lang}/")->with('success', 'Successfully loggedin');
                 }
             } else {
                 Auth::logout();
@@ -52,11 +57,56 @@ class AuthenticationController extends Controller
         }
     }
 
+    public function register()
+    {
+        $countries = Country::all();
+
+        return view('Authentication.register',compact('countries'));
+    }
+    public function registerProcc(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required',
+            'last_name'  => 'required',
+            'email' => 'required|email|unique:users,email',  
+            'password' => 'required|confirmed', 
+            'country_id' => 'required', // Validate country_id exists in the countries table
+        ]);
+
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->last_name  = $request->last_name;
+        $user->email      = $request->email;
+        $user->password   = Hash::make($request->password);
+        $user->country_id    = $request->country_id ;
+        $user->save();
+        if ($user) {
+            // Attempt to log the user in
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
+    
+                // Check the user type and redirect accordingly
+                if (Auth::user()->user_type === 'admin') {
+                    return redirect("/{$lang}/admin-dashboard")
+                        ->with('success', 'Successfully logged in! Welcome Admin');
+                } else {
+                    return redirect("/{$lang}/")
+                        ->with('success', 'Successfully logged in');
+                }
+            } else {
+                // Authentication failed
+                return redirect()->back()->withErrors(['error' => 'Authentication failed']);
+            }
+        }
+    }
     public function logout(){
+        $lang = app()->getLocale();
+
         Auth::logout();
-        return redirect('/')->with('success',"You have logged out succesfully");
+        return redirect("/{$lang}/")->with('success',"You have logged out succesfully");
     }
    
+    
    
    
 // {

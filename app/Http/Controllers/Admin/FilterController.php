@@ -112,6 +112,7 @@ class FilterController extends Controller
                 $query->where('language_id', $getCurrentSiteLanguage->id);
             },
         ])->first();
+
         // ->toArray();
         // echo '<pre>';
         // print_r($filter);

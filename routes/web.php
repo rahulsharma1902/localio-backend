@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
-use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController};
+
+use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController};
 
 
-use App\Http\Controllers\User\{ViewController};
+use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
 
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -55,6 +56,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::get('auth/google', [AuthenticationController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('login/google/callback', [AuthenticationController::class, 'handleGoogleCallback']);
+Route::get('/category/{id}',[ViewController::class,'categoryShow'])->name('category-show');
+
 
 Route::get('login/facebook', [AuthenticationController::class, 'redirectToFacebook'])->name('login.facebook');
 Route::get('login/facebook/callback', [AuthenticationController::class, 'handleFacebookCallback']);
@@ -62,10 +65,12 @@ Route::get('login/facebook/callback', [AuthenticationController::class, 'handleF
 Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
 
     Route::get('/', [ViewController::class, 'home'])->name('/');
+    Route::get('/login',[AuthenticationController::class,'index'])->name('login');
+    Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
 
-    Route::get('/login',[AuthenticationController::class,'index']);
-    
-    Route::get('/logout',[AuthenticationController::class,'logout']);
+    Route::get('/register',[AuthenticationController::class,'register'])->name('register');
+    Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register.process');
+    Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
     Route::get('/recover-password',[AuthenticationController::class,'forgotPassword'])->name('recover.password');
     Route::post('/password-procc',[AuthenticationController::class,'forgotProcc'])->name('password.procc');
@@ -73,9 +78,18 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('opt-procc',[AuthenticationController::class,'optProcc'])->name('opt.procc');
     Route::get('new-password',[AuthenticationController::class,'newPassword']);
     Route::post('new-password-procc',[AuthenticationController::class,'newPasswordProcc'])->name('new.password.procc');
+    // Category Controller
+    Route::get('/category',[CategoryController::class,'index'])->name('category');
+    // Product Controller
+    Route::get('/product',[ProductController::class,'index'])->name('product');
+
+    //User Controller
+    Route::get('/contact-us',[UserController::class,'index'])->name('contact');
+    Route::get('/privacy-policy',[TermAndConditionController::class,'privacyPolicy'])->name('privacy-policy');
+    Route::get('/terms-condition',[TermAndConditionController::class,'termsCondtion'])->name('terms-condition');
 });
 
-Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
+// Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
 
 Route::group(['middleware' =>['admin']],function(){
     Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', 'en');
@@ -118,6 +132,21 @@ Route::group(['middleware' =>['admin']],function(){
     Route::post('/admin-dashboard/update-filter/updateProcc', [FilterController::class, 'updateProcc'])->name('update-filter-updateProcc');
     Route::get('/admin-dashboard/remove-filter/{id}', [FilterController::class, 'remove']);
 
+
+    // ArticleController
+    Route::get('/admin-dashboard/article',[ArticleController::class,'index'])->name('article');
+    Route::get('/admin-dashboard/article/add',[ArticleController::class,'add'])->name('article-add');
+    Route::post('/admin-dashboard/article/addProcc',[ArticleController::class,'addProcc'])->name('article-addProcc');
+    Route::get('/admin-dashboard/article-edit/{id}',[ArticleController::class,'articleEdit'])->name('article-edit');
+    Route::post('/admin-dashboard/article/update',[ArticleController::class,'articleUpdateProcc'])->name('article-update');
+
+    Route::get('/admin-dashboard/article-category',[ArticleController::class,'articleCategory'])->name('article-category');
+
+    Route::get('/admin-dashboard/article/category/add',[ArticleController::class,'articleCategoryAdd'])->name('article-category-add');
+    
+    Route::post('/admin-dashboard/article/category/addProcc',[ArticleController::class,'articleCategoryAddProcc'])->name('article-category-addProcc');
+    Route::get('/admin-dashboard/edit-article-category/{id}',[ArticleController::class,'articleCategoryEdit'])->name('article-category-edit');
+    Route::post('/admin-dashboard/article/category/update',[ArticleController::class,'articleCategoryUpdate'])->name('article-category-update');
 
 });
 

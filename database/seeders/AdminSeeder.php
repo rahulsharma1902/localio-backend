@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AdminSeeder extends Seeder
 {
@@ -13,8 +14,11 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::truncate();
-     
+        User::query()->delete();
+
+        // Now delete records in otp_verifications
+        DB::table('otp_verifications')->delete();
+        
         $data = [
             [
                 'first_name' => 'admin',

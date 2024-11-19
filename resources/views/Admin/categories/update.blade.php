@@ -50,7 +50,7 @@
                     <!-- Slug Field (Hidden) -->
                     <input type="hidden" class="form-control" id="slug" name="slug" value="{{ old('slug', $category->slug ?? '' ) }}" />
                     @if( $category->language_id ?? '' )
-                        <input type="hidden" class="form-control" id="language_id" name="handle" value="{{  $category->language_id ?? '' }}" />
+                        <input type="hidden" class="form-control" id="language_id" name="handle" value="{{  $category->language->handle ?? '' }}" />
                     @else
                         <input type="hidden" class="form-control" id="handle" name="handle" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
                     @endif

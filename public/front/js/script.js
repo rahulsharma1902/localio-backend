@@ -285,3 +285,37 @@ function fillColor() {
   percent2 = (sliderTwo.value / sliderMaxValue) * 100;
   sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #06498b ${percent1}% , #06498b ${percent2}%, #dadae5 ${percent2}%)`;
 }
+
+// header search js /////////////////////////////////////////////////////////
+myID = document.getElementById("myID");
+
+var myScrollFunc = function () {
+    var y = window.scrollY;
+    if (y >= 200) {
+        myID.className = "bottomMenu show"
+    } else {
+        myID.className = "bottomMenu hide"
+    }
+};
+
+window.addEventListener("scroll", myScrollFunc);
+
+
+// search bar
+
+function checkScroll() {
+   var myElement = document.getElementById("myID");
+   
+   // Check if the page has been scrolled 200px or more
+   if (window.scrollY > 460) {
+     myElement.style.visibility = "visible";  // Show the element
+   } else {
+     myElement.style.visibility = "hidden";   // Hide the element
+   }
+ }
+
+ // Add the scroll event listener
+ window.addEventListener("scroll", checkScroll);
+
+ // Run the checkScroll function on initial page load to account for already scrolled pages
+ window.onload = checkScroll;

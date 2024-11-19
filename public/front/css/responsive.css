@@ -1,14 +1,28 @@
+@media only screen and (min-width:1699px) {}
+
 @media only screen and (min-width: 1500px) {
   .header_row {
     padding: 30px 0px 12px;
   }
 
-  .banner_text_col .search-box input {
-    padding: 30px 35px;
+  .brnd-p-txt::after {
+    right: -38px;
   }
 
-  .search-box i {
-    padding: 25px 45px;
+  /* .banner_text_col .search-box input {
+    padding: 20px 30px;
+  } */
+
+  header .search-box i {
+    padding: 8px 35px;
+  }
+
+  header .search-box input {
+    padding: 12px 20px;
+  }
+
+  .key-feature-price {
+    padding-right: 70px;
   }
 }
 
@@ -22,16 +36,16 @@
   .container {
     max-width: 1470px;
   }
+
+  .blue-chkbox {
+    padding: 16px 42px;
+  }
 }
 
 @media only screen and (max-width: 1599px) {
-  h1 {
-    font-size: 75px;
-  }
 
-  h3 {
-    font-size: 45px;
-  }
+
+
 
   .p_120 {
     padding: 100px 0px;
@@ -114,20 +128,19 @@
     font-size: 15px;
   }
 
-  .search-box i {
-    padding: 15px 33px;
-  }
+  /* .search-box i {
+    padding: 14px 28px;
+    font-size: 18px;
+  } */
 
-  .search-box input {
-    padding: 22px 27px;
-  }
+
 
   .brnd-wrp-lft {
-    width: 350px;
+    width: 400px;
   }
 
   .brnd-p-txt::after {
-    right: -28%;
+    right: -38px;
   }
 
   .xclusve-txt h6 {
@@ -166,7 +179,7 @@
 
   .header_row.head_srch .search-box input,
   .header_row.head_srch_new .search-box input {
-    padding: 16px 27px;
+    padding: 12px 27px;
     font-size: 12px;
   }
 
@@ -198,9 +211,7 @@
     font-size: 14px;
   }
 
-  .key-feature-price {
-    gap: 50px;
-  }
+
 
   .top-automotive-sec.p_120 {
     padding-bottom: 150px;
@@ -278,7 +289,7 @@
   }
 
   .range-wrapper .values {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   .popular-accordion-wrp .accordion-button {
@@ -511,14 +522,9 @@
     padding-right: 10px;
   }
 
-  .auto-choice-lft .search-box input {
-    padding: 15px 19px;
-    font-size: 15px;
-  }
+  
 
-  .auto-choice-lft .search-box i {
-    padding: 11px 22px;
-  }
+  
 
   footer .footer-wrp .foot-col {
     margin-left: 30px;
@@ -587,18 +593,19 @@
   .inn_sl_hed.mst_hdn .top-pro-box .cta {
     padding: 12px 30px;
   }
+
   .revw-width a {
     min-width: 200px;
   }
+
   .right-tool-btn .cta {
     padding: 15px 48px;
   }
 }
 
 @media only screen and (max-width: 1399px) {
-  h1 {
-    font-size: 65px;
-  }
+
+
 
   .sfwr_name h6 {
     font-size: 22px;
@@ -616,7 +623,7 @@
     margin-top: 30px;
   }
 
-  .succes_sec .succes_rw > div {
+  .succes_sec .succes_rw>div {
     margin-bottom: 50px;
   }
 
@@ -658,9 +665,10 @@
     margin-bottom: 20px;
   }
 
+  /* 
   .contact_sec .contact_content {
     padding: 30px 35px;
-  }
+  } */
 
   .contact_sec form .form-control {
     padding: 18px;
@@ -683,11 +691,6 @@
     padding: 15px 0px;
   }
 
-  .login_form .contact_content {
-    max-width: 900px;
-    padding: 50px 60px;
-    padding-bottom: 20px;
-  }
 
   .scl_login .login_link {
     padding: 15px;
@@ -697,10 +700,7 @@
     max-width: 1111px;
   }
 
-  .cta {
-    padding: 15px 35px;
-    font-size: 14px;
-  }
+
 
   .xclusve-wrp .slick-prev,
   .xclusve-wrp .slick-next {
@@ -869,9 +869,7 @@
     font-size: 50px;
   }
 
-  h3 {
-    font-size: 38px;
-  }
+
 
   .p_120 {
     padding: 80px 0px;
@@ -1006,9 +1004,8 @@
     padding: 11px 24px;
   }
 
-  .key-feature-price {
-    gap: 25px;
-  }
+
+
 
   .automotive-card {
     padding: 35px 30px;
@@ -1442,6 +1439,7 @@
 }
 
 @media only screen and (max-width: 991px) {
+
   /* header dropdown on mobile css */
   .mob-drp-btn {
     cursor: pointer;
@@ -1748,7 +1746,7 @@
     padding: 0;
   }
 
-  header .menu > li.menu-item > a {
+  header .menu>li.menu-item>a {
     color: #000;
     display: inline-block;
   }
@@ -1757,7 +1755,7 @@
     color: #000;
   }
 
-  header .menu > li {
+  header .menu>li {
     border-color: #000;
   }
 
@@ -1800,7 +1798,7 @@
     color: #000000;
   }
 
-  header .menu > li.menu-item > a img {
+  header .menu>li.menu-item>a img {
     filter: invert(1);
   }
 
@@ -1913,7 +1911,7 @@
     padding: 20px;
   }
 
-  .ms_dv .new_objectives .row > div {
+  .ms_dv .new_objectives .row>div {
     margin-bottom: 30px;
   }
 
@@ -2353,7 +2351,7 @@
     margin-bottom: 20px;
   }
 
-  .right_tool_sec .right-tool-pack > div {
+  .right_tool_sec .right-tool-pack>div {
     flex-direction: column;
     gap: 20px;
   }
@@ -2430,9 +2428,7 @@
     font-size: 30px;
   }
 
-  h3 {
-    font-size: 28px;
-  }
+
 
   h6 {
     font-size: 20px;
@@ -2646,7 +2642,7 @@
     padding-left: 0;
   }
 
-  .new_objectives .row > div {
+  .new_objectives .row>div {
     margin-bottom: 20px;
   }
 
@@ -2664,7 +2660,7 @@
     margin-top: 15px;
   }
 
-  .succes_sec .succes_rw > div {
+  .succes_sec .succes_rw>div {
     margin-bottom: 30px;
   }
 
@@ -3096,6 +3092,7 @@
     width: 100%;
     max-width: 100%;
   }
+
   .adip_sec button.slick-arrow {
     top: calc(100% + 70px) !important;
   }
@@ -3104,6 +3101,7 @@
     bottom: 0px;
     right: 0px;
   }
+
   .right-tool-btn .cta {
     padding: 12px 40px;
   }
@@ -3132,7 +3130,7 @@
 
   /* rupali */
   h1 {
-    font-size: 32px;
+    font-size: 32px !important;
   }
 
   h2 {
@@ -4026,10 +4024,12 @@
   .auto-choice-rgt .select-box {
     max-width: 100%;
   }
+
   .back-image2 {
     right: 0px;
     bottom: 0px;
   }
+
   .back-image1 {
     left: 0;
     top: 0px;

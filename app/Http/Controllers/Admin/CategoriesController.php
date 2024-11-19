@@ -13,7 +13,7 @@ class CategoriesController extends Controller
 
     public function index(Request $request) {
         $locale = getCurrentLocale(); 
-        
+    
         $siteLanguage = SiteLanguages::where('handle', $locale)->first();
         
         $categories = Category::with(['translations' => function ($query) use ($siteLanguage) {
@@ -93,16 +93,16 @@ class CategoriesController extends Controller
     }
 
     public function updateCategory($categoryId){
+    
         $locale = getCurrentLocale();
         $siteLanguage = SiteLanguages::where('handle', $locale)->first();
         $defaultCategory = Category::where('id',$categoryId)->first();
-        
+  
         if ($siteLanguage && $siteLanguage->primary !== 1) {
-            $category = CategoryTranslation::with('language','category')->where('id',$categoryId)->where('language_id',$siteLanguage->id)->first();
-
+            $category = CategoryTranslation::with('language')->where('category_id',$categoryId)->where('language_id',$siteLanguage->id)->first();
+            // dd($category);
         } else {
             $category = Category::where('id',$categoryId)->first();
-
         }
         // echo '<pre>';
         // print_r($siteLanguage->handle);
@@ -112,8 +112,9 @@ class CategoriesController extends Controller
     }
 
     public function updateProcc(Request $request) {
+      
         $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
-  
+        
         if ($siteLanguage && $siteLanguage->primary !== 1) {
             $request->validate([
                 'name' => 'required|unique:category_translations,name' . ($request->id ? ',' . $request->id : ''),
@@ -129,7 +130,6 @@ class CategoriesController extends Controller
                 $existingTranslation = CategoryTranslation::where('category_id', $request->category_id)
                     ->where('language_id', $siteLanguage->id)
                     ->first();
-    
                 if ($existingTranslation) {
                     $category = $existingTranslation;
                 } else {
@@ -138,7 +138,8 @@ class CategoriesController extends Controller
                     $category->language_id = $siteLanguage->id;
                 }
             }
-        } else {
+        } 
+        else {
             $request->validate([
                 'name' => 'required|unique:categories,name' . ($request->id ? ',' . $request->id : ''),
                 'slug' => 'required|unique:categories,slug' . ($request->id ? ',' . $request->id : ''),
@@ -154,7 +155,6 @@ class CategoriesController extends Controller
                 $category->image = $featuredImageName;
             }
         }
-    
         $category->name = $request->name ?? '';
         $category->slug = $request->slug ?? '';
         $category->description = $request->description ?? '';
