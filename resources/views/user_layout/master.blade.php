@@ -63,6 +63,12 @@
                      <span class="bar"></span>
                      <span class="bar"></span>
                   </button>
+                  <?php
+                        use App\Models\Category; 
+
+                        $categories = Category::all();
+                  ?>
+                
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <div class="left_menu">
                         <ul class="menu">
@@ -70,21 +76,11 @@
                               <a href="#" class="cat_menu">Categories</a>
                               <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                               <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
+                                 @foreach($categories as $category)
                                  <li class="dropdown_item-1">
-                                    <a href="#">Item 1</a>
+                                    <a href="#">{{$category->name ?? '' }}</a>
                                  </li>
-                                 <li class="dropdown_item-2">
-                                    <a href="#">Item 2</a>
-                                 </li>
-                                 <li class="dropdown_item-3">
-                                    <a href="#">Item 3</a>
-                                 </li>
-                                 <li class="dropdown_item-4">
-                                    <a href="#">Item 4</a>
-                                 </li>
-                                 <li class="dropdown_item-5">
-                                    <a href="#">Item 5</a>
-                                 </li>
+                                @endforeach
                               </ul>
                            </li>
                            <li class=" menu-item dropdown dropdown-6 mobile-drop">
@@ -134,10 +130,10 @@
                      <div class="right_menu">
                         <ul>
                            <li>
-                              <a href="expert-guide.html">Expert Guides</a>
+                              <a href="{{route('expert-guide')}}">Expert Guides</a>
                            </li>
                            <li>
-                              <a href="Help-center.html">Help Center</a>
+                              <a href="{{route('help-center')}}">Help Center</a>
                            </li>
                         </ul>
                      </div>
@@ -167,14 +163,14 @@
                         <h6>Discover</h6>
                         <ul class="foot-col-list">
                            <li><a href="{{route('category')}}">Categories</a></li>
-                           <li><a href="top-rated-products.html">Top-Rated Products </a></li>
-                           <li><a href="">Exclusive Deals</a></li>
+                           <li><a href="{{route('top-rated-product')}}">Top-Rated Products </a></li>
+                           <li><a href="javascript:void(0)">Exclusive Deals</a></li>
                         </ul>
                      </div>
                      <div class="foot-col">
                         <h6>Company</h6>
                         <ul class="foot-col-list">
-                           <li><a href="who-we-are.html">Who We Are</a></li>
+                           <li><a href="{{route('who-we-are')}}">Who We Are</a></li>
                            <li><a href="{{route('privacy-policy')}}">Privacy Policy </a></li>
                            <li><a href="{{route('terms-condition')}}">Terms & Conditions</a></li>
                         </ul>
@@ -182,15 +178,19 @@
                      <div class="foot-col">
                         <h6>Vendors</h6>
                         <ul class="foot-col-list">
-                           <li><a href="vendors-get-listed.html">Get Listed</a></li>
-                           <li><a href="login.html">Vendor Login</a></li>
+                           <li><a href="{{route('vendor-get-listed')}}">Get Listed</a></li>
+                           <li><a href="{{route('login')}}">Vendor Login</a></li>
                         </ul>
                      </div>
                      <div class="foot-col">
                         <h6>Help</h6>
                         <ul class="foot-col-list">
-                           <li><a href="expert-guide.html">Expert Guides</a></li>
-                           <li><a href="Help-center.html">Help Center</a></li>
+                           <li>
+                              <a href="{{route('expert-guide')}}">Expert Guides</a>
+                           </li>
+                           <li>
+                              <a href="{{route('help-center')}}">Help Center</a>
+                           </li>
                            <li><a href="{{route('contact')}}">Contact</a></li>
                         </ul>
                      </div>
@@ -212,24 +212,57 @@
             </div>
             <div class="foot-btm d-flex justify-content-between">
                <div class="ft-btm-lft">
-                  <p>©2024 Localio. All rights reserved.</p>
+                  <p>©<?php echo date('Y');?> Localio. All rights reserved.</p>
                </div>
                <div class="ft-btm-rgt">
                   <div class="select-menu ">
+                  <?php
+                     use Illuminate\Support\Facades\Session;
+                     
+                     // Get the current language/locale of the application
+                     $currentLanguage = app()->getLocale();
+        
+                     // Get the current language code from session (if exists)
+                     $session_lang_code = Session::get('current_lang');
+                     
+                     // If no language is set in the session, store the current app language in the session
+                     if ($session_lang_code === null) {
+                        Session::put('current_lang', $currentLanguage);  // Store current language code in session
+                     }
+
+                     // Optionally, set the app's locale to the session language
+                     $session_lang_code = Session::get('current_lang'); // Get the updated language from the session
+                     app()->setLocale($session_lang_code);  // Set the app's locale to the session language
+                  ?>
+
+                     @php
+                        use App\Models\SiteLanguages; 
+                        $languages = SiteLanguages::with('language')->get();  
+                     @endphp
+                     @foreach($languages as $language)
+      
+                        @if($language->handle == $session_lang_code)
+                              <?php  $curent_selected_lang = $language->name; ?>
+                        @endif
+                     @endforeach
                      <div class="select-btn">
-                        <span class="sBtn-text">United States-English</span>
+                        <span class="sBtn-text">{{ $curent_selected_lang }}</span>
                         <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
                      </div>
+
                      <ul class="options">
-                        <li class="option">
-                           <span class="option-text">United States-English</span>
-                        </li>
-                        <li class="option">
-                           <span class="option-text">United States-Hindi</span>
-                        </li>
-                        <li class="option">
-                           <span class="option-text">United States-new</span>
-                        </li>
+                        @foreach($languages as $language)
+                           <li class="option">
+                                 <span class="option-text">
+                                    <a href="{{ route('change-lang',['langCode'=>$language->handle]) }}">
+                                       {{ $language->name }}
+                                    </a>
+                                    <!-- <a href="{{url('/')}}/{{$language->handle}}">
+                                       {{ $language->name }}
+                                    </a> -->
+                                 </span>
+                           </li>
+                        @endforeach
                      </ul>
                   </div>
                </div>
@@ -277,7 +310,7 @@
          window.location.href='/category';
       });
       $('.product_menu').click(function(){
-         window.location.href='/product';
+         window.location.href='/top-rated-product';
 
       });
    })

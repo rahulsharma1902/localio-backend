@@ -16,7 +16,7 @@
                <!-- Your existing form -->
       
                <!-- Continue with the rest of your form -->
-                <form class="login_form" action="{{ route('password.procc', ['locale' => app()->getLocale()]) }}" method="post">
+                <form class="login_form" action="{{ route('password-procc', ['locale' => app()->getLocale()]) }}" method="post">
                     @csrf
                   <div class="form-group">
                      <input type="email" class="form-control" name="email"  id="emailAddress" placeholder="Email">

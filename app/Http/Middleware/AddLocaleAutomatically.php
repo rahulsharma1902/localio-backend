@@ -8,41 +8,67 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use App\Models\SiteLanguages;
-
+use Session;
+use Illuminate\Support\Facades\Route;
 class AddLocaleAutomatically
 {
-    /**
-     * Handle an incoming request.
-     */
-    public function handle(Request $request, Closure $next)
+public function handle(Request $request, Closure $next)
 {
     if ($request->isMethod('get')) {
-        // Retrieve an array of all active language handles
+
+        // Retrieve all active language codes
         $availableLocales = SiteLanguages::where('status', 'active')->pluck('handle')->toArray();
 
-        // Retrieve the default language handle
-        $defaultlanguage = SiteLanguages::where('primary', 1)->value('handle');
+        // Get the default language handle
+        $defaultLanguage = SiteLanguages::where('primary', 1)->value('handle') ?? config('app.locale');
+ 
+        // Get the locale from the URL
+        $urlLocale = $request->route('locale');
+    
+        // store previous path 
 
-        $locale = $request->route('locale') ?? Cookie::get('language_code') ?? $defaultlanguage ?? config('app.locale');
+        if ($urlLocale) {
+            // Get the full URL path, remove the language code part, and store the rest
+            $previousPath = substr($request->getRequestUri(), strlen("/{$urlLocale}"));
+            Session::put('previous_path', $previousPath);
+        }
+        // Determine the locale
+        $locale = $urlLocale && in_array($urlLocale, $availableLocales)
+            ? $urlLocale // Use the locale from the URL if valid
+            : (Session::get('current_lang') // Fallback to the session-stored locale
+                ?? Cookie::get('language_code') // Fallback to the cookie-stored locale
+                ?? $defaultLanguage); // Fallback to the default language
 
+        // Validate the locale
         if (!in_array($locale, $availableLocales)) {
-            $locale = config('app.locale');
+            $locale = $defaultLanguage;
         }
 
-        // Log locale setting
-        Log::info("Setting locale to: {$locale}");
+        // If the user entered a valid locale in the URL, update session and cookie
+        if ($urlLocale && $urlLocale !== Session::get('current_lang')) {
+            Session::put('current_lang', $urlLocale);
+            Cookie::queue('language_code', $urlLocale, 60 * 24 * 30); // Persist in cookies for 30 days
+        }
 
-        App::setLocale($locale);
-        Cookie::queue('language_code', $locale, 60 * 24 * 30);
+        // Set the application locale
+        app()->setLocale($locale);
 
-        if (!$request->route('locale') || $request->route('locale') !== $locale) {
-            return redirect("/{$locale}" . $request->getRequestUri());
+        // Get the path without the locale
+        $pathWithoutLocale = $request->path();
+        $segments = explode('/', $pathWithoutLocale);
+
+        // Remove any duplicate or invalid locale in the path
+        if (in_array($segments[0], $availableLocales)) {
+            array_shift($segments); // Remove the first segment if it is a locale
+        }
+        $pathWithoutLocale = implode('/', $segments);
+
+        // Redirect if the locale in the URL doesn't match the determined locale
+        if (!$urlLocale || $urlLocale !== $locale) {
+            return redirect("/{$locale}/{$pathWithoutLocale}");
         }
     }
-
     return $next($request);
 }
-
-
 
 }

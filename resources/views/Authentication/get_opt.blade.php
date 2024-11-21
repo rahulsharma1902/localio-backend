@@ -16,7 +16,7 @@
          <!-- Your existing form -->
 
          <!-- Continue with the rest of your form -->
-            <form class="login_form" action="{{ route('opt.procc', ['locale' => app()->getLocale()]) }}" method="post">
+            <form class="login_form" action="{{ route('opt-procc', ['locale' => app()->getLocale()]) }}" method="post">
                @csrf
             <div class="form-group">
                <input type="text" class="form-control" name="otp"  id="opt" placeholder="Enter your otp">

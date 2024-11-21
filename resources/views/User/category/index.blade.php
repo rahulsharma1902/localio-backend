@@ -38,285 +38,27 @@
 <section class="sfwr_sec light p_120">
    <div class="container">
       <div class="sfwr_content">
-         <h2 data-aos="zoom-in" data-aos-duration="1000">What type of software are you looking for?</h2>
+         <!-- <h2 data-aos="zoom-in" data-aos-duration="1000">What type of software are you looking for?</h2> -->
+         <h2 data-aos="zoom-in" data-aos-duration="1000">{{ __('home.category_page_heading') }}</h2>
+         @foreach($categories as $category)
          <div class="row gy-4">
             <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
                <div class="sfwr_box">
                   <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st1.png') }}">
+                     @if($category->image)
+                        <div class="sfwr_img">
+                           <img src="{{asset('CategoryImages/'.$category->image ) }}">
+                        </div>
+                     @endif
+                     <div class="sfwr_name">
+                        <h6 class="big-bld">   {{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name }}</h6>
                      </div>
                      <div class="sfwr_name">
-                        <h6 class="big-bld">Automotive</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st2.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Cryptocurrency</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st3.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Education & Learning</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st4.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Finance & Investing</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st5.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Food & Beverage</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st6.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Health & Wellness</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st7.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Home & Office Services</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st8.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Home Improvement</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st9.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Insurance</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st10.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Compliance Services</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st11.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">High-End Products</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st12.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Pet Products & Services</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st13.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Real Estate & Property 
-                           Services
+                        <h6 class="big-bld">{{ strip_tags($category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description) }}</h6>
                         </h6>
                      </div>
                   </div>
-                  <div class="sfwr_text">
+                  <!-- <div class="sfwr_text">
                      <ul class="list-unstyled m-0">
                         <li><a href="">Lorem Ipsum has been</a></li>
                         <li><a href="">Lorem Ipsum has been</a></li>
@@ -325,78 +67,11 @@
                         <li><a href="">Lorem Ipsum has been the industry's</a></li>
                         <li><a href="">Lorem Ipsum has been the industry's</a></li>
                      </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st14.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">SaaS (Software as a 
-                           Service)
-                        </h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st15.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Software & Technology</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     <div class="sfwr_img">
-                        <img src="{{asset('front/img/st16.png') }}">
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">Travel & Leisure</h6>
-                     </div>
-                  </div>
-                  <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div>
+                  </div> -->
                </div>
             </div>
          </div>
+         @endforeach
       </div>
    </div>
 </section>

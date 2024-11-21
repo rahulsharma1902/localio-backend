@@ -10,9 +10,11 @@
          <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
             <div class="banner_text_col">
                <div class="banner_content_inner">
-                  <h1>Find the Best Deals and Save on Your Next Purchase!</h1>
-                  <p>Get free, unbiased product comparisons, read real customer reviews, and track prices at Localio
-                     to score the best offers. </p>
+                  <!-- <h1>Find the Best Deals and Save on Your Next Purchase!</h1> -->
+                  <h1>{{ __('home.heading') }}</h1>
+                  <!-- <p>Get free, unbiased product comparisons, read real customer reviews, and track prices at Localio
+                     to score the best offers. </p> -->
+                     <p> {{ __('home.sub_heading') }} </p>
                   <div class="search-bar-wrp">
                      <div class="search-box">
                         <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
@@ -1334,6 +1336,21 @@
       <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
    </div>
 </section>
-
+<!-- <script type="text/javascript"></script>
+<script>
+         $(document).ready(function () {
+         function checkScroll() {
+            const $myElement = $('#myID');
+            console.log($myElement);
+            if ($(window).scrollTop() > 460) {
+               $myElement.show();
+            } else {
+               $myElement.hide();
+            }
+         }
+         checkScroll();
+         $(window).on('scroll', checkScroll);
+      });
+</script> -->
 
 @endsection

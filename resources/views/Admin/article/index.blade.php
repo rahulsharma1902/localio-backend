@@ -52,7 +52,7 @@
                                     <div class="user-card">
                                         <div class="user-info">
                                             <span class="tb-lead">
-                                                {{ $article->translations->isNotEmpty() ? $article->translations->first()->name : $article->name }}
+                                                {{ $article->translations->isNotEmpty() ? $article->translations->first()->name : $article->name ?? '' }}
                                             </span>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                 </td>
                                 <td class="nk-tb-col tb-col-mb">
                                     <span class="tb-lead">
-                                        {!! \Illuminate\Support\Str::words($article->translations->isNotEmpty() ? $article->translations->first()->description : $article->description ?? 'No description available', 10, '...') !!}
+                                        {{strip_tags($article->translations->isNotEmpty() ? $article->translations->first()->description : $article->description ?? '' )}}
                                     </span> 
                                 </td>
                                 <td class="nk-tb-col">

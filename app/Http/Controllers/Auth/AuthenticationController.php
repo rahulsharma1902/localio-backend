@@ -19,19 +19,19 @@ use Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str; 
 use App\Models\Country;
-
+use App;
 
 class AuthenticationController extends Controller
 {
     public function index(){
-
         $user = auth()->user();
         return view('Authentication.login');
 
     }
     public function loginProcc(Request $request)
     {
-        $lang = app()->getLocale();
+        $lang = Session::get('current_lang');
+
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -41,6 +41,8 @@ class AuthenticationController extends Controller
 
             if (Auth::user()->user_type == 'admin') {
                 return redirect("/{$lang}/admin-dashboard")->with('success', 'Successfully loggedin! Welcome Come Admin');
+                // return redirect("/admin-dashboard")->with('success', 'Successfully loggedin! Welcome Come Admin');
+
             } elseif (Auth::user()->user_type == 'user') {
                 // $changeID = $this->convertTemporaryIdToUserId();
                 if ($request->url != null) {

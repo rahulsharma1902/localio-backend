@@ -1,18 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Session;
 class AdminDashController extends Controller
 {
     public function index()
     {
-
         return view('Admin.dashboard.index');
     }
 
@@ -71,5 +70,6 @@ class AdminDashController extends Controller
 
         return redirect()->back()->with(['error' => 'The old password is incorrect.']);
     }
+
 
 }

@@ -14,7 +14,7 @@
                   <h2 class="text-center">New Password</h2>
                </div>
                <!-- Continue with the rest of your form -->
-                <form class="login_form" action="{{ route('new.password.procc', ['locale' => app()->getLocale()]) }}" method="post">
+                <form class="login_form" action="{{ route('new-password-procc', ['locale' => app()->getLocale()]) }}" method="post">
                     @csrf
                   <!-- <div class="form-group">
                      <input type="password" class="form-control" id="password" name="password" placeholder="Password">

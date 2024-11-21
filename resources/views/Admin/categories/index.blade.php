@@ -56,19 +56,17 @@
                                 </div>
                             </div>
                         </td> -->
+                        
                         <td class="nk-tb-col">
                             <div class="user-card">
                                 <div class="user-info">
-                                <span class="tb-lead">{{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name }}</span>
-
-
+                                <span class="tb-lead">{{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name ?? '' }}</span>
                                 </div>
                             </div>
                         </td>
                         <td class="nk-tb-col tb-col-mb">
                             <span class="tb-amount">
-                            {!! \Illuminate\Support\Str::words( $category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description ?? 'No description available', 10, '...') !!}
-                                <!-- {!! \Illuminate\Support\Str::words($category->description ?? 'No description available', 10, '...') !!} -->
+                            {{ strip_tags($category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description) }}
                             </span>
                         </td>
 

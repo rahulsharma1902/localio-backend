@@ -287,16 +287,16 @@ function fillColor() {
 }
 
 // header search js /////////////////////////////////////////////////////////
-myID = document.getElementById("myID");
+// myID = document.getElementById("myID");
 
-var myScrollFunc = function () {
-    var y = window.scrollY;
-    if (y >= 200) {
-        myID.className = "bottomMenu show"
-    } else {
-        myID.className = "bottomMenu hide"
-    }
-};
+// var myScrollFunc = function () {
+//     var y = window.scrollY;
+//     if (y >= 200) {
+//         myID.className = "bottomMenu show"
+//     } else {
+//         myID.className = "bottomMenu hide"
+//     }
+// };
 
 window.addEventListener("scroll", myScrollFunc);
 

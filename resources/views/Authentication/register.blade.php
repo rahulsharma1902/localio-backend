@@ -39,11 +39,8 @@
                   <span class="size16">or</span>
                </div>
                <!-- Continue with the rest of your form -->
-                <form class="register_form" action="{{ route('register.process', ['locale' => app()->getLocale()]) }}" method="post" id="registerForm">
-
-
+                <form class="register_form" action="{{ route('register-process', ['locale' => app()->getLocale()]) }}" method="post" id="registerForm">
                     @csrf
-
                     <!-- First Name Input Field -->
                     <div class="form-group ">
                         <input type="text" class="form-control" name="first_name" id="firstName" placeholder="First Name">

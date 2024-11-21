@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLan
 
 use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
 
+use App\Http\Controllers\User\SiteMetaPages\MetaPagesController;
+use App\Http\Controllers\Vendor\HomeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -62,31 +64,51 @@ Route::get('/category/{id}',[ViewController::class,'categoryShow'])->name('categ
 Route::get('login/facebook', [AuthenticationController::class, 'redirectToFacebook'])->name('login.facebook');
 Route::get('login/facebook/callback', [AuthenticationController::class, 'handleFacebookCallback']);
 
+
+// Switch Language Route
+Route::get('/switch-language/{langCode?}', [ViewController::class, 'changeLanguage'])->name('change-lang');
+
+
+
 Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
 
     Route::get('/', [ViewController::class, 'home'])->name('/');
+
     Route::get('/login',[AuthenticationController::class,'index'])->name('login');
     Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
 
     Route::get('/register',[AuthenticationController::class,'register'])->name('register');
-    Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register.process');
+    Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register-process');
     Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
-    Route::get('/recover-password',[AuthenticationController::class,'forgotPassword'])->name('recover.password');
-    Route::post('/password-procc',[AuthenticationController::class,'forgotProcc'])->name('password.procc');
-    Route::get('/otp-confirm',[AuthenticationController::class,'otpConfirm'])->name('get.otp');
-    Route::post('opt-procc',[AuthenticationController::class,'optProcc'])->name('opt.procc');
-    Route::get('new-password',[AuthenticationController::class,'newPassword']);
-    Route::post('new-password-procc',[AuthenticationController::class,'newPasswordProcc'])->name('new.password.procc');
+    Route::get('/recover-password',[AuthenticationController::class,'forgotPassword'])->name('recover-password');
+    Route::post('/password-procc',[AuthenticationController::class,'forgotProcc'])->name('password-procc');
+    Route::get('/otp-confirm',[AuthenticationController::class,'otpConfirm'])->name('get-otp');
+    Route::post('opt-procc',[AuthenticationController::class,'optProcc'])->name('opt-procc');
+    Route::get('new-password',[AuthenticationController::class,'newPassword'])->name('new-passwod');
+    Route::post('new-password-procc',[AuthenticationController::class,'newPasswordProcc'])->name('new-password-procc');
     // Category Controller
     Route::get('/category',[CategoryController::class,'index'])->name('category');
     // Product Controller
-    Route::get('/product',[ProductController::class,'index'])->name('product');
+    Route::get('/product',[ProductController::class,'productDetail'])->name('product');
+    Route::get('/top-rated-product',[ProductController::class,'topRatedProduct'])->name('top-rated-product');
+    Route::get('/product-comparison',[ProductController::class,'productComparison'])->name('product-comparison');
 
-    //User Controller
-    Route::get('/contact-us',[UserController::class,'index'])->name('contact');
+       //TermAndConditionController
     Route::get('/privacy-policy',[TermAndConditionController::class,'privacyPolicy'])->name('privacy-policy');
     Route::get('/terms-condition',[TermAndConditionController::class,'termsCondtion'])->name('terms-condition');
+
+    // SiteMetaPages Controller
+    Route::get('/expert-guide',[MetaPagesController::class,'expertGuide'])->name('expert-guide');
+    Route::get('/help-center',[MetaPagesController::class,'helpCenter'])->name('help-center');
+    Route::get('/who-we-are',[MetaPagesController::class,'whoWeAre'])->name('who-we-are');
+    Route::get('/contact',[MetaPagesController::class,'contact'])->name('contact');
+
+
+    // Vendor Controller
+    Route::get('/vendor-get-listed',[HomeController::class,'vendorGetListed'])->name('vendor-get-listed');
+
+
 });
 
 // Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
@@ -94,6 +116,8 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
 Route::group(['middleware' =>['admin']],function(){
     Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', 'en');
     // Route::get('admin-dashboard',[AdminDashController::class,'index']);
+    // Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', '^(en|de|es)$');
+
 
 
     // profile settings 
