@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 class AdminDashController extends Controller
 {
-    public function index()
-    {
+    public function index($locale)
+    {       
         return view('Admin.dashboard.index');
     }
 

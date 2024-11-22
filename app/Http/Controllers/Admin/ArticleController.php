@@ -111,7 +111,7 @@ class ArticleController extends Controller
 
     public function articleUpdateProcc(Request $request)
     {   
-        // dd($request->all());
+   
         $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
  
         if ($siteLanguage && $siteLanguage->primary !== 1) {
@@ -127,7 +127,7 @@ class ArticleController extends Controller
                 }
             }else{
                     $existingTranslation = ArticleTranslation::where('id', $request->article_tr_id)
-                    ->where('language_id', $request->lang_id)
+                    ->where('language_id', $siteLanguage->id)
                     ->first();
 
                 if ($existingTranslation) {

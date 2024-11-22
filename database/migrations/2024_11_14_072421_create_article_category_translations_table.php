@@ -41,6 +41,7 @@ return new class extends Migration
             $table->unique(['article_category_id', 'language_id']);
         });
     }
+
     }
     /**
      * Reverse the migrations.

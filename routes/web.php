@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 
-use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController};
+use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController};
 
 
 use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
 
-use App\Http\Controllers\User\SiteMetaPages\MetaPagesController;
+use App\Http\Controllers\User\MetaPages\MetaPagesController;
 use App\Http\Controllers\Vendor\HomeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -115,7 +115,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
 
 Route::group(['middleware' =>['admin']],function(){
     Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', 'en');
-    // Route::get('admin-dashboard',[AdminDashController::class,'index']);
+    // Route::get('/admin-dashboard',[AdminDashController::class,'index']);
     // Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', '^(en|de|es)$');
 
 
@@ -125,9 +125,6 @@ Route::group(['middleware' =>['admin']],function(){
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
     Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
     
-    
-
-
     //  CategoriesController  categories
     Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
     Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
@@ -171,6 +168,19 @@ Route::group(['middleware' =>['admin']],function(){
     Route::post('/admin-dashboard/article/category/addProcc',[ArticleController::class,'articleCategoryAddProcc'])->name('article-category-addProcc');
     Route::get('/admin-dashboard/edit-article-category/{id}',[ArticleController::class,'articleCategoryEdit'])->name('article-category-edit');
     Route::post('/admin-dashboard/article/category/update',[ArticleController::class,'articleCategoryUpdate'])->name('article-category-update');
+
+    // policies Route
+    Route::get('/admin-dashboard/policies',[SitePagesController::class,'policies'])->name('policies');
+    Route::get('/admin-dashboard/policy/add',[SitePagesController::class,'policyAdd'])->name('policy-add');
+    Route::get('/admin-dashboard/policy-edit/{id}',[SitePagesController::class,'policyEdit'])->name('policy-edit');
+    Route::post('/admin-dashboard/policy-add',[SitePagesController::class,'policyAddProcc'])->name('policy-add-process');
+    
+    // Rules Route
+
+    Route::get('/admin-dashboard/rules',[SitePagesController::class,'rules'])->name('rules');
+    Route::get('/admin-dashboard/rule/add',[SitePagesController::class,'ruleAdd'])->name('rule-add');
+    Route::post('/admin-dashboard/rule-add-procc',[SitePagesController::class,'ruleAddProcc'])->name('rule-add-procc');
+    Route::get('/admin-dashboard/rule-edit/{id}',[SitePagesController::class,'ruleEdit'])->name('rule-edit');
 
 });
 

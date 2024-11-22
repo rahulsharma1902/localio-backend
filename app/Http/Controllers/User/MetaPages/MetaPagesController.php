@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\SiteMetaPages;
+namespace App\Http\Controllers\User\MetaPages;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

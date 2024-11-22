@@ -116,6 +116,21 @@
                                                 </li>
                                             </ul>
                                         </li>    
+
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                                <span class="nk-menu-text">Policies Section</span>
+                                            </a>
+                                            <ul class="nk-menu-sub" >
+                                                <li class="nk-menu-item">
+                                                    <a href="{{url('/admin-dashboard/policies')}}" class="nk-menu-link"><span class="nk-menu-text">Policies</span></a>
+                                                </li>
+                                                <li class="nk-menu-item">
+                                                    <a href="{{url('/admin-dashboard/rules')}}" class="nk-menu-link"><span class="nk-menu-text">Rules</span></a>
+                                                </li>
+                                            </ul>
+                                        </li>    
                                     </ul>
                                 </li>
                                 <!-- <li class="nk-menu-item has-sub">

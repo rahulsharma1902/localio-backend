@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\{Category,SiteLanguages,CategoryTranslation};
 use Cookie;
 use App;
+use Session;
 class CategoriesController extends Controller
 {
    
 
     public function index(Request $request) {
         $locale = getCurrentLocale(); 
-    
+
+        // $locale = Session::get('current_lang');
         $siteLanguage = SiteLanguages::where('handle', $locale)->first();
         
         $categories = Category::with(['translations' => function ($query) use ($siteLanguage) {
