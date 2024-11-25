@@ -7,8 +7,7 @@
         </div>
     </div>
     <?php 
-    $locale = getCurrentLocale();
-    
+        $locale = getCurrentLocale();
     ?>
     <div class="card card-bordered">
         <div class="card-inner">
@@ -17,13 +16,14 @@
                 @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <input type="hidden" name="id" value="{{ isset($rule) ? $rule->id : '' }}">
+                                <input type="hidden" name="id" value="{{ isset($rule) ? $rule->id : '' }}">
                             <div class="form-group">
                                 <label class="form-label" for="name">Title</label>
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
                                         <input type="text" class="form-control" name="title" id="title" value="{{ old('title', isset($ruleTranslation) ? $ruleTranslation->title : ($rule->title ?? '')) }}">
                                     </div>
+                                </div>
                                 @error('title')
                                     <div class="error text-danger">{{ $message }}</div>
                                 @enderror
@@ -84,7 +84,7 @@
                         @if($ruleTranslation->language ?? '')
                             <input type="hidden" name="handle" value="{{ $ruleTranslation->language->handle ?? '' }}">
                         @else
-                            <input type="hidden" class="form-control" id="language_id" name="handle" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
+                            <input type="hidden" class="form-control" id="handle" name="handle" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
                         @endif
                         <input type="hidden" name="rule_tr_id" value="{{ $ruleTranslation->id ?? '' }}">
                     </div>

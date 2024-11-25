@@ -8,7 +8,10 @@
     width: 40%;
 }
 </style>
+<?php 
+    $locale = getCurrentLocale();
 
+?>
 <div class="nk-block nk-block-lg">
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
@@ -18,14 +21,14 @@
                 <div class="nk-block-head-content">
                     <div class="toggle-wrap nk-block-tools-toggle">
                         <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                            <div class="toggle-expand-content" data-content="pageMenu">
-                                <ul class="nk-block-tools g-3">
-                                    <li class="nk-block-tools-opt">
-                                        <a href="{{ url('admin-dashboard/policy/add') ?? '' }}" class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                        <a href="{{ url('admin-dashboard/policy/add') ?? '' }}" class=" btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Policy</span></a>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="toggle-expand-content" data-content="pageMenu">
+                            <ul class="nk-block-tools g-3">
+                                <li class="nk-block-tools-opt">
+                                    <a href="{{ url('admin-dashboard/policy/add') ?? '' }}" class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                                    <a href="{{ url('admin-dashboard/policy/add') ?? '' }}" class=" btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Policy</span></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,6 +73,9 @@
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{ url('admin-dashboard/policy-edit') ?? '' }}/{{ $policy->id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
+                                                        @if($locale == 'en')
+                                                            <li><a href="{{ url('admin-dashboard/policy-remove') ?? '' }}/{{ $policy->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a></li>
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             </div>
@@ -80,11 +86,8 @@
                         @endforeach
                     </tbody>
                 @endif
-
             </table>
         </div>
     </div>
-
 </div>
-
 @endsection

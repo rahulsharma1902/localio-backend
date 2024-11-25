@@ -160,6 +160,9 @@ Route::group(['middleware' =>['admin']],function(){
     Route::post('/admin-dashboard/article/addProcc',[ArticleController::class,'addProcc'])->name('article-addProcc');
     Route::get('/admin-dashboard/article-edit/{id}',[ArticleController::class,'articleEdit'])->name('article-edit');
     Route::post('/admin-dashboard/article/update',[ArticleController::class,'articleUpdateProcc'])->name('article-update');
+    Route::get('/admin-dashboard/article-remove/{id?}',[ArticleController::class,'articleRemove'])->name('article-remove');
+
+    // Article Category Route
 
     Route::get('/admin-dashboard/article-category',[ArticleController::class,'articleCategory'])->name('article-category');
 
@@ -169,11 +172,17 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/edit-article-category/{id}',[ArticleController::class,'articleCategoryEdit'])->name('article-category-edit');
     Route::post('/admin-dashboard/article/category/update',[ArticleController::class,'articleCategoryUpdate'])->name('article-category-update');
 
+    Route::get('/admin-dashboard/remove-article-category/{id?}',[ArticleController::class,'articleCategoryRemove'])->name('article-category-remove');
+
     // policies Route
     Route::get('/admin-dashboard/policies',[SitePagesController::class,'policies'])->name('policies');
     Route::get('/admin-dashboard/policy/add',[SitePagesController::class,'policyAdd'])->name('policy-add');
     Route::get('/admin-dashboard/policy-edit/{id}',[SitePagesController::class,'policyEdit'])->name('policy-edit');
     Route::post('/admin-dashboard/policy-add',[SitePagesController::class,'policyAddProcc'])->name('policy-add-process');
+
+    // Remove policy
+
+    Route::get('/admin-dashboard/policy-remove/{id?}',[SitePagesController::class,'pulicyRemove'])->name('policy-remove');
     
     // Rules Route
 
@@ -181,6 +190,7 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/rule/add',[SitePagesController::class,'ruleAdd'])->name('rule-add');
     Route::post('/admin-dashboard/rule-add-procc',[SitePagesController::class,'ruleAddProcc'])->name('rule-add-procc');
     Route::get('/admin-dashboard/rule-edit/{id}',[SitePagesController::class,'ruleEdit'])->name('rule-edit');
+    Route::get('/admin-dashboard/rule-remove/{id}',[SitePagesController::class,'ruleRemove'])->name('rule-remove');
 
 });
 

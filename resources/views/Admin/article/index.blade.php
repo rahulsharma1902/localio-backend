@@ -8,7 +8,11 @@
     width: 40%;
 }
 </style>
+<?php 
 
+$lang = getCurrentLocale();
+
+?>
 <div class="nk-block nk-block-lg">
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
@@ -70,6 +74,7 @@
                                 </td>
                                 <td class="nk-tb-col">
                                     @if($article->image)
+
                                         <img src="{{ asset('ArticleImages/' . $article->image) }}" alt="{{ $article->name }}" style="width: 50px; height: auto;">
                                     @else
                                         <span>No Image</span>
@@ -84,6 +89,9 @@
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{ url('admin-dashboard/article-edit') ?? '' }}/{{ $article->id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
+                                                        @if($lang == 'en')
+                                                            <li><a href="{{ url('admin-dashboard/article-remove') ?? '' }}/{{ $article->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a></li>
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             </div>

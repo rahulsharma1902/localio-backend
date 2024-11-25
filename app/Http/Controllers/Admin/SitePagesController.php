@@ -137,6 +137,22 @@ class SitePagesController extends Controller
         }
      
     }
+
+    // remove policy function
+
+    public function pulicyRemove($id)
+    {
+        $policy = Policy::find($id);
+        if(!$policy)
+        {
+            return redirect()->back()->with('error','policy not found');
+        }
+        $policy->delete();
+        return redirect()->back()->with('success','policy remove successfully');
+    }
+
+    // end remove policy function
+
     public function rules()
     {
         $rules = Rule::with('policy')->get();
@@ -196,11 +212,41 @@ class SitePagesController extends Controller
 
     public function ruleAddProcc(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'title' => 'required',
             'description' => 'required',
         ]);
+        $siteLanguage = SiteLanguages::where('handle',$request->handle)->first();
+        if($siteLanguage && $siteLanguage->primary !== 1)
+        {
+            if($request->rule_tr_id){
+
+                $ruleTranslation = RuleTranslation::find($request->rule_tr_id);
+                if(!$ruleTranslation)
+                {
+                    return redirect()->back()->with('error','Rule translation not found');
+                }else
+                {
+                    $ruleTranslation->title = $request->title;
+                    $ruleTranslation->description = $request->description;
+                    $ruleTranslation->rule_id     = $request->rule_tr_id;
+                    $ruleTranslation->language_id  = $siteLanguage->id;
+                    $ruleTranslation->update();
+                    return redirect()->back()->with('success','Rule translation update successfully');
+                }
+
+            }else{
+
+                $ruleTranslation = new RuleTranslation;
+                $ruleTranslation->title =  $request->title;
+                $ruleTranslation->description = $request->description;
+                $ruleTranslation->rule_id = $request->id;
+                $ruleTranslation->language_id   =  $siteLanguage->id;
+                $ruleTranslation->save();
+                return redirect()->back()->with('success','Rule translation add successfully');
+            }
+
+        }
         if ($request->has('id') && $request->id) {
             // Attempt to find the existing policy
             $rule = Rule::find($request->id);
@@ -230,5 +276,15 @@ class SitePagesController extends Controller
         $rule->save();
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Rule added successfully');
+    }
+    public function ruleRemove($id)
+    {
+        $rule = Rule::find($id);
+        if(!$rule)
+        {
+            return redirect()->back()->with('error','rule not found');
+        }
+        $rule->delete();
+        return redirect()->back()->with('success','rule remove successfully');
     }
 }

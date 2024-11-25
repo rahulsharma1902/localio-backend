@@ -8,7 +8,11 @@
     width: 40%;
 }
 </style>
+<?php 
 
+$locale = getCurrentLocale();
+
+?>
 <div class="nk-block nk-block-lg">
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
@@ -76,6 +80,9 @@
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{ url('admin-dashboard/rule-edit') ?? '' }}/{{ $rule->id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
+                                                        @if($locale == 'en')
+                                                            <li><a href="{{ url('admin-dashboard/rule-remove') ?? '' }}/{{ $rule->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a></li>
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             </div>

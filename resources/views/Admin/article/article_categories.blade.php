@@ -8,7 +8,11 @@
     width: 40%;
 }
 </style>
+<?php
 
+    $lang = getCurrentLocale();
+
+?>
 <div class="nk-block nk-block-lg">
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
@@ -84,11 +88,11 @@
                                                         <li><a
                                                                 href="{{ url('admin-dashboard/edit-article-category') ?? '' }}/{{ $category->id ?? ''}}/{{ $category->language_id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
                                                         
-                                                        <!-- @if($category->translations->isEmpty())
-                                                        <li class="removeConfermation" data-url="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->id ?? ''}}">
-                                                            <a class="delete" href="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                        </li>
-                                                        @endif -->
+                                                        @if($lang == 'en')        
+                                                            <!-- <li class="removeConfermation" data-url="{{ url('admin-dashboard/remove-article-category') ?? '' }}/{{ $categoryTranslation->id ?? ''}}"> -->
+                                                                <a class="delete" href="{{ url('admin-dashboard/remove-article-category') ?? '' }}/{{ $category->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
+                                                            <!-- </li> -->
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             </div>

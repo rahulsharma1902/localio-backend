@@ -168,6 +168,20 @@ class ArticleController extends Controller
 
     // End Article Update function
 
+    // Article remeove Functioon
+
+    public function articleRemove($id)
+    {
+        $article = Article::find($id)->first();
+        if(!$article)
+        {
+            return redirect()->back()->with('error','article not found');
+        }
+        $article->delete();
+        return redirect()->back()->with('success','article delete successfully');
+    }   
+
+    // End article Remove function
 
     public function articleCategory()
     {
@@ -178,8 +192,6 @@ class ArticleController extends Controller
         $articleCategory = ArticleCategory::with(['translations' => function ($query) use ($siteLanguage) {
                                                 $query->where('language_id', $siteLanguage->id);
                                             }])->get();
-        // dd($articleCategory);
-
         return view('Admin.article.article_categories',compact('articleCategory'));
 
         
@@ -247,6 +259,7 @@ class ArticleController extends Controller
         // If the language is not primary, fetch the translation for the article category
         if ($siteLanguage && $siteLanguage->primary !== 1) {
             $articleTranslationCategory = ArticleCategoryTranslation::with('language')->where('article_category_id',$id)->where('language_id',$siteLanguage->id)->first();
+
             // dd($articleTranslationCategory);
         } else {
             // Use the main article category if no translation is available
@@ -307,6 +320,17 @@ class ArticleController extends Controller
 
         $category->save();
         return redirect()->back()->with('success', 'Article updated successfully.');
+    }
+
+    public function articleCategoryRemove($id)
+    {
+        $articleCategoryRemove = ArticleCategory::find($id);
+        if(!$articleCategoryRemove)
+        {
+            return redirect()->back()->with('error','article category not found');
+        }
+        $articleCategoryRemove->delete();
+        return redirect()->back()->with('success','remove article category successfull');
     }
     
 }
