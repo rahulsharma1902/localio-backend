@@ -20,16 +20,16 @@ use Carbon\Carbon;
 use Illuminate\Support\Str; 
 use App\Models\Country;
 use App;
-
+use App\Models\MetaVendor;
 class AuthenticationController extends Controller
 {
     public function index(){
-        $user = auth()->user();
+
         return view('Authentication.login');
 
     }
     public function loginProcc(Request $request)
-    {
+    {   
         $lang = Session::get('current_lang');
 
         $request->validate([
@@ -56,6 +56,7 @@ class AuthenticationController extends Controller
             }
         } else {
             return redirect()->back()->with('error', 'failed to login');
+
         }
     }
 
@@ -659,7 +660,67 @@ class AuthenticationController extends Controller
         }
     }
 
-    
+    //******************* Vendor Registration functions ********************//
 
+    public function vendorRegisterForm()
+    {
+        $countries = Country::all();
+
+        return view('Authentication.vendor_register',compact('countries'));
+    }
+
+    public function vendorRegisterProcess(Request $request)
+    {
+        $lang = app()->getLocale();
+        // Validate incoming data
+        $request->validate([
+            'first_name'    => 'required',
+            'last_name'     => 'required',
+            'job_title'     => 'required',
+            'business_email'=> 'required|email',
+            'business_phone'=> 'required|numeric|digits:10', 
+            'country_id'    => 'required',
+            'company_name'  => 'required',
+            'company_size'  => 'required',
+        ]);
+
+        // Create and save the User record
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->last_name  = $request->last_name;
+        $user->email      = $request->business_email;
+        $user->password   = Hash::make($request->business_email);
+        $user->number     = $request->business_phone;
+        $user->country_id = $request->country_id;
+        $user->user_type  = 'vendor'; // Assign the user type as 'vendor'
+        $user->save();
+
+        // Create and save the MetaVendor record, associate with the created User
+        $vendor = new MetaVendor();
+        $vendor->user_id       = $user->id; // Fix this assignment
+        $vendor->job_title     = $request->job_title;
+        $vendor->company_name  = $request->company_name; // Fixed the typo in company_name
+        $vendor->company_size  = $request->company_size;
+        $vendor->product_name  = $request->product_name ?? null;
+        $vendor->product_url   = $request->product_url ?? null;
+        $vendor->website_url   = $request->website_url ?? null;
+        $vendor->save();
+
+        return redirect()->back()->with('success', 'Registration successfully done');
+        // return redirect("")->with('success', 'Registration successfully done');
+        // if ($user) {
+        //     // Attempt to log the user in
+        //     if (Auth::attempt(['email' => $request->business_email, 'password' => $request->business_email])) {
+        //         $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
+        //         if (Auth::user()->user_type === 'vendor') {
+        //             return redirect("/{$lang}/vendor-dashboard")->with('success', 'Successfully logged in! Welcome Vendor');
+        //         } 
+        //     } else {
+        //         // Authentication failed
+        //         return redirect()->back()->withErrors(['error' => 'Authentication failed']);
+        //     }
+        // }
+    }
 
 }
+

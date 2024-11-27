@@ -81,6 +81,12 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register-process');
     Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
+    // Vendor Register Route
+
+    Route::get('/vendor-register',[AuthenticationController::class,'vendorRegisterForm'])->name('vendor-register');
+    Route::post('/vendor-register-process',[AuthenticationController::class,'vendorRegisterProcess'])->name('vendor-register-process');
+    // End Vendor Register Route
+
     Route::get('/recover-password',[AuthenticationController::class,'forgotPassword'])->name('recover-password');
     Route::post('/password-procc',[AuthenticationController::class,'forgotProcc'])->name('password-procc');
     Route::get('/otp-confirm',[AuthenticationController::class,'otpConfirm'])->name('get-otp');
@@ -104,10 +110,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::get('/who-we-are',[MetaPagesController::class,'whoWeAre'])->name('who-we-are');
     Route::get('/contact',[MetaPagesController::class,'contact'])->name('contact');
 
-
-    // Vendor Controller
     Route::get('/vendor-get-listed',[HomeController::class,'vendorGetListed'])->name('vendor-get-listed');
-
 
 });
 
@@ -194,7 +197,16 @@ Route::group(['middleware' =>['admin']],function(){
 
 });
 
-
+Route::group(['middleware' =>['vendor']],function(){
+    Route::get('/{locale}/vendor-dashboard',[HomeController::class,'index'])->name('vendor-dashboard')->where('locale', 'en');
+   
+    
+});
+// Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
+//     Route::group(['middleware' => ['vendor']], function () {
+//         Route::get('/vendor-dashboard', [HomeController::class, 'index'])->name('vendor-dashboard');
+//     });
+// });
 
 Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
 

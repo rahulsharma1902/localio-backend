@@ -13,31 +13,36 @@
                <div class="hd_text">
                   <h2 class="text-center">Register to Localio</h2>
                   <p class="text-center">Create an account</p>
+                  <p class="text-center">as</p>
+
+                
+                  <h2 class="text-center">  <a href="{{url('/vendor-register')}}">Vendor Sign Up</a></h2>
+             
                </div>
-               <div class="scl_login">
-                  <div class="row">
-                     <div class="col-md-6">
-                        <div class="login_box size18">
-                           <a href="{{route('google.login')}}" class="login_link" style="background: #DB4437;">
-                           <span class="scl-icn"><i class="fa-brands fa-google"></i></span>
-                           Login with Google
-                           </a>
+                <div class="scl_login">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="login_box size18">
+                            <a href="{{route('google.login')}}" class="login_link" style="background: #DB4437;">
+                            <span class="scl-icn"><i class="fa-brands fa-google"></i></span>
+                            Login with Google
+                            </a>
+                            </div>
                         </div>
-                     </div>
-                     <div class="col-md-6">
-                        <div class="login_box size18">
-                           <a href="{{ route('login.facebook') }}" class="login_link">
-                           <span class="scl-icn"><i class="fa-brands fa-facebook"></i></span>
-                           Login with Facebook
-                           </a>
+                        <div class="col-md-6">
+                            <div class="login_box size18">
+                            <a href="{{ route('login.facebook') }}" class="login_link">
+                            <span class="scl-icn"><i class="fa-brands fa-facebook"></i></span>
+                            Login with Facebook
+                            </a>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
                <!-- Your existing form -->
-               <div class="or-separator">
+                <div class="or-separator">
                   <span class="size16">or</span>
-               </div>
+                </div>
                <!-- Continue with the rest of your form -->
                 <form class="register_form" action="{{ route('register-process', ['locale' => app()->getLocale()]) }}" method="post" id="registerForm">
                     @csrf

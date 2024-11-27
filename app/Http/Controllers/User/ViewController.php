@@ -9,10 +9,12 @@ use Cookie;
 use App;
 use App\Models\{Category,SiteLanguages,CategoryTranslation};
 use Illuminate\Support\Facades\Redirect;
+use App\Models\User;
 class ViewController extends Controller
 {
     
     public function home(){
+
         return view('User.home.index');
     }
     public function changeLanguage(Request $request, $langCode)
