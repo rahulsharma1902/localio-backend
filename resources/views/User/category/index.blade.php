@@ -5,7 +5,6 @@
 <section class="banner_sec help-cntr-bnr inr-bnr dark " style="background-color: #003F7D;">
    <div class="bubble-wrp">
       <img src="{{asset('front/img/small-bnnr-bg.png') }}" alt="">
-
    </div>
    <div class="banner_content">
       <div class="container">
@@ -34,44 +33,34 @@
       </div>
    </div>
 </section>
-
 <section class="sfwr_sec light p_120">
    <div class="container">
       <div class="sfwr_content">
-         <!-- <h2 data-aos="zoom-in" data-aos-duration="1000">What type of software are you looking for?</h2> -->
          <h2 data-aos="zoom-in" data-aos-duration="1000">{{ __('home.category_page_heading') }}</h2>
-         @foreach($categories as $category)
-         <div class="row gy-4">
-            <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
-               <div class="sfwr_box">
-                  <div class="sfwr_hd">
-                     @if($category->image)
-                        <div class="sfwr_img">
-                           <img src="{{asset('CategoryImages/'.$category->image ) }}">
+         @if(isset($categories) && $categories->isNotEmpty())
+            @foreach($categories as $category)
+            <div class="row gy-4">
+               <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">
+                  <div class="sfwr_box">
+                     <div class="sfwr_hd">
+                        @if($category->image)
+                           <div class="sfwr_img">
+                              <img src="{{asset('CategoryImages/'.$category->image ) }}">
+                           </div>
+                        @endif
+                        <div class="sfwr_name">
+                           <h6 class="big-bld">   {{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name }}</h6>
                         </div>
-                     @endif
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">   {{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name }}</h6>
-                     </div>
-                     <div class="sfwr_name">
-                        <h6 class="big-bld">{{ strip_tags($category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description) }}</h6>
-                        </h6>
+                        <div class="sfwr_name">
+                           <h6 class="big-bld">{{ strip_tags($category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description) }}</h6>
+                           </h6>
+                        </div>
                      </div>
                   </div>
-                  <!-- <div class="sfwr_text">
-                     <ul class="list-unstyled m-0">
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                        <li><a href="">Lorem Ipsum has been the industry's</a></li>
-                     </ul>
-                  </div> -->
                </div>
             </div>
-         </div>
-         @endforeach
+            @endforeach
+         @endif   
       </div>
    </div>
 </section>

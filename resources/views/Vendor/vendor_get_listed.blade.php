@@ -9,20 +9,20 @@
             <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                 <div class="banner_text_col">
                     <div class="banner_content_inner bnr_inr_contnt">
-                        <h1>Get Listed</h1>
-                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium </p>
-                        <div class="top-pro-btn alrd_btn">
-                            <a href="#" class="cta cta_orange">Claim Profile</a>
-                        </div>
-                        <div class="alrd_btn">
-                            <p class="alrd_pra_text">Already had a profile? <a href="#" class="arw_lnk">Log in <span
-                                class="arw_orng"><i class="fa-solid fa-arrow-right"></i></span></a></p>
-                        </div>
+                    <h1>Get Listed</h1>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium </p>
+                    <div class="top-pro-btn alrd_btn">
+                        <a href="#" class="cta cta_orange">Claim Profile</a>
+                    </div>
+                    <div class="alrd_btn">
+                        <p class="alrd_pra_text">Already had a profile? <a href="#" class="arw_lnk">Log in <span
+                            class="arw_orng"><i class="fa-solid fa-arrow-right"></i></span></a></p>
+                    </div>
                     </div>
                 </div>
                 <div class="banner_image_col">
                     <div class="banner_image">
-                        <img src="{{asset('front/img/vndr_bnnr.png') }}" class="banner_top_image">
+                    <img src="{{asset('front/img/vndr_bnnr.png') }}" class="banner_top_image">
                     </div>
                 </div>
             </div>
@@ -35,24 +35,24 @@
             <div class="row ms_rw">
                 <div class="col-md-6">
                     <div class="msft_img">
-                        <img src="{{asset('front/img/msft.png') }}">
+                    <img src="{{asset('front/img/msft.png') }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="msft_text">
-                         <h6 class="big-bld">Lorem Ipsum is simply dummy text of the print wing and typesetting</h6>
-                        <div class="msft_list">
-                            <ul>
-                                <li>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</li>
-                                <li>Doloremque laudantium, totam rem aperiam, eaque ipsa quae
-                                <li>Ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                    explicabo.
-                                </li>
-                                <li>Nemo enim ipsam voluptatem quia voluptas sit</li>
-                                <li>Aspernatur aut odit aut fugit, sed quia consequuntur</li>
-                                <li>Magni dolores eos qui ratione voluptatem sequi nesciunt.</li>
-                            </ul>
-                        </div>
+                    <h6 class="big-bld">Lorem Ipsum is simply dummy text of the print wing and typesetting</h6>
+                    <div class="msft_list">
+                        <ul>
+                            <li>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</li>
+                            <li>Doloremque laudantium, totam rem aperiam, eaque ipsa quae
+                            <li>Ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+                                explicabo.
+                            </li>
+                            <li>Nemo enim ipsam voluptatem quia voluptas sit</li>
+                            <li>Aspernatur aut odit aut fugit, sed quia consequuntur</li>
+                            <li>Magni dolores eos qui ratione voluptatem sequi nesciunt.</li>
+                        </ul>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -60,38 +60,37 @@
     </div>
 </section>
 <section class="chatwth_sec dark bg-blue p_120">
-        <div class="container">
-            <div class="chatwth_content">
-                <div class="row cht_rw">
-                    <div class="col-md-8">
-                        <div class="cht_left">
-                            <h2 data-aos="zoom-in" data-aos-duration="1000">Lorem ipsum dolor sit amet, cons ectetur
-                                adip
-                            </h2>
-                            <div class="cht_info size18" data-aos="fade-up" data-aos-duration="1000">
-                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                </p>
-                                <div class="cht_link">
-                                    <a href="#" class="arw_lnk">Lorem Ipsum has been<span class="arw_orng"><i
-                                        class="fa-solid fa-arrow-right"></i></span></a>
-                                </div>
-                            </div>
-                            <div class="cht_info size18" data-aos="fade-up" data-aos-duration="1000">
-                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                </p>
-                                <div class="cht_link">
-                                    <a href="#" class="arw_lnk">Lorem Ipsum has been<span class="arw_orng"><i
-                                        class="fa-solid fa-arrow-right"></i></span></a>
-                                </div>
-                            </div>
+    <div class="container">
+        <div class="chatwth_content">
+            <div class="row cht_rw">
+                <div class="col-md-8">
+                    <div class="cht_left">
+                        <h2 data-aos="zoom-in" data-aos-duration="1000">Lorem ipsum dolor sit amet, cons ectetur
+                        adip
+                        </h2>
+                        <div class="cht_info size18" data-aos="fade-up" data-aos-duration="1000">
+                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                            unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        </p>
+                        <div class="cht_link">
+                            <a href="#" class="arw_lnk">Lorem Ipsum has been<span class="arw_orng"><i
+                                class="fa-solid fa-arrow-right"></i></span></a>
+                        </div>
+                        </div>
+                        <div class="cht_info size18" data-aos="fade-up" data-aos-duration="1000">
+                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                            unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        </p>
+                        <div class="cht_link">
+                            <a href="#" class="arw_lnk">Lorem Ipsum has been<span class="arw_orng"><i
+                                class="fa-solid fa-arrow-right"></i></span></a>
+                        </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="cht_img">
-                            <img src="{{asset('front/img/cht_wth.png') }}">
-                        </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="cht_img">
+                        <img src="{{asset('front/img/cht_wth.png') }}">
                     </div>
                 </div>
             </div>
@@ -113,110 +112,110 @@
             <div class="adp_slider" data-aos="fade-up" data-aos-duration="1000">
                 <div class="adp-slide">
                     <div class="row adp_rw">
-                    <div class="col-md-6">
-                        <div class="adip_lft">
-                            <img src="{{asset('front/img/adip.png') }}">
+                        <div class="col-md-6">
+                            <div class="adip_lft">
+                                <img src="{{asset('front/img/adip.png') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 pl-0">
-                        <div class="adip_ryt">
-                            <div class="adip_box">
-                                <div class="adp_txt">
-                                <p class="size20">“Lorem Ipsum has been the industry's standard dummy text
-                                    ever since the
-                                    1500s,
-                                    when
-                                    an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen
-                                    book”
-                                </p>
-                                </div>
-                                <p class="adip-btm-txt">John Doe, Position Here</p>
-                                <div class="str_img">
-                                <a href="#" class="wtch_imgs">
-                                    <div class="wtch_img">
-                                        <img src="{{asset('front/img/wtch_utb.svg') }}">
+                        <div class="col-md-6 pl-0">
+                            <div class="adip_ryt">
+                                <div class="adip_box">
+                                    <div class="adp_txt">
+                                    <p class="size20">“Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the
+                                        1500s,
+                                        when
+                                        an unknown printer took a galley of type and scrambled it to make a type
+                                        specimen
+                                        book”
+                                    </p>
                                     </div>
-                                    <div class="size20">
-                                        <p class="blue-text">Watch Story</p>
+                                    <p class="adip-btm-txt">John Doe, Position Here</p>
+                                    <div class="str_img">
+                                        <a href="#" class="wtch_imgs">
+                                            <div class="wtch_img">
+                                                <img src="{{asset('front/img/wtch_utb.svg') }}">
+                                            </div>
+                                            <div class="size20">
+                                                <p class="blue-text">Watch Story</p>
+                                            </div>
+                                        </a>
                                     </div>
-                                </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div class="adp-slide">
                     <div class="row adp_rw">
-                    <div class="col-md-6">
-                        <div class="adip_lft">
-                            <img src="{{asset('front/img/adip.png') }}">
+                        <div class="col-md-6">
+                            <div class="adip_lft">
+                                <img src="{{asset('front/img/adip.png') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 pl-0">
-                        <div class="adip_ryt">
-                            <div class="adip_box">
-                                <div class="adp_txt">
-                                <p class=" size20">“Lorem Ipsum has been the industry's standard dummy text
-                                    ever since the
-                                    1500s,
-                                    when
-                                    an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen
-                                    book”
-                                </p>
-                                </div>
-                                <p class="adip-btm-txt">John Doe, Position Here</p>
-                                <div class="str_img">
-                                <a href="#" class="wtch_imgs">
-                                    <div class="wtch_img">
-                                        <img src="{{asset('front/img/wtch_utb.svg') }}">
+                        <div class="col-md-6 pl-0">
+                            <div class="adip_ryt">
+                                <div class="adip_box">
+                                    <div class="adp_txt">
+                                    <p class=" size20">“Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the
+                                        1500s,
+                                        when
+                                        an unknown printer took a galley of type and scrambled it to make a type
+                                        specimen
+                                        book”
+                                    </p>
                                     </div>
-                                    <div class="size20">
-                                        <p class="blue-text">Watch Story</p>
+                                    <p class="adip-btm-txt">John Doe, Position Here</p>
+                                    <div class="str_img">
+                                    <a href="#" class="wtch_imgs">
+                                        <div class="wtch_img">
+                                            <img src="{{asset('front/img/wtch_utb.svg') }}">
+                                        </div>
+                                        <div class="size20">
+                                            <p class="blue-text">Watch Story</p>
+                                        </div>
+                                    </a>
                                     </div>
-                                </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div class="adp-slide">
                     <div class="row adp_rw">
-                    <div class="col-md-6">
-                        <div class="adip_lft">
-                            <img src="{{asset('front/img/adip.png') }}">
+                        <div class="col-md-6">
+                            <div class="adip_lft">
+                                <img src="{{asset('front/img/adip.png') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 pl-0">
-                        <div class="adip_ryt">
-                            <div class="adip_box">
-                                <div class="adp_txt ">
-                                <p class="size20">“Lorem Ipsum has been the industry's standard dummy text
-                                    ever since the
-                                    1500s,
-                                    when
-                                    an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen
-                                    book”
-                                </p>
-                                </div>
-                                <p class="adip-btm-txt">John Doe, Position Here</p>
-                                <div class="str_img">
-                                <a href="#" class="wtch_imgs">
-                                    <div class="wtch_img">
-                                        <img src="{{asset('front/img/wtch_utb.svg') }}">
+                        <div class="col-md-6 pl-0">
+                            <div class="adip_ryt">
+                                <div class="adip_box">
+                                    <div class="adp_txt ">
+                                    <p class="size20">“Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the
+                                        1500s,
+                                        when
+                                        an unknown printer took a galley of type and scrambled it to make a type
+                                        specimen
+                                        book”
+                                    </p>
                                     </div>
-                                    <div class="size20">
-                                        <p class="blue-text">Watch Story</p>
+                                    <p class="adip-btm-txt">John Doe, Position Here</p>
+                                    <div class="str_img">
+                                    <a href="#" class="wtch_imgs">
+                                        <div class="wtch_img">
+                                            <img src="{{asset('front/img/wtch_utb.svg') }}">
+                                        </div>
+                                        <div class="size20">
+                                            <p class="blue-text">Watch Story</p>
+                                        </div>
+                                    </a>
                                     </div>
-                                </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div class="adp-slide">
@@ -230,25 +229,25 @@
                             <div class="adip_ryt">
                                 <div class="adip_box">
                                     <div class="adp_txt">
-                                        <p class="size20">“Lorem Ipsum has been the industry's standard dummy text
-                                            ever since the
-                                            1500s,
-                                            when
-                                            an unknown printer took a galley of type and scrambled it to make a type
-                                            specimen
-                                            book”
-                                        </p>
+                                    <p class="size20">“Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the
+                                        1500s,
+                                        when
+                                        an unknown printer took a galley of type and scrambled it to make a type
+                                        specimen
+                                        book”
+                                    </p>
                                     </div>
                                     <p class="adip-btm-txt">John Doe, Position Here</p>
                                     <div class="str_img">
-                                        <a href="#" class="wtch_imgs">
-                                            <div class="wtch_img">
-                                                <img src="{{asset('front/img/wtch_utb.svg') }}">
-                                            </div>
-                                            <div class="size20">
-                                                <p class="blue-text">Watch Story</p>
-                                            </div>
-                                        </a>
+                                    <a href="#" class="wtch_imgs">
+                                        <div class="wtch_img">
+                                            <img src="{{asset('front/img/wtch_utb.svg') }}">
+                                        </div>
+                                        <div class="size20">
+                                            <p class="blue-text">Watch Story</p>
+                                        </div>
+                                    </a>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +311,7 @@
     </div>
 </section>
       
-      <!-- section FAQ -->
+<!-- section FAQ -->
 <section class="faq-section p_120 light">
     <div class="container">
         <div class="faq-inner">
@@ -414,7 +413,7 @@
                         <h2 class="accordion-header" id="headingSeven">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                            <span> Lorem Ipsum is simply dummy text of the printing?</span>
+                                <span> Lorem Ipsum is simply dummy text of the printing?</span>
                             </button>
                         </h2>
                         <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
@@ -434,16 +433,18 @@
 <section class="right_tool_sec dark p_80">
    <div class="container">
       <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
-         <h2>Find the Right Tool</h2>
+         <div class="otr_rgtool">
+            <h2>Find the Right Tool</h2>
+         </div>
          <div class="right-tool-pack">
             <div class="row">
                <div class="col-lg-4">
                   <div class="tool-card">
-                    <div class="tool-card-img">
+                     <div class="tool-card-img">
                         <img src="{{asset('front/img/right-tool-img1.png') }}" alt="">
-                    </div>
+                     </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Verified User Reviews</h3>
+                        <h3 class="tool_hed">Verified User Reviews</h3>
                         <p class="size18">Read real feedback from verified users to help you make the right choice.
                         </p>
                      </div>
@@ -451,15 +452,14 @@
                </div>
                <div class="col-lg-4">
                   <div class="tool-card">
-                    <div class="tool-card-img">
+                     <div class="tool-card-img">
                         <img src="{{asset('front/img/right-tool-img2.png') }}" alt="">
-                    </div>
-                    <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Feature and Price Comparisons</h3>
+                     </div>
+                     <div class="tool-crd-bdy">
+                        <h3 class="tool_hed">Feature and Price Comparisons</h3>
                         <p class="size18">Easily compare software based on key features, pricing, and customer
-                        ratings.
-                         </p>
-                    </div>
+                           ratings. </p>
+                     </div>
                   </div>
                </div>
                <div class="col-lg-4">
@@ -468,7 +468,7 @@
                         <img src="{{asset('front/img/right-tool-img3.png') }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Independent Insights</h3>
+                        <h3 class="tool_hed">Independent Insights</h3>
                         <p class="size18">Access unbiased, data-driven research to get the most value from your
                            software. </p>
                      </div>
@@ -482,10 +482,15 @@
       </div>
    </div>
    <div class="back-image1">
+
       <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
+
    </div>
+
    <div class="back-image2">
+
       <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
+
    </div>
 </section>
 @endsection

@@ -1,37 +1,36 @@
 
 @extends('user_layout.master')
 @section('content')
+<!-- new html -->
 <section class="banner_sec dark" style="background-color: #003F7D;">
-   <div class="bubble-wrp">
-      <img src="{{asset('front/img/bnnr-bg.png') }}" alt="">
-   </div>
-   <div class="banner_content">
-      <div class="container">
-         <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
-            <div class="banner_text_col">
-               <div class="banner_content_inner">
-                  <!-- <h1>Find the Best Deals and Save on Your Next Purchase!</h1> -->
-                  <h1>{{ __('home.heading') }}</h1>
-                  <!-- <p>Get free, unbiased product comparisons, read real customer reviews, and track prices at Localio
-                     to score the best offers. </p> -->
+      <div class="bubble-wrp">
+         <img src="{{asset('front/img/bnnr-bg.png') }}" alt="">
+      </div>
+      <div class="banner_content">
+         <div class="container">
+            <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
+               <div class="banner_text_col">
+                  <div class="banner_content_inner">
+                     <h1>{{ __('home.heading') }}</h1>
                      <p> {{ __('home.sub_heading') }} </p>
-                  <div class="search-bar-wrp">
-                     <div class="search-box">
-                        <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
-                        <i class="fa fa-search"></i>
+                     <div class="search-bar-wrp">
+                        <div class="search-box">
+                           <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
+                           <i class="fa fa-search"></i>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
-            <div class="banner_image_col">
-               <div class="banner_image">
-                  <img src="{{asset('front/img/banner_image.png') }}" class="banner_top_image">
+               <div class="banner_image_col">
+                  <div class="banner_image">
+                     <img src="{{asset('front/img/banner_image.png') }}" class="banner_top_image">
+                  </div>
                </div>
             </div>
          </div>
       </div>
-   </div>
-</section>
+   </section>
+<!-- end  -->
    <!-- section trusted brands marquee -->
 <section class="trusted-brands">
    <div class="container">
@@ -119,12 +118,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -170,12 +177,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -218,12 +233,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -301,19 +324,30 @@
                                                    <div class="sl_main">
                                                       <h6 class="head">Xero</h6>
                                                       <div class="wishlist">
-                                                         <a href="#" class="heart-container">
+                                                         <a href="">
+                                                            <div class="right-arw">
+                                                               <img src="img/right-arrw.svg" alt="">
+                                                            </div>
                                                          </a>
                                                       </div>
                                                    </div>
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -359,12 +393,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -393,7 +435,7 @@
                                        <div class="inner_box_silder  top-rate-innr ">
                                           <div class="inn_sl_hed mst_hdn">
                                              <div class="sli_img">
-                                                <img class="slider_img" src="{{asset('front/img/slider3_img.png') }}" alt="">
+                                                <img class="slider_img" src="img/slider3_img.png" alt="">
                                              </div>
                                              <div class="sl_h">
                                                 <div class="inn_h">
@@ -407,12 +449,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -443,15 +493,15 @@
                   </div>
                </div>
                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingThree">
+                  <h2 class="accordion-header" id="headingTwo">
                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                         <div class="accor-img">
                            <img src="{{asset('front/img/accordion-img3.png') }}" alt="">
                         </div> Finance & Accounting
                      </button>
                   </h2>
-                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                      data-bs-parent="#accordionExample">
                      <div class="accordion-body">
                         <div class="accordion-bdy-wrp">
@@ -490,19 +540,30 @@
                                                    <div class="sl_main">
                                                       <h6 class="head">Xero</h6>
                                                       <div class="wishlist">
-                                                         <a href="#" class="heart-container">
+                                                         <a href="">
+                                                            <div class="right-arw">
+                                                               <img src="img/right-arrw.svg" alt="">
+                                                            </div>
                                                          </a>
                                                       </div>
                                                    </div>
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -534,7 +595,7 @@
                                           </div>
                                           <div class="inn_sl_hed mst_hdn mt-4">
                                              <div class="sli_img">
-                                                <img class="slider_img" src="{{asset('front/img/slider2_img.png') }}" alt="">
+                                                <img class="slider_img" src="{{asset('front/img/slider2_img.svg') }}" alt="">
                                              </div>
                                              <div class="sl_h">
                                                 <div class="inn_h">
@@ -548,12 +609,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -582,7 +651,7 @@
                                        <div class="inner_box_silder  top-rate-innr ">
                                           <div class="inn_sl_hed mst_hdn">
                                              <div class="sli_img">
-                                                <img class="slider_img" src="{{asset('front/img/slider3_img.png') }}" alt="">
+                                                <img class="slider_img" src="img/slider3_img.png" alt="">
                                              </div>
                                              <div class="sl_h">
                                                 <div class="inn_h">
@@ -596,12 +665,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -810,11 +887,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -858,11 +944,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -906,11 +1001,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -954,11 +1058,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -1028,12 +1141,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                                 
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1072,12 +1193,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                                 
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1116,12 +1245,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                              
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1160,12 +1297,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                              
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1210,70 +1355,70 @@
       <div class="container">
          <div class="row">
             <div class="col-lg-4 col-md-4">
-               <div class="in_cont_box">
+               <a href="#" class="in_cont_box">
                   <div class="read_img">
-                     <a href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img1.png') }}" alt=""></a>
+                     <div class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img1.png') }}" alt=""></div>
                   </div>
                   <div class="read_content_in">
                      <div class="read_cont_h">
-                        <h3 class="read_text"><a href="#">Lorem Ipsum has been the industry's standard</a>
+                        <h3 class="read_text">Lorem Ipsum has been the industry's standard
                         </h3>
                      </div>
                      <div class="read_para">
                         <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                            unknown printer took a galley. </p>
                      </div>
-                     <div class="box_footer">
+                     <!-- <div class="box_footer">
                         <div class="more_read">
                            <a href="">Read More</a>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-lg-4 col-md-4">
-               <div class="in_cont_box">
+               <a href="#" class="in_cont_box">
                   <div class="read_img">
-                     <a href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img2.png') }}" alt=""></a>
+                     <div href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img2.png') }}" alt=""></div>
                   </div>
                   <div class="read_content_in">
                      <div class="read_cont_h">
-                        <h3 class="read_text"><a href="#">Lorem Ipsum has been the industry's standard</a>
+                        <h3 class="read_text">Lorem Ipsum has been the industry's standard
                         </h3>
                      </div>
                      <div class="read_para">
                         <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                            unknown printer took a galley. </p>
                      </div>
-                     <div class="box_footer">
+                     <!-- <div class="box_footer">
                         <div class="more_read">
                            <a href="">Read More</a>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-lg-4 col-md-4">
-               <div class="in_cont_box">
+               <a href="#" class="in_cont_box">
                   <div class="read_img">
-                     <a href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img3.png') }}" alt=""></a>
+                     <div href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img3.png') }}" alt=""></div>
                   </div>
                   <div class="read_content_in">
                      <div class="read_cont_h">
-                        <h3 class="read_text"><a href="#">Lorem Ipsum has been the industry's standard</a>
+                        <h3 class="read_text">Lorem Ipsum has been the industry's standard
                         </h3>
                      </div>
                      <div class="read_para">
                         <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                            unknown printer took a galley. </p>
                      </div>
-                     <div class="box_footer">
+                     <!-- <div class="box_footer">
                         <div class="more_read">
                            <a href="">Read More</a>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
-               </div>
+               </a>
             </div>
          </div>
       </div>
@@ -1283,7 +1428,9 @@
 <section class="right_tool_sec dark p_80">
    <div class="container">
       <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
-         <h2>Find the Right Tool</h2>
+         <div class="otr_rgtool">
+            <h2>Find the Right Tool</h2>
+         </div>
          <div class="right-tool-pack">
             <div class="row">
                <div class="col-lg-4">
@@ -1292,7 +1439,7 @@
                         <img src="{{asset('front/img/right-tool-img1.png') }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Verified User Reviews</h3>
+                        <h3 class="tool_hed">Verified User Reviews</h3>
                         <p class="size18">Read real feedback from verified users to help you make the right choice.
                         </p>
                      </div>
@@ -1304,7 +1451,7 @@
                         <img src="{{asset('front/img/right-tool-img2.png') }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Feature and Price Comparisons</h3>
+                        <h3 class="tool_hed">Feature and Price Comparisons</h3>
                         <p class="size18">Easily compare software based on key features, pricing, and customer
                            ratings. </p>
                      </div>
@@ -1316,7 +1463,7 @@
                         <img src="{{asset('front/img/right-tool-img3.png') }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Independent Insights</h3>
+                        <h3 class="tool_hed">Independent Insights</h3>
                         <p class="size18">Access unbiased, data-driven research to get the most value from your
                            software. </p>
                      </div>
@@ -1330,10 +1477,15 @@
       </div>
    </div>
    <div class="back-image1">
+
       <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
+
    </div>
+
    <div class="back-image2">
+
       <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
+
    </div>
 </section>
 <!-- <script type="text/javascript"></script>
