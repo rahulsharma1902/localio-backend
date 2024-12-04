@@ -195,6 +195,13 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/rule-edit/{id}',[SitePagesController::class,'ruleEdit'])->name('rule-edit');
     Route::get('/admin-dashboard/rule-remove/{id}',[SitePagesController::class,'ruleRemove'])->name('rule-remove');
 
+    // FAQ's Route
+    Route::get('/admin-dashboard/faqs',[SitePagesController::class,'faqs'])->name('faqs');
+    Route::get('/admin-dashboard/faq-add',[SitePagesController::class,'faqAdd'])->name('faq-add');
+    Route::post('/admin-dashboard/faq-add-procc',[SitePagesController::class,'faqAddProcc'])->name('faq-add-procc');
+    Route::get('/admin-dashboard/faq-edit/{id}',[SitePagesController::class,'faqEdit'])->name('faq-edit');
+    Route::get('/admin-dashboard/faq-remove/{id}',[SitePagesController::class,'faqRemove'])->name('remove-faq');
+
 });
 
 Route::group(['middleware' =>['vendor']],function(){

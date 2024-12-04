@@ -10,6 +10,8 @@ use App\Models\PolicyTranslation;
 use App\Models\Rule;
 use Illuminate\Support\Str;
 use App\Models\RuleTranslation;
+use App\Models\Faq;
+use App\Models\FaqTranslation;
 class SitePagesController extends Controller
 {
     //
@@ -286,5 +288,78 @@ class SitePagesController extends Controller
         }
         $rule->delete();
         return redirect()->back()->with('success','rule remove successfully');
+    }
+    public function faqs()
+    {   
+        // $faqs = Faq::all();
+        $locale = getCurrentLocale();
+        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
+        $faqs = Faq::with(['translations' =>function($query) use ($siteLanguage){
+                            $query->where('language_id',$siteLanguage->id);
+                    }])->get();
+        return view('Admin.faqs.index',compact('faqs'));
+    }
+
+    public function faqAdd()
+    {
+        return view('Admin.faqs.faq_add');
+    }
+
+    public function faqEdit($id)
+    {
+        $locale = getCurrentLocale();
+
+        $faq = Faq::find($id);
+        if(!$faq)
+        {
+            return redirect()->back()->with('error','faq not found');
+        }
+
+        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
+
+        if($siteLanguage && $siteLanguage->primary !== 1)
+        {
+            $faqTranslation = FaqTranslation::with('language')->where('faq_id',$id)->where('language_id', $siteLanguage->id)->first();
+        }else{
+            $faqTranslation = null;
+        }
+        return view('Admin.faqs.faq_add',compact('faq','faqTranslation'));
+    }
+
+    public function faqAddProcc(Request $request)
+    {
+        $request->validate([
+            'question' => 'required',
+            'answer'    => 'required',
+        ]);
+        $siteLanguage = SiteLanguages::where('handle',$request->handle)->first();
+
+        if($siteLanguage && $siteLanguage->primary !== 1)
+        {
+            $faqTranslation = isset($request->faq_tr_id) ? FaqTranslation::find($request->faq_tr_id) : new FaqTranslation;
+            $faqTranslation->faq_id = $request->id;
+            $faqTranslation->language_id = $siteLanguage->id;
+            $faqTranslation->question       = $request->question;
+            $faqTranslation->answer  = $request->answer;
+            $faqTranslation->save();  // Save the translation
+            return redirect()->back()->with('success', isset($request->faq_tr_id) ? 'FAQ translation successfully updated' : 'FAQ translation successfully added');
+        }
+        else{
+            $faq = isset($request->id) ? Faq::find($request->id) : new Faq;
+            $faq->question = $request->question;
+            $faq->answer = $request->answer;
+            $faq->save();
+            return redirect()->back()->with('success', isset($request->id) ? 'FAQ successfully updated' : 'FAQ successfully added');
+        }
+    }
+    public function faqRemove($id)
+    {
+        $faq = Faq::find($id);
+        if(!$faq)
+        {
+            return redirect()->back()->with('error','faq not found');
+        }
+        $faq->delete();
+        return redirect()->back()->with('success','faq remove successfully');
     }
 }

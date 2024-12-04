@@ -20,5 +20,9 @@ class SiteLanguages extends Model
     {
         return $this->hasMany(PolicyTranslation::class, 'language_id');
     }
+    public function faqTranslations()
+    {
+        return $this->hasMany(FaqTranslation::class, 'language_id');
+    }
         
 }
