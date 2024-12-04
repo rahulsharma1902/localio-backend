@@ -172,110 +172,30 @@
                      the industry's standard dummy text ever since the 1500s.
                   </p>
                </div>
-               <div class="faq-accor">
-                  <div class="accordion" id="accordionExample">
-                     <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
-                        <h2 class="accordion-header" id="headingOne">
-                           <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                           <span>Lorem Ipsum is simply dummy text of the printing?</span>
-                           </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                           data-bs-parent="#accordionExample">
-                           <div class="accordion-body">
-                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                              Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                              unknown printer took a galley of type and scrambled it to make a type specimen book.
+               @if(isset($faqs) && $faqs->isNotEmpty())
+                  <div class="faq-accor">
+                     @foreach($faqs as $faq)
+                        <div class="accordion" id="accordionExample">
+                           <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
+                              <h2 class="accordion-header" id="heading{{ $faq->id }}">
+                                 <button class="accordion-button {{ $loop->first ? 'collapsed' : '' }}" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}" aria-expanded="false"
+                                    aria-controls="collapse{{ $faq->id }}">
+                                    <span>{{ $faq->translations->isNotEmpty() ? $faq->translations->first()->question : ($faq->question) ?? '' }}</span>
+                                 </button>
+                              </h2>
+                              <div id="collapse{{ $faq->id }}"
+                                 class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                 aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
+                                 <div class="accordion-body">
+                                       {{ strip_tags($faq->translations->isNotEmpty() ? $faq->translations->first()->answer : ($faq->answer) ?? '') }}
+                                 </div>
+                              </div>
                            </div>
                         </div>
-                     </div>
-                     <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
-                        <h2 class="accordion-header" id="headingTwo">
-                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                           <span>The standard chunk of Lorem Ipsum used?</span>
-                           </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                           data-bs-parent="#accordionExample">
-                           <div class="accordion-body">
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, consectetur.
-                           </div>
-                        </div>
-                     </div>
-                     <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
-                        <h2 class="accordion-header" id="headingThree">
-                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                           <span> Lorem Ipsum is simply dummy text of the printing</span>
-                           </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                           data-bs-parent="#accordionExample">
-                           <div class="accordion-body">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, voluptas.
-                           </div>
-                        </div>
-                     </div>
-                     <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
-                        <h2 class="accordion-header" id="headingFour">
-                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                           <span> Why do we use it?</span>
-                           </button>
-                        </h2>
-                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                           data-bs-parent="#accordionExample">
-                           <div class="accordion-body">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, voluptas.
-                           </div>
-                        </div>
-                     </div>
-                     <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
-                        <h2 class="accordion-header" id="headingFive">
-                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                           <span> Where does it come from?</span>
-                           </button>
-                        </h2>
-                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
-                           data-bs-parent="#accordionExample">
-                           <div class="accordion-body">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, voluptas.
-                           </div>
-                        </div>
-                     </div>
-                     <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
-                        <h2 class="accordion-header" id="headingSix">
-                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                           <span> The standard Lorem Ipsum passage, used since the 1500?</span>
-                           </button>
-                        </h2>
-                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                           data-bs-parent="#accordionExample">
-                           <div class="accordion-body">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, voluptas.
-                           </div>
-                        </div>
-                     </div>
-                     <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
-                        <h2 class="accordion-header" id="headingSeven">
-                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                           <span> Lorem Ipsum is simply dummy text of the printing?</span>
-                           </button>
-                        </h2>
-                        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
-                           data-bs-parent="#accordionExample">
-                           <div class="accordion-body">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, voluptas.
-                           </div>
-                        </div>
-                     </div>
+                     @endforeach
                   </div>
-               </div>
+               @endif
             </div>
          </div>
       </section>
