@@ -174,8 +174,8 @@
                </div>
                @if(isset($faqs) && $faqs->isNotEmpty())
                   <div class="faq-accor">
-                     @foreach($faqs as $faq)
-                        <div class="accordion" id="accordionExample">
+                     <div class="accordion" id="accordionExample">
+                        @foreach($faqs as $faq)
                            <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
                               <h2 class="accordion-header" id="heading{{ $faq->id }}">
                                  <button class="accordion-button {{ $loop->first ? 'collapsed' : '' }}" type="button"
@@ -188,17 +188,15 @@
                                  class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
                                  aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
                                  <div class="accordion-body">
-                                       {{ strip_tags($faq->translations->isNotEmpty() ? $faq->translations->first()->answer : ($faq->answer) ?? '') }}
+                                    {{ strip_tags($faq->translations->isNotEmpty() ? $faq->translations->first()->answer : ($faq->answer) ?? '') }}
                                  </div>
                               </div>
                            </div>
-                        </div>
-                     @endforeach
+                        @endforeach
+                     </div>
                   </div>
                @endif
             </div>
          </div>
       </section>
-
-
 @endsection
