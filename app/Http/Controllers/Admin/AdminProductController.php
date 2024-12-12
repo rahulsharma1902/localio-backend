@@ -185,4 +185,4 @@ class AdminProductController extends Controller
         return redirect()->back()->with('success','product remove successfully');
     }
 }
-// main branch code
+// main branch code 
