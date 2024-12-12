@@ -22,7 +22,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css">
-
+    <link rel="stylesheet" href="{{asset('front/admin/style.css')}}">
     <!-- slick slider cdn -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
@@ -139,6 +139,19 @@
                                                     <li class="nk-menu-item">
                                                         <a href="{{url('/admin-dashboard/faqs')}}"
                                                             class="nk-menu-link"><span class="nk-menu-text">Faq's</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="nk-menu-item has-sub">
+                                                <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                    <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                                    <span class="nk-menu-text">Products Section</span>
+                                                </a>
+                                                <ul class="nk-menu-sub">
+                                                    <li class="nk-menu-item">
+                                                        <a href="{{url('/admin-dashboard/products')}}"
+                                                            class="nk-menu-link"><span class="nk-menu-text">Product</span>
                                                         </a>
                                                     </li>
                                                 </ul>

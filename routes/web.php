@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 
-use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController};
+use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController};
 
 
 use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
@@ -110,6 +110,8 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::get('/who-we-are',[MetaPagesController::class,'whoWeAre'])->name('who-we-are');
     Route::get('/contact',[MetaPagesController::class,'contact'])->name('contact');
 
+    Route::get('/blog',[MetaPagesController::class,'blog'])->name('blog');
+
     Route::get('/vendor-get-listed',[HomeController::class,'vendorGetListed'])->name('vendor-get-listed');
 
 });
@@ -195,12 +197,19 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/rule-edit/{id}',[SitePagesController::class,'ruleEdit'])->name('rule-edit');
     Route::get('/admin-dashboard/rule-remove/{id}',[SitePagesController::class,'ruleRemove'])->name('rule-remove');
 
-    // FAQ's Route
-    Route::get('/admin-dashboard/faqs',[SitePagesController::class,'faqs'])->name('faqs');
-    Route::get('/admin-dashboard/faq-add',[SitePagesController::class,'faqAdd'])->name('faq-add');
-    Route::post('/admin-dashboard/faq-add-procc',[SitePagesController::class,'faqAddProcc'])->name('faq-add-procc');
-    Route::get('/admin-dashboard/faq-edit/{id}',[SitePagesController::class,'faqEdit'])->name('faq-edit');
-    Route::get('/admin-dashboard/faq-remove/{id}',[SitePagesController::class,'faqRemove'])->name('remove-faq');
+     // FAQ's Route
+     Route::get('/admin-dashboard/faqs',[SitePagesController::class,'faqs'])->name('faqs');
+     Route::get('/admin-dashboard/faq-add',[SitePagesController::class,'faqAdd'])->name('faq-add');
+     Route::post('/admin-dashboard/faq-add-procc',[SitePagesController::class,'faqAddProcc'])->name('faq-add-procc');
+     Route::get('/admin-dashboard/faq-edit/{id}',[SitePagesController::class,'faqEdit'])->name('faq-edit');
+     Route::get('/admin-dashboard/faq-remove/{id}',[SitePagesController::class,'faqRemove'])->name('remove-faq');
+
+    //  Products Route
+    Route::get('/admin-dashboard/products',[AdminProductController::class,'products'])->name('products');
+    Route::get('/admin-dashboard/product/add',[AdminProductController::class,'productAdd'])->name('product-add');
+    Route::post('/admin-dashboard/product-add-procc',[AdminProductController::class,'productAddProccess'])->name('product-add-procc');
+    Route::get('/admin-dashboard/product-edit/{id}',[AdminProductController::class,'productEdit'])->name('product-edit');
+    Route::get('/admin-dashboard/remove-product/{id}',[AdminProductController::class,'removeProduct'])->name('product-remove');
 
 });
 
