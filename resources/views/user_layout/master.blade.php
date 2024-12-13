@@ -2,58 +2,31 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8" />
-      <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-         crossorigin="anonymous" referrerpolicy="no-referrer" />
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"
-         integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
-         crossorigin="anonymous" referrerpolicy="no-referrer" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"
-         integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
-         crossorigin="anonymous" referrerpolicy="no-referrer" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/> -->
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-
          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-
          crossorigin="anonymous" referrerpolicy="no-referrer" />
-
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-
          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-
-         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-
-         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"
-
          integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
-
          crossorigin="anonymous" referrerpolicy="no-referrer" />
-
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"
-
          integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
-
          crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-   <!-- dashicon link //////////////////////////////// -->
-
-   <link data-minify="1" rel='stylesheet' id='dashicons-css' href='https://documentos-legales.mx/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1729539507' media='all' />
-
+      <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/> -->
+      
       <!-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> -->
 
          <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
          <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
+
+               <!-- SweetAlert2 CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+      <!-- SweetAlert2 JS -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
       <title>home page</title>
    </head>
@@ -65,7 +38,7 @@
                <div class="header_row">
                   <div class="search_logo">
                      <div class="logo_col">
-                        <a href="{{url('/' ?? '' )}}" class="brand"><img src="{{asset('front/img/logo.svg') }}"></a>              
+                        <a href="{{url('/' ?? '' )}}" class="brand"><img src="{{asset('front/img/logo.svg') }}"></a>
                      </div>
                   </div>
                   <div id="myID" class="search-box">
@@ -74,11 +47,13 @@
                   </div>
                   <div class="header_button_col">
                      <div class="Header_buttons">
+                        <!-- <a href="login.html" class="cta cta_trans">Login</a>
+                        <a href="#" class="cta cta_orange">Sign Up</a> -->
                         @if(!auth()->user())
-                           <a href="{{url('/login')}}" class="cta cta_trans">Login</a>
-                           <a href="{{url('/register') }}" class="cta cta_orange">Sign Up</a>
+                        <a href="{{ url('login') ?? '' }}" class="cta cta_trans">Login</a>
+                        <a href="{{ url('register') ?? '' }}" class="cta cta_orange">Sign Up</a>
                         @else
-                           <a href="{{url('/logout') }}" class="cta cta_orange">Sign Out</a>
+                        <a href="{{ route('logout') ?? '' }}" class="cta cta_orange">Sign Out</a>
                         @endif
                      </div>
                   </div>
@@ -95,27 +70,28 @@
                      <span class="bar"></span>
                      <span class="bar"></span>
                   </button>
-                     <?php
-                     use App\Models\Category; 
+                  <?php
+                        use App\Models\Category; 
 
-                     $categories = Category::all();
-                     ?>
+                        $categories = Category::all();
+                  ?>
+                
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <div class="left_menu">
                         <ul class="menu">
                            <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                              <a href="javascript:void(0)" class="cat_menu">Categories</a>
+                              <a href="#" class="cat_menu">Categories</a>
                               <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                               <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
                                  @foreach($categories as $category)
                                  <li class="dropdown_item-1">
-                                    <a href="#">{{$category->name ?? 'not category found' }}</a>
+                                    <a href="#">{{$category->name ?? '' }}</a>
                                  </li>
                                 @endforeach
                               </ul>
                            </li>
                            <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                              <a href="#">Top Rated Products</a>
+                              <a href="#" class="product_menu">Top Rated Products</a>
                               <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                               <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
                                  <li class="dropdown_item-1">
@@ -187,7 +163,7 @@
                   <div class="foot-row-lft p_80">
                      <div class="foot-logo">
                         <a href="index.html">
-                           <img src="img/foot-logo.svg" alt="">
+                           <img src="{{asset('front/img/foot-logo.svg') }}" alt="">
                         </a>
                      </div>
                      <div class="foot-col">
@@ -277,7 +253,7 @@
                         @endif
                      @endforeach
                      <div class="select-btn">
-                        <span class="sBtn-text">{{ $curent_selected_lang }}</span>
+                        <span class="sBtn-text">{{ $curent_selected_lang ?? 'English' }}</span>
                         <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
                      </div>
 
@@ -288,9 +264,6 @@
                                     <a href="{{ route('change-lang',['langCode'=>$language->handle]) }}">
                                        {{ $language->name }}
                                     </a>
-                                    <!-- <a href="{{url('/')}}/{{$language->handle}}">
-                                       {{ $language->name }}
-                                    </a> -->
                                  </span>
                            </li>
                         @endforeach
@@ -311,8 +284,11 @@
       crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+   
    <script src="{{ asset('front/js/script.js') }}"></script>
    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
    <script>
       $(function () {
          AOS.init();
@@ -325,7 +301,6 @@
       $(document).ready(function () {
          function checkScroll() {
             const $myElement = $('#myID');
-            console.log($myElement);
             if ($(window).scrollTop() > 460) {
                $myElement.show();
             } else {
@@ -346,5 +321,49 @@
       });
    })
    </script>
+<!-- <script>
+    @if (Session::has('error'))
+        toastr.clear();
+        NioApp.Toast('{{ Session::get('error') }}', 'error', {
+            position: 'top-right'
+        });
+    @endif
+
+    @if (Session::has('success'))
+
+        toastr.clear();
+        NioApp.Toast('{{ Session::get('success') }}', 'info', {
+            position: 'top-right'
+        });
+    @endif
+</script> -->
+<script>
+    @if (Session::has('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '{{ Session::get('error') }}',
+            position: 'top-right',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000, // Auto close after 3 seconds
+        });
+    @endif
+
+    @if (Session::has('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ Session::get('success') }}',
+            position: 'top-right',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000, // Auto close after 3 seconds
+        });
+    @endif
+</script>
+
+
+
 </body>
 </html>

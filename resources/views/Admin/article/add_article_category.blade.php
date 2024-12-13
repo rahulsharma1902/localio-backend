@@ -3,14 +3,15 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
         <div class="nk-block-head-content">
-            <h4 class="title nk-block-title">Add Article Category</h4>   
+            <h4 class="title nk-block-title">Add Article Category</h4>
         </div>
     </div>
     <div class="card card-bordered">
         <div class="card-inner">
             <div class="nk-block">
-                <form action="{{ url('admin-dashboard/article/category/addProcc') ?? '' }}" class="form-validate" novalidate="novalidate" method="post" enctype="multipart/form-data">
-                @csrf
+                <form action="{{ url('admin-dashboard/article/category/addProcc') ?? '' }}" class="form-validate"
+                    novalidate="novalidate" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -19,38 +20,40 @@
                                     <input type="text" class="form-control" name="name" id="name">
                                 </div>
                                 @error('name')
-                                    <div class="error text-danger">{{ $message }}</div>
+                                <div class="error text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-                       
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="description">Article Categopry Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea class="description" name="description" id="description" rows="4" cols="50"></textarea>
+                                    <textarea class="description" name="description" id="description" rows="4"
+                                        cols="50"></textarea>
                                 </div>
                                 @error('description')
-                                    <div class="error text-danger">{{ $message }}</div>
+                                <div class="error text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                         <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="form-label" for="image">Upload Image</label>
-                            <div class="dz-message">
-                                <input type="file" class="form-control" name="image" id="image">
-                            </div>
-                            @error('image')
+                            <div class="form-group">
+                                <label class="form-label" for="image">Upload Image</label>
+                                <div class="dz-message">
+                                    <input type="file" class="form-control" name="image" id="image">
+                                </div>
+                                @error('image')
                                 <div class="error text-danger">{{ $message }}</div>
-                            @enderror
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-12 mt-4">
-                        <div class="form-group">
-                            <button class="addCategory btn btn-primary  text-center"><em class="icon ni ni-plus"></em><span>Add New Article Category</span></button>
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group">
+                                <button class="addCategory btn btn-primary  text-center"><em
+                                        class="icon ni ni-plus"></em><span>Add New Article Category</span></button>
+                            </div>
                         </div>
-                    </div>
                 </form>
             </div>
         </div>

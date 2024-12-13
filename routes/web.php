@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 
-use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController};
+use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController,HomeContentController};
 
 
 use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
@@ -211,6 +211,10 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/product-edit/{id}',[AdminProductController::class,'productEdit'])->name('product-edit');
     Route::get('/admin-dashboard/remove-product/{id}',[AdminProductController::class,'removeProduct'])->name('product-remove');
 
+    // Home Content Route
+
+    Route::get('/admin-dashboard/home-page',[HomeContentController::class,'homeContent'])->name('home-content');
+    Route::post('/admin-dashboard/home-page-update',[HomeContentController::class,'homeContentUpdate'])->name('home-content-update');
 });
 
 Route::group(['middleware' =>['vendor']],function(){

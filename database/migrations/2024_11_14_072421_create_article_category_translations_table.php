@@ -38,7 +38,6 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
-            $table->unique(['article_category_id', 'language_id']);
         });
     }
 

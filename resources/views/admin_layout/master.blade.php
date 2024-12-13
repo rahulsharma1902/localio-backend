@@ -78,7 +78,7 @@
                                     </a>
                                     
                                 </li>
-                                 <li class="nk-menu-item has-sub">
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
                                         <span class="nk-menu-text">Setting</span>
@@ -90,6 +90,21 @@
 
                                     </ul>
                                 </li>
+
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
+                                        <span class="nk-menu-text">Pages</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span class="nk-menu-text">home page contents</span></a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>

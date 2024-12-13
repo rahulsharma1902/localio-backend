@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('question')->nullable();
             $table->longText('answer')->nullable();
             $table->timestamps();
-            $table->timestamps();
         });
     }
 
