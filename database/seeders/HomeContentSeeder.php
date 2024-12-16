@@ -52,6 +52,13 @@ class HomeContentSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'meta_key' => 'visit website',
+                'meta_value' => 'Visit Website',
+                'lang_code' => 'en',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'meta_key' => 'trusted brands text',
                 'meta_value' => 'Trusted Brands, Unbeatable Choices',
                 'lang_code' => 'en',
@@ -89,6 +96,20 @@ class HomeContentSeeder extends Seeder
             [
                 'meta_key' => 'get deal lable',
                 'meta_value' => 'Get This Deal',
+                'lang_code' => 'en',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'ai section left image',
+                'meta_value' => 'front/img/right-tool-vector1.png',
+                'lang_code' => 'en',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'ai section right image',
+                'meta_value' => 'front/img/right-tool-vector2.png',
                 'lang_code' => 'en',
                 'created_at' => now(),
                 'updated_at' => now(),

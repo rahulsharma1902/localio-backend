@@ -118,11 +118,10 @@
                @if(isset($homeContents))
                   @foreach($homeContents as $contant)
                      @if($contant->meta_key == 'most popular text')
-                        <h2 class="text-center">{{$contant->meta_value}}</h2>
+                        <h2 class="text-center">{{$contant->meta_value ?? '' }}</h2>
                      @endif
                   @endforeach
                @endif
-            
             </h2>
          </div>
          <div class="popular-accordion-wrp">
@@ -146,7 +145,7 @@
                                     <div class="accor-lft-img">
                                        <img src="{{asset('front/img/accor-bdy-img.png') }}" alt="">
                                     </div>
-                                 </div>
+                                 </div> 
                                  <div class="col-lg-6 col-md-6">
                                     <div class="accor-txt-contnt">
                                        <h3>Lorem Ipsum has been the industry's standard dummy</h3>
@@ -209,8 +208,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif 
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -268,8 +274,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif  
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -324,8 +337,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif 
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -425,8 +445,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif 
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -484,8 +511,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                   @if(isset($homeContents))
+                                                      @foreach($homeContents as $contant)
+                                                         @if($contant->meta_key == 'visit website')
+                                                            {{$contant->meta_value ?? ''}}
+                                                         @endif
+                                                      @endforeach      
+                                                   @endif  
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -540,8 +574,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif 
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -641,8 +682,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif  
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -700,8 +748,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif  
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -756,8 +811,15 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                @if(isset($homeContents))
+                                                   @foreach($homeContents as $contant)
+                                                      @if($contant->meta_key == 'visit website')
+                                                         {{$contant->meta_value ?? ''}}
+                                                      @endif
+                                                   @endforeach      
+                                                @endif  
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -783,10 +845,24 @@
       <div class="container">
          <div class="slider_h">
             <div class="head_box">
-               <h2>Exclusive deals</h2>
+            @if(isset($homeContents))
+               @foreach($homeContents as $contant)
+                  @if($contant->meta_key == 'exclusive deals text')
+                     <h2 class="text-center">{{$contant->meta_value ?? ''}}</h2>
+                  @endif
+               @endforeach
+            @endif
+               
             </div>
             <div class="review_box text-right revw-width">
-               <a class="cta cta_white" href="#">All Exclusive deals</a>
+            @if(isset($homeContents))
+               @foreach($homeContents as $contant)
+                  @if($contant->meta_key == 'all exclusive lable')
+                     <a class="cta cta_white" href="#">{{$contant->meta_value ?? ''}}</a>
+                  @endif
+               @endforeach
+            @endif
+               <!-- <a class="cta cta_white" href="#">All Exclusive deals</a> -->
             </div>
          </div>
       </div>
@@ -815,7 +891,14 @@
                   <p class="grey-txt "><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                  @if(isset($homeContents))
+                     @foreach($homeContents as $contant)
+                        @if($contant->meta_key == 'get deal lable')
+                           <a href="" class="cta cta_white">{{$contant->meta_value ?? '' }}</a>
+                        @endif
+                     @endforeach
+                  @endif
+
                   </div>
                </div>
             </div>
@@ -836,7 +919,13 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                  @if(isset($homeContents))
+                     @foreach($homeContents as $contant)
+                        @if($contant->meta_key == 'get deal lable')
+                           <a href="" class="cta cta_white">{{$contant->meta_value ?? '' }}</a>
+                        @endif
+                     @endforeach
+                  @endif
                   </div>
                </div>
             </div>
@@ -857,7 +946,13 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                  @if(isset($homeContents))
+                     @foreach($homeContents as $contant)
+                        @if($contant->meta_key == 'get deal lable')
+                           <a href="" class="cta cta_white">{{$contant->meta_value ?? '' }}</a>
+                        @endif
+                     @endforeach
+                  @endif
                   </div>
                </div>
             </div>
@@ -878,7 +973,13 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                     @if(isset($homeContents))
+                        @foreach($homeContents as $contant)
+                           @if($contant->meta_key == 'get deal lable')
+                              <a href="" class="cta cta_white">{{$contant->meta_value ?? ''}}</a>
+                           @endif
+                        @endforeach
+                     @endif
                   </div>
                </div>
             </div>
@@ -897,9 +998,19 @@
          <div class="smart_search_section dark p_120 pt-0 ">
             <div class="smart_search_inner">
                <div class="smart_srch_content text-center size18">
-                  <h2>AI-Powered Smart Search</h2>
-                  <p class="smart-p">Quickly discover and compare the best products with our AI-powered search,
-                     designed to match your specific needs and preferences. </p>
+                  @if(isset($homeContents))
+                     @foreach($homeContents as $contant)
+                        @if($contant->meta_key == 'ai search title')
+                           <h2>{{$contant->meta_value ?? '' }}</h2>
+                        @endif
+                     
+                  
+                        @if($contant->meta_key == 'ai search description')
+                           <p class="smart-p">
+                           {{$contant->meta_value ?? '' }}</p>
+                        @endif   
+                     @endforeach
+                  @endif
                   <div class="smrt-srch-inpt">
                      <textarea rows="3"
                         placeholder="Enter a product, category, or what you’d like to compare..."></textarea>
@@ -908,12 +1019,28 @@
                      </div>
                   </div>
                </div>
-               <div class="back-image1">
+
+               @if(isset($homeContantImage))
+                  @foreach($homeContantImage as $image)
+                     @if($image->meta_key == 'ai section left image')
+                        <div class="back-image1">
+                           <img src="{{asset($image->meta_value) }}" class="image-pattern1" alt="{{$image->meta_key}}">
+                        </div>
+                     @endif
+                     @if($image->meta_key == 'ai section right image')
+                        <div class="back-image2">
+                           <img src="{{asset($image->meta_value) }}" class="image-pattern1" alt="{{$image->meta_key}}">
+                        </div>   
+                     @endif   
+                  @endforeach
+               @endif
+
+               <!-- <div class="back-image1">
                   <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
                </div>
                <div class="back-image2">
                   <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
-               </div>
+               </div> -->
             </div>
          </div>
          <!-- section top-rated -->
@@ -921,12 +1048,20 @@
             <div class="section_hed">
                <div class="container">
                   <div class="slider_h">
-                     <div class="head_box">
-                        <h2>Top Rated Products</h2>
-                     </div>
-                     <div class="review_box text-right">
-                        <a class="cta cta_white" href="#">All Top-Rated Products</a>
-                     </div>
+                     @if(isset($homeContents))
+                        @foreach($homeContents as $contant)
+                           @if($contant->meta_key == 'top product text')
+                              <div class="head_box">
+                                 <h2>{{$contant->meta_value ?? '' }}</h2>
+                              </div>
+                           @endif
+                           @if($contant->meta_key == 'all product lable')
+                              <div class="review_box text-right">
+                                 <a class="cta cta_white" href="#">{{$contant->meta_value ?? ''}}</a>
+                              </div>
+                           @endif
+                        @endforeach
+                     @endif
                   </div>
                </div>
             </div>
@@ -980,8 +1115,15 @@
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center">
+                                 @if(isset($homeContents))
+                                    @foreach($homeContents as $contant)
+                                       @if($contant->meta_key == 'visit website')
+                                          {{$contant->meta_value ?? ''}}
+                                       @endif
+                                    @endforeach      
+                                 @endif 
+                                    <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>
@@ -1037,8 +1179,15 @@
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center">
+                                    @if(isset($homeContents))
+                                       @foreach($homeContents as $contant)
+                                          @if($contant->meta_key == 'visit website')
+                                             {{$contant->meta_value ?? ''}}
+                                          @endif
+                                       @endforeach      
+                                    @endif 
+                                     <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>
@@ -1094,8 +1243,16 @@
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center">
+                                    @if(isset($homeContents))
+                                       @foreach($homeContents as $contant)
+                                          @if($contant->meta_key == 'visit website')
+                                             {{$contant->meta_value ?? ''}}
+                                          @endif
+                                       @endforeach      
+                                    @endif  
+                                    
+                                    <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>
@@ -1151,8 +1308,15 @@
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                    @if(isset($homeContents))
+                                       @foreach($homeContents as $contant)
+                                          @if($contant->meta_key == 'visit website')
+                                             {{$contant->meta_value ?? ''}}
+                                          @endif
+                                       @endforeach      
+                                    @endif 
+                                    <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>

@@ -11,6 +11,9 @@
     $lang_code = getCurrentLocale();
 
     ?>
+    @php
+        $homeContentsEn = \App\Models\HomeContent::where('lang_code','en')->get();
+    @endphp
     @if(isset($homeContents))
     <div class="card card-bordered">
         <div class="card-inner">
@@ -20,9 +23,6 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
-                            @php
-                                $homeContentsEn = \App\Models\HomeContent::where('lang_code','en')->get();
-                            @endphp
                             @foreach($homeContentsEn as $content)
                                 @if($content->meta_key == 'logo image')
                                     <div class="form-group">
@@ -78,9 +78,7 @@
                             @endforeach
                         </div>
                         <div class="col-md-12">
-                            @php
-                                $homeContentsEn = \App\Models\HomeContent::where('lang_code','en')->get();
-                            @endphp
+                          
                             @foreach($homeContentsEn as $content)
                                 @if($content->meta_key == 'header image')
                                     <div class="form-group">
@@ -103,9 +101,6 @@
                         </div>
 
                         <div class="col-md-12">
-                            @php
-                                $homeContentsEn = \App\Models\HomeContent::where('lang_code','en')->get();
-                            @endphp
                             @foreach($homeContentsEn as $content)
                                 @if($content->meta_key == 'header background image')
                                     <div class="form-group">
@@ -168,9 +163,6 @@
                             @endforeach
                         </div> -->
                         <div class="col-md-12">
-                            @php
-                                $homeContentsEn = \App\Models\HomeContent::where('lang_code','en')->get();
-                            @endphp
                             @foreach($homeContentsEn as $content)
                                 @if($content->meta_key == 'trusted brands image')
                                     <div class="form-group">
@@ -318,6 +310,48 @@
                             @endforeach  
                         </div>
                         <div class="col-md-12">
+                            @foreach($homeContentsEn as $content)
+                                @if($content->meta_key == 'ai section left image')
+                                    <div class="form-group">
+                                        @if($lang_code == 'en')
+                                        <label class="form-label" for="image">Ai Section Left Image</label>
+                                        <div class="dz-message">
+                                            <input type="file" class="form-control" name="ai_left_image[{{$content->id}}]"
+                                                id="metaValue" value="{{ $content->value ?? ''}}">
+                                        </div>
+                                        @error('ai_left_image')
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                        @endif
+                                        @if(isset($content->meta_key))
+                                            <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}" style="width: 100px; height: auto;">
+                                        @endif
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="col-md-12">
+                            @foreach($homeContentsEn as $content)
+                                @if($content->meta_key == 'ai section right image')
+                                    <div class="form-group">
+                                        @if($lang_code == 'en')
+                                        <label class="form-label" for="image">Ai Section Right Image</label>
+                                        <div class="dz-message">
+                                            <input type="file" class="form-control" name="ai_right_image[{{$content->id}}]"
+                                                id="metaValue" value="{{ $content->value ?? ''}}">
+                                        </div>
+                                        @error('ai_right_image')
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                        @endif
+                                        @if(isset($content->meta_key))
+                                            <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}" style="width: 100px; height: auto;">
+                                        @endif
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="col-md-12">
                             @foreach($homeContents as $id=> $content)
                                 @if($content->meta_key == 'top product text')
                                     <div class="form-group">
@@ -455,6 +489,24 @@
                                             </div>
                                         </div>
                                         @error('get_button_lable')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                @endif
+                            @endforeach  
+                        </div>
+                        <div class="col-md-12">
+                            @foreach($homeContents as $id=> $content)
+                                @if($content->meta_key == 'visit website')
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Visit webiste text</label>
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <input type="text" class="form-control" name="visit_wwebsite[{{$content->id}}]"
+                                                    id="metaValue" value="{{$content->meta_value ?? '' }}">
+                                            </div>
+                                        </div>
+                                        @error('write_review_lable')
                                         <div class="error text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>

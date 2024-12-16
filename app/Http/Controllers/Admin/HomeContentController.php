@@ -204,6 +204,8 @@ class HomeContentController extends Controller
         $this->uploadImages($request, 'logo_image');
         $this->uploadImages($request, 'header_image');
         $this->uploadImages($request, 'header_backgound_image');
+        $this->uploadImages($request, 'ai_left_image');
+        $this->uploadImages($request, 'ai_right_image');
         $this->uploadBrandImages($request);
 
         // Handle text updates
@@ -224,6 +226,7 @@ class HomeContentController extends Controller
         $this->updateMetaValues($request, 'view_article_lable');
         $this->updateMetaValues($request, 'find_tool_text');
         $this->updateMetaValues($request, 'get_button_lable');
+        $this->updateMetaValues($request, 'visit_wwebsite');
         return redirect()->back()->with('success', 'Home content updated successfully.');
     }
 
