@@ -2,33 +2,76 @@
 @extends('user_layout.master')
 @section('content')
 <!-- new html -->
+<style>
+    .trust-brnd-marque {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .marq-innr {
+        display: inline-block;
+        padding-right: 20px;
+        animation: marquee 10s linear infinite;
+   
+    }
+
+    @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+</style>
 <section class="banner_sec dark" style="background-color: #003F7D;">
       <div class="bubble-wrp">
-         <img src="{{asset('front/img/bnnr-bg.png') }}" alt="">
+         @php
+            $homeContantImage = \App\Models\HomeContent::where('lang_code','en')->get();
+         @endphp
+         @if(isset($homeContantImage))
+            @foreach($homeContantImage as $image)
+               @if($image->meta_key == 'header background image')
+                     <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+               @endif
+            @endforeach
+         @endif   
       </div>
-      <div class="banner_content">
-         <div class="container">
-            <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
-               <div class="banner_text_col">
-                  <div class="banner_content_inner">
-                     <h1>{{ __('home.heading') }}</h1>
-                     <p> {{ __('home.sub_heading') }} </p>
-                     <div class="search-bar-wrp">
-                        <div class="search-box">
-                           <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
-                           <i class="fa fa-search"></i>
+      @if(isset($homeContents))
+         <div class="banner_content">
+            <div class="container">
+               <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
+                  <div class="banner_text_col">
+                     <div class="banner_content_inner">
+                        @foreach($homeContents as $content)
+
+                           @if($content->meta_key == 'header title')
+                              <h1>{{$content->meta_value ?? ''}}</h1>
+                           @endif
+                           @if($content->meta_key == 'header description')
+                              <p>{{ strip_tags($content->meta_value ?? '')}}</p>
+                           @endif
+                        @endforeach
+                        <div class="search-bar-wrp">
+                           <div class="search-box">
+                              <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
+                              <i class="fa fa-search"></i>
+                           </div>
                         </div>
                      </div>
                   </div>
-               </div>
-               <div class="banner_image_col">
-                  <div class="banner_image">
-                     <img src="{{asset('front/img/banner_image.png') }}" class="banner_top_image">
+                  <div class="banner_image_col">
+                     <div class="banner_image">
+                        @if(isset($homeContantImage))
+                              @foreach($homeContantImage as $image)
+                                 @if($image->meta_key == 'header image')
+                                    <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+                                 @endif
+                              @endforeach
+                        @endif
+                     </div>
                   </div>
                </div>
             </div>
          </div>
-      </div>
+      @endif
    </section>
 <!-- end  -->
    <!-- section trusted brands marquee -->
@@ -38,18 +81,30 @@
          <div class="brnd-wrp-lft">
             <p class="m-0 brnd-p-txt">Trusted Brands, Unbeatable Choices</p>
          </div>
+         
          <div class="trust-brnd-marque">
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img1.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img2.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img3.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img4.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img5.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img6.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img7.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img8.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img9.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img10.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img11.svg') }}" alt=""></div>
+            @php
+               $homeContentsEn = \App\Models\HomeContent::where('lang_code','en')->get();
+            @endphp
+            @foreach($homeContentsEn as $content)
+               @if($content->meta_key == 'trusted brands image')
+                  @php
+                     $imageIds = json_decode($content->meta_value);
+                  @endphp
+                  @if(is_array($imageIds))
+                     @foreach($imageIds as $imageId)
+                        @php
+                           $media = \App\Models\HomeContentMedia::find($imageId);
+                        @endphp
+                           <div class="marq-innr">
+                              <img src="{{ asset($media->file_path) }}" alt="{{ $content->meta_key }}">
+                           </div>
+                     @endforeach
+                  @else
+                     <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}" style="width: 100px; height: auto;">
+                  @endif
+               @endif
+            @endforeach
          </div>
       </div>
    </div>
@@ -59,7 +114,16 @@
    <div class="container">
       <div class="most-popular-wrp" data-aos="fade-up" data-aos-duration="1000">
          <div class="most_hed">
-            <h2 class="text-center">Most Popular</h2>
+            <h2 class="text-center">
+               @if(isset($homeContents))
+                  @foreach($homeContents as $contant)
+                     @if($contant->meta_key == 'most popular text')
+                        <h2 class="text-center">{{$contant->meta_value}}</h2>
+                     @endif
+                  @endforeach
+               @endif
+            
+            </h2>
          </div>
          <div class="popular-accordion-wrp">
             <div class="accordion" id="accordionExample">
@@ -1488,8 +1552,11 @@
 
    </div>
 </section>
-<!-- <script type="text/javascript"></script>
-<script>
+<script type="text/javascript"></script>
+<!-- Add this to the <head> section of your Blade file -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js"></script>
+<!-- <script>
          $(document).ready(function () {
          function checkScroll() {
             const $myElement = $('#myID');
@@ -1504,5 +1571,14 @@
          $(window).on('scroll', checkScroll);
       });
 </script> -->
+<script>
+$(document).ready(function() {
+        $('.trust-brnd-marque').marquee({
+            duration: 5000,
+            gap: 20
+        });
+    });
+</script>
 
+</script>
 @endsection

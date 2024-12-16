@@ -10,12 +10,20 @@ use App;
 use App\Models\{Category,SiteLanguages,CategoryTranslation};
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
+use App\Models\HomeContent;
 class ViewController extends Controller
 {
     
-    public function home(){
+    public function home()
+    {
 
-        return view('User.home.index');
+        $langCode = getCurrentLocale(); 
+        $homeContents = HomeContent::where('lang_code', $langCode)->get(); 
+        if($homeContents->isEmpty())
+        {
+            $homeContents = HomeContent::where('lang_code','en')->get();
+        }
+        return view('User.home.index',compact('homeContents'));
     }
     public function changeLanguage(Request $request, $langCode)
     {

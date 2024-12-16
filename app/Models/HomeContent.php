@@ -19,8 +19,8 @@ class HomeContent extends Model
     /**
      * Define a relationship with HomeContentTranslation.
      */
-    public function translations()
+    public function media()
     {
-        return $this->hasMany(HomeContentTranslation::class, 'home_content_id');
+        return $this->hasMany(HomeContentMedia::class);
     }
 }
