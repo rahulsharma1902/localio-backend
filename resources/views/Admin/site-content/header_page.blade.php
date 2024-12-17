@@ -3,7 +3,7 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
         <div class="nk-block-head-content">
-            <h4 class="title nk-block-title">Add Home Content</h4>
+            <h4 class="title nk-block-title">Add Header Content</h4>
         </div>
     </div>
     <?php
