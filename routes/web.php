@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController,HomeContentController};
-
+use App\Http\Controllers\Admin\SiteContent\SiteContentController;
 
 use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
 
@@ -211,10 +211,17 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/product-edit/{id}',[AdminProductController::class,'productEdit'])->name('product-edit');
     Route::get('/admin-dashboard/remove-product/{id}',[AdminProductController::class,'removeProduct'])->name('product-remove');
 
-    // Home Content Route
+    // SiteContent Route
+    // Home Page Content
+    Route::get('/admin-dashboard/home-page',[SiteContentController::class,'homeContent'])->name('home-content');
+    Route::post('/admin-dashboard/home-page-update',[SiteContentController::class,'homeContentUpdate'])->name('home-content-update');
+    Route::post('/admin-dashboard/update-lang-file',[SiteContentController::class,'updateLangFile'])->name('update-lang-file');
 
-    Route::get('/admin-dashboard/home-page',[HomeContentController::class,'homeContent'])->name('home-content');
-    Route::post('/admin-dashboard/home-page-update',[HomeContentController::class,'homeContentUpdate'])->name('home-content-update');
+    // Header Page Content
+    Route::get('/admin-dashboard/header-page',[SiteContentController::class,'headerPage'])->name('header-page');
+    Route::post('/admin-dashboard/header-page-update',[SiteContentController::Class,'headerContentUpdate'])->name('header-content-update');
+
+
 });
 
 Route::group(['middleware' =>['vendor']],function(){

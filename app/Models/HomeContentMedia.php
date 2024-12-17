@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class HomeContentMedia extends Model
 {
     use HasFactory;
-    use HasFactory;
 
     protected $table = 'home_content_media'; 
 

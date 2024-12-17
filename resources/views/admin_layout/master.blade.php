@@ -98,7 +98,13 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span class="nk-menu-text">home page contents</span></a>
+                                            <a href="{{url('/admin-dashboard/header-page')}}" class="nk-menu-link"><span class="nk-menu-text">Header Page</span></a>
+                                        </li>
+
+                                    </ul>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span class="nk-menu-text">home page</span></a>
                                         </li>
 
                                     </ul>

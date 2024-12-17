@@ -34,24 +34,16 @@
             @endforeach
          @endif   
       </div>
-      @if(isset($homeContents))
          <div class="banner_content">
             <div class="container">
                <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                   <div class="banner_text_col">
                      <div class="banner_content_inner">
-                        @foreach($homeContents as $content)
-
-                           @if($content->meta_key == 'header title')
-                              <h1>{{$content->meta_value ?? ''}}</h1>
-                           @endif
-                           @if($content->meta_key == 'header description')
-                              <p>{{ strip_tags($content->meta_value ?? '')}}</p>
-                           @endif
-                        @endforeach
+                           <h1>{{__('home.home_page_heading')}}</h1>
+                           <p>{{ __('home.home_page_header_description') }}</p>
                         <div class="search-bar-wrp">
                            <div class="search-box">
-                              <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
+                              <input type="text" placeholder="{{__('home.home_page_search_placeholder')}}">
                               <i class="fa fa-search"></i>
                            </div>
                         </div>
@@ -71,7 +63,6 @@
                </div>
             </div>
          </div>
-      @endif
    </section>
 <!-- end  -->
    <!-- section trusted brands marquee -->
@@ -79,14 +70,13 @@
    <div class="container">
       <div class="trst-brnd-wrp">
          <div class="brnd-wrp-lft">
-            <p class="m-0 brnd-p-txt">Trusted Brands, Unbeatable Choices</p>
+            <p class="m-0 brnd-p-txt">
+               {{__('home.trusted_brands_text')}}
+            </p>
          </div>
          
          <div class="trust-brnd-marque">
-            @php
-               $homeContentsEn = \App\Models\HomeContent::where('lang_code','en')->get();
-            @endphp
-            @foreach($homeContentsEn as $content)
+            @foreach($homeContantImage as $content)
                @if($content->meta_key == 'trusted brands image')
                   @php
                      $imageIds = json_decode($content->meta_value);
@@ -115,13 +105,7 @@
       <div class="most-popular-wrp" data-aos="fade-up" data-aos-duration="1000">
          <div class="most_hed">
             <h2 class="text-center">
-               @if(isset($homeContents))
-                  @foreach($homeContents as $contant)
-                     @if($contant->meta_key == 'most popular text')
-                        <h2 class="text-center">{{$contant->meta_value ?? '' }}</h2>
-                     @endif
-                  @endforeach
-               @endif
+               <h2 class="text-center">{{ __('home.most_popular_text')}}</h2>
             </h2>
          </div>
          <div class="popular-accordion-wrp">
@@ -209,13 +193,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center"> 
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif 
+                                                      {{ __('home.visit_website' )}} 
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -275,13 +253,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center">
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif  
+                                                      {{ __('home.visit_website' )}}  
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -338,13 +310,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center"> 
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif 
+                                                      {{ __('home.visit_website' )}}
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -446,13 +412,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center">
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif 
+                                                      {{ __('home.visit_website' )}}
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -512,13 +472,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center"> 
-                                                   @if(isset($homeContents))
-                                                      @foreach($homeContents as $contant)
-                                                         @if($contant->meta_key == 'visit website')
-                                                            {{$contant->meta_value ?? ''}}
-                                                         @endif
-                                                      @endforeach      
-                                                   @endif  
+                                                      {{ __('home.visit_website' )}}
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -575,13 +529,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center">
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif 
+                                                      {{ __('home.visit_website' )}}
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -683,13 +631,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center"> 
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif  
+                                                      {{ __('home.visit_website' )}}
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -749,13 +691,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center"> 
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif  
+                                                      {{ __('home.visit_website' )}}
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -812,13 +748,7 @@
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
                                                 <a href="" class="cta cta_orange d-flex align-items-center">
-                                                @if(isset($homeContents))
-                                                   @foreach($homeContents as $contant)
-                                                      @if($contant->meta_key == 'visit website')
-                                                         {{$contant->meta_value ?? ''}}
-                                                      @endif
-                                                   @endforeach      
-                                                @endif  
+                                                      {{ __('home.visit_website' )}}
                                                    <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
@@ -845,23 +775,10 @@
       <div class="container">
          <div class="slider_h">
             <div class="head_box">
-            @if(isset($homeContents))
-               @foreach($homeContents as $contant)
-                  @if($contant->meta_key == 'exclusive deals text')
-                     <h2 class="text-center">{{$contant->meta_value ?? ''}}</h2>
-                  @endif
-               @endforeach
-            @endif
-               
+               <h2 class="text-center">{{ __('home.exclusive_deals_text' )}}</h2>
             </div>
             <div class="review_box text-right revw-width">
-            @if(isset($homeContents))
-               @foreach($homeContents as $contant)
-                  @if($contant->meta_key == 'all exclusive lable')
-                     <a class="cta cta_white" href="#">{{$contant->meta_value ?? ''}}</a>
-                  @endif
-               @endforeach
-            @endif
+               <a class="cta cta_white" href="#">{{ __('home.all_exclusive_lable' )}}</a>
                <!-- <a class="cta cta_white" href="#">All Exclusive deals</a> -->
             </div>
          </div>
@@ -891,14 +808,7 @@
                   <p class="grey-txt "><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                  @if(isset($homeContents))
-                     @foreach($homeContents as $contant)
-                        @if($contant->meta_key == 'get deal lable')
-                           <a href="" class="cta cta_white">{{$contant->meta_value ?? '' }}</a>
-                        @endif
-                     @endforeach
-                  @endif
-
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -919,13 +829,7 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                  @if(isset($homeContents))
-                     @foreach($homeContents as $contant)
-                        @if($contant->meta_key == 'get deal lable')
-                           <a href="" class="cta cta_white">{{$contant->meta_value ?? '' }}</a>
-                        @endif
-                     @endforeach
-                  @endif
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -946,13 +850,7 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                  @if(isset($homeContents))
-                     @foreach($homeContents as $contant)
-                        @if($contant->meta_key == 'get deal lable')
-                           <a href="" class="cta cta_white">{{$contant->meta_value ?? '' }}</a>
-                        @endif
-                     @endforeach
-                  @endif
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -973,13 +871,7 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     @if(isset($homeContents))
-                        @foreach($homeContents as $contant)
-                           @if($contant->meta_key == 'get deal lable')
-                              <a href="" class="cta cta_white">{{$contant->meta_value ?? ''}}</a>
-                           @endif
-                        @endforeach
-                     @endif
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -998,22 +890,12 @@
          <div class="smart_search_section dark p_120 pt-0 ">
             <div class="smart_search_inner">
                <div class="smart_srch_content text-center size18">
-                  @if(isset($homeContents))
-                     @foreach($homeContents as $contant)
-                        @if($contant->meta_key == 'ai search title')
-                           <h2>{{$contant->meta_value ?? '' }}</h2>
-                        @endif
-                     
-                  
-                        @if($contant->meta_key == 'ai search description')
-                           <p class="smart-p">
-                           {{$contant->meta_value ?? '' }}</p>
-                        @endif   
-                     @endforeach
-                  @endif
+                     <h2>{{ __('home.ai_search_title')}}</h2>
+                     <p class="smart-p">
+                     {{ __('home.ai_search_description') }}</p>
                   <div class="smrt-srch-inpt">
                      <textarea rows="3"
-                        placeholder="Enter a product, category, or what you’d like to compare..."></textarea>
+                        placeholder="{{__('home.home_page_search_placeholder')}}"></textarea>
                      <div class="input-btn">
                         <button type="" class=""><img src="{{asset('front/img/btn-img.svg') }}" alt=""></button>
                      </div>
@@ -1048,20 +930,12 @@
             <div class="section_hed">
                <div class="container">
                   <div class="slider_h">
-                     @if(isset($homeContents))
-                        @foreach($homeContents as $contant)
-                           @if($contant->meta_key == 'top product text')
-                              <div class="head_box">
-                                 <h2>{{$contant->meta_value ?? '' }}</h2>
-                              </div>
-                           @endif
-                           @if($contant->meta_key == 'all product lable')
-                              <div class="review_box text-right">
-                                 <a class="cta cta_white" href="#">{{$contant->meta_value ?? ''}}</a>
-                              </div>
-                           @endif
-                        @endforeach
-                     @endif
+                     <div class="head_box">
+                        <h2>{{ __('home.top_product_text') }}</h2>
+                     </div>
+                     <div class="review_box text-right">
+                        <a class="cta cta_white" href="#">{{ __('home.all_product_lable')}}</a>
+                     </div>
                   </div>
                </div>
             </div>
@@ -1110,19 +984,13 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
                                  <a href="" class="cta cta_orange d-flex align-items-center">
-                                 @if(isset($homeContents))
-                                    @foreach($homeContents as $contant)
-                                       @if($contant->meta_key == 'visit website')
-                                          {{$contant->meta_value ?? ''}}
-                                       @endif
-                                    @endforeach      
-                                 @endif 
+                                       {{ __('home.visit_website' )}}
                                     <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
@@ -1174,19 +1042,13 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
                                  <a href="" class="cta cta_orange d-flex align-items-center">
-                                    @if(isset($homeContents))
-                                       @foreach($homeContents as $contant)
-                                          @if($contant->meta_key == 'visit website')
-                                             {{$contant->meta_value ?? ''}}
-                                          @endif
-                                       @endforeach      
-                                    @endif 
+                                       {{ __('home.visit_website' )}}
                                      <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
@@ -1238,20 +1100,13 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
                                  <a href="" class="cta cta_orange d-flex align-items-center">
-                                    @if(isset($homeContents))
-                                       @foreach($homeContents as $contant)
-                                          @if($contant->meta_key == 'visit website')
-                                             {{$contant->meta_value ?? ''}}
-                                          @endif
-                                       @endforeach      
-                                    @endif  
-                                    
+                                       {{ __('home.visit_website' )}}
                                     <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
@@ -1303,19 +1158,13 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
                                  <a href="" class="cta cta_orange d-flex align-items-center"> 
-                                    @if(isset($homeContents))
-                                       @foreach($homeContents as $contant)
-                                          @if($contant->meta_key == 'visit website')
-                                             {{$contant->meta_value ?? ''}}
-                                          @endif
-                                       @endforeach      
-                                    @endif 
+                                       {{ __('home.visit_website' )}} 
                                     <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
@@ -1339,10 +1188,12 @@
       <div class="container">
          <div class="slider_h">
             <div class="head_box">
-               <h2>Latest Reviews</h2>
+               <h2>{{__('home.latest_reviews_text')}}</h2>
             </div>
             <div class="review_box text-right">
-               <a class="cta cta_white" href="#">Write a Review</a>
+               <a class="cta cta_white" href="#">
+                  {{__('home.write_review_lable')}}
+               </a>
             </div>
          </div>
       </div>
@@ -1571,10 +1422,12 @@
       <div class="container">
          <div class="slider_h">
             <div class="head_box">
-               <h2>Read Our Articles</h2>
+               <h2>{{__('home.read_article_text')}}</h2>
             </div>
             <div class="review_box text-right">
-               <a class="cta cta_white" href="#">View All Articles</a>
+               <a class="cta cta_white" href="#">
+                  {{__('home.view_article_lable')}}
+               </a>
             </div>
          </div>
       </div>
@@ -1657,7 +1510,7 @@
    <div class="container">
       <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
          <div class="otr_rgtool">
-            <h2>Find the Right Tool</h2>
+               <h2>{{__('home.find_tool_text')}}<h2>
          </div>
          <div class="right-tool-pack">
             <div class="row">
@@ -1700,41 +1553,33 @@
             </div>
          </div>
          <div class="right-tool-btn text-center">
-            <a href="" class="cta">Get Started</a>
+            <a href="" class="cta">
+               {{__('home.get_button_lable')}}
+            </a>
          </div>
       </div>
    </div>
-   <div class="back-image1">
-
-      <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
-
-   </div>
-
-   <div class="back-image2">
-
-      <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
-
-   </div>
+   @if(isset($homeContantImage))
+      @foreach($homeContantImage as $image)
+         <div class="back-image1">
+            @if($image->meta_key == 'find tool left image')
+                  <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+            @endif
+            <!-- <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt=""> -->
+         </div>
+         <div class="back-image2">
+         @if($image->meta_key == 'find tool right image')
+                  <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+            @endif
+            <!-- <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt=""> -->
+         </div>
+      @endforeach
+   @endif
 </section>
 <script type="text/javascript"></script>
-<!-- Add this to the <head> section of your Blade file -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js"></script>
-<!-- <script>
-         $(document).ready(function () {
-         function checkScroll() {
-            const $myElement = $('#myID');
-            console.log($myElement);
-            if ($(window).scrollTop() > 460) {
-               $myElement.show();
-            } else {
-               $myElement.hide();
-            }
-         }
-         checkScroll();
-         $(window).on('scroll', checkScroll);
-      });
-</script> -->
+
 <script>
 $(document).ready(function() {
         $('.trust-brnd-marque').marquee({

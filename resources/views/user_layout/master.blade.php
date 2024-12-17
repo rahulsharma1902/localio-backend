@@ -31,6 +31,9 @@
       <title>home page</title>
    </head>
    <body>
+         @php
+            $HeaderContentImage = \App\Models\HeaderContent::where('lang_code','en')->get();
+         @endphp
    <header>
       <section class="sec_head">
          <div class="bottom_header dark">
@@ -38,11 +41,17 @@
                <div class="header_row">
                   <div class="search_logo">
                      <div class="logo_col">
-                        <a href="{{url('/' ?? '' )}}" class="brand"><img src="{{asset('front/img/logo.svg') }}"></a>
+                     @if(isset($HeaderContentImage))
+                        @foreach($HeaderContentImage as $image)
+                           @if($image->meta_key == 'header logo')
+                              <a href="{{url('/' ?? '' )}}" class="brand"><img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}"></a>
+                           @endif
+                        @endforeach
+                     @endif   
                      </div>
                   </div>
                   <div id="myID" class="search-box">
-                     <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
+                     <input type="text" placeholder="{{__('home.header_page_search_placeholder')}}">
                      <i class="fa fa-search"></i>
                   </div>
                   <div class="header_button_col">
@@ -162,9 +171,16 @@
                <div class="col-lg-9">
                   <div class="foot-row-lft p_80">
                      <div class="foot-logo">
-                        <a href="index.html">
+                        @if(isset($homeContantImage))
+                           @foreach($homeContantImage as $image)
+                              @if($image->meta_key == 'logo image')
+                                 <a href="{{url('/' ?? '' )}}" class="brand"><img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}"></a>
+                              @endif
+                           @endforeach
+                        @endif   
+                        <!-- <a href="index.html">
                            <img src="{{asset('front/img/foot-logo.svg') }}" alt="">
-                        </a>
+                        </a> -->
                      </div>
                      <div class="foot-col">
                         <h6>Discover</h6>
