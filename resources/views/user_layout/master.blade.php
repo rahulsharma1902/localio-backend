@@ -171,16 +171,9 @@
                <div class="col-lg-9">
                   <div class="foot-row-lft p_80">
                      <div class="foot-logo">
-                        @if(isset($homeContantImage))
-                           @foreach($homeContantImage as $image)
-                              @if($image->meta_key == 'logo image')
-                                 <a href="{{url('/' ?? '' )}}" class="brand"><img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}"></a>
-                              @endif
-                           @endforeach
-                        @endif   
-                        <!-- <a href="index.html">
+                        <a href="index.html">
                            <img src="{{asset('front/img/foot-logo.svg') }}" alt="">
-                        </a> -->
+                        </a>
                      </div>
                      <div class="foot-col">
                         <h6>Discover</h6>

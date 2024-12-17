@@ -58,25 +58,6 @@ class SiteContentController extends Controller
         $this->uploadImages($request, 'find_tool_right_image');
         $this->uploadBrandImages($request);
 
-        // Handle text updates
-        $this->updateMetaValues($request, 'header_title');
-        $this->updateMetaValues($request, 'header_description');
-        $this->updateMetaValues($request, 'trusted_brand');
-        $this->updateMetaValues($request, 'popular_text');
-        $this->updateMetaValues($request, 'exlusive_deal');
-        $this->updateMetaValues($request, 'exlusive_lable');
-        $this->updateMetaValues($request, 'get_deal_lable');
-        $this->updateMetaValues($request, 'ai_search_title');
-        $this->updateMetaValues($request, 'ai_search_desc');
-        $this->updateMetaValues($request, 'top_product_text');
-        $this->updateMetaValues($request, 'all_product_lable');
-        $this->updateMetaValues($request, 'latest_review_text');
-        $this->updateMetaValues($request, 'write_review_lable');
-        $this->updateMetaValues($request, 'read_article_text');
-        $this->updateMetaValues($request, 'view_article_lable');
-        $this->updateMetaValues($request, 'find_tool_text');
-        $this->updateMetaValues($request, 'get_button_lable');
-        $this->updateMetaValues($request, 'visit_wwebsite');
         return redirect()->back()->with('success', 'Home content updated successfully.');
     }
 
