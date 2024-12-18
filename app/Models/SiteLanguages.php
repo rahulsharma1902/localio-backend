@@ -24,6 +24,7 @@ class SiteLanguages extends Model
     {
         return $this->hasMany(FaqTranslation::class, 'language_id');
     }
+<<<<<<< HEAD
     public function productTranslations()
     {
         return $this->hasMany(ProductTranslation::class, 'language_id');
@@ -36,5 +37,7 @@ class SiteLanguages extends Model
     {
         return $this->hasMany(ProductKeyFeatureTranslation::class, 'language_id');
     }
+=======
+>>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
         
 }

@@ -265,138 +265,138 @@
             </div>
             <div class="altr-mid-div">
                 <div class="altr-mid-hd d-flex">
-                <div class="poplr-img">
-                    <img src="{{asset('front/img/poplr-zero.svg') }}" alt="">
-                </div>
-                <div class="poplr-txt">
-                    <h6 class="fw_700 h6_26">Xero</h6>
-                    <div class="tp-btm d-flex">
-                        <div class="inn_ul">
-                            <li>5.0</li>
-                            <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                            <li><i class="fa-solid fa-angle-down"></i>
-                            </li>
-                        </div>
-                        <div class="rate_box">
-                            124 ratings
+                    <div class="poplr-img">
+                        <img src="{{asset('front/img/poplr-zero.svg') }}" alt="">
+                    </div>
+                    <div class="poplr-txt">
+                        <h6 class="fw_700 h6_26">Xero</h6>
+                        <div class="tp-btm d-flex">
+                            <div class="inn_ul">
+                                <li>5.0</li>
+                                <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
+                                <li><i class="fa-solid fa-angle-down"></i>
+                                </li>
+                            </div>
+                            <div class="rate_box">
+                                124 ratings
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
                 <div class="poplr-span-txt h_80">
-                <p class="m-0"><span>$19</span> /Month</p>
+                    <p class="m-0"><span>$19</span> /Month</p>
                 </div>
                 <div class="poplr-vrsion-trial h_80">
-                <ul class="list-unstyled d-flex m-0">
-                    <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Version</li>
-                    <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Trial</li>
-                </ul>
+                    <ul class="list-unstyled d-flex m-0">
+                        <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Version</li>
+                        <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Trial</li>
+                    </ul>
                 </div>
                 <div class="poplr-progress">
-                <ul class="list-unstyled m-0">
-                    <li class=" h_80">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="100"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">5/5</output>
-                        </div>
-                    </li>
-                    <li class="h_80">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="80"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">4/5</output>
-                        </div>
-                    </li>
-                    <li class="h_80">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="60"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">3/5</output>
-                        </div>
-                    </li>
-                    <li class=" h_80">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="80"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">4/5</output>
-                        </div>
-                    </li>
-                </ul>
+                    <ul class="list-unstyled m-0">
+                        <li class=" h_80">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="100"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">5/5</output>
+                            </div>
+                        </li>
+                        <li class="h_80">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="80"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">4/5</output>
+                            </div>
+                        </li>
+                        <li class="h_80">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="60"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">3/5</output>
+                            </div>
+                        </li>
+                        <li class=" h_80">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="80"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">4/5</output>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <div class="poplr-visit-btn">
-                <a href="javascript:void(0) " class="cta cta_orange d-flex align-items-center">
-                    Visit Website
-                    <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M1.2647 5.84154C7.08595 5.84154 7.42894 5.84154 13.2205 5.84154C13.2304 5.81429 13.2403 5.78704 13.2403 5.75979C13.1017 5.6962 12.9631 5.63262 12.8245 5.55995C10.9435 4.62434 9.91386 3.14372 9.52775 1.25434C9.50795 1.18167 9.59705 1.09084 9.63665 1C9.72575 1.0545 9.86436 1.09992 9.89406 1.18167C10.0525 1.6086 10.1317 2.06278 10.3198 2.47154C11.1712 4.34275 12.6859 5.45095 14.8738 5.78704C15.0124 5.80521 15.1114 5.97779 15.25 6.0868C14.4778 6.32297 13.7947 6.45922 13.1908 6.72265C11.4286 7.49475 10.4089 8.82095 9.99306 10.5559C9.94356 10.7739 9.97326 11.11 9.51785 10.9647C9.87426 8.82095 10.6861 7.79451 13.3096 6.21397C13.0324 6.21397 12.8443 6.21397 12.6562 6.21397C7.20123 6.21397 7.18494 6.21397 1.7201 6.20488C1.5122 6.20488 1.1756 6.32297 1.2647 5.84154Z"
-                            fill="white" stroke="white" stroke-width="0.8" />
-                        <!-- Code injected by live-server -->
-                    </svg>
-                </a>
+                    <a href="javascript:void(0) " class="cta cta_orange d-flex align-items-center">
+                        Visit Website
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M1.2647 5.84154C7.08595 5.84154 7.42894 5.84154 13.2205 5.84154C13.2304 5.81429 13.2403 5.78704 13.2403 5.75979C13.1017 5.6962 12.9631 5.63262 12.8245 5.55995C10.9435 4.62434 9.91386 3.14372 9.52775 1.25434C9.50795 1.18167 9.59705 1.09084 9.63665 1C9.72575 1.0545 9.86436 1.09992 9.89406 1.18167C10.0525 1.6086 10.1317 2.06278 10.3198 2.47154C11.1712 4.34275 12.6859 5.45095 14.8738 5.78704C15.0124 5.80521 15.1114 5.97779 15.25 6.0868C14.4778 6.32297 13.7947 6.45922 13.1908 6.72265C11.4286 7.49475 10.4089 8.82095 9.99306 10.5559C9.94356 10.7739 9.97326 11.11 9.51785 10.9647C9.87426 8.82095 10.6861 7.79451 13.3096 6.21397C13.0324 6.21397 12.8443 6.21397 12.6562 6.21397C7.20123 6.21397 7.18494 6.21397 1.7201 6.20488C1.5122 6.20488 1.1756 6.32297 1.2647 5.84154Z"
+                                fill="white" stroke="white" stroke-width="0.8" />
+                            <!-- Code injected by live-server -->
+                        </svg>
+                    </a>
                 </div>
             </div>
             <div class="altr-rgt-div">
                 <div class="altr-mid-hd d-flex b_btm p_lft">
-                <div class="poplr-img">
-                    <img src="{{asset('front/img/lyt-rd-grey.svg') }}">
-                </div>
-                <div class="poplr-txt">
-                    <h6 class="fw_700 h6_26">Asana</h6>
-                    <div class="tp-btm d-flex">
-                        <div class="inn_ul">
-                            <li>5.0</li>
-                            <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                            <li><i class="fa-solid fa-angle-down"></i>
-                            </li>
-                        </div>
-                        <div class="rate_box">
-                            124 ratings
+                    <div class="poplr-img">
+                        <img src="{{asset('front/img/lyt-rd-grey.svg') }}">
+                    </div>
+                    <div class="poplr-txt">
+                        <h6 class="fw_700 h6_26">Asana</h6>
+                        <div class="tp-btm d-flex">
+                            <div class="inn_ul">
+                                <li>5.0</li>
+                                <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
+                                <li><i class="fa-solid fa-angle-down"></i>
+                                </li>
+                            </div>
+                            <div class="rate_box">
+                                124 ratings
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
                 <div class="poplr-span-txt b_btm h_80 p_lft">
-                <p class="m-0"><span>$19</span> /Month</p>
+                    <p class="m-0"><span>$19</span> /Month</p>
                 </div>
                 <div class="poplr-vrsion-trial b_btm h_80 p_lft">
-                <ul class="list-unstyled d-flex m-0">
-                    <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Version</li>
-                    <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Trial</li>
-                </ul>
+                    <ul class="list-unstyled d-flex m-0">
+                        <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Version</li>
+                        <li><img src="{{asset('front/img/tik-mrk.svg') }}">Free Trial</li>
+                    </ul>
                 </div>
                 <div class="poplr-progress">
-                <ul class="list-unstyled m-0">
-                    <li class="b_btm h_80 p_lft">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="100"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">5/5</output>
-                        </div>
-                    </li>
-                    <li class="b_btm h_80 p_lft">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="80"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">4/5</output>
-                        </div>
-                    </li>
-                    <li class="b_btm h_80 p_lft">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="60"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">3/5</output>
-                        </div>
-                    </li>
-                    <li class="b_btm h_80 p_lft">
-                        <div class="prgs_br d-flex">
-                            <progress class="progress-bar" id="progress-bar-1" value="80"
-                            max="100">10%</progress>
-                            <output id="progress-output-1">4/5</output>
-                        </div>
-                    </li>
-                </ul>
+                    <ul class="list-unstyled m-0">
+                        <li class="b_btm h_80 p_lft">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="100"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">5/5</output>
+                            </div>
+                        </li>
+                        <li class="b_btm h_80 p_lft">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="80"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">4/5</output>
+                            </div>
+                        </li>
+                        <li class="b_btm h_80 p_lft">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="60"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">3/5</output>
+                            </div>
+                        </li>
+                        <li class="b_btm h_80 p_lft">
+                            <div class="prgs_br d-flex">
+                                <progress class="progress-bar" id="progress-bar-1" value="80"
+                                max="100">10%</progress>
+                                <output id="progress-output-1">4/5</output>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

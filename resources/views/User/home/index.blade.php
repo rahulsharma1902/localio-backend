@@ -1,56 +1,100 @@
 
 @extends('user_layout.master')
 @section('content')
+<!-- new html -->
+<style>
+    .trust-brnd-marque {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .marq-innr {
+        display: inline-block;
+        padding-right: 20px;
+        animation: marquee 10s linear infinite;
+   
+    }
+
+    @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+</style>
 <section class="banner_sec dark" style="background-color: #003F7D;">
-   <div class="bubble-wrp">
-      <img src="{{asset('front/img/bnnr-bg.png') }}" alt="">
-   </div>
-   <div class="banner_content">
-      <div class="container">
-         <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
-            <div class="banner_text_col">
-               <div class="banner_content_inner">
-                  <!-- <h1>Find the Best Deals and Save on Your Next Purchase!</h1> -->
-                  <h1>{{ __('home.heading') }}</h1>
-                  <!-- <p>Get free, unbiased product comparisons, read real customer reviews, and track prices at Localio
-                     to score the best offers. </p> -->
-                     <p> {{ __('home.sub_heading') }} </p>
-                  <div class="search-bar-wrp">
-                     <div class="search-box">
-                        <input type="text" placeholder="Enter a product, category, or what you’d like to compare...">
-                        <i class="fa fa-search"></i>
+      <div class="bubble-wrp">
+         @php
+            $homeContantImage = \App\Models\HomeContent::where('lang_code','en')->get();
+         @endphp
+         @if(isset($homeContantImage))
+            @foreach($homeContantImage as $image)
+               @if($image->meta_key == 'header background image')
+                     <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+               @endif
+            @endforeach
+         @endif   
+      </div>
+         <div class="banner_content">
+            <div class="container">
+               <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
+                  <div class="banner_text_col">
+                     <div class="banner_content_inner">
+                           <h1>{{__('home.home_page_heading')}}</h1>
+                           <p>{{ __('home.home_page_header_description') }}</p>
+                        <div class="search-bar-wrp">
+                           <div class="search-box">
+                              <input type="text" placeholder="{{__('home.home_page_search_placeholder')}}">
+                              <i class="fa fa-search"></i>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="banner_image_col">
+                     <div class="banner_image">
+                        @if(isset($homeContantImage))
+                              @foreach($homeContantImage as $image)
+                                 @if($image->meta_key == 'header image')
+                                    <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+                                 @endif
+                              @endforeach
+                        @endif
                      </div>
                   </div>
                </div>
             </div>
-            <div class="banner_image_col">
-               <div class="banner_image">
-                  <img src="{{asset('front/img/banner_image.png') }}" class="banner_top_image">
-               </div>
-            </div>
          </div>
-      </div>
-   </div>
-</section>
+   </section>
+<!-- end  -->
    <!-- section trusted brands marquee -->
 <section class="trusted-brands">
    <div class="container">
       <div class="trst-brnd-wrp">
          <div class="brnd-wrp-lft">
-            <p class="m-0 brnd-p-txt">Trusted Brands, Unbeatable Choices</p>
+            <p class="m-0 brnd-p-txt">
+               {{__('home.trusted_brands_text')}}
+            </p>
          </div>
+         
          <div class="trust-brnd-marque">
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img1.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img2.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img3.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img4.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img5.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img6.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img7.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img8.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img9.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img10.svg') }}" alt=""></div>
-            <div class="marq-innr"><img src="{{ asset('front/img/marq-img11.svg') }}" alt=""></div>
+            @foreach($homeContantImage as $content)
+               @if($content->meta_key == 'trusted brands image')
+                  @php
+                     $imageIds = json_decode($content->meta_value);
+                  @endphp
+                  @if(is_array($imageIds))
+                     @foreach($imageIds as $imageId)
+                        @php
+                           $media = \App\Models\HomeContentMedia::find($imageId);
+                        @endphp
+                           <div class="marq-innr">
+                              <img src="{{ asset($media->file_path) }}" alt="{{ $content->meta_key }}">
+                           </div>
+                     @endforeach
+                  @else
+                     <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}" style="width: 100px; height: auto;">
+                  @endif
+               @endif
+            @endforeach
          </div>
       </div>
    </div>
@@ -60,7 +104,9 @@
    <div class="container">
       <div class="most-popular-wrp" data-aos="fade-up" data-aos-duration="1000">
          <div class="most_hed">
-            <h2 class="text-center">Most Popular</h2>
+            <h2 class="text-center">
+               <h2 class="text-center">{{ __('home.most_popular_text')}}</h2>
+            </h2>
          </div>
          <div class="popular-accordion-wrp">
             <div class="accordion" id="accordionExample">
@@ -83,7 +129,7 @@
                                     <div class="accor-lft-img">
                                        <img src="{{asset('front/img/accor-bdy-img.png') }}" alt="">
                                     </div>
-                                 </div>
+                                 </div> 
                                  <div class="col-lg-6 col-md-6">
                                     <div class="accor-txt-contnt">
                                        <h3>Lorem Ipsum has been the industry's standard dummy</h3>
@@ -119,12 +165,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -138,8 +192,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                      {{ __('home.visit_website' )}} 
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -170,12 +225,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -189,8 +252,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                      {{ __('home.visit_website' )}}  
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -218,12 +282,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -237,8 +309,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                      {{ __('home.visit_website' )}}
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -301,19 +374,30 @@
                                                    <div class="sl_main">
                                                       <h6 class="head">Xero</h6>
                                                       <div class="wishlist">
-                                                         <a href="#" class="heart-container">
+                                                         <a href="">
+                                                            <div class="right-arw">
+                                                               <img src="img/right-arrw.svg" alt="">
+                                                            </div>
                                                          </a>
                                                       </div>
                                                    </div>
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -327,8 +411,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                      {{ __('home.visit_website' )}}
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -359,12 +444,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -378,8 +471,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                      {{ __('home.visit_website' )}}
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -393,7 +487,7 @@
                                        <div class="inner_box_silder  top-rate-innr ">
                                           <div class="inn_sl_hed mst_hdn">
                                              <div class="sli_img">
-                                                <img class="slider_img" src="{{asset('front/img/slider3_img.png') }}" alt="">
+                                                <img class="slider_img" src="img/slider3_img.png" alt="">
                                              </div>
                                              <div class="sl_h">
                                                 <div class="inn_h">
@@ -407,12 +501,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -426,8 +528,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                      {{ __('home.visit_website' )}}
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -443,15 +546,15 @@
                   </div>
                </div>
                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingThree">
+                  <h2 class="accordion-header" id="headingTwo">
                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                         <div class="accor-img">
                            <img src="{{asset('front/img/accordion-img3.png') }}" alt="">
                         </div> Finance & Accounting
                      </button>
                   </h2>
-                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                      data-bs-parent="#accordionExample">
                      <div class="accordion-body">
                         <div class="accordion-bdy-wrp">
@@ -490,19 +593,30 @@
                                                    <div class="sl_main">
                                                       <h6 class="head">Xero</h6>
                                                       <div class="wishlist">
-                                                         <a href="#" class="heart-container">
+                                                         <a href="">
+                                                            <div class="right-arw">
+                                                               <img src="img/right-arrw.svg" alt="">
+                                                            </div>
                                                          </a>
                                                       </div>
                                                    </div>
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -516,8 +630,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                      {{ __('home.visit_website' )}}
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -534,7 +649,7 @@
                                           </div>
                                           <div class="inn_sl_hed mst_hdn mt-4">
                                              <div class="sli_img">
-                                                <img class="slider_img" src="{{asset('front/img/slider2_img.png') }}" alt="">
+                                                <img class="slider_img" src="{{asset('front/img/slider2_img.svg') }}" alt="">
                                              </div>
                                              <div class="sl_h">
                                                 <div class="inn_h">
@@ -548,12 +663,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -567,8 +690,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                                      {{ __('home.visit_website' )}}
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -582,7 +706,7 @@
                                        <div class="inner_box_silder  top-rate-innr ">
                                           <div class="inn_sl_hed mst_hdn">
                                              <div class="sli_img">
-                                                <img class="slider_img" src="{{asset('front/img/slider3_img.png') }}" alt="">
+                                                <img class="slider_img" src="img/slider3_img.png" alt="">
                                              </div>
                                              <div class="sl_h">
                                                 <div class="inn_h">
@@ -596,12 +720,20 @@
                                                 </div>
                                                 <div class="tp-btm d-flex">
                                                    <div class="inn_ul">
-                                                      <li>5.0</li>
-                                                      <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                                      <li><i class="fa-solid fa-angle-down"></i>
-                                                      </li>
+                                                      
+                                                      <div class="tab_star_li">
+                                                         <span class="rating-on rate-1" data-rating="1"></span>
+                                                         <span class="rating-on rate-2" data-rating="2"></span>
+                                                         <span class="rating-on rate-3" data-rating="3"></span>
+                                                         <span class="rating-on rate-4" data-rating="4"></span>
+                                                         <span class="rating-on rate-5" data-rating="5"></span>
+                                                         
+                                                      </div>
+                                                      <div><i class="fa-solid fa-angle-down"></i>
+                                                      </div>
+                                                      
                                                    </div>
-                                                   <div class="rate_box"> 124 ratings </div>
+                                                   <div class="rate_box">5.0 | 124 ratings</div>
                                                 </div>
                                              </div>
                                           </div>
@@ -615,8 +747,9 @@
                                           </div>
                                           <div class="top-pro-box">
                                              <div class="top-pro-btn ">
-                                                <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                                   Website <div class="right-arw">
+                                                <a href="" class="cta cta_orange d-flex align-items-center">
+                                                      {{ __('home.visit_website' )}}
+                                                   <div class="right-arw">
                                                       <i class="fa-solid fa-arrow-right"></i>
                                                    </div>
                                                 </a>
@@ -642,10 +775,11 @@
       <div class="container">
          <div class="slider_h">
             <div class="head_box">
-               <h2>Exclusive deals</h2>
+               <h2 class="text-center">{{ __('home.exclusive_deals_text' )}}</h2>
             </div>
             <div class="review_box text-right revw-width">
-               <a class="cta cta_white" href="#">All Exclusive deals</a>
+               <a class="cta cta_white" href="#">{{ __('home.all_exclusive_lable' )}}</a>
+               <!-- <a class="cta cta_white" href="#">All Exclusive deals</a> -->
             </div>
          </div>
       </div>
@@ -674,7 +808,7 @@
                   <p class="grey-txt "><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -695,7 +829,7 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -716,7 +850,7 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -737,7 +871,7 @@
                   <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                   </p>
                   <div class="xclu-txt-btn">
-                     <a href="" class="cta cta_white">Get This Deal</a>
+                     <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
                   </div>
                </div>
             </div>
@@ -756,23 +890,39 @@
          <div class="smart_search_section dark p_120 pt-0 ">
             <div class="smart_search_inner">
                <div class="smart_srch_content text-center size18">
-                  <h2>AI-Powered Smart Search</h2>
-                  <p class="smart-p">Quickly discover and compare the best products with our AI-powered search,
-                     designed to match your specific needs and preferences. </p>
+                     <h2>{{ __('home.ai_search_title')}}</h2>
+                     <p class="smart-p">
+                     {{ __('home.ai_search_description') }}</p>
                   <div class="smrt-srch-inpt">
                      <textarea rows="3"
-                        placeholder="Enter a product, category, or what you’d like to compare..."></textarea>
+                        placeholder="{{__('home.home_page_search_placeholder')}}"></textarea>
                      <div class="input-btn">
                         <button type="" class=""><img src="{{asset('front/img/btn-img.svg') }}" alt=""></button>
                      </div>
                   </div>
                </div>
-               <div class="back-image1">
+
+               @if(isset($homeContantImage))
+                  @foreach($homeContantImage as $image)
+                     @if($image->meta_key == 'ai section left image')
+                        <div class="back-image1">
+                           <img src="{{asset($image->meta_value) }}" class="image-pattern1" alt="{{$image->meta_key}}">
+                        </div>
+                     @endif
+                     @if($image->meta_key == 'ai section right image')
+                        <div class="back-image2">
+                           <img src="{{asset($image->meta_value) }}" class="image-pattern1" alt="{{$image->meta_key}}">
+                        </div>   
+                     @endif   
+                  @endforeach
+               @endif
+
+               <!-- <div class="back-image1">
                   <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
                </div>
                <div class="back-image2">
                   <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
-               </div>
+               </div> -->
             </div>
          </div>
          <!-- section top-rated -->
@@ -781,10 +931,10 @@
                <div class="container">
                   <div class="slider_h">
                      <div class="head_box">
-                        <h2>Top Rated Products</h2>
+                        <h2>{{ __('home.top_product_text') }}</h2>
                      </div>
                      <div class="review_box text-right">
-                        <a class="cta cta_white" href="#">All Top-Rated Products</a>
+                        <a class="cta cta_white" href="#">{{ __('home.all_product_lable')}}</a>
                      </div>
                   </div>
                </div>
@@ -810,11 +960,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -825,13 +984,14 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center">
+                                       {{ __('home.visit_website' )}}
+                                    <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>
@@ -858,11 +1018,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -873,13 +1042,14 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center">
+                                       {{ __('home.visit_website' )}}
+                                     <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>
@@ -906,11 +1076,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -921,13 +1100,14 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center">
+                                       {{ __('home.visit_website' )}}
+                                    <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>
@@ -954,11 +1134,20 @@
                                  </div>
                                  <div class="tp-btm d-flex">
                                     <div class="inn_ul">
-                                       <li>5.0</li>
-                                       <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                       <li><i class="fa-solid fa-angle-down"></i></li>
+                                       
+                                       <div class="tab_star_li">
+                                          <span class="rating-on rate-1" data-rating="1"></span>
+                                          <span class="rating-on rate-2" data-rating="2"></span>
+                                          <span class="rating-on rate-3" data-rating="3"></span>
+                                          <span class="rating-on rate-4" data-rating="4"></span>
+                                          <span class="rating-on rate-5" data-rating="5"></span>
+                                          
+                                       </div>
+                                       <div><i class="fa-solid fa-angle-down"></i>
+                                       </div>
+                                       
                                     </div>
-                                    <div class="rate_box"> 1245 ratings </div>
+                                    <div class="rate_box">5.0 | 124 ratings</div>
                                  </div>
                               </div>
                            </div>
@@ -969,13 +1158,14 @@
                               <div class="content_para"> Lorem Ipsum has been the industry's standard dummy text ever
                                  since the 1500s, when an unknown printer took a galley. </div>
                               <div class="view-more-btn">
-                                 <a href="" class="">View More</a>
+                                 <a href="" class="">{{__('home.view_more')}}</a>
                               </div>
                            </div>
                            <div class="top-pro-box">
                               <div class="top-pro-btn ">
-                                 <a href="" class="cta cta_orange d-flex align-items-center"> Visit
-                                    Website <div class="right-arw">
+                                 <a href="" class="cta cta_orange d-flex align-items-center"> 
+                                       {{ __('home.visit_website' )}} 
+                                    <div class="right-arw">
                                        <i class="fa-solid fa-arrow-right"></i>
                                     </div>
                                  </a>
@@ -998,10 +1188,12 @@
       <div class="container">
          <div class="slider_h">
             <div class="head_box">
-               <h2>Latest Reviews</h2>
+               <h2>{{__('home.latest_reviews_text')}}</h2>
             </div>
             <div class="review_box text-right">
-               <a class="cta cta_white" href="#">Write a Review</a>
+               <a class="cta cta_white" href="#">
+                  {{__('home.write_review_lable')}}
+               </a>
             </div>
          </div>
       </div>
@@ -1028,12 +1220,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                                 
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1072,12 +1272,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                                 
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1116,12 +1324,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                              
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1160,12 +1376,20 @@
                            </div>
                            <div class="tp-btm d-flex">
                               <div class="inn_ul">
-                                 <li>5.0</li>
-                                 <li><img src="{{asset('front/img/rew_star.png') }}" alt=""></li>
-                                 <li><i class="fa-solid fa-angle-down"></i>
-                                 </li>
+                                 
+                                 <div class="tab_star_li">
+                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                    
+                                 </div>
+                                 <div><i class="fa-solid fa-angle-down"></i>
+                                 </div>
+                              
                               </div>
-                              <div class="rate_box"> 124 ratings </div>
+                              <div class="rate_box">5.0 | 124 ratings</div>
                            </div>
                         </div>
                      </div>
@@ -1198,10 +1422,12 @@
       <div class="container">
          <div class="slider_h">
             <div class="head_box">
-               <h2>Read Our Articles</h2>
+               <h2>{{__('home.read_article_text')}}</h2>
             </div>
             <div class="review_box text-right">
-               <a class="cta cta_white" href="#">View All Articles</a>
+               <a class="cta cta_white" href="#">
+                  {{__('home.view_article_lable')}}
+               </a>
             </div>
          </div>
       </div>
@@ -1210,70 +1436,70 @@
       <div class="container">
          <div class="row">
             <div class="col-lg-4 col-md-4">
-               <div class="in_cont_box">
+               <a href="#" class="in_cont_box">
                   <div class="read_img">
-                     <a href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img1.png') }}" alt=""></a>
+                     <div class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img1.png') }}" alt=""></div>
                   </div>
                   <div class="read_content_in">
                      <div class="read_cont_h">
-                        <h3 class="read_text"><a href="#">Lorem Ipsum has been the industry's standard</a>
+                        <h3 class="read_text">Lorem Ipsum has been the industry's standard
                         </h3>
                      </div>
                      <div class="read_para">
                         <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                            unknown printer took a galley. </p>
                      </div>
-                     <div class="box_footer">
+                     <!-- <div class="box_footer">
                         <div class="more_read">
                            <a href="">Read More</a>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-lg-4 col-md-4">
-               <div class="in_cont_box">
+               <a href="#" class="in_cont_box">
                   <div class="read_img">
-                     <a href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img2.png') }}" alt=""></a>
+                     <div href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img2.png') }}" alt=""></div>
                   </div>
                   <div class="read_content_in">
                      <div class="read_cont_h">
-                        <h3 class="read_text"><a href="#">Lorem Ipsum has been the industry's standard</a>
+                        <h3 class="read_text">Lorem Ipsum has been the industry's standard
                         </h3>
                      </div>
                      <div class="read_para">
                         <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                            unknown printer took a galley. </p>
                      </div>
-                     <div class="box_footer">
+                     <!-- <div class="box_footer">
                         <div class="more_read">
                            <a href="">Read More</a>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-lg-4 col-md-4">
-               <div class="in_cont_box">
+               <a href="#" class="in_cont_box">
                   <div class="read_img">
-                     <a href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img3.png') }}" alt=""></a>
+                     <div href="#" class="blog_thumb"><img class="r_img" src="{{asset('front/img/read_img3.png') }}" alt=""></div>
                   </div>
                   <div class="read_content_in">
                      <div class="read_cont_h">
-                        <h3 class="read_text"><a href="#">Lorem Ipsum has been the industry's standard</a>
+                        <h3 class="read_text">Lorem Ipsum has been the industry's standard
                         </h3>
                      </div>
                      <div class="read_para">
                         <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                            unknown printer took a galley. </p>
                      </div>
-                     <div class="box_footer">
+                     <!-- <div class="box_footer">
                         <div class="more_read">
                            <a href="">Read More</a>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
-               </div>
+               </a>
             </div>
          </div>
       </div>
@@ -1283,7 +1509,9 @@
 <section class="right_tool_sec dark p_80">
    <div class="container">
       <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
-         <h2>Find the Right Tool</h2>
+         <div class="otr_rgtool">
+               <h2>{{__('home.find_tool_text')}}<h2>
+         </div>
          <div class="right-tool-pack">
             <div class="row">
                <div class="col-lg-4">
@@ -1292,7 +1520,7 @@
                         <img src="{{asset('front/img/right-tool-img1.png') }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Verified User Reviews</h3>
+                        <h3 class="tool_hed">Verified User Reviews</h3>
                         <p class="size18">Read real feedback from verified users to help you make the right choice.
                         </p>
                      </div>
@@ -1304,7 +1532,7 @@
                         <img src="{{asset('front/img/right-tool-img2.png') }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Feature and Price Comparisons</h3>
+                        <h3 class="tool_hed">Feature and Price Comparisons</h3>
                         <p class="size18">Easily compare software based on key features, pricing, and customer
                            ratings. </p>
                      </div>
@@ -1316,7 +1544,7 @@
                         <img src="{{asset('front/img/right-tool-img3.png') }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="h6_26">Independent Insights</h3>
+                        <h3 class="tool_hed">Independent Insights</h3>
                         <p class="size18">Access unbiased, data-driven research to get the most value from your
                            software. </p>
                      </div>
@@ -1325,32 +1553,41 @@
             </div>
          </div>
          <div class="right-tool-btn text-center">
-            <a href="" class="cta">Get Started</a>
+            <a href="" class="cta">
+               {{__('home.get_button_lable')}}
+            </a>
          </div>
       </div>
    </div>
-   <div class="back-image1">
-      <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
-   </div>
-   <div class="back-image2">
-      <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
-   </div>
+   @if(isset($homeContantImage))
+      @foreach($homeContantImage as $image)
+         <div class="back-image1">
+            @if($image->meta_key == 'find tool left image')
+                  <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+            @endif
+            <!-- <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt=""> -->
+         </div>
+         <div class="back-image2">
+         @if($image->meta_key == 'find tool right image')
+                  <img src="{{ asset($image->meta_value) }}" alt="{{ $image->meta_key }}">
+            @endif
+            <!-- <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt=""> -->
+         </div>
+      @endforeach
+   @endif
 </section>
-<!-- <script type="text/javascript"></script>
-<script>
-         $(document).ready(function () {
-         function checkScroll() {
-            const $myElement = $('#myID');
-            console.log($myElement);
-            if ($(window).scrollTop() > 460) {
-               $myElement.show();
-            } else {
-               $myElement.hide();
-            }
-         }
-         checkScroll();
-         $(window).on('scroll', checkScroll);
-      });
-</script> -->
+<script type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js"></script>
 
+<script>
+$(document).ready(function() {
+        $('.trust-brnd-marque').marquee({
+            duration: 5000,
+            gap: 20
+        });
+    });
+</script>
+
+</script>
 @endsection

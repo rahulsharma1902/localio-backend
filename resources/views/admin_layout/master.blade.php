@@ -22,7 +22,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css">
-
+    <link rel="stylesheet" href="{{asset('front/admin/style.css')}}">
     <!-- slick slider cdn -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="{{asset('front/admin/style.css')}}">
@@ -98,18 +98,39 @@
 
                                     </ul>
                                 </li>
+
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
+                                        <span class="nk-menu-text">Pages</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="{{url('/admin-dashboard/header-page')}}" class="nk-menu-link"><span class="nk-menu-text">Header Page</span></a>
+                                        </li>
+
+                                    </ul>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span class="nk-menu-text">home page</span></a>
+                                        </li>
+
+                                    </ul>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="{{url('/admin-dashboard/footer-page')}}" class="nk-menu-link"><span class="nk-menu-text">Footer page</span></a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
                                         <span class="nk-menu-text">Store Front</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                        <!-- <li class="nk-menu-item">
-                                            <a href="{{url('/admin-dashboard/article-category')}}" class="nk-menu-link"><span class="nk-menu-text">Article-Category</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{url('/admin-dashboard/article')}}" class="nk-menu-link"><span class="nk-menu-text">Article</span></a>
-                                        </li> -->
                                         <li class="nk-menu-item has-sub">
                                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                                 <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
@@ -171,6 +192,7 @@
                                                     </li>
                                                 </ul>
                                             </li>
+<<<<<<< HEAD
                                             <li class="nk-menu-item has-sub">
                                                 <a href="#" class="nk-menu-link nk-menu-toggle">
                                                     <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
@@ -185,6 +207,9 @@
                                                 </ul>
                                             </li>
                                         </li>
+=======
+                                        </li>    
+>>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
                                     </ul>
                                 </li>
                             </ul>

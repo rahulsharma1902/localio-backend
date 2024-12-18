@@ -153,8 +153,48 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="back-image1">
                 <img src="{{asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
+=======
+         </div>
+      </section>
+
+      <!-- section FAQ -->
+      <section class="faq-section p_120 pt-0 light">
+         <div class="container">
+            <div class="faq-inner">
+               <div class="faq-hd text-center"  data-aos="zoom-in" data-aos-duration="1000">
+                  <h2>Frequently Asked Questions</h2>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                     the industry's standard dummy text ever since the 1500s.
+                  </p>
+               </div>
+               @if(isset($faqs) && $faqs->isNotEmpty())
+                  <div class="faq-accor">
+                     <div class="accordion" id="accordionExample">
+                        @foreach($faqs as $faq)
+                           <div class="accordion-item" data-aos="fade-up" data-aos-duration="1000">
+                              <h2 class="accordion-header" id="heading{{ $faq->id }}">
+                                 <button class="accordion-button {{ $loop->first ? 'collapsed' : '' }}" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}" aria-expanded="false"
+                                    aria-controls="collapse{{ $faq->id }}">
+                                    <span>{{ $faq->translations->isNotEmpty() ? $faq->translations->first()->question : ($faq->question) ?? '' }}</span>
+                                 </button>
+                              </h2>
+                              <div id="collapse{{ $faq->id }}"
+                                 class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                 aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
+                                 <div class="accordion-body">
+                                    {{ strip_tags($faq->translations->isNotEmpty() ? $faq->translations->first()->answer : ($faq->answer) ?? '') }}
+                                 </div>
+                              </div>
+                           </div>
+                        @endforeach
+                     </div>
+                  </div>
+               @endif
+>>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
             </div>
             <div class="back-image2">
                 <img src="{{asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
@@ -198,6 +238,10 @@
                 </div>
             @endif
          </div>
+<<<<<<< HEAD
     </div>
 </section>
+=======
+      </section>
+>>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
 @endsection

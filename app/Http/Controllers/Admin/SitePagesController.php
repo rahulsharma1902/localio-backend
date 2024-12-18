@@ -287,7 +287,10 @@ class SitePagesController extends Controller
         $rule->delete();
         return redirect()->back()->with('success','rule remove successfully');
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
     public function faqs()
     {   
         // $faqs = Faq::all();
@@ -361,9 +364,12 @@ class SitePagesController extends Controller
         $faq->delete();
         return redirect()->back()->with('success','faq remove successfully');
     }
+<<<<<<< HEAD
 
     public function knowledgeBase()
     {
         return view('Admin.knowledge-base.index');
     }
+=======
+>>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
 }

@@ -4,8 +4,13 @@ namespace App\Http\Controllers\User\MetaPages;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use App\Models\Faq;
 use App\Models\SiteLanguages;
+=======
+use App\Models\SiteLanguages;
+use App\Models\Faq;
+>>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
 class MetaPagesController extends Controller
 {
     public function expertGuide()
@@ -26,6 +31,8 @@ class MetaPagesController extends Controller
 
         return view('User.meta-pages.support.help',compact('faqs'));
     }
+
+
     public function contact()
     {
         return view('User.meta-pages.support.contact');

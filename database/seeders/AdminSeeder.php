@@ -28,6 +28,14 @@ class AdminSeeder extends Seeder
                 'user_type' => "admin",
                 'status'=>'active',
             ],
+            [
+                'first_name' => 'user',
+                'last_name' => 'test',
+                'email' => 'user@gmail.com',
+                'password' => "password",
+                'user_type' => "user",
+                'status'=>'active',
+            ],
         ];
     
         foreach ($data as $d) {
