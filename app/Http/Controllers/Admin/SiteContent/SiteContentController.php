@@ -152,7 +152,7 @@ class SiteContentController extends Controller
             }
         }
     }
-
+  
     public function footerPage()
     {
         $footerContents = FooterContent::all();
