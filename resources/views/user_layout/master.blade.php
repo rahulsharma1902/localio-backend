@@ -39,6 +39,8 @@
                            <a href="{{ url('login') ?? '' }}" class="cta cta_trans">Login</a>
                            <a href="{{ url('register') ?? '' }}" class="cta cta_orange">Sign Up</a>
                         @endif
+
+                        <!-- this is neeraj branch -->
                      </div>
                   </div>
                </div>
