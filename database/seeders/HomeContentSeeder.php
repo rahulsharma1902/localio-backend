@@ -16,13 +16,13 @@ class HomeContentSeeder extends Seeder
     {
         DB::table('home_contents')->insert([
             
-            [
-                'meta_key' => 'logo image',
-                'meta_value' => 'front/img/logo.svg',
-                'lang_code' => 'en',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            // [
+            //     'meta_key' => 'logo image',
+            //     'meta_value' => 'front/img/logo.svg',
+            //     'lang_code' => 'en',
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
             // [
             //     'meta_key' => 'header title',
             //     'meta_value' => 'Find the Best Deals and Save on Your Next Purchase!',

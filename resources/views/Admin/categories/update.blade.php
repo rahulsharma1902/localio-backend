@@ -67,26 +67,11 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-6">
-                    <div class="form-group">
-                        <img src="{{ asset('CategoryImages') ?? '' }}/{{ $defaultCategory->image ?? '' }}" alt="">
-                    <!-- @if($category)
-                        @if( $category->image )
-                        {{ $category->language->name ?? '' }}
-                            <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->image ?? '' }}" alt="">
-                        @else
-                            <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->category->image ?? '' }}" alt="">
-                        @endif
-                    @endif
-                    -->
-                            
-                        </div>
-                    </div>
                     @if($category)
                         @if(!$category->getAttributes() || !array_key_exists('category_id', $category->getAttributes()))
-                        <div class="col-6">
+                        <div class="col-12">
                             <div class="form-group">
-                                <label class="form-label" for="image">Upload Icon</label>
+                                <label class="form-label" for="image">Upload Image</label>
                                 <div class="dz-message">
                                     <input type="file" class="form-control" name="image" id="image">
                                 </div>
@@ -97,8 +82,37 @@
                         </div>
                         @endif
                     @endif
+                    @if($category)
+                        @if( $category->image )
+                        {{ $category->language->name ?? '' }}
+                            <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->image ?? '' }}" alt="" style="width: 100px; height: 50px; border-radius: 5px";>
+                        @else
+                            <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->category->image ?? '' }}" alt=""style="width: 50px; height: 50px; border-radius: 5px";>
+                        @endif
+                    @endif
+                   
+                    @if($category)
+                        @if(!$category->getAttributes() || !array_key_exists('category_id', $category->getAttributes()))
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="image">Upload Icon</label>
+                                <div class="dz-message">
+                                    <input type="file" class="form-control" name="category_icon" id="categoryIcon">
+                                </div>
+                                @error('image')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        @endif
+                    @endif
+                    @if($category)
+                        @if( $category->category_icon )
+                            <img src="{{ asset('CategoryIcon') ?? '' }}/{{ $category->category_icon ?? '' }}" alt="" style="width: 50px; height: 50px; border-radius: 5px";>
+                        @endif
+                    @endif
                     <!-- Submit Button -->
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-5">
                         <div class="form-group">
                             <button type="submit" class="btn btn-lg btn-primary">Update</button>
                         </div>

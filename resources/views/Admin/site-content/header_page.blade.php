@@ -32,12 +32,12 @@
                     novalidate="novalidate" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row g-3">
+                        @if($lang_code == 'en')
                         <div class="card border">
                             <div class="card-header mt-3">
-                                Header Section
+                                Header Logo Section
                             </div>
                             <div class="card-body">
-                                @if($lang_code == 'en')
                                 <div class="col-md-12">
                                     @foreach($headerContents as $content)
                                     @if($content->meta_key == 'header logo')
@@ -59,8 +59,15 @@
                                     @endif
                                     @endforeach
                                 </div>
-                                @endif
+                            </div>
+                        </div>
+                        @endif
 
+                        <div class="card border">
+                            <div class="card-header mt-3">
+                                Header Search Placeholer Text
+                            </div>
+                            <div class="card-body">
                                 @foreach($mergedData as $key=>$val)
                                 @if($key === 'header_page_search_placeholder')
                                 <div class="form-group col-lg-12">
@@ -77,6 +84,157 @@
                                 @endforeach
                             </div>
                         </div>
+                        <div class="card border">
+                            <div class="card-header mt-3">
+                                Header Auth Section
+                            </div>
+                            <div class="card-body">
+                                @foreach($mergedData as $key=>$val)
+                                @if($key === 'login')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Login Button Lable</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Login Button Link</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" value="{{ url('') }}/login" readonly>
+                                        <a href="{{ url('') }}/login">Go to Login</a>
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @elseif($key === 'sign_up')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Sign Up Button Lable</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Sign Up Button Link</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" value="{{ url('') }}/register" readonly>
+                                        <a href="{{ url('') }}/register">Go to Sign Up</a>
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @elseif($key === 'sign_out')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Sign Out Button Lable</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Sign Out Button Link</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" value="{{ url('') }}/logout" readonly>
+                                        <a href="{{ url('') }}/logout">Go to Sign Out</a>
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                                @endforeach
+                            </div>
+
+                        </div>
+                        <div class="card border">
+                            <div class="card-header mt-3">
+                                Header Left Menu Section
+                            </div>
+                            <div class="card-body">
+                                @foreach($mergedData as $key=>$val)
+                                @if($key === 'categories')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Categories Text</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @elseif($key === 'top_rated_product')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Exclusive Deal Text</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @elseif($key === 'exclusive_deals_text')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Exclusive Deal Text</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="card border">
+                            <div class="card-header mt-3">
+                                Header Right Menu Section
+                            </div>
+                            <div class="card-body">
+                                @foreach($mergedData as $key=>$val)
+                                @if($key === 'expert_guides')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Expert Guides Text</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @elseif($key === 'help_center')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">help Center Text</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                        <div style="display:none;" class="spinner-border mt-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                                @endforeach
+                            </div>
+                        </div>
+
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary  text-center"><em

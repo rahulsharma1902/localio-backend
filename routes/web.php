@@ -212,16 +212,19 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/remove-product/{id}',[AdminProductController::class,'removeProduct'])->name('product-remove');
 
     // SiteContent Route
-    // Home Page Content
+
+    // Home Page Route
     Route::get('/admin-dashboard/home-page',[SiteContentController::class,'homeContent'])->name('home-content');
     Route::post('/admin-dashboard/home-page-update',[SiteContentController::class,'homeContentUpdate'])->name('home-content-update');
     Route::post('/admin-dashboard/update-lang-file',[SiteContentController::class,'updateLangFile'])->name('update-lang-file');
 
-    // Header Page Content
+    // Header Page Route
     Route::get('/admin-dashboard/header-page',[SiteContentController::class,'headerPage'])->name('header-page');
     Route::post('/admin-dashboard/header-page-update',[SiteContentController::Class,'headerContentUpdate'])->name('header-content-update');
 
-
+    // Footer Page Route
+    Route::get('/admin-dashboard/footer-page',[SiteContentController::class,'footerPage'])->name('footer-page');
+    Route::post('/admin-dashboard/footer-page-update',[SiteContentController::class,'footerPageUpdate'])->name('footer-page-update');
 });
 
 Route::group(['middleware' =>['vendor']],function(){

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\HeaderContent;
 use File;
+use App\Models\FooterContent;
+use App\Models\HomeContent;
+use App\Models\HomeContentMedia;
 class SiteContentController extends Controller
 {
     //
@@ -150,4 +153,34 @@ class SiteContentController extends Controller
         }
     }
 
+    public function footerPage()
+    {
+        $footerContents = FooterContent::all();
+
+        return view('Admin.site-content.footer_page',compact('footerContents'));
+    }
+    public function footerPageUpdate(Request $request)
+    {
+            $this->uploadImagesFooter($request, 'footer_logo');
+            $this->uploadImagesFooter($request, 'facebook_icon');
+            $this->uploadImagesFooter($request, 'instagram_icon');
+            $this->uploadImagesFooter($request, 'twitter_icon');
+            return redirect()->back()->with('success', 'Footer content updated successfully.');
+    }
+    private function uploadImagesFooter(Request $request, $imageField)
+    {
+        if ($request->hasFile($imageField)) {
+            foreach ($request->file($imageField) as $id => $file) {
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path($imageField), $fileName);
+
+                $homeContent = FooterContent::find($id);
+                if ($homeContent) {
+                    $homeContent->update([
+                        'meta_value' => $imageField . '/' . $fileName,
+                    ]);
+                }
+            }
+        }
+    }
 }

@@ -47,6 +47,7 @@ class CategoriesController extends Controller
     
     public function add(Request $request)
     {
+    
         $rules = [
             'name' => 'required|unique:categories,name' . ($request->id ? ',' . $request->id : ''),
             'slug' => 'required|unique:categories,slug' . ($request->id ? ',' . $request->id : ''),
@@ -82,6 +83,14 @@ class CategoriesController extends Controller
             $featuredImage->move(public_path().'/CategoryImages/',$featuredImageName);
             
             $category->image = $featuredImageName;    
+        }
+        if ($request->hasFile('category_icon')) {
+            $featuredImage = $request->file('category_icon');
+            $extension = $featuredImage->getClientOriginalExtension();
+            $featuredIconName = $request->slug.rand(0,1000).time().'.'.$extension;;
+            $featuredImage->move(public_path().'/CategoryIcon/',$featuredImageName);
+            
+            $category->category_icon = $featuredIconName;    
         }
 
         if ($category->save()) {
@@ -156,6 +165,15 @@ class CategoriesController extends Controller
     
                 $category->image = $featuredImageName;
             }
+            if ($request->hasFile('category_icon')) {
+                $featuredImage = $request->file('category_icon');
+                $extension = $featuredImage->getClientOriginalExtension();
+                $featuredIconName = $request->slug.rand(0,1000).time().'.'.$extension;;
+                $featuredImage->move(public_path().'/CategoryIcon/',$featuredIconName);
+                
+                $category->category_icon = $featuredIconName;    
+            }
+    
         }
         $category->name = $request->name ?? '';
         $category->slug = $request->slug ?? '';

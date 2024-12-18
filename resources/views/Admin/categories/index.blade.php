@@ -148,9 +148,20 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="form-label" for="image">Upload Icon</label>
+                            <label class="form-label" for="image">Upload Image</label>
                             <div class="dz-message">
                                 <input type="file" class="form-control" name="image" id="image">
+                            </div>
+                            @error('image')
+                                <div class="error text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="image">Upload Icon</label>
+                            <div class="dz-message">
+                                <input type="file" class="form-control" name="category_icon" id="categoryIcon">
                             </div>
                             @error('image')
                                 <div class="error text-danger">{{ $message }}</div>
@@ -179,6 +190,7 @@
                 this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
             });
         });
+
 </script>
 
 @endsection
