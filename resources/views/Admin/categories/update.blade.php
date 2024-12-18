@@ -68,6 +68,7 @@
                         </div>
                     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <div class="col-6">
                     <div class="form-group">
                         <!-- <img src="{{ asset('CategoryImages') ?? '' }}/{{ $defaultCategory->image ?? '' }}" alt=""> -->
@@ -85,6 +86,8 @@
                     </div>
 =======
 >>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
+=======
+>>>>>>> 9018ca24c1925fa2fe96c4f9451fccb069c0a01c
                     @if($category)
                         @if(!$category->getAttributes() || !array_key_exists('category_id', $category->getAttributes()))
                         <div class="col-12">
@@ -102,12 +105,22 @@
                     @endif
                     @if($category)
 <<<<<<< HEAD
+<<<<<<< HEAD
                         @if( $category->category_icon )
                             <img src="{{ asset('CategoryIcon') ?? '' }}/{{ $category->category_icon ?? '' }}" alt="" style="width: 50px; height: 50px; border-radius: 5px;>
+=======
+                        @if( $category->image )
+                        {{ $category->language->name ?? '' }}
+                            <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->image ?? '' }}" alt="" style="width: 100px; height: 50px; border-radius: 5px";>
+                        @else
+                            <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->category->image ?? '' }}" alt=""style="width: 50px; height: 50px; border-radius: 5px";>
+>>>>>>> 9018ca24c1925fa2fe96c4f9451fccb069c0a01c
                         @endif
                     @endif
+                   
                     @if($category)
                         @if(!$category->getAttributes() || !array_key_exists('category_id', $category->getAttributes()))
+<<<<<<< HEAD
                         <div class="col-6">
 =======
                         @if( $category->image )
@@ -122,6 +135,9 @@
                         @if(!$category->getAttributes() || !array_key_exists('category_id', $category->getAttributes()))
                         <div class="col-12">
 >>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
+=======
+                        <div class="col-12">
+>>>>>>> 9018ca24c1925fa2fe96c4f9451fccb069c0a01c
                             <div class="form-group">
                                 <label class="form-label" for="image">Upload Icon</label>
                                 <div class="dz-message">
@@ -135,13 +151,19 @@
                         @endif
                     @endif
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 9018ca24c1925fa2fe96c4f9451fccb069c0a01c
                     @if($category)
                         @if( $category->category_icon )
                             <img src="{{ asset('CategoryIcon') ?? '' }}/{{ $category->category_icon ?? '' }}" alt="" style="width: 50px; height: 50px; border-radius: 5px";>
                         @endif
                     @endif
+<<<<<<< HEAD
 >>>>>>> bd80246073b518778a92f0d8612fd5aedcb42df5
+=======
+>>>>>>> 9018ca24c1925fa2fe96c4f9451fccb069c0a01c
                     <!-- Submit Button -->
                     <div class="col-md-12 mt-5">
                         <div class="form-group">
