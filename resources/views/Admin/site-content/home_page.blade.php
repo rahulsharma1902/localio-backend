@@ -451,7 +451,6 @@
                             </div>
                         </div>
                     </div>
-                    @if($lang_code == 'en')
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
@@ -459,6 +458,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="col-md-12">
+                                    @if($lang_code == 'en')
                                     @foreach($homeContents as $content)
                                     @if($content->meta_key == 'find tool left image')
                                     <div class="form-group">
@@ -489,15 +489,133 @@
                                         @enderror
                                         @if(isset($content->meta_key))
                                         <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}"
-                                            style="width: 100px; height: auto;">
+                                            style="width: 50px; height: 50px;">
+                                        @endif
+                                    </div>
+
+                                    <!-- new -->
+                                    @elseif($content->meta_key == 'verified user reviews image')
+                                    <div class="form-group">
+                                        <label class="form-label" for="image">Verified Reviews Image</label>
+                                        <div class="dz-message">
+                                            <input type="file" class="form-control"
+                                                name="verified_reviews_image[{{$content->id}}]" id="metaValue"
+                                                value="{{ $content->value ?? ''}}">
+                                        </div>
+                                        @error('verified_reviews_image')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                        @if(isset($content->meta_key))
+                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2" alt="{{ $content->meta_key }}"
+                                            style="width: 50px; height: 50px;">
+                                        @endif
+                                    </div>
+                                    @elseif($content->meta_key == 'feature price image')
+                                    <div class="form-group">
+                                        <label class="form-label" for="image">Feature Price Image</label>
+                                        <div class="dz-message">
+                                            <input type="file" class="form-control"
+                                                name="feature_price_image[{{$content->id}}]" id="metaValue"
+                                                value="{{ $content->value ?? ''}}">
+                                        </div>
+                                        @error('feature_price_image')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                        @if(isset($content->meta_key))
+                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2" alt="{{ $content->meta_key }}"
+                                            style="width: 50px; height: 50px;">
+                                        @endif
+                                    </div>
+                                    @elseif($content->meta_key == 'independent image')
+                                    <div class="form-group">
+                                        <label class="form-label" for="image">Independent Image</label>
+                                        <div class="dz-message">
+                                            <input type="file" class="form-control"
+                                                name="independ_image[{{$content->id}}]" id="metaValue"
+                                                value="{{ $content->value ?? ''}}">
+                                        </div>
+                                        @error('independ_image')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                        @if(isset($content->meta_key))
+                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2" alt="{{ $content->meta_key }}"
+                                            style="width: 50px; height: 50px;">
                                         @endif
                                     </div>
                                     @endif
+                                   
                                     @endforeach
+                                    @endif
                                     @foreach($mergedData as $key => $val)
                                     @if($key === 'find_tool_text')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Find Tool Text</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'verified_user_reviews')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Verified User Reviews Text</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'read_real_feedback_from_verified_users')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Read Real feedback Text</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'feature_and_price_comparisons')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Feature And Price Comparision Text</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'easily_compare_software')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Easily Compare Software Text</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'independent_insights')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Independent Insights</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'access_unbiased_data_driven')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Access Unbiased Data Text</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control site_text_input" id="{{ $key }}"
                                                 name="{{ $key }}" value="{{ $val ?? '' }}" />
@@ -522,7 +640,6 @@
                                 </div>
                             </div>
                         </div>
-                        @endif
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary  text-center"><em

@@ -9,6 +9,8 @@ use File;
 use App\Models\FooterContent;
 use App\Models\HomeContent;
 use App\Models\HomeContentMedia;
+use App\Models\CategoryPageContent;
+use App\Models\TopProductContent;
 class SiteContentController extends Controller
 {
     //
@@ -59,6 +61,9 @@ class SiteContentController extends Controller
         $this->uploadImages($request, 'ai_right_image');
         $this->uploadImages($request, 'find_tool_left_image');
         $this->uploadImages($request, 'find_tool_right_image');
+        $this->uploadImages($request, 'verified_reviews_image');
+        $this->uploadImages($request, 'feature_price_image');
+        $this->uploadImages($request, 'independ_image');
         $this->uploadBrandImages($request);
 
         return redirect()->back()->with('success', 'Home content updated successfully.');
@@ -182,5 +187,41 @@ class SiteContentController extends Controller
                 }
             }
         }
+    }
+
+    public function categoriesPage()
+    {
+        $categoryPageContents = CategoryPageContent::where('lang_code','en')->get();
+
+        return view('Admin.site-content.categories_page',compact('categoryPageContents'));
+    }
+    public function categoryPageContentUpdate(Request $request)
+    {
+        $this->uploadImagesCategoryPage($request, 'category_header_image');
+        $this->uploadImagesCategoryPage($request, 'category_background_image');
+        return redirect()->back()->with('success', 'Category content updated successfully.');
+    }
+    private function uploadImagesCategoryPage(Request $request, $imageField)
+    {
+        if ($request->hasFile($imageField)) {
+            foreach ($request->file($imageField) as $id => $file) {
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path($imageField), $fileName);
+
+                $homeContent = CategoryPageContent::find($id);
+                if ($homeContent) {
+                    $homeContent->update([
+                        'meta_value' => $imageField . '/' . $fileName,
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function topProductPageContent()
+    {
+        $topProductContents = TopProductContent::where('lang_code','en')->get();
+
+        return view('Admin.site-content.top_product_page',compact('topProductContents'));
     }
 }

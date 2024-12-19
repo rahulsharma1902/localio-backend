@@ -1,10 +1,21 @@
 
 @extends('user_layout.master')
 @section('content')
+<?php
+   $categoryImages = \App\Models\CategoryPageContent::where('lang_code','en')->WhereIn('meta_key',['header image','header background image'])->get();
+   $headerImage = $categoryImages->where('meta_key','header image')->first();
+   $backgroundImage= $categoryImages->where('meta_key','header background image')->first();
+   
 
+?>
 <section class="banner_sec help-cntr-bnr inr-bnr dark " style="background-color: #003F7D;">
    <div class="bubble-wrp">
+      @if($backgroundImage)
+         <img src="{{asset($backgroundImage->meta_value) }}" alt="">
+      @else
       <img src="{{asset('front/img/small-bnnr-bg.png') }}" alt="">
+      @endif
+    
 
    </div>
    <div class="banner_content">
@@ -12,14 +23,14 @@
          <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
             <div class="banner_text_col">
                <div class="banner_content_inner">
-                  <h1>Browse Our Software Categories</h1>
-                  <p>Find your software in one of our 900+ categories. From Accounting to Yoga Studio
-                     Management, we cover it all!
+                  <h1>{{__('home.browse_our_software_categories')}}</h1>
+                  <p>
+                     {{__('home.find_your_software_in_one')}}
                   </p>
                   <div class="search-bar-wrp">
                      <div class="search-box">
                         <input type="text"
-                           placeholder="Enter a product, category, or what you’d like to compare...">
+                           placeholder="{{__('home.category_page_search_placeholder')}}">
                         <i class="fa fa-search"></i>
                      </div>
                   </div>
@@ -27,7 +38,12 @@
             </div>
             <div class="banner_image_col">
                <div class="banner_image">
+               @if($headerImage)
+                  <img src="{{asset($headerImage->meta_value) }}" alt="">
+               @else
                   <img src="{{asset('front/img/ctgry-bannr.png') }}" class="banner_top_image">
+               @endif
+                 
                </div>
             </div>
          </div>
@@ -39,7 +55,7 @@
    <div class="container">
       <div class="sfwr_content">
          <!-- <h2 data-aos="zoom-in" data-aos-duration="1000">What type of software are you looking for?</h2> -->
-         <h2 data-aos="zoom-in" data-aos-duration="1000">{{ __('home.category_page_heading') }}</h2>
+         <h2 data-aos="zoom-in" data-aos-duration="1000">{{ __('home.what_type_of_software') }}</h2>
          <div class="row gy-4">
             @foreach($categories as $category)
                <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">

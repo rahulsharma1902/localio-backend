@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([HomeContentSeeder::class,]);
         $this->call([HeaderContentSeeder::class]);
         $this->call([FooterSeeder::class]);
+        $this->call([CategoryPageContent::class]);
         
     }
 }

@@ -191,6 +191,28 @@ class HomeContentSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'meta_key' => 'verified user reviews image',
+                'meta_value' => 'front/img/right-tool-img1.png',
+                'lang_code' => 'en',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'feature price image',
+                'meta_value' => 'front/img/right-tool-img2.png',
+                'lang_code' => 'en',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'independent image',
+                'meta_value' => 'front/img/right-tool-img3.png',
+                'lang_code' => 'en',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
             // [
             //     'meta_key' => 'get button lable',
             //     'meta_value' => 'Get Started',

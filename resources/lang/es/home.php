@@ -41,4 +41,13 @@ return [
     'contact' => 'Contacto',
     'follow_us' => 'Síganos',
     'twitter' => 'Gorjeo',
+    'what_type_of_software' => '¿Qué tipo de software estás buscando?',
+    'browse_our_software_categories' => 'Explore nuestras categorías de software',
+    'find_your_software_in_one' => 'Encuentre su software en una de nuestras más de 900 categorías. Desde contabilidad hasta gestión de estudios de yoga, ¡lo cubrimos todo!',
+    'category_page_search_placeholder' => 'Ingresa un producto, categoría o lo que te gustaría comparar...',
+    'read_real_feedback_from_verified_users' => 'Lea comentarios reales de usuarios verificados para ayudarle a tomar la decisión correcta.',
+    'feature_and_price_comparisons' => 'Comparaciones de características y precios',
+    'easily_compare_software' => 'Compare fácilmente el software según las funciones clave, los precios y las valoraciones de los clientes.',
+    'independent_insights' => 'Perspectivas independientes',
+    'access_unbiased_data_driven' => 'Acceda a investigaciones imparciales basadas en datos para obtener el máximo valor de su software.',
 ];

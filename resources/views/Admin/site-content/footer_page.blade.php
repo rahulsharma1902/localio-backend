@@ -329,7 +329,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @elseif($content->meta_key === 'instagram logo')
+                                @elseif($content->meta_key === 'instagram icon')
                                 <div class="form-group">
                                     <label class="form-label" for="image">Instagram Icon</label>
                                     <div class="dz-message">
@@ -356,7 +356,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @elseif($content->meta_key === 'twitter logo')
+                                @elseif($content->meta_key === 'twitter icon')
                                 <div class="form-group">
                                     <label class="form-label" for="image">Twitter Icon</label>
                                     <div class="dz-message">

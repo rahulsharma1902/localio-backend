@@ -104,15 +104,25 @@
                                     </ul>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
-                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span class="nk-menu-text">home page</span></a>
+                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span class="nk-menu-text">home Page</span></a>
                                         </li>
 
                                     </ul>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
-                                            <a href="{{url('/admin-dashboard/footer-page')}}" class="nk-menu-link"><span class="nk-menu-text">Footer page</span></a>
+                                            <a href="{{url('/admin-dashboard/footer-page')}}" class="nk-menu-link"><span class="nk-menu-text">Footer Page</span></a>
                                         </li>
 
+                                    </ul>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="{{url('/admin-dashboard/categories-page')}}" class="nk-menu-link"><span class="nk-menu-text">Categories Page</span></a>
+                                        </li>
+                                    </ul>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="{{url('/admin-dashboard/top-product-page')}}" class="nk-menu-link"><span class="nk-menu-text">Top Product Page</span></a>
+                                        </li>
                                     </ul>
                                 </li>
 

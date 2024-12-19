@@ -225,6 +225,16 @@ Route::group(['middleware' =>['admin']],function(){
     // Footer Page Route
     Route::get('/admin-dashboard/footer-page',[SiteContentController::class,'footerPage'])->name('footer-page');
     Route::post('/admin-dashboard/footer-page-update',[SiteContentController::class,'footerPageUpdate'])->name('footer-page-update');
+
+    // Categories Page Content Route
+
+    Route::get('/admin-dashboard/categories-page',[SiteContentController::class,'categoriesPage'])->name('categories-page');
+    Route::post('/admin-dashboard/category-page-update',[SiteContentController::class,'categoryPageContentUpdate'])->name('category-page-content-update');
+
+    // Top Product Page Content Route
+
+    Route::get('/admin-dashboard/top-product-page',[SiteContentController::class,'topProductPageContent'])->name('top-product-page-content');
+    
 });
 
 Route::group(['middleware' =>['vendor']],function(){
