@@ -147,7 +147,7 @@
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Sign Out Button Link</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control" value="{{ url('') }}/logout" readonly>
+                                        <input type="text" class="form-control" value="{{ url('') }}/logout" >
                                         <a href="{{ url('') }}/logout">Go to Sign Out</a>
                                         <div style="display:none;" class="spinner-border mt-2" role="status">
                                             <span class="visually-hidden">Loading...</span>

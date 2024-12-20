@@ -18,10 +18,12 @@ class ViewController extends Controller
     {
 
         $langCode = getCurrentLocale(); 
-        $homeContents = HomeContent::where('lang_code', $langCode)->get(); 
+        $homeContents = HomeContent::where('lang_code', $langCode)->pluck('meta_value', 'meta_key');
         if($homeContents->isEmpty())
         {
-            $homeContents = HomeContent::where('lang_code','en')->get();
+            // $homeContents = HomeContent::where('lang_code', 'en')->pluck('meta_value', 'meta_key');     
+            $homeContents = HomeContent::where('lang_code', 'en')->pluck('meta_value', 'meta_key');     
+          
         }
         return view('User.home.index',compact('homeContents'));
     }

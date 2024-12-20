@@ -11,13 +11,29 @@ use App\Models\HomeContent;
 use App\Models\HomeContentMedia;
 use App\Models\CategoryPageContent;
 use App\Models\TopProductContent;
+use App\Models\SiteLanguages;
+use Session;
 class SiteContentController extends Controller
 {
-    //
-
     public function homeContent()
     {
-        return view('Admin.site-content.home_page');
+        $lang = getCurrentLocale();  
+        $allHomeContents = homeContent::where('lang_code', $lang)->get();
+        $currentLanguage = SiteLanguages::where('handle', $lang)->first();
+        if ($allHomeContents->isEmpty()) {
+            $englishHomeContents = homeContent::where('lang_code', 'en')->get();
+            foreach ($englishHomeContents as $content) {
+                $newHomeContent = new homeContent;
+                $newHomeContent->meta_key = $content->meta_key;
+                $newHomeContent->meta_value = $content->meta_value;
+                $newHomeContent->lang_code = $currentLanguage->handle;  
+                $newHomeContent->type = $content->type;  
+                $newHomeContent->save();
+            }
+            $allHomeContents = homeContent::where('lang_code', $lang)->get();
+        }
+        
+        return view('Admin.site-content.home_page', compact('allHomeContents'));
     }
     public function updateLangFile(Request $request)
     {
@@ -53,18 +69,62 @@ class SiteContentController extends Controller
 
     public function homeContentUpdate(Request $request)
     {
-        // Handle file uploads
-        $this->uploadImages($request, 'logo_image');
+        $this->uploadImages($request, 'ai_send_img');
         $this->uploadImages($request, 'header_image');
         $this->uploadImages($request, 'header_backgound_image');
         $this->uploadImages($request, 'ai_left_image');
         $this->uploadImages($request, 'ai_right_image');
+        $this->uploadImages($request, 'review_section_right_img');
+        $this->uploadImages($request, 'review_section_left_img');
         $this->uploadImages($request, 'find_tool_left_image');
         $this->uploadImages($request, 'find_tool_right_image');
         $this->uploadImages($request, 'verified_reviews_image');
         $this->uploadImages($request, 'feature_price_image');
         $this->uploadImages($request, 'independ_image');
         $this->uploadBrandImages($request);
+        $textFields = [
+            'header_title',
+            'header_description',
+            'placeholder_text',
+            'trusted_brand',
+            'most_popular',
+            'campare_business',
+            'visit_website',
+            'exclusive_deals',
+            'all_exclusive',
+            'get_this_deal',
+            'ai_title',
+            'ai_description',
+            'ai_placeholder',
+            'top_product',
+            'all_top_product',
+            'latest_reviews',
+            'write_review',
+            'read_article',
+            'view_all_article',
+            'find_tool',
+            'verify_user_review',
+            'verify_review_description',
+            'feature_price',
+            'feature_price_description',
+            'independent',
+            'independent_description',
+            'get_button_lable'
+        ];
+    
+        foreach ($textFields as $field) {
+            if ($request->has($field)) {
+                $data = $request->get($field);  // The data array for each text field
+                foreach ($data as $id => $value) {
+                    $homeContent = HomeContent::find($id);
+                    if ($homeContent) {
+                        $homeContent->update([
+                            'meta_value' => $value,  // Update the meta_value for the respective content
+                        ]);
+                    }
+                }
+            }
+        }
 
         return redirect()->back()->with('success', 'Home content updated successfully.');
     }

@@ -6,9 +6,10 @@
             <h4 class="title nk-block-title">Add Home Content</h4>
         </div>
     </div>
-    @php
-    $homeContents = \App\Models\HomeContent::where('lang_code','en')->get();
-    @endphp
+    <?php
+        $homeContents = \App\Models\HomeContent::where([['lang_code','en'],['type','file']])->get();
+       
+    ?>
     <?php
         $lang_code = getCurrentLocale(); 
         $languagePath = resource_path("lang/{$lang_code}/home.php"); 
@@ -27,7 +28,7 @@
 
         $mergedData = array_merge($defaultData, $homeData);
     ?>
-    @if(isset($homeContents))
+    @if(isset($homeContents) && isset($allHomeContents))
     <div class="card card-bordered">
         <div class="card-inner">
             <div class="nk-block">
@@ -40,47 +41,10 @@
                                 Home Banner Section
                             </div>
                             <div class="card-body">
-                                @foreach($mergedData as $key=>$val)
-                                @if($key === 'home_page_heading')
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="{{ $key }}">Heading</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @elseif($key === 'home_page_header_description')
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="{{ $key }}">Description</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @elseif($key === 'home_page_search_placeholder')
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="{{ $key }}">Home Page Search Placeholder</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-                                @endforeach
                                 @if($lang_code == 'en')
                                 <div class="col-md-12">
-
                                     @foreach($homeContents as $content)
-                                    @if($content->meta_key == 'header image')
+                                    @if($content->meta_key == 'header_img')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Header Image</label>
                                         <div class="dz-message">
@@ -96,7 +60,7 @@
                                             style="width: 100px; height: auto;">
                                         @endif
                                     </div>
-                                    @elseif($content->meta_key == 'header background image')
+                                    @elseif($content->meta_key == 'header_background_img')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Header Background Image</label>
                                         <div class="dz-message">
@@ -116,6 +80,34 @@
                                     @endforeach
                                 </div>
                                 @endif
+                                @foreach($allHomeContents as $key=>$val)
+                                @if($val->meta_key == 'header_title')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Heading</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="header_title[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? 'not data found' }}" />
+                                    </div>
+                                </div>
+                                @elseif($val->meta_key === 'header_description')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Description</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="header_description[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
+                                    </div>
+                                </div>
+                                @elseif($val->meta_key === 'placeholder_text')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">Home Page Search Placeholder</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="placeholder_text[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,10 +118,9 @@
                                 Trusted Brands Section
                             </div>
                             <div class="card-body">
-
                                 @if($lang_code == 'en')
                                 @foreach($homeContents as $content)
-                                @if($content->meta_key == 'trusted brands image')
+                                @if($content->meta_key == 'trusted_brands_img')
                                 <div class="form-group">
                                     <label class="form-label" for="image">Trusted brand images</label>
                                     <div class="dz-message">
@@ -165,66 +156,51 @@
                                 @endif
                                 @endforeach
                                 @endif
-                                @foreach($mergedData as $key=>$val)
-                                @if($key === 'trusted_brands_text')
+                                @elseif($val->meta_key === 'trusted_brands_text')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Trusted Brands Text</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control " id="{{ $key }}"
+                                            name="trusted_brand[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
 
                             </div>
                         </div>
                     </div>
+                    @elseif($val->meta_key === 'most_popular')
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
                                 Most Popular Section
                             </div>
                             <div class="card-body">
-                                @foreach($mergedData as $key => $val)
-                                @if($key === 'most_popular_text')
                                 <div class="form-group col-lg-12">
-                                    <label class="form-label" for="{{ $key }}">Most Popular text</label>
+                                    <label class="form-label" for="{{ $key }}">Most Popular</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="most_popular[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
+
                                     </div>
                                 </div>
-                                @elseif($key === 'compare_business_software')
+                                @elseif($val->meta_key=== 'campare_business')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Compare Software Button Lable</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="campare_business[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @elseif($key === 'visit_website')
+                                @elseif($val->meta_key === 'visit_website')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Visit Website Text</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="visit_website[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
+
                             </div>
                         </div>
                     </div>
@@ -234,46 +210,38 @@
                                 Exclusive deals
                                 Section
                             </div>
+                            @elseif($val->meta_key === 'exclusive_deals')
                             <div class="card-body">
-                                @foreach($mergedData as $key => $val)
-                                @if($key === 'exclusive_deals_text')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Exclusive Deals Text</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="exclusive_deals[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
+
                                     </div>
                                 </div>
-                                @elseif($key === 'all_exclusive_lable')
+                                @elseif($val->meta_key === 'all_exclusive')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">All Exclusive Lable</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="all_exclusive[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
+
                                     </div>
                                 </div>
-                                @elseif($key === 'get_deal_lable')
+                                @elseif($val->meta_key === 'get_this_deal')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Get Deal Lable</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="get_this_deal[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
@@ -282,13 +250,13 @@
                             <div class="card-body">
                                 @if($lang_code == 'en')
                                 @foreach($homeContents as $content)
-                                @if($content->meta_key == 'ai section left image')
+                                @if($content->meta_key =='ai_section_left_img')
                                 <div class="form-group">
 
                                     <label class="form-label" for="image">Ai Section Left Image</label>
                                     <div class="dz-message">
                                         <input type="file" class="form-control" name="ai_left_image[{{$content->id}}]"
-                                            id="metaValue" value="{{ $content->value ?? ''}}">
+                                            id="metaValue" value="{{ $content->meta->value ?? ''}}">
                                     </div>
                                     @error('ai_left_image')
                                     <div class="error text-danger">{{ $message }}</div>
@@ -299,13 +267,13 @@
                                         style="width: 100px; height: auto;">
                                     @endif
                                 </div>
-                                @elseif($content->meta_key == 'ai section right image')
+                                @elseif($content->meta_key == 'ai_section_right_img')
                                 <div class="form-group">
 
                                     <label class="form-label" for="image">Ai Section Right Image</label>
                                     <div class="dz-message">
                                         <input type="file" class="form-control" name="ai_right_image[{{$content->id}}]"
-                                            id="metaValue" value="{{ $content->value ?? ''}}">
+                                            id="metaValue" value="{{ $content->meta_value ?? ''}}">
                                     </div>
                                     @error('ai_right_image')
                                     <div class="error text-danger">{{ $message }}</div>
@@ -320,31 +288,56 @@
                                 @endforeach
 
                                 @endif
-                                @foreach($mergedData as $key => $val)
-                                @if($key === 'ai_search_title')
+                                @elseif($val->meta_key=== 'ai_title')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">AI Search Text</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="ai_title[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
+
                                     </div>
                                 </div>
-                                @elseif($key === 'ai_search_description')
+                                @elseif($val->meta_key === 'ai_description')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">AI Search Description</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="ai_description[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
+                                @elseif($val->meta_key === 'ai_placeholder')
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="{{ $key }}">AI Placeholder</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="ai_placeholder[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
+                                    </div>
+                                </div>
+                                @if($lang_code == 'en')
+                                @foreach($homeContents as $content)
+                                @if($content->meta_key =='ai_send_img')
+                                <div class="form-group">
+
+                                    <label class="form-label" for="image">AI Send Message Button Image</label>
+                                    <div class="dz-message">
+                                        <input type="file" class="form-control" name="ai_send_img[{{$content->id}}]"
+                                            id="metaValue" value="{{ $content->meta->value ?? ''}}">
+                                    </div>
+                                    @error('ai_send_img')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+
+                                    @if(isset($content->meta_key))
+                                    <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}"
+                                        style="width: 30px; height: 50px;">
+                                    @endif
+                                </div>
+                                <!-- add here ai image -->
                                 @endif
                                 @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -355,99 +348,117 @@
                                 Top Product Section
                             </div>
                             <div class="card-body">
-                                @foreach($mergedData as $key => $val)
-                                @if($key === 'top_product_text')
+                                @elseif($val->meta_key === 'top_product')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Top Product Text</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="top_product[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
+
                                     </div>
                                 </div>
-                                @elseif($key === 'all_product_lable')
+                                @elseif($val->meta_key === 'all_top_product')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">All Product Lable</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="all_top_product[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
+
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
                                 Latest Review Section
                             </div>
                             <div class="card-body">
-                                @foreach($mergedData as $key => $val)
-                                @if($key === 'latest_reviews_text')
+                                @elseif($val->meta_key === 'latest_reviews')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Latest Reviews Text</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="latest_reviews[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
+
                                     </div>
                                 </div>
-                                @elseif($key === 'write_review_lable')
+                                @elseif($val->meta_key === 'write_review')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Write Review Lable</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="write_review[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
                                 Read Article Section
                             </div>
                             <div class="card-body">
-                                @foreach($mergedData as $key => $val)
-                                @if($key === 'read_article_text')
+                                @if($lang_code == 'en')
+                                @foreach($homeContents as $content)
+                                @if($content->meta_key == 'review_section_right_img')
+                                <div class="form-group">
+                                    <label class="form-label" for="image">Review Section Right Image</label>
+                                    <div class="dz-message">
+                                        <input type="file" class="form-control"
+                                            name="review_section_right_img[{{$content->id}}]" id="metaValue"
+                                            value="{{ $content->value ?? ''}}">
+                                    </div>
+                                    @error('review_section_right_img')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                    @if(isset($content->meta_key))
+                                    <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}"
+                                        style="width: 100px; height: auto;">
+                                    @endif
+                                </div>
+                                @elseif($content->meta_key == 'review_section_left_img')
+                                <div class="form-group">
+                                    <label class="form-label" for="image">Review Section Left Image</label>
+                                    <div class="dz-message">
+                                        <input type="file" class="form-control"
+                                            name="review_section_left_img[{{$content->id}}]" id="metaValue"
+                                            value="{{ $content->value ?? ''}}">
+                                    </div>
+                                    @error('review_section_left_img')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                    @if(isset($content->meta_key))
+                                    <img src="{{ asset($content->meta_value) }}" alt="{{ $content->meta_key }}"
+                                        style="width: 50px; height: 50px;">
+                                    @endif
+                                </div>
+                                @endif
+                                @endforeach
+                                @endif
+                                @elseif($val->meta_key === 'read_article')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Read Article Text</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="read_article[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @elseif($key === 'view_article_lable')
+                                @elseif($val->meta_key === 'view_all_article')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">View Article Lable</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                            name="view_all_article[{{ $val->id }}]"
+                                            value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -460,7 +471,7 @@
                                 <div class="col-md-12">
                                     @if($lang_code == 'en')
                                     @foreach($homeContents as $content)
-                                    @if($content->meta_key == 'find tool left image')
+                                    @if($content->meta_key == 'find_tool_left_img')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Find Tool Section Left Image</label>
                                         <div class="dz-message">
@@ -476,7 +487,7 @@
                                             style="width: 100px; height: auto;">
                                         @endif
                                     </div>
-                                    @elseif($content->meta_key == 'find tool right image')
+                                    @elseif($content->meta_key == 'find_tool_right_img')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Find Tool Section Right Image</label>
                                         <div class="dz-message">
@@ -494,7 +505,7 @@
                                     </div>
 
                                     <!-- new -->
-                                    @elseif($content->meta_key == 'verified user reviews image')
+                                    @elseif($content->meta_key == 'user_reviews_img')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Verified Reviews Image</label>
                                         <div class="dz-message">
@@ -506,11 +517,11 @@
                                         <div class="error text-danger">{{ $message }}</div>
                                         @enderror
                                         @if(isset($content->meta_key))
-                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2" alt="{{ $content->meta_key }}"
-                                            style="width: 50px; height: 50px;">
+                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2"
+                                            alt="{{ $content->meta_key }}" style="width: 50px; height: 50px;">
                                         @endif
                                     </div>
-                                    @elseif($content->meta_key == 'feature price image')
+                                    @elseif($content->meta_key == 'price_compare_img')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Feature Price Image</label>
                                         <div class="dz-message">
@@ -522,11 +533,11 @@
                                         <div class="error text-danger">{{ $message }}</div>
                                         @enderror
                                         @if(isset($content->meta_key))
-                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2" alt="{{ $content->meta_key }}"
-                                            style="width: 50px; height: 50px;">
+                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2"
+                                            alt="{{ $content->meta_key }}" style="width: 50px; height: 50px;">
                                         @endif
                                     </div>
-                                    @elseif($content->meta_key == 'independent image')
+                                    @elseif($content->meta_key == 'independent_img')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Independent Image</label>
                                         <div class="dz-message">
@@ -538,101 +549,85 @@
                                         <div class="error text-danger">{{ $message }}</div>
                                         @enderror
                                         @if(isset($content->meta_key))
-                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2" alt="{{ $content->meta_key }}"
-                                            style="width: 50px; height: 50px;">
+                                        <img src="{{ asset($content->meta_value) }}" class="himg mt-2"
+                                            alt="{{ $content->meta_key }}" style="width: 50px; height: 50px;">
                                         @endif
                                     </div>
                                     @endif
-                                   
+
                                     @endforeach
                                     @endif
-                                    @foreach($mergedData as $key => $val)
-                                    @if($key === 'find_tool_text')
+                                    @elseif($val->meta_key === 'find_tool')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Find Tool Text</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="find_tool[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                         </div>
                                     </div>
-                                    @elseif($key === 'verified_user_reviews')
+                                    @elseif($val->meta_key === 'verify_user_review')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Verified User Reviews Text</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="verify_user_review[{{ $val->id }}]"
+                                                value="{{ $val->meta_value ?? '' }}" />
+
                                         </div>
                                     </div>
-                                    @elseif($key === 'read_real_feedback_from_verified_users')
+                                    @elseif($val->meta_key === 'verify_review_description')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Read Real feedback Text</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="verify_review_description[{{ $val->id }}]"
+                                                value="{{ $val->meta_value ?? '' }}" />
                                         </div>
                                     </div>
-                                    @elseif($key === 'feature_and_price_comparisons')
+                                    @elseif($val->meta_key === 'feature_price')
                                     <div class="form-group col-lg-12">
-                                        <label class="form-label" for="{{ $key }}">Feature And Price Comparision Text</label>
+                                        <label class="form-label" for="{{ $key }}">Feature And Price Comparision
+                                            Text</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="feature_price[{{ $val->id }}]"
+                                                value="{{ $val->meta_value ?? '' }}" />
                                         </div>
                                     </div>
-                                    @elseif($key === 'easily_compare_software')
+                                    @elseif($val->meta_key === 'feature_price_description')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Easily Compare Software Text</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="feature_price_description[{{ $val->id }}]"
+                                                value="{{ $val->meta_value ?? '' }}" />
                                         </div>
                                     </div>
-                                    @elseif($key === 'independent_insights')
+                                    @elseif($val->meta_key === 'independent')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Independent Insights</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="independent[{{ $val->id }}]"
+                                                value="{{ $val->meta_value ?? '' }}" />
                                         </div>
                                     </div>
-                                    @elseif($key === 'access_unbiased_data_driven')
+                                    @elseif($val->meta_key === 'independent_description')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Access Unbiased Data Text</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="independent_description[{{ $val->id }}]"
+                                                value="{{ $val->meta_value ?? '' }}" />
                                         </div>
                                     </div>
-                                    @elseif($key === 'get_button_lable')
+                                    @elseif($val->meta_key === 'get_button_lable')
                                     <div class="form-group col-lg-12">
                                         <label class="form-label" for="{{ $key }}">Get Button Lable</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                            <div style="display:none;" class="spinner-border mt-2" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="{{ $key }}"
+                                                name="get_button_lable[{{ $val->id }}]"
+                                                value="{{ $val->meta_value ?? '' }}" />
                                         </div>
                                     </div>
                                     @endif

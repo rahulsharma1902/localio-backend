@@ -28,23 +28,41 @@
 <section class="banner_sec dark" style="background-color: #003F7D;">
     <div class="bubble-wrp">
         <?php
-            $homeContantImages = \App\Models\HomeContent::where('lang_code','en')
-                  ->whereIn('meta_key',
-                  ['header background image','header image','trusted brands image','ai section left image','ai section right image','find tool right image','find tool left image','verified user reviews image','feature price image','independent image'])
-                  ->get();
-            $headerBackgroundImage = $homeContantImages->where('meta_key','header background image')->first();
-            $headerImage           = $homeContantImages->where('meta_key','header image')->first();
-            $trustedBrandImages = $homeContantImages->where('meta_key','trusted brands image')->first();
-       
-            $aiLeftImage = $homeContantImages->where('meta_key','ai section left image')->first();
-            $aiRightImage = $homeContantImages->where('meta_key','ai section right image')->first();
-            $findToolRightImage = $homeContantImages->where('meta_key','find tool right image')->first();
-            $findToolLeftImage = $homeContantImages->where('meta_key','find tool left image')->first();
-            $verifiedImage = $homeContantImages->where('meta_key','verified user reviews image')->first();
+           
+           $homeContantImages = \App\Models\HomeContent::where('lang_code', 'en')
+                                                        ->whereIn('meta_key', [
+                                                            'header_background_img',
+                                                            'header_img',
+                                                            'trusted_brands_img',
+                                                            'ai_section_left_img',
+                                                            'ai_section_right_img',
+                                                            'ai_send_img',
+                                                            'review_section_right_img',
+                                                            'review_section_left_img',
+                                                            'find_tool_left_img',
+                                                            'find_tool_right_img',
+                                                            'user_reviews_img',
+                                                            'price_compare_img',
+                                                            'independent_img'
+                                                        ])
+                                                        ->get()
+                                                        ->keyBy('meta_key'); // Convert to keyed collection by 'meta_key'
 
-            $featureImage = $homeContantImages->where('meta_key','feature price image')->first();
-            $indepentImage = $homeContantImages->where('meta_key','independent image')->first();
-            
+            // Now you can directly access each image based on the 'meta_key'
+            $headerBackgroundImage = $homeContantImages->get('header_background_img');
+            $headerImage = $homeContantImages->get('header_img');
+            $trustedBrandImages = $homeContantImages->get('trusted_brands_img');
+            $aiLeftImage = $homeContantImages->get('ai_section_left_img');
+            $aiRightImage = $homeContantImages->get('ai_section_right_img');
+            $findToolRightImage = $homeContantImages->get('find_tool_right_img');
+            $findToolLeftImage = $homeContantImages->get('find_tool_left_img');
+            $verifiedImage = $homeContantImages->get('user_reviews_img');
+            $featureImage = $homeContantImages->get('price_compare_img');
+            $indepentImage = $homeContantImages->get('independent_img');
+            $reviewRightImage        = $homeContantImages->get('review_section_right_img');
+            $reviewLeftImage        = $homeContantImages->get('review_section_left_img');
+            $aiImage        = $homeContantImages->get('ai_send_img');
+           
          ?>
         @if(isset($headerBackgroundImage))
         <img src="{{ asset($headerBackgroundImage->meta_value) }}" alt="{{ $headerBackgroundImage->meta_key }}">
@@ -57,11 +75,11 @@
             <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                 <div class="banner_text_col">
                     <div class="banner_content_inner">
-                        <h1>{{__('home.home_page_heading')}}</h1>
-                        <p>{{ __('home.home_page_header_description') }}</p>
+                        <h1>{{$homeContents['header_title'] ?? null;}}</h1>
+                        <p>{{$homeContents['header_description'] ?? null;}}</p>
                         <div class="search-bar-wrp">
                             <div class="search-box">
-                                <input type="text" placeholder="{{__('home.home_page_search_placeholder')}}">
+                                <input type="text" placeholder="{{$homeContents['placeholder_text'] ?? null;}}">
                                 <i class="fa fa-search"></i>
                             </div>
                         </div>
@@ -87,7 +105,7 @@
         <div class="trst-brnd-wrp">
             <div class="brnd-wrp-lft">
                 <p class="m-0 brnd-p-txt">
-                    {{__('home.trusted_brands_text')}}
+                    {{$homeContents['trusted_brands_text'] ?? null;}}
                 </p>
             </div>
 
@@ -120,7 +138,7 @@
         <div class="most-popular-wrp" data-aos="fade-up" data-aos-duration="1000">
             <div class="most_hed">
                 <h2 class="text-center">
-                    <h2 class="text-center">{{ __('home.most_popular_text')}}</h2>
+                    <h2 class="text-center">{{$homeContents['most_popular'] ?? null;}}</h2>
                 </h2>
             </div>
             <div class="popular-accordion-wrp">
@@ -156,7 +174,7 @@
                                                         centuries, but
                                                         also the leap into electronic typesetting. </p>
                                                     <div class="accor-btn">
-                                                        <a href="" class="cta cta_white">Compare Business Software</a>
+                                                        <a href="" class="cta cta_white">{{$homeContents['campare_business'] ?? null;}}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -222,7 +240,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -293,7 +311,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -361,7 +379,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -408,7 +426,7 @@
                                                         centuries, but
                                                         also the leap into electronic typesetting. </p>
                                                     <div class="accor-btn">
-                                                        <a href="" class="cta cta_white">Compare Business Software</a>
+                                                        <a href="" class="cta cta_white">{{$homeContents['campare_business'] ?? null;}}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -478,7 +496,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -550,7 +568,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -617,7 +635,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -664,7 +682,7 @@
                                                         centuries, but
                                                         also the leap into electronic typesetting. </p>
                                                     <div class="accor-btn">
-                                                        <a href="" class="cta cta_white">Compare Business Software</a>
+                                                        <a href="" class="cta cta_white"> {{$homeContents['campare_business'] ?? null;}}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -734,7 +752,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -806,7 +824,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -873,7 +891,7 @@
                                                             <div class="top-pro-btn ">
                                                                 <a href=""
                                                                     class="cta cta_orange d-flex align-items-center">
-                                                                    {{ __('home.visit_website' )}}
+                                                                    {{$homeContents['visit_website'] ?? null;}}
                                                                     <div class="right-arw">
                                                                         <i class="fa-solid fa-arrow-right"></i>
                                                                     </div>
@@ -900,10 +918,10 @@
         <div class="container">
             <div class="slider_h">
                 <div class="head_box">
-                    <h2 class="text-center">{{ __('home.exclusive_deals_text' )}}</h2>
+                    <h2 class="text-center">  {{$homeContents['exclusive_deals'] ?? null;}}</h2>
                 </div>
                 <div class="review_box text-right revw-width">
-                    <a class="cta cta_white" href="#">{{ __('home.all_exclusive_lable' )}}</a>
+                    <a class="cta cta_white" href="#">  {{$homeContents['all_exclusive'] ?? null;}}</a>
                     <!-- <a class="cta cta_white" href="#">All Exclusive deals</a> -->
                 </div>
             </div>
@@ -933,7 +951,7 @@
                         <p class="grey-txt "><span class="line-through">$459</span><span class="orange-txt">$367</span>
                         </p>
                         <div class="xclu-txt-btn">
-                            <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
+                            <a href="" class="cta cta_white">{{$homeContents['get_this_deal'] ?? null;}}</a>
                         </div>
                     </div>
                 </div>
@@ -954,7 +972,7 @@
                         <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                         </p>
                         <div class="xclu-txt-btn">
-                            <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
+                            <a href="" class="cta cta_white">{{$homeContents['get_this_deal'] ?? null;}}</a>
                         </div>
                     </div>
                 </div>
@@ -975,7 +993,7 @@
                         <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                         </p>
                         <div class="xclu-txt-btn">
-                            <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
+                            <a href="" class="cta cta_white">{{$homeContents['get_this_deal'] ?? null;}}</a>
                         </div>
                     </div>
                 </div>
@@ -996,7 +1014,7 @@
                         <p class="grey-txt"><span class="line-through">$459</span><span class="orange-txt">$367</span>
                         </p>
                         <div class="xclu-txt-btn">
-                            <a href="" class="cta cta_white">{{ __('home.get_deal_lable') }}</a>
+                            <a href="" class="cta cta_white">{{$homeContents['get_this_deal'] ?? null;}}</a>
                         </div>
                     </div>
                 </div>
@@ -1015,23 +1033,27 @@
             <div class="smart_search_section dark p_120 pt-0 ">
                 <div class="smart_search_inner">
                     <div class="smart_srch_content text-center size18">
-                        <h2>{{ __('home.ai_search_title')}}</h2>
+                        <h2>{{$homeContents['ai_title'] ?? null;}}</h2>
                         <p class="smart-p">
-                            {{ __('home.ai_search_description') }}</p>
+                        {{$homeContents['ai_description'] ?? null;}}</p>
                         <div class="smrt-srch-inpt">
-                            <textarea rows="3" placeholder="{{__('home.home_page_search_placeholder')}}"></textarea>
+                            <textarea rows="3" placeholder="{{$homeContents['ai_placeholder'] ?? null;}}"></textarea>
                             <div class="input-btn">
-                                <button type="" class=""><img src="{{asset('front/img/btn-img.svg') }}" alt=""></button>
+                                <button type="" class="">
+                                    @if(isset($aiImage))
+                                    <img src="{{ asset($aiImage->meta_value) }}" alt="">
+                                    @endif
+                                </button>
                             </div>
                         </div>
                     </div>
-                    @if(isset($aiLeftImage->meta_key))
+                    @if(isset($aiLeftImage))
                     <div class="back-image1">
                         <img src="{{asset($aiLeftImage->meta_value) }}" class="image-pattern1"
                             alt="{{$aiLeftImage->meta_key}}">
                     </div>
                     @endif
-                    @if(isset($aiRightImage->meta_key))
+                    @if(isset($aiRightImage))
                     <div class="back-image2">
                         <img src="{{asset($aiRightImage->meta_value) }}" class="image-pattern2"
                             alt="{{$aiRightImage->meta_key}}">
@@ -1052,10 +1074,10 @@
                     <div class="container">
                         <div class="slider_h">
                             <div class="head_box">
-                                <h2>{{ __('home.top_product_text') }}</h2>
+                                <h2>{{$homeContents['top_product'] ?? null;}}</h2>
                             </div>
                             <div class="review_box text-right">
-                                <a class="cta cta_white" href="#">{{ __('home.all_product_lable')}}</a>
+                                <a class="cta cta_white" href="#">{{$homeContents['all_top_product'] ?? null;}}</a>
                             </div>
                         </div>
                     </div>
@@ -1113,7 +1135,7 @@
                                     <div class="top-pro-box">
                                         <div class="top-pro-btn ">
                                             <a href="" class="cta cta_orange d-flex align-items-center">
-                                                {{ __('home.visit_website' )}}
+                                            {{$homeContents['visit_website'] ?? null;}}
                                                 <div class="right-arw">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -1173,7 +1195,7 @@
                                     <div class="top-pro-box">
                                         <div class="top-pro-btn ">
                                             <a href="" class="cta cta_orange d-flex align-items-center">
-                                                {{ __('home.visit_website' )}}
+                                                {{$homeContents['visit_website'] ?? null;}}
                                                 <div class="right-arw">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -1232,7 +1254,7 @@
                                     <div class="top-pro-box">
                                         <div class="top-pro-btn ">
                                             <a href="" class="cta cta_orange d-flex align-items-center">
-                                                {{ __('home.visit_website' )}}
+                                                 {{$homeContents['visit_website'] ?? null;}}
                                                 <div class="right-arw">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -1291,7 +1313,7 @@
                                     <div class="top-pro-box">
                                         <div class="top-pro-btn ">
                                             <a href="" class="cta cta_orange d-flex align-items-center">
-                                                {{ __('home.visit_website' )}}
+                                                    {{$homeContents['visit_website'] ?? null;}}
                                                 <div class="right-arw">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -1315,11 +1337,11 @@
         <div class="container">
             <div class="slider_h">
                 <div class="head_box">
-                    <h2>{{__('home.latest_reviews_text')}}</h2>
+                    <h2> {{$homeContents['latest_reviews'] ?? null;}}</h2>
                 </div>
                 <div class="review_box text-right">
                     <a class="cta cta_white" href="#">
-                        {{__('home.write_review_lable')}}
+                        {{$homeContents['write_review'] ?? null;}}
                     </a>
                 </div>
             </div>
@@ -1553,11 +1575,11 @@
         <div class="container">
             <div class="slider_h">
                 <div class="head_box">
-                    <h2>{{__('home.read_article_text')}}</h2>
+                    <h2>{{$homeContents['read_article'] ?? null;}}</h2>
                 </div>
                 <div class="review_box text-right">
                     <a class="cta cta_white" href="#">
-                        {{__('home.view_article_lable')}}
+                    {{$homeContents['view_all_article'] ?? null;}}
                     </a>
                 </div>
             </div>
@@ -1647,7 +1669,7 @@
     <div class="container">
         <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
             <div class="otr_rgtool">
-                <h2>{{__('home.find_tool_text')}}<h2>
+                <h2>{{$homeContents['find_tool'] ?? null;}}<h2>
             </div>
             <div class="right-tool-pack">
                 <div class="row">
@@ -1661,8 +1683,8 @@
                                 <!-- <img src="{{asset('front/img/right-tool-img1.png') }}" alt=""> -->
                             </div>
                             <div class="tool-crd-bdy">
-                                <h3 class="tool_hed">{{__('home.verified_user_reviews')}}</h3>
-                                <p class="size18">{{__('home.read_real_feedback_from_verified_users')}}
+                                <h3 class="tool_hed">{{$homeContents['verify_user_review'] ?? null;}}</h3>
+                                <p class="size18">{{$homeContents['verify_review_description'] ?? null;}}
                                 </p>
                             </div>
                         </div>
@@ -1679,9 +1701,9 @@
                                 <!-- <img src="{{asset('front/img/right-tool-img2.png') }}" alt=""> -->
                             </div>
                             <div class="tool-crd-bdy">
-                                <h3 class="tool_hed">{{__('home.feature_and_price_comparisons')}}</h3>
+                                <h3 class="tool_hed">{{$homeContents['feature_price'] ?? null;}}</h3>
                                 <p class="size18">
-                                    {{__('home.easily_compare_software')}}
+                                    {{$homeContents['feature_price_description'] ?? null;}}
                                 </p>
                             </div>
                         </div>
@@ -1695,8 +1717,8 @@
                                 <!-- <img src="{{asset('front/img/right-tool-img3.png') }}" alt=""> -->
                             </div>
                             <div class="tool-crd-bdy">
-                                <h3 class="tool_hed"> {{__('home.independent_insights')}}</h3>
-                                <p class="size18">{{__('home.access_unbiased_data_driven')}} </p>
+                                <h3 class="tool_hed"> {{$homeContents['independent'] ?? null;}}</h3>
+                                <p class="size18">{{$homeContents['independent_description'] ?? null;}} </p>
                             </div>
                         </div>
                     </div>
@@ -1704,7 +1726,7 @@
             </div>
             <div class="right-tool-btn text-center">
                 <a href="" class="cta">
-                    {{__('home.get_button_lable')}}
+                    {{$homeContents['get_button_lable'] ?? null;}}
                 </a>
             </div>
         </div>

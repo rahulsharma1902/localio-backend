@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('header_contents', function (Blueprint $table) {
-            $table->id();
-            $table->string('meta_key');
-            $table->text('meta_value');
-            $table->string('lang_code')->default('en');
-            $table->timestamps();
+        Schema::table('home_contents', function (Blueprint $table) {
+            $table->string('type')->nullable(); // Add the 'type' column
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('header_contents');
+        Schema::table('home_contents', function (Blueprint $table) {
+            $table->dropColumn('type');
+        });
     }
 };
