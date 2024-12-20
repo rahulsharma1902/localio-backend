@@ -350,6 +350,267 @@
                                     @endforeach
                                 </div>
                             </div>
+                            <div class="card border">
+                                <div class="card-header mt-3">
+                                    Top Product Features Menu Section
+                                </div>
+                                <div class="card-body">
+                                    @foreach($mergedData as $key=>$val)
+                                    @if($key === 'feature')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Feature</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'annoymous_feedback')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Anonymous Feedback</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'countinuos_feedback')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Countinuos Feedback</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'customizable_forms')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Customizable Forms</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'dashboard')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Dashboard</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'data_import_export')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Data Import Export</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'employee_database')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Employee Database</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'feedback_management')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Feedback Management</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'show_more')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Show More</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="card border">
+                                <div class="card-header mt-3">
+                                    Top Product Deployment Menu Section
+                                </div>
+                                <div class="card-body">
+                                    @foreach($mergedData as $key=>$val)
+                                    @if($key === 'deployment')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Deployment</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'cloud_saas_web_based')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Cloud,Saas,Web-Based</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'desktop_mac')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Desktop Mac</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'desktop_windows')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Desktop Windows</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'desktop_linux')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Dashboard Linux</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'on_premise_windows')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">On Primese Windows</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'on_premise_linux')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">On Premise Linux</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'desktop_chromebook')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Dasktop Chromebook</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="card border">
+                                <div class="card-header mt-3">
+                                    Top Product Company Size Menu Section
+                                </div>
+                                <div class="card-body">
+                                    @foreach($mergedData as $key=>$val)
+                                    @if($key === 'company_size')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Company Size</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'small_bussiness')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Small Bussiness</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'mid_size_bussiness')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Mid Size Bussiness</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($key === 'enterprise')
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label" for="{{ $key }}">Enterprise</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control site_text_input" id="{{ $key }}"
+                                                name="{{ $key }}" value="{{ $val ?? '' }}" />
+                                            <div style="display:none;" class="spinner-border mt-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>
                             <div class="col-md-12 mt-4">
                                 <div class="form-group">
                                     <button class="addCategory btn btn-primary  text-center"><em

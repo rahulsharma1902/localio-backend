@@ -168,7 +168,7 @@
                                 @foreach($mergedData as $key=>$val)
                                 @if($key === 'trusted_brands_text')
                                 <div class="form-group col-lg-12">
-                                    <label class="form-label" for="{{ $key }}">Trusted Brnads Text</label>
+                                    <label class="form-label" for="{{ $key }}">Trusted Brands Text</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="{{ $key }}"
                                             name="{{ $key }}" value="{{ $val ?? '' }}" />
