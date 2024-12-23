@@ -37,5 +37,4 @@ class MetaPagesController extends Controller
     {
         return view('User.meta-pages.site-pages.who_we_are');
     }
-
 }

@@ -153,26 +153,24 @@
                                             @endforeach
                                         </ul>
                                     </li>
+                                    <?php
+                                        use App\Models\Product;
+                                        $products = Product::all();
+                                        
+                                    ?>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
                                         <a href="#">{{$headerContent['top_rated_product'] ?? ''}}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
+                                            @if(isset($products) && !$products->isEmpty())
+                                            @foreach($products as $product)
                                             <li class="dropdown_item-1">
-                                                <a href="#">Item 1</a>
+                                                <a href="javascript:void(0)">{{ $product->name ?? '' }}</a>
                                             </li>
-                                            <li class="dropdown_item-2">
-                                                <a href="#">Item 2</a>
-                                            </li>
-                                            <li class="dropdown_item-3">
-                                                <a href="#">Item 3</a>
-                                            </li>
-                                            <li class="dropdown_item-4">
-                                                <a href="#">Item 4</a>
-                                            </li>
-                                            <li class="dropdown_item-5">
-                                                <a href="#">Item 5</a>
-                                            </li>
+                                            @endforeach
+                                            @endif
+                                           
                                         </ul>
                                     </li>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">

@@ -245,28 +245,21 @@ class ArticleController extends Controller
     {
         $locale = getCurrentLocale();
         $siteLanguage = SiteLanguages::where('handle', $locale)->first();
-    //     // Fetch the main article category
         $articleCategory = ArticleCategory::find($id);
 
         if (!$articleCategory) {
             return redirect()->back()->with('error', 'Article Category not found');
         }
-        // If the language is not primary, fetch the translation for the article category
         if ($siteLanguage && $siteLanguage->primary !== 1) {
             $articleTranslationCategory = ArticleCategoryTranslation::with('language')->where('article_category_id',$id)->where('language_id',$siteLanguage->id)->first();
-
-            // dd($articleTranslationCategory);
         } else {
-            // Use the main article category if no translation is available
             $articleTranslationCategory = ArticleCategory::where('id',$id)->first();
         }
         return view('Admin.article.article_category_update', compact('articleCategory', 'articleTranslationCategory'));
     }
     public function articleCategoryUpdate(Request $request) 
     {   
-      
         $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
-
         if ($siteLanguage && $siteLanguage->primary !== 1) {
             $request->validate([
                 'name' => 'required' ,
@@ -281,15 +274,12 @@ class ArticleController extends Controller
                     $existingTranslation = ArticleCategoryTranslation::where('id', $request->article_tr_id)
                     ->where('language_id', $request->lang_id)
                     ->first();
-
                 if ($existingTranslation) {
                     $category = $existingTranslation;
                 } else {
                     $category = new ArticleCategoryTranslation;
                     $category->article_category_id = $request->article_ct_id;
-               
                     $category->language_id = $siteLanguage->id;
-               
                 }
             }
         }
@@ -305,18 +295,14 @@ class ArticleController extends Controller
                 if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
                     return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
                 }
-    
                 $featuredImageName = Str::slug($request->name) . rand(0, 1000) . time() . '.' . $extension;
                 $featuredImage->move(public_path('/ArticleCategoryImages/'), $featuredImageName);
                 $category->image = $featuredImageName;
             }
         }
         $category->name = $request->name ?? '';
-        
         $category->slug = Str::slug($request->name) ?? '';
-        
         $category->description = $request->description ?? '';
-
         $category->save();
         return redirect()->back()->with('success', 'Article updated successfully.');
     }
