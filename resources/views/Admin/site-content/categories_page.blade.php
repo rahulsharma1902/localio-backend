@@ -8,21 +8,6 @@
     </div>
     <?php
         $lang_code = getCurrentLocale(); 
-        $languagePath = resource_path("lang/{$lang_code}/home.php"); 
-        $defaultLanguagePath = resource_path('lang/en/home.php');
-
-
-        if (file_exists($languagePath)) {
-
-            $homeData = include($languagePath);
-        } else {
-
-            $homeData = include($defaultLanguagePath);
-        }
-
-        $defaultData = include($defaultLanguagePath);
-
-        $mergedData = array_merge($defaultData, $homeData);
     ?>
     @if(isset($categoryPageContents))
     <div class="card card-bordered">
@@ -40,7 +25,7 @@
                             <div class="card-body">
                                 <div class="col-md-12">
                                     @foreach($categoryPageContents as $content)
-                                    @if($content->meta_key == 'header image')
+                                    @if($content->meta_key == 'header_image')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Header Image</label>
                                         <div class="dz-message">
@@ -61,7 +46,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     @foreach($categoryPageContents as $content)
-                                    @if($content->meta_key == 'header background image')
+                                    @if($content->meta_key == 'header_bg_image')
                                     <div class="form-group">
                                         <label class="form-label" for="image">Background Image</label>
                                         <div class="dz-message">
@@ -89,58 +74,37 @@
                                 Category Heading Section
                             </div>
                             <div class="card-body">
-                                @foreach($mergedData as $key=>$val)
-                                @if($key === 'browse_our_software_categories')
+                                @foreach($categoryPageContents as $key=>$val)
+                                @if($val->meta_key == 'heading')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Heading</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="heading[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
-                                @foreach($mergedData as $key=>$val)
-                                @if($key === 'find_your_software_in_one')
+                                @elseif($val->meta_key === 'description')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Sub Heading</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="description[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
-                                @foreach($mergedData as $key=>$val)
-                                @if($key === 'category_page_search_placeholder')
+                                @elseif($val->meta_key === 'search_placeholder_text')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Search Placeholder text</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="search_placeholder_text[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
-                                @endif
-                                @endforeach
-                                @foreach($mergedData as $key=>$val)
-                                @if($key === 'what_type_of_software')
+                                @elseif($val->meta_key === 'main_heading')
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="{{ $key }}">Category Page Heading</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="{{ $key }}"
-                                            name="{{ $key }}" value="{{ $val ?? '' }}" />
-                                        <div style="display:none;" class="spinner-border mt-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                        <input type="text" class="form-control" id="{{ $key }}"
+                                            name="main_heading[{{ $val->id }}]" value="{{ $val->meta_value ?? '' }}" />
                                     </div>
                                 </div>
                                 @endif

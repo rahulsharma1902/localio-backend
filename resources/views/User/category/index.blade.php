@@ -2,11 +2,17 @@
 @extends('user_layout.master')
 @section('content')
 <?php
-   $categoryImages = \App\Models\CategoryPageContent::where('lang_code','en')->WhereIn('meta_key',['header image','header background image'])->get();
-   $headerImage = $categoryImages->where('meta_key','header image')->first();
-   $backgroundImage= $categoryImages->where('meta_key','header background image')->first();
+   $lang = getCurrentLocale();
+   $categoryImages = \App\Models\CategoryPageContent::where('lang_code','en')->WhereIn('meta_key',['header_image','header_bg_image'])->get();
+   $headerImage = $categoryImages->where('meta_key','header_image')->first();
+   $backgroundImage= $categoryImages->where('meta_key','header_bg_image')->first();
    
-
+   $categoriesContents =  \App\Models\CategoryPageContent::where('lang_code',$lang)->where('type','text')->pluck('meta_value','meta_key');
+   if($categoriesContents->isEmpty())
+   {
+       $categoriesContents =  \App\Models\CategoryPageContent::where('lang_code','en')->where('type','text')->pluck('meta_value','meta_key');
+   }
+ 
 ?>
 <section class="banner_sec help-cntr-bnr inr-bnr dark " style="background-color: #003F7D;">
    <div class="bubble-wrp">
@@ -23,14 +29,14 @@
          <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
             <div class="banner_text_col">
                <div class="banner_content_inner">
-                  <h1>{{__('home.browse_our_software_categories')}}</h1>
+                  <h1>{{$categoriesContents['heading'] ?? ''}}</h1>
                   <p>
-                     {{__('home.find_your_software_in_one')}}
+                     {{$categoriesContents['description'] ?? ''}}
                   </p>
                   <div class="search-bar-wrp">
                      <div class="search-box">
                         <input type="text"
-                           placeholder="{{__('home.category_page_search_placeholder')}}">
+                           placeholder="{{$categoriesContents['search_placeholder_text'] ?? ''}}">
                         <i class="fa fa-search"></i>
                      </div>
                   </div>
@@ -55,7 +61,7 @@
    <div class="container">
       <div class="sfwr_content">
          <!-- <h2 data-aos="zoom-in" data-aos-duration="1000">What type of software are you looking for?</h2> -->
-         <h2 data-aos="zoom-in" data-aos-duration="1000">{{ __('home.what_type_of_software') }}</h2>
+         <h2 data-aos="zoom-in" data-aos-duration="1000">{{$categoriesContents['main_heading'] ?? '' }}</h2>
          <div class="row gy-4">
             @foreach($categories as $category)
                <div class="col-lg-4 col-md-6"  data-aos="fade-up" data-aos-duration="1000">

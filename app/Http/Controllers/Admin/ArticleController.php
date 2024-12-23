@@ -27,30 +27,20 @@ class ArticleController extends Controller
 
     public function articleEdit($id)
     {
-        // Find the article by ID
         $article = Article::with('articleCategory')->findOrFail($id);
-
-        // Retrieve all categories
         $categories = ArticleCategory::all();
-
         $locale = getCurrentLocale();
         $siteLanguage = SiteLanguages::where('handle', $locale)->first();
-
-
         if (!$article) {
             return redirect()->back()->with('error', 'Article not found');
         }
-        // If the language is not primary, fetch the translation for the article 
         if ($siteLanguage && $siteLanguage->primary !== 1) {
             $articleTranslation = ArticleTranslation::with('language')->where('article_id',$id)->where('language_id',$siteLanguage->id)->first();
         } else {
-            // Use the main article  if no translation is available
             $articleTranslation = Article::where('id',$id)->first();
         }
-        // Pass both article and  to the view
         return view('Admin.article.article_update', compact('article', 'categories','articleTranslation'));
     }
-
     public function add(Request $request)
     {
         $articleCategory = ArticleCategory::all();
@@ -58,14 +48,13 @@ class ArticleController extends Controller
         return view('Admin.article.add_article',compact('articleCategory'));
     }
     // add new article function
-
     public function addProcc(Request $request)
     {
         // Validation rules
         $rules = [
             'name' => 'required|unique:articles,name',
-            'description' => 'required', // No unique rule needed for description
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
+            'description' => 'required', 
+            'image' => 'required|image|mimes:png,jpg,svg',
             'category_id'   => 'required',
         ];
 
@@ -73,7 +62,7 @@ class ArticleController extends Controller
         $validated = $request->validate($rules, [
             'image.required' => 'The image is required.',
             'image.image' => 'The file must be an image.',
-            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg, webp.',
+            'image.mimes' => 'The image must be a file of type:png, jpg, svg.',
         ]);
 
         // create a new article data
@@ -87,11 +76,13 @@ class ArticleController extends Controller
         // Handle the image upload
         if ($request->hasFile('image')) {
             $articleImage = $request->file('image');
-            $imageName = $article->slug . '-' . rand(0, 1000) . time() . '.' . $articleImage->getClientOriginalExtension();
-
+            $extension = $article->slug . '-'. $articleImage->getClientOriginalExtension();
+            if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
+                return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
+            }
             // Store the image in the public storage folder
-            $articleImage->move(public_path().'/ArticleImages/',$imageName);
-            $article->image = $imageName;
+            $articleImage->move(public_path().'/ArticleImages/',$extension);
+            $article->image = $extension;
         }
         // Save the article and return response
         try {
@@ -150,6 +141,10 @@ class ArticleController extends Controller
             if ($request->hasFile('image')) {
                 $featuredImage = $request->file('image');
                 $extension = $featuredImage->getClientOriginalExtension();
+                if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
+                    return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
+                }
+    
                 $featuredImageName = Str::slug($request->name) . rand(0, 1000) . time() . '.' . $extension;
                 $featuredImage->move(public_path('/ArticleImages/'), $featuredImageName);
                 $article->image = $featuredImageName;
@@ -206,7 +201,7 @@ class ArticleController extends Controller
         $rules = [
             'name' => 'required|unique:article_categories,name',
             'description' => 'required', // No unique rule needed for description
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
+            'image' => 'required|image|mimes:png,jpg,svg',
         ];
 
         // Validate the incoming request
@@ -307,6 +302,10 @@ class ArticleController extends Controller
             if ($request->hasFile('image')) {
                 $featuredImage = $request->file('image');
                 $extension = $featuredImage->getClientOriginalExtension();
+                if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
+                    return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
+                }
+    
                 $featuredImageName = Str::slug($request->name) . rand(0, 1000) . time() . '.' . $extension;
                 $featuredImage->move(public_path('/ArticleCategoryImages/'), $featuredImageName);
                 $category->image = $featuredImageName;

@@ -83,7 +83,7 @@
                         @endif
                     @endif
                     @if($category)
-                        @if( $category->image )
+                        @if($category->image )
                         {{ $category->language->name ?? '' }}
                             <img src="{{ asset('CategoryImages') ?? '' }}/{{ $category->image ?? '' }}" alt="" style="width: 100px; height: 50px; border-radius: 5px";>
                         @else
@@ -108,7 +108,7 @@
                     @endif
                     @if($category)
                         @if( $category->category_icon )
-                            <img src="{{ asset('CategoryIcon') ?? '' }}/{{ $category->category_icon ?? '' }}" alt="" style="width: 50px; height: 50px; border-radius: 5px";>
+                            <img src="{{ asset('CategoryIcon') ?? '' }}/{{ $category->category_icon ?? '' }}" alt="not image found" style="width: 50px; height: 50px; border-radius: 5px";>
                         @endif
                     @endif
                     <!-- Submit Button -->

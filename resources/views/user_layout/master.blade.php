@@ -58,14 +58,33 @@
 
 <body>
     <?php
-         $headerLogo = \App\Models\HeaderContent::where([['lang_code','en'],['meta_key','header logo']])->first();
-         $footerLogo = \App\Models\FooterContent::where([['lang_code','en'],['meta_key', 'footer logo']])->first();
+        $lang = getCurrentLocale();
+
+         $headerLogo = \App\Models\HeaderContent::where([['lang_code','en'],['meta_key','header_logo']])->first();
+         $headerContent = \App\Models\HeaderContent::where([['lang_code',$lang],['type','text']])->pluck('meta_value', 'meta_key');
+        
+         if($headerContent->isEmpty())
+         {
+            $headerContent = \App\Models\HeaderContent::where([['lang_code','en'],['type','text']])->pluck('meta_value', 'meta_key');
+
+         }
+         $footerLogo = \App\Models\FooterContent::where([['lang_code','en'],['meta_key', 'footer_logo']])->first();
          $icons = \App\Models\FooterContent::where('lang_code', 'en')
-                                             ->whereIn('meta_key', ['facebook logo', 'instagram logo', 'twitter logo'])
+                                             ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
                                              ->get();
-         $facebookIcon = $icons->where('meta_key', 'facebook logo')->first();
-         $instagramIcon = $icons->where('meta_key', 'instagram logo')->first();
-         $twitterIcon = $icons->where('meta_key', 'twitter logo')->first();
+
+         $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
+         $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
+         $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
+
+         $footerContents = \App\Models\FooterContent::where('lang_code',$lang)->where('type','text')->pluck('meta_value', 'meta_key');
+         $footerMediaUrls = \App\Models\FooterContent::where('lang_code',$lang)->where('type','url')->where('lang_code','en')->pluck('meta_value', 'meta_key');
+  
+         if($footerContents->isEmpty())
+         {
+            $footerContents = \App\Models\FooterContent::where('lang_code','en')->where('type','text')->pluck('meta_value', 'meta_key');
+         
+         }
               
 
       ?>
@@ -88,16 +107,16 @@
                             </div>
                         </div>
                         <div id="myID" class="search-box">
-                            <input type="text" placeholder="{{__('home.header_page_search_placeholder')}}">
+                            <input type="text" placeholder="{{$headerContent['header_search_placeholder'] ?? ''}}">
                             <i class="fa fa-search"></i>
                         </div>
                         <div class="header_button_col">
                             <div class="Header_buttons">
                                 @if(!auth()->user())
-                                <a href="{{url('/login')}}" class="cta cta_trans">{{__('home.login')}}</a>
-                                <a href="{{url('/register') }}" class="cta cta_orange">{{__('home.sign_up')}}</a>
+                                <a href="{{url('/login')}}" class="cta cta_trans">{{$headerContent['login_btn_lable'] ?? ''}}</a>
+                                <a href="{{url('/register') }}" class="cta cta_orange">{{$headerContent['sign_up_btn_lable'] ?? ''}}</a>
                                 @else
-                                <a href="{{url('/logout') }}" class="cta cta_orange">{{__('home.sign_out')}}</a>
+                                <a href="{{url('/logout') }}" class="cta cta_orange">{{$headerContent['sign_out_btn_lable'] ?? ''}}</a>
                                 @endif
                             </div>
                         </div>
@@ -123,7 +142,7 @@
                             <div class="left_menu">
                                 <ul class="menu">
                                     <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                                        <a href="javascript:void(0)" class="cat_menu">{{__('home.categories')}}</a>
+                                        <a href="javascript:void(0)" class="cat_menu">{{$headerContent['categories'] ?? ''}}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -135,7 +154,7 @@
                                         </ul>
                                     </li>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{__('home.top_rated_product')}}</a>
+                                        <a href="#">{{$headerContent['top_rated_product'] ?? ''}}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -157,7 +176,7 @@
                                         </ul>
                                     </li>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{__('home.exclusive_deals_text')}}</a>
+                                        <a href="#">{{$headerContent['exclusive'] ?? ''}}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -183,10 +202,10 @@
                             <div class="right_menu">
                                 <ul>
                                     <li>
-                                        <a href="{{route('expert-guide')}}">{{__('home.expert_guides')}}</a>
+                                        <a href="{{route('expert-guide')}}">{{$headerContent['expert_guide'] ?? ''}}</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('help-center')}}">{{__('home.help_center')}}</a>
+                                        <a href="{{route('help-center')}}">{{$headerContent['help_center'] ?? ''}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -219,49 +238,49 @@
                                 @endif
                             </div>
                             <div class="foot-col">
-                                <h6>{{__('home.discover')}}</h6>
+                                <h6> {{$footerContents['discover'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
-                                    <li><a href="{{route('category')}}">{{__('home.categories')}}</a></li>
-                                    <li><a href="{{route('top-rated-product')}}">{{__('home.top_rated_product')}} </a>
+                                    <li><a href="{{route('category')}}">{{$footerContents['categories'] ?? '' }} </a></li>
+                                    <li><a href="{{route('top-rated-product')}}">{{$footerContents['top_rated_product'] ?? '' }} </a>
                                     </li>
-                                    <li><a href="javascript:void(0)">{{__('home.exclusive_deals_text')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{$footerContents['exclusive_deal'] ?? ''}}</a></li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{__('home.company')}}</h6>
+                                <h6>{{$footerContents['company'] ?? ''}}</h6>
                                 <ul class="foot-col-list">
-                                    <li><a href="{{route('who-we-are')}}">{{__('home.who_we_are')}}</a></li>
-                                    <li><a href="{{route('privacy-policy')}}">{{__('home.privacy_policy')}} </a></li>
-                                    <li><a href="{{route('terms-condition')}}">{{__('home.terms_and_conditions')}}</a>
+                                    <li><a href="{{route('who-we-are')}}">{{$footerContents['who_we_are'] ?? ''}}</a></li>
+                                    <li><a href="{{route('privacy-policy')}}">{{$footerContents['privacy_policy'] ?? ''}}</a></li>
+                                    <li><a href="{{route('terms-condition')}}">{{$footerContents['terms_and_conditions'] ?? ''}}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{__('home.vendors')}}</h6>
+                                <h6>{{$footerContents['vendors'] ?? ''}}</h6>
                                 <ul class="foot-col-list">
-                                    <li><a href="{{route('vendor-get-listed')}}">{{__('home.get_listed')}}</a></li>
-                                    <li><a href="{{route('login')}}">{{__('home.vendor_login')}}</a></li>
+                                    <li><a href="{{route('vendor-get-listed')}}">{{$footerContents['get_listed'] ?? ''}}</a></li>
+                                    <li><a href="{{route('login')}}">{{$footerContents['vendor_login'] ?? ''}}</a></li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{__('home.help')}}</h6>
+                                <h6>{{$footerContents['help'] ?? ''}}</h6>
                                 <ul class="foot-col-list">
                                     <li>
-                                        <a href="{{route('expert-guide')}}">{{__('home.expert_guides')}}</a>
+                                        <a href="{{route('expert-guide')}}">{{$footerContents['expert_guides'] ?? ''}}</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('help-center')}}">{{__('home.help_center')}}</a>
+                                        <a href="{{route('help-center')}}">{{$footerContents['help_center'] ?? ''}}</a>
                                     </li>
-                                    <li><a href="{{route('contact')}}">{{__('home.contact')}}</a></li>
+                                    <li><a href="{{route('contact')}}">{{$footerContents['contact'] ?? ''}}</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="foot-row-right foot-col p_80">
-                            <h6> {{__('home.follow_us')}}</h6>
+                            <h6> {{$footerContents['follow_us'] ?? ''}}</h6>
                             <ul class="foot-right-list">
-                                <li><a href="" class="d-flex align-items-center">
+                                <li><a href="{{$footerMediaUrls['facebook_url'] ?? ''}}" target="blank" class="d-flex align-items-center">
 
                                         @if(isset($facebookIcon))
                                         <img class="media_icon" src="{{ asset($facebookIcon->meta_value) }}"
@@ -272,11 +291,11 @@
                                         <i class="fa-brands fa-facebook-f" style="color: #ffffff;">
                                         </i>
                                         @endif
-                                        {{__('home.facebook')}}
+                                        {{$footerContents['facebook'] ?? ''}}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="" class="d-flex align-items-center">
+                                    <a href="{{$footerMediaUrls['instagram_url'] ?? ''}}" target="blank" class="d-flex align-items-center">
                                         @if(isset($instagramIcon))
                                         <img class="media_icon" src="{{ asset($instagramIcon->meta_value) }}"
                                             alt="{{ $instagramIcon->meta_key }}"
@@ -285,11 +304,11 @@
                                         <i class="fa-brands fa-instagram" style="color: #ffffff;">
                                         </i>
                                         @endif
-                                        {{__('home.instagram')}}
+                                        {{$footerContents['instagram'] ?? ''}}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="" class="d-flex align-items-center">
+                                    <a href="{{$footerMediaUrls['twitter_url'] ?? ''}}"  target="blank" class="d-flex align-items-center">
                                         @if(isset($twitterIcon))
                                         <img class="media_icon" src="{{ asset($twitterIcon->meta_value) }}"
                                             alt="{{ $twitterIcon->meta_key }}"
@@ -298,7 +317,7 @@
                                         <i class="fa-brands fa-twitter" style="color: #ffffff;">
                                         </i>
                                         @endif
-                                        {{__('home.twitter')}}
+                                        {{$footerContents['twitter'] ?? ''}}
                                     </a>
                                 </li>
                             </ul>

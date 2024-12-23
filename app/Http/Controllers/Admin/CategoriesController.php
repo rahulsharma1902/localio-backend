@@ -21,29 +21,9 @@ class CategoriesController extends Controller
         $categories = Category::with(['translations' => function ($query) use ($siteLanguage) {
             $query->where('language_id', $siteLanguage->id);
         }])->get();
-        // echo '<pre>';
-        // print_r($categories);
-        // die();
-
-        // If a translation doesn't exist for a category, fall back to default data
         return view('Admin.categories.index', compact('categories'));
     }
-    
-    // public function index(Request $request) {
-    //     $locale = getCurrentLocale(); 
-    //     $siteLanguage = SiteLanguages::where('handle', $locale)->first();
-  
-    //     $categories = Category::with('translation');
-    //     if ($siteLanguage && $siteLanguage->primary !== 1) {
-    //         $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();
 
-    //     }else{
-    //         $categories = Category::all();
-
-    //     }
-    //     return view('Admin.categories.index', compact('categories'));
-
-    // }
     
     public function add(Request $request)
     {
@@ -79,6 +59,10 @@ class CategoriesController extends Controller
         if ($request->hasFile('image')) {
             $featuredImage = $request->file('image');
             $extension = $featuredImage->getClientOriginalExtension();
+
+            if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
+                return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
+            }
             $featuredImageName = $request->slug.rand(0,1000).time().'.'.$extension;;
             $featuredImage->move(public_path().'/CategoryImages/',$featuredImageName);
             
@@ -87,8 +71,11 @@ class CategoriesController extends Controller
         if ($request->hasFile('category_icon')) {
             $featuredImage = $request->file('category_icon');
             $extension = $featuredImage->getClientOriginalExtension();
+            if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
+                return redirect()->back()->with('error', 'Only PNG, JPG, and SVG icons are allowed.');
+            }
             $featuredIconName = $request->slug.rand(0,1000).time().'.'.$extension;;
-            $featuredImage->move(public_path().'/CategoryIcon/',$featuredImageName);
+            $featuredImage->move(public_path().'/CategoryIcon/',$featuredIconName);
             
             $category->category_icon = $featuredIconName;    
         }

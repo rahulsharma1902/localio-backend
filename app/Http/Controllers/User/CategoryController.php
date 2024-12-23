@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Session;
 use App\Models\SiteLanguages;
+use App\Models\CategoryPageContent;
 class CategoryController extends Controller
 {
     //
@@ -21,8 +22,7 @@ class CategoryController extends Controller
         $categories = Category::with(['translations' => function ($query) use ($siteLanguage) {
             $query->where('language_id', $siteLanguage->id);
         }])->get();
-        // dd($categories);
-
+     
         return view('User.category.index',compact('categories'));
     }
 }
