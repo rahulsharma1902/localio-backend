@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TopProductContent extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'meta_key',
+        'meta_value',
+        'lang_code',
+        'type',
+    ];
 }

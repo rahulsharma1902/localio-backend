@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class FooterContent extends Model
 {
     use HasFactory;
-    protected $fillable =[
+    protected $fillable = [
         'meta_key',
         'meta_value',
         'lang_code',
+        'type',
     ];
 }

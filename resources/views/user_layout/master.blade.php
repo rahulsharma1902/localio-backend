@@ -18,6 +18,7 @@
          crossorigin="anonymous" referrerpolicy="no-referrer" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
@@ -166,7 +167,7 @@
                                             @if(isset($products) && !$products->isEmpty())
                                             @foreach($products as $product)
                                             <li class="dropdown_item-1">
-                                                <a href="javascript:void(0)">{{ $product->name ?? '' }}</a>
+                                                <a href="javascript:void(0)" class="product-name" data-id="{{$product->id}}" data-slug="{{$product->slug}}">{{ $product->name ?? '' }}</a>
                                             </li>
                                             @endforeach
                                             @endif
@@ -383,17 +384,7 @@
         </div>
     </footer>
     <!----------------------------------------- read section end --------------------------------------- -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
-      integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-   <script src="{{ asset('front/js/script.js') }}"></script>
-   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -406,6 +397,7 @@
 
     <script src="{{ asset('front/js/script.js') }}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
     $(function() {
         AOS.init();
@@ -417,7 +409,7 @@
     $(document).ready(function() {
         function checkScroll() {
             const $myElement = $('#myID');
-            console.log($myElement);
+         
             if ($(window).scrollTop() > 460) {
                 $myElement.show();
             } else {

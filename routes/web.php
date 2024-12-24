@@ -114,6 +114,10 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
 
     Route::get('/vendor-get-listed',[HomeController::class,'vendorGetListed'])->name('vendor-get-listed');
 
+    Route::get('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
+
+
+
 });
 
 // Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
@@ -234,6 +238,7 @@ Route::group(['middleware' =>['admin']],function(){
     // Top Product Page Content Route
 
     Route::get('/admin-dashboard/top-product-page',[SiteContentController::class,'topProductPageContent'])->name('top-product-page-content');
+    Route::post('/admin-dashboard/product-page-update',[SiteContentController::Class,'topProductPageUpdate'])->name('product-page-update');
     
 });
 

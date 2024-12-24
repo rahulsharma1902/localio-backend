@@ -414,6 +414,99 @@ class SiteContentController extends Controller
     {
         $topProductContents = TopProductContent::where('lang_code','en')->get();
 
+        $lang = getCurrentLocale();
+        $topProductContents = TopProductContent::where('lang_code',$lang)->get();
+        $currentLanguage = SiteLanguages::where('handle', $lang)->first();
+        if ($topProductContents->isEmpty()) {
+            $englishTopProductContents= TopProductContent::where('lang_code', 'en')->get();
+            if($englishTopProductContents)
+            {
+                foreach ($englishTopProductContents as $content) {
+                    $topProductContents = new TopProductContent;
+                    $topProductContents->meta_key = $content->meta_key;
+                    $topProductContents->meta_value = $content->meta_value;
+                    $topProductContents->lang_code = $currentLanguage->handle;  
+                    $topProductContents->type = $content->type;  
+                    $topProductContents->save();
+                }
+            }
+            $topProductContents = TopProductContent::where('lang_code', $lang)->get();
+        }
+
         return view('Admin.site-content.top_product_page',compact('topProductContents'));
+    }
+    public function topProductPageUpdate(Request $request)
+    {
+        $this->uploadImagesTopProductPage($request, 'top_pro_banner_image');
+        $this->uploadImagesTopProductPage($request, 'top_pro_banner_bg_image');
+        $this->uploadImagesTopProductPage($request, 'top_pro_facebook_icon');
+        $this->uploadImagesTopProductPage($request, 'top_pro_pinterest_icon');
+        $this->uploadImagesTopProductPage($request, 'top_pro_twitter_icon');
+        $this->uploadImagesTopProductPage($request, 'top_pro_copylink_icon');
+        $this->uploadImagesTopProductPage($request, 'top_pro_more_icon');
+        $this->uploadImagesTopProductPage($request, 'top_pro_mail_image');
+         $this->uploadImagesTopProductPage($request, 'top_pro_green_tick_img');
+        $textFields = [
+            'header_title',
+            'header_sub_title',
+            'header_bottom_text',
+            'learn_more',
+            'search_placeholder',
+            'user_rating',
+            'price',
+            'price_option',
+            'features',
+            'show_more',
+            'deployment',
+            'company_size',
+            'drop_down_text',
+            'visit_website',
+            'read_more',
+            'key_features',
+            'starting_price',
+            'month',
+            'compare_products',
+            'rating',
+            'footer_title',
+            'footer_sub_title',
+            'email_placeholder',
+            'subscribe_lable',
+            'you_agree',
+            'terms_of_use',
+            'privacy_policy',
+            'and'
+        ];
+        foreach($textFields as $field){
+            if($request->has($field)){
+                $datas = $request->get($field);
+                foreach($datas as $id=> $val){
+                    $categoryContent = TopProductContent::find($id);
+                    if($categoryContent)
+                    {
+                        $categoryContent->update([
+                            'meta_value' => $val,
+                        ]);
+                    }
+                }
+              
+            }
+        }
+        return redirect()->back()->with('success', 'Top Product content updated successfully.');
+    }
+    private function uploadImagesTopProductPage(Request $request, $imageField)
+    {
+        if ($request->hasFile($imageField)) {
+            foreach ($request->file($imageField) as $id => $file) {
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path($imageField), $fileName);
+
+                $homeContent = TopProductContent::find($id);
+                if ($homeContent) {
+                    $homeContent->update([
+                        'meta_value' => $imageField . '/' . $fileName,
+                    ]);
+                }
+            }
+        }
     }
 }

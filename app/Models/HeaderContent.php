@@ -12,5 +12,6 @@ class HeaderContent extends Model
         'meta_key',
         'meta_value',
         'lang_code',
+        'type',
     ];
 }
