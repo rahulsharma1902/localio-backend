@@ -114,7 +114,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
 
     Route::get('/vendor-get-listed',[HomeController::class,'vendorGetListed'])->name('vendor-get-listed');
 
-    Route::get('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
+    Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
 
 

@@ -525,13 +525,7 @@
 // }
 
 $(document).ready(function() {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 
-    // Listen to keyup event on search input field
     $('#productSearch').on('keyup', function() {
         let searchQuery = $(this).val();
         console.log(searchQuery);
@@ -539,135 +533,129 @@ $(document).ready(function() {
     });
 });
 
-// Function to strip HTML tags
-function stripTags(input) {
-    var doc = new DOMParser().parseFromString(input, 'text/html');
-    return doc.body.textContent || "";
-}
-
 function fetchProducts(searchQuery) {
     if (searchQuery.length === 0) {
         console.log('Search query is empty');
-        return; // Don't send the request if search query is empty
+        return;
     }
+$.ajax({
+    url: "{{ url(app()->getLocale() . '/fetch-product') }}",
+    type: "POST",
+    data: {
+        searchQuery: searchQuery, 
+        _token:"{{ csrf_token() }}",
+    },
+  
+    success: function(response) {
+        const topProductContents = response.topProductContents || {};
+        const files = response.files || {};
+        const products = response.products || [];  
+    
+        const formattedProductRelations = response.formattedProductRelations || [];
 
-    $.ajax({
-        url: "{{ url(app()->getLocale() . '/fetch-product') }}", // Make sure the URL is correct
-        type: "GET",
-        data: {
-            searchQuery: searchQuery,
-        },
-        success: function(response) {
-            var topProductContents = response.topProductContents;
-            var productRelation = response.productRelations;
-            var files = response.files;
-            console.log(files);
-            if (Array.isArray(response.products) && response.products.length > 0) {
-                var productContainer = $('#productContainer');
-                productContainer.children().remove();
+        const productContainer = $('#productContainer');
+        productContainer.empty();
 
-                response.products.forEach(function(product) {
-                    // Ensure description exists before stripping HTML tags
-                    var productDescription = product.description ? stripTags(product.description) :
-                        '';
-
-                    var productHTML = `
-                    
-
-                     <div class="automotive-card auto-bg" data-aos="fade-up" data-aos-duration="1000">
-                                <div class="auto-choice-card">
-                                    <div class="auto-choice-hd">
-                                        <div class="inn_sl_hed">
-                                            ${product.product_icon ? `
-                                    <div class="sli_img choice_img">
-                                        <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="">
-                                    </div>` : ''}
-                                            <div class="sl_h">
-                                                <div class="inn_h">
-                                                    <div class="sl_main">
-                                                        <h6 class="head">${product.translations && product.translations.length > 0 ? product.translations[0].name : product.name}</h6>
-
-                                                        <div class="wishlist">
-                                                            <a href="#" class="heart-container" tabindex="0">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tp-btm d-flex flex-col-mob">
-                                                    <div class="inn_ul">
-                                                        <div class="tab_star_li">
-                                                            <span class="rating-on rate-1" data-rating="1"></span>
-                                                            <span class="rating-on rate-2" data-rating="2"></span>
-                                                            <span class="rating-on rate-3" data-rating="3"></span>
-                                                            <span class="rating-on rate-4" data-rating="4"></span>
-                                                            <span class="rating-on rate-5" data-rating="5"></span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa-solid fa-angle-down"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="rate_box">
-                                                          5.0 | 124 ${topProductContents['rating'] || ''}
-                                                    </div>
+        if (Array.isArray(products) && products.length > 0) {
+            products.forEach((product) => {
+                const productRelationData = formattedProductRelations.find(pr => pr.product.id === product.id);
+                const keyFeatures = productRelationData ? productRelationData.keyFeatures : [];
+                const productHTML = `
+                    <div class="automotive-card auto-bg" data-aos="fade-up" data-aos-duration="1000">
+                        <div class="auto-choice-card">
+                            <div class="auto-choice-hd">
+                                <div class="inn_sl_hed">
+                                    ${product.product_icon ? `
+                                        <div class="sli_img choice_img">
+                                            <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="${product.name}">
+                                        </div>` : ''}
+                                    <div class="sl_h">
+                                        <div class="inn_h">
+                                            <div class="sl_main">
+                                                <h6 class="head">${product.translations && product.translations.length > 0 
+                                                    ? product.translations[0].name 
+                                                    : product.name}</h6>
+                                                <div class="wishlist">
+                                                    <a href="#" class="heart-container" tabindex="0"></a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="auto-choice-btn">
-                            <a href="${product.product_link || '#'}" target="blank" class="cta cta_orange">
-                                ${topProductContents['visit_website'] || ''}
-                                <div class="right-arw">
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </div>
-                            </a>
-                        </div>
+                                        <div class="tp-btm d-flex flex-col-mob">
+                                            <div class="inn_ul">
+                                                <div class="tab_star_li">
+                                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa-solid fa-angle-down"></i>
+                                                </div>
+                                            </div>
+                                            <div class="rate_box">
+                                                5.0 | 124 ${topProductContents['rating'] || ''}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="text-choice">
-                        <p>${productDescription || ''}</p>
-                        <a href="javascript:void(0)">${topProductContents['read_more'] || ''}</a>
-                    </div>
-                                   <div class="key-feature-price d-flex">
-                        <div class="choice-key-features">
-                            <h6>${topProductContents['key_features'] || ''}</h6>
-                            <ul class="list-unstyled key-fea-lst">
-                               ${productRelation.keyFeatures && productRelation.keyFeatures.length > 0 ? productRelation.keyFeatures.map(keyFeature => `
-                                <li class="d-flex align-items-center">
-                                    <div class="grn_chk">
-                                        <img src="${files.green_tick_img || 'front/img/tick-img.png'}" class="banner_top_image">
-                                    </div>
-                                    <p>${keyFeature.translations && keyFeature.translations.length > 0 ? keyFeature.translations[0].feature : keyFeature.feature}</p>
-                                </li>
-                            `).join('') : ''}
-                            </ul>
-                        </div>
-                        <div class="starting-price">
-                            <h6 class="m-0">${topProductContents['starting_price'] || ''}</h6>
-                            <p class="m-0">
-                                <span>$${product.product_price || 0}</span>/${topProductContents['month'] || ''}
-                            </p>
-                        </div>
                                 </div>
-                                <div class="blue-chkbox">
-                    <input type="checkbox" id="compare" name="compare" value="free">
-                    <label for="compare">${topProductContents['compare_products'] || ''}</label>
-                </div>
+                                <div class="auto-choice-btn">
+                                    <a href="${product.product_link || '#'}" target="blank" class="cta cta_orange">
+                                        ${topProductContents['visit_website'] || ''}
+                                        <div class="right-arw">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-
-
-
-
-
-                    `;
-                    productContainer.append(productHTML);
-                });
-            } else {
-                console.log('No products available or invalid response format.');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX Error: ", error);
+                            <div class="text-choice">
+                                <p>${product.translations && product.translations.length > 0 
+                                                    ? product.translations[0].description 
+                                                    : product.description}</p>
+                                <a href="javascript:void(0)">${topProductContents['read_more'] || ''}</a>
+                            </div>
+                            <div class="key-feature-price d-flex">
+                                <div class="choice-key-features">
+                                    <h6>${topProductContents['key_features'] || ''}</h6>
+                                 <ul class="list-unstyled key-fea-lst">
+                                    ${keyFeatures.map((keyFeature) => {
+                                        return `
+                                            <li class="d-flex align-items-center">
+                                                <div class="grn_chk">
+                                                    ${files.green_tick_img 
+                                                        ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">` 
+                                                        : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
+                                                </div>
+                                                <p>${keyFeature.feature || 'No key feature'}</p>
+                                            </li>
+                                        `;
+                                    }).join('')}
+                                </ul>
+                                </div>
+                                <div class="starting-price">
+                                    <h6 class="m-0">${topProductContents['starting_price'] || ''}</h6>
+                                    <p class="m-0">
+                                         <span>$${(parseFloat(product.product_price) || 0).toFixed()}</span>/${topProductContents['month'] || ''}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="blue-chkbox">
+                                <input type="checkbox" id="compare" name="compare" value="free">
+                                <label for="compare">${topProductContents['compare_products'] || ''}</label>
+                            </div>
+                        </div>
+                    </div>`;
+                
+                productContainer.append(productHTML);
+            });
+        } else {
+            console.log('No products available or invalid response format.');
         }
-    });
-
+    },
+    error: function(xhr, status, error) {
+        console.error("AJAX Error: ", error);
+    }
+});
 
 
 }

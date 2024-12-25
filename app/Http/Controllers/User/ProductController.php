@@ -46,30 +46,47 @@ class ProductController extends Controller
    
         try {
             $locale = getCurrentLocale();
+         
             $searchQuery = $request->input('searchQuery');
-            $products = Product::where('name', 'like', '%' . $searchQuery . '%')->get();
             $topProductContents = TopProductContent::where([['lang_code',$locale],['type','text']])->pluck('meta_value','meta_key');
             if($topProductContents->isEmpty())
             {
                 $topProductContents = TopProductContent::where([['lang_code','en'],['type','text']])->pluck('meta_value','meta_key');
             }
-            $files = TopProductContent::where([['lang_code','en'],['type','file']])->pluck('meta_value','meta_key');
-
+            $files = TopProductContent::where([['lang_code', 'en'], ['type', 'file']])
+                                        ->pluck('meta_value', 'meta_key')
+                                        ->mapWithKeys(function ($value, $key) {
+                                            return [$key => asset($value)];
+                                        });
             $siteLanguage = SiteLanguages::where('handle',$locale)->first();
-            $productRelations = Product::with([
-                                'translations' => function($query) use($siteLanguage) {
+            
+            $products = Product::where('name', 'like', '%' . $searchQuery . '%')
+                                ->with(['translations' => function($query) use($siteLanguage, $searchQuery) {
+                                    $query->where('language_id', $siteLanguage->id)
+                                        ->where('name', 'like', '%' . $searchQuery . '%');
+                                },'keyFeatures.translations' => function($query) use ($siteLanguage) {
                                     $query->where('language_id', $siteLanguage->id);
                                 },
-                                'keyFeatures.translations' => function($query) use ($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                                ])->get();
+                                ])
+                                ->get();
 
-            return response()->json(['products' => $products,'topProductContents'=>$topProductContents,'productRelations'=>$productRelations,'files'=>$files]);
+            $formattedProductRelations = $products->map(function ($productRelation) {
+
+                $keyFeaturesForProduct = $productRelation->keyFeatures->map(function ($keyFeature) {
+                    return [
+                        'feature' => $keyFeature->translations->isNotEmpty()
+                            ? $keyFeature->translations->first()->feature
+                            : ($keyFeature->feature ?? 'No key feature'),
+                    ];
+                });
+                return [
+                    'product' => $productRelation, 
+                    'keyFeatures' => $keyFeaturesForProduct
+                ];
+            });
+  
+        return response()->json(['products' => $products,'topProductContents'=>$topProductContents,'files'=>$files, 'formattedProductRelations' => $formattedProductRelations]);
         } catch (\Exception $e) {
-
-            \Log::error("Error fetching products: " . $e->getMessage());
-
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
