@@ -41,9 +41,9 @@ class ViewController extends Controller
  
         // Redirect to the home page with the selected language
         $previousPath = Session::get('previous_path', '/'); // Default to home if no previous path
-     
+        return redirect("/{$langCode}")->with('success', 'Language changed successfully');
         // Redirect to the previous path with the selected language
-        return redirect("/{$langCode}" . $previousPath)->with('success', 'Language changed successfully');
+        // return redirect("/{$langCode}" . $previousPath)->with('success', 'Language changed successfully');
     }
     
 

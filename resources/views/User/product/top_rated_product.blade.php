@@ -199,9 +199,11 @@
                                 </div>
                                 <div class="range-container">
                                     <div class="range-slider-track"></div>
-                                    <input type="range" min="0" max="299" value="0" id="slider-1" oninput="slideOne()">
-                                    <input type="range" min="0" max="299" value="299" id="slider-2"
-                                        oninput="slideTwo()">
+                                    <input type="range" min="0" max="{{$productMaxPrice ?? ''}}" value="0" id="slider-1"
+                                        oninput="slideOne()">
+                                    <input type="range" min="0" max="{{$productMaxPrice ?? ''}}"
+                                        value="{{$productMaxPrice ?? ''}}" id="slider-2" oninput="slideTwo()">
+
                                 </div>
                             </div>
                         </div>
@@ -409,67 +411,46 @@
                             @endforeach
                             @endif
                         </div>
-                        <div class="automotive-pagination" data-aos="fade-up" data-aos-duration="1000">
-                            <nav aria-label="...">
-                                <ul class="pagination">
-                                    {{-- Previous Page Link --}}
-                                    @if ($products->onFirstPage())
-                                    <li class="page-item pagi-btn disabled">
-                                        <a class="page-link"><i class="fa-solid fa-chevron-left"></i></a>
-                                    </li>
-                                    @else
-                                    <li class="page-item pagi-btn">
-                                        <a class="page-link" href="{{ $products->previousPageUrl() }}"><i
-                                                class="fa-solid fa-chevron-left"></i></a>
-                                    </li>
-                                    @endif
+                        <div class="pagination">
+                            @if(isset($products) && !$products->isEmpty())
+                            <div class="automotive-pagination" data-aos="fade-up" data-aos-duration="1000">
+                                <nav aria-label="...">
+                                    <ul class="pagination">
+                                        {{-- Previous Page Link --}}
+                                        @if ($products->onFirstPage())
+                                        <li class="page-item pagi-btn disabled">
+                                            <a class="page-link"><i class="fa-solid fa-chevron-left"></i></a>
+                                        </li>
+                                        @else
+                                        <li class="page-item pagi-btn">
+                                            <a class="page-link" href="{{ $products->previousPageUrl() }}"><i
+                                                    class="fa-solid fa-chevron-left"></i></a>
+                                        </li>
+                                        @endif
 
-                                    {{-- Page Number Links --}}
-                                    @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
-                                    <li class="page-item {{ $page == $products->currentPage() ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                    </li>
-                                    @endforeach
+                                        {{-- Page Number Links --}}
+                                        @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                                        <li class="page-item {{ $page == $products->currentPage() ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                        </li>
+                                        @endforeach
 
-                                    {{-- Next Page Link --}}
-                                    @if ($products->hasMorePages())
-                                    <li class="page-item pagi-btn">
-                                        <a class="page-link" href="{{ $products->nextPageUrl() }}"><i
-                                                class="fa-solid fa-chevron-right"></i></a>
-                                    </li>
-                                    @else
-                                    <li class="page-item pagi-btn disabled">
-                                        <a class="page-link"><i class="fa-solid fa-chevron-right"></i></a>
-                                    </li>
-                                    @endif
-                                </ul>
-                            </nav>
+                                        {{-- Next Page Link --}}
+                                        @if ($products->hasMorePages())
+                                        <li class="page-item pagi-btn">
+                                            <a class="page-link" href="{{ $products->nextPageUrl() }}"><i
+                                                    class="fa-solid fa-chevron-right"></i></a>
+                                        </li>
+                                        @else
+                                        <li class="page-item pagi-btn disabled">
+                                            <a class="page-link"><i class="fa-solid fa-chevron-right"></i></a>
+                                        </li>
+                                        @endif
+                                    </ul>
+                                </nav>
+                            </div>
+                            @endif
                         </div>
-
-
-                        <!-- <div class="automotive-pagination" data-aos="fade-up" data-aos-duration="1000">
-                            <nav aria-label="...">
-                                <ul class="pagination">
-                                    <li class="page-item pagi-btn disabled">
-                                        <a class="page-link"><i class="fa-solid fa-chevron-left"></i></a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="javascript:void(0)">1</a>
-                                    </li>
-                                    <li class="page-item " aria-current="page">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="javascript:void(0)">3</a>
-                                    </li>
-                                    <li class="page-item pagi-btn"> <a class="page-link" href="javascript:void(0)"><i
-                                                class="fa-solid fa-chevron-right"></i></a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div> -->
-
-
                     </div>
                 </div>
             </div>
@@ -516,148 +497,180 @@
 
 //     const slider2 = document.getElementById('slider-2');
 //     const minPrice = Math.min(parseInt(slider1.value), parseInt(slider2.value));
-//     console.log(minPrice);
+
 //     const maxPrice = Math.max(parseInt(slider1.value), parseInt(slider2.value));
 //     document.getElementById('price-range').innerText = `${minPrice} - ${maxPrice}`;
 
-//     // Send an AJAX request to fetch filtered products
-//     fetchProducts(minPrice, maxPrice);
 // }
 
-$(document).ready(function() {
 
-    $('#productSearch').on('keyup', function() {
-        let searchQuery = $(this).val();
-        console.log(searchQuery);
-        fetchProducts(searchQuery);
+$(document).ready(function() {
+    let minPrice = 0;
+    let maxPrice = 1000;
+    let searchQuery = '';
+
+    function debounce(func, delay) {
+        let timer;
+        return function() {
+            clearTimeout(timer);
+            const context = this;
+            const args = arguments;
+            timer = setTimeout(function() {
+                func.apply(context, args);
+            }, delay);
+
+        };
+    }
+
+    $('#slider-1').on('input', function() {
+        minPrice = $(this).val();
+        $('#range1').text(minPrice);
+        fetchProducts(searchQuery, minPrice, maxPrice);
     });
+
+    $('#slider-2').on('input', function() {
+        maxPrice = $(this).val();
+        $('#range2').text(maxPrice);
+        fetchProducts(searchQuery, minPrice, maxPrice);
+    });
+
+    $('#productSearch').on('keyup', debounce(function() {
+        searchQuery = $(this).val().trim();
+        if (searchQuery && isNaN(searchQuery)) {
+            fetchProducts(searchQuery, minPrice, maxPrice);
+        } else if (isNaN(searchQuery)) {
+            console.log('Search query is a number, search will not run.');
+        } else {
+            console.log('Search query is empty or contains only spaces.');
+
+        }
+    }, 500));
 });
 
-function fetchProducts(searchQuery) {
-    if (searchQuery.length === 0) {
-        console.log('Search query is empty');
-        return;
-    }
-$.ajax({
-    url: "{{ url(app()->getLocale() . '/fetch-product') }}",
-    type: "POST",
-    data: {
-        searchQuery: searchQuery, 
-        _token:"{{ csrf_token() }}",
-    },
-  
-    success: function(response) {
-        const topProductContents = response.topProductContents || {};
-        const files = response.files || {};
-        const products = response.products || [];  
-    
-        const formattedProductRelations = response.formattedProductRelations || [];
+function fetchProducts(searchQuery, minPrice, maxPrice) {
+    $.ajax({
+        url: "{{ url(app()->getLocale() . '/fetch-product') }}",
+        type: "POST",
+        data: {
+            searchQuery: searchQuery,
+            min: minPrice,
+            max: maxPrice,
+            _token: "{{ csrf_token() }}",
+        },
 
-        const productContainer = $('#productContainer');
-        productContainer.empty();
+        success: function(response) {
+            const topProductContents = response.topProductContents || {};
+            const files = response.files || {};
+            const products = response.products || [];
+            const formattedProductRelations = response.formattedProductRelations || [];
 
-        if (Array.isArray(products) && products.length > 0) {
-            products.forEach((product) => {
-                const productRelationData = formattedProductRelations.find(pr => pr.product.id === product.id);
-                const keyFeatures = productRelationData ? productRelationData.keyFeatures : [];
-                const productHTML = `
-                    <div class="automotive-card auto-bg" data-aos="fade-up" data-aos-duration="1000">
-                        <div class="auto-choice-card">
-                            <div class="auto-choice-hd">
-                                <div class="inn_sl_hed">
-                                    ${product.product_icon ? `
-                                        <div class="sli_img choice_img">
-                                            <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="${product.name}">
-                                        </div>` : ''}
-                                    <div class="sl_h">
-                                        <div class="inn_h">
-                                            <div class="sl_main">
-                                                <h6 class="head">${product.translations && product.translations.length > 0 
-                                                    ? product.translations[0].name 
-                                                    : product.name}</h6>
-                                                <div class="wishlist">
-                                                    <a href="#" class="heart-container" tabindex="0"></a>
+            const productContainer = $('#productContainer');
+            const pagination = $('.pagination');
+            pagination.empty();
+            productContainer.empty();
+            if (Array.isArray(products) && products.length > 0) {
+                products.forEach((product) => {
+                    const productRelationData = formattedProductRelations.find(pr => pr.product
+                        .id === product.id);
+                    const keyFeatures = productRelationData ? productRelationData.keyFeatures : [];
+
+                    const productName = (product.translations && product.translations[0] && product
+                        .translations[0].name) || product.name;
+                    const productDescription = (product.translations && product.translations[0] &&
+                        product.translations[0].description) || product.description;
+
+                    const productHTML = `
+                        <div class="automotive-card auto-bg" data-aos="fade-up" data-aos-duration="1000">
+                            <div class="auto-choice-card">
+                                <div class="auto-choice-hd">
+                                    <div class="inn_sl_hed">
+                                        ${product.product_icon ? `
+                                            <div class="sli_img choice_img">
+                                                <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="${productName}">
+                                            </div>` : ''}
+                                        <div class="sl_h">
+                                            <div class="inn_h">
+                                                <div class="sl_main">
+                                                    <h6 class="head">${productName}</h6>
+                                                    <div class="wishlist">
+                                                        <a href="#" class="heart-container" tabindex="0"></a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="tp-btm d-flex flex-col-mob">
-                                            <div class="inn_ul">
-                                                <div class="tab_star_li">
-                                                    <span class="rating-on rate-1" data-rating="1"></span>
-                                                    <span class="rating-on rate-2" data-rating="2"></span>
-                                                    <span class="rating-on rate-3" data-rating="3"></span>
-                                                    <span class="rating-on rate-4" data-rating="4"></span>
-                                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                            <div class="tp-btm d-flex flex-col-mob">
+                                                <div class="inn_ul">
+                                                    <div class="tab_star_li">
+                                                        <span class="rating-on rate-1" data-rating="1"></span>
+                                                        <span class="rating-on rate-2" data-rating="2"></span>
+                                                        <span class="rating-on rate-3" data-rating="3"></span>
+                                                        <span class="rating-on rate-4" data-rating="4"></span>
+                                                        <span class="rating-on rate-5" data-rating="5"></span>
+                                                    </div>
+                                                    <div>
+                                                        <i class="fa-solid fa-angle-down"></i>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <i class="fa-solid fa-angle-down"></i>
+                                                <div class="rate_box">
+                                                    5.0 | 124 ${topProductContents['rating'] || ''}
                                                 </div>
-                                            </div>
-                                            <div class="rate_box">
-                                                5.0 | 124 ${topProductContents['rating'] || ''}
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="auto-choice-btn">
+                                        <a href="${product.product_link || '#'}" target="blank" class="cta cta_orange">
+                                            ${topProductContents['visit_website'] || ''}
+                                            <div class="right-arw">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="auto-choice-btn">
-                                    <a href="${product.product_link || '#'}" target="blank" class="cta cta_orange">
-                                        ${topProductContents['visit_website'] || ''}
-                                        <div class="right-arw">
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                        </div>
-                                    </a>
+                                <div class="text-choice">
+                                    <p>${productDescription}</p>
+                                    <a href="javascript:void(0)">${topProductContents['read_more'] || ''}</a>
+                                </div>
+                                <div class="key-feature-price d-flex">
+                                    <div class="choice-key-features">
+                                        <h6>${topProductContents['key_features'] || ''}</h6>
+                                     <ul class="list-unstyled key-fea-lst">
+                                        ${keyFeatures.map((keyFeature) => {
+                                            return `
+                                                <li class="d-flex align-items-center">
+                                                    <div class="grn_chk">
+                                                        ${files.green_tick_img 
+                                                            ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">` 
+                                                            : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
+                                                    </div>
+                                                    <p>${keyFeature.feature || 'No key feature'}</p>
+                                                </li>
+                                            `;
+                                        }).join('')}
+                                    </ul>
+                                    </div>
+                                    <div class="starting-price">
+                                        <h6 class="m-0">${topProductContents['starting_price'] || ''}</h6>
+                                        <p class="m-0">
+                                             <span>$${(parseFloat(product.product_price) || 0).toFixed()}</span>/${topProductContents['month'] || ''}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="blue-chkbox">
+                                    <input type="checkbox" id="compare" name="compare" value="free">
+                                    <label for="compare">${topProductContents['compare_products'] || ''}</label>
                                 </div>
                             </div>
-                            <div class="text-choice">
-                                <p>${product.translations && product.translations.length > 0 
-                                                    ? product.translations[0].description 
-                                                    : product.description}</p>
-                                <a href="javascript:void(0)">${topProductContents['read_more'] || ''}</a>
-                            </div>
-                            <div class="key-feature-price d-flex">
-                                <div class="choice-key-features">
-                                    <h6>${topProductContents['key_features'] || ''}</h6>
-                                 <ul class="list-unstyled key-fea-lst">
-                                    ${keyFeatures.map((keyFeature) => {
-                                        return `
-                                            <li class="d-flex align-items-center">
-                                                <div class="grn_chk">
-                                                    ${files.green_tick_img 
-                                                        ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">` 
-                                                        : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
-                                                </div>
-                                                <p>${keyFeature.feature || 'No key feature'}</p>
-                                            </li>
-                                        `;
-                                    }).join('')}
-                                </ul>
-                                </div>
-                                <div class="starting-price">
-                                    <h6 class="m-0">${topProductContents['starting_price'] || ''}</h6>
-                                    <p class="m-0">
-                                         <span>$${(parseFloat(product.product_price) || 0).toFixed()}</span>/${topProductContents['month'] || ''}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="blue-chkbox">
-                                <input type="checkbox" id="compare" name="compare" value="free">
-                                <label for="compare">${topProductContents['compare_products'] || ''}</label>
-                            </div>
-                        </div>
-                    </div>`;
-                
-                productContainer.append(productHTML);
-            });
-        } else {
-            console.log('No products available or invalid response format.');
+                        </div>`;
+
+                    productContainer.append(productHTML);
+                });
+            } else {
+                console.log('No products available or invalid response format.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error: ", error);
         }
-    },
-    error: function(xhr, status, error) {
-        console.error("AJAX Error: ", error);
-    }
-});
-
-
+    });
 }
 </script>
 
