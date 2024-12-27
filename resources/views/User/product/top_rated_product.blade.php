@@ -522,17 +522,17 @@ $(document).ready(function() {
         };
     }
 
-    $('#slider-1').on('input', function() {
+    $('#slider-1').on('input',debounce( function() {
         minPrice = $(this).val();
         $('#range1').text(minPrice);
         fetchProducts(searchQuery, minPrice, maxPrice);
-    });
+    },500));
 
-    $('#slider-2').on('input', function() {
+    $('#slider-2').on('input',debounce(function() {
         maxPrice = $(this).val();
         $('#range2').text(maxPrice);
         fetchProducts(searchQuery, minPrice, maxPrice);
-    });
+    },500));
 
     $('#productSearch').on('keyup', debounce(function() {
         searchQuery = $(this).val().trim();

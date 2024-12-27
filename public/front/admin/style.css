@@ -1,3 +1,21 @@
 table.dataTable.nowrap th, table.dataTable.nowrap td {
     white-space: normal !important;
 }
+.review-section {
+    border: 1px solid #dbdfea;
+    width: 771px;
+    margin-left: 133px;
+}
+.review-inner {
+    padding: 1.5rem;
+    width: 738px;
+}
+.review-title {
+    margin-left: 423px;
+}
+.form-row {
+    margin-left: 18px;
+}
+button.addCategory.btn.btn-primary.review-btn {
+    margin-left: 27px;
+}

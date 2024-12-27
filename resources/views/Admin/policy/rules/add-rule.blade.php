@@ -98,37 +98,4 @@
         </div>
     </div>
 </div>
-
-<!-- JavaScript -->
-<!-- <script>
-$(document).ready(function(){
-    // Update the slug field based on the name field
-    $('#name').on('input', function(){
-        let name = $(this).val().toLowerCase();
-        let slug = name.replace(/\s+/g, "-").replace(/\//g, "-");
-        $('#slug').val(slug);
-    });
-
-    // Add dynamic option fields
-    $('#add-option').click(function() {
-        $('#options-container').append(`
-            <div class="form-group row option-group mt-2">
-                <div class="col-lg-10 col-md-10 col-sm-10">
-                    <input type="text" name="options[]" class="form-control" placeholder="Enter option">
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
-                    <button type="button" class="btn btn-danger remove-option"><em class="icon ni ni-trash-fill"></em></button>
-                </div>
-            </div>
-        `);
-    });
-
-    // Remove option field, ensuring at least one remains
-    $('#options-container').on('click', '.remove-option', function() {
-        if ($('.option-group').length > 1) {
-            $(this).closest('.option-group').remove();
-        }
-    });
-});
-</script> -->
 @endsection

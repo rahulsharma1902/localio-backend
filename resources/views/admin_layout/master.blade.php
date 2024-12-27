@@ -33,26 +33,30 @@
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
-<div class="spinner-container">
-  <div class="spinner"></div>
-</div>
-<div class="nk-app-root">
+    <div class="spinner-container">
+        <div class="spinner"></div>
+    </div>
+    <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
             <!-- sidebar @s -->
             <div class="nk-sidebar nk-sidebar-fixed is-dark " data-content="sidebarMenu">
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-menu-trigger">
-                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
-                        <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em
+                                class="icon ni ni-arrow-left"></em></a>
+                        <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex"
+                            data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                     </div>
                     <div class="nk-sidebar-brand">
                         <a href="{{ url('admin-dashboard') ?? ''}}" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="{{ asset('front/img/logo.svg') }}" srcset="{{ asset('front/img/logo.svg') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('front/img/logo-dark.svg') }}" srcset="{{ asset('front/img/logo.svg') }}" alt="logo-dark">
+                            <img class="logo-light logo-img" src="{{ asset('front/img/logo.svg') }}"
+                                srcset="{{ asset('front/img/logo.svg') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('front/img/logo-dark.svg') }}"
+                                srcset="{{ asset('front/img/logo.svg') }}" alt="logo-dark">
                         </a>
                     </div>
-                    
+
                 </div><!-- .nk-sidebar-element -->
                 <div class="nk-sidebar-element nk-sidebar-body">
                     <div class="nk-sidebar-content">
@@ -60,7 +64,9 @@
                             <ul class="nk-menu">
                                 <!-- Dashboard -->
                                 <li class="nk-menu-heading">
-                                    <a href="{{ url('admin-dashboard') ?? ''}}"><h6 class="overline-title text-primary-alt">Dashboard</h6></a>
+                                    <a href="{{ url('admin-dashboard') ?? ''}}">
+                                        <h6 class="overline-title text-primary-alt">Dashboard</h6>
+                                    </a>
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
@@ -68,7 +74,7 @@
                                         <!-- <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span> -->
                                         <span class="nk-menu-text">categories</span>
                                     </a>
-                                    
+
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/filters') ?? '#' }}" class="nk-menu-link ">
@@ -76,7 +82,7 @@
                                         <!-- <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span> -->
                                         <span class="nk-menu-text">Filter</span>
                                     </a>
-                                    
+
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -85,7 +91,9 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{url('/admin-dashboard/site-languages')}}" class="nk-menu-link"><span class="nk-menu-text">Site - Languages</span></a>
+                                            <a href="{{url('/admin-dashboard/site-languages')}}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Site -
+                                                    Languages</span></a>
                                         </li>
 
                                     </ul>
@@ -98,30 +106,37 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
-                                            <a href="{{url('/admin-dashboard/header-page')}}" class="nk-menu-link"><span class="nk-menu-text">Header Page</span></a>
+                                            <a href="{{url('/admin-dashboard/header-page')}}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Header Page</span></a>
                                         </li>
 
                                     </ul>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
-                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span class="nk-menu-text">home Page</span></a>
+                                            <a href="{{url('/admin-dashboard/home-page')}}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">home Page</span></a>
                                         </li>
 
                                     </ul>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
-                                            <a href="{{url('/admin-dashboard/footer-page')}}" class="nk-menu-link"><span class="nk-menu-text">Footer Page</span></a>
+                                            <a href="{{url('/admin-dashboard/footer-page')}}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Footer Page</span></a>
                                         </li>
 
                                     </ul>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
-                                            <a href="{{url('/admin-dashboard/categories-page')}}" class="nk-menu-link"><span class="nk-menu-text">Categories Page</span></a>
+                                            <a href="{{url('/admin-dashboard/categories-page')}}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Categories
+                                                    Page</span></a>
                                         </li>
                                     </ul>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item has-sub">
-                                            <a href="{{url('/admin-dashboard/top-product-page')}}" class="nk-menu-link"><span class="nk-menu-text">Top Product Page</span></a>
+                                            <a href="{{url('/admin-dashboard/top-product-page')}}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Top Product
+                                                    Page</span></a>
                                         </li>
                                     </ul>
                                 </li>
@@ -138,59 +153,81 @@
                                                 <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
                                                 <span class="nk-menu-text">Article Section</span>
                                             </a>
-                                            <ul class="nk-menu-sub" >
+                                            <ul class="nk-menu-sub">
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/article-category')}}" class="nk-menu-link"><span class="nk-menu-text">Article-Category</span></a>
+                                                    <a href="{{url('/admin-dashboard/article-category')}}"
+                                                        class="nk-menu-link"><span
+                                                            class="nk-menu-text">Article-Category</span></a>
                                                 </li>
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/article')}}" class="nk-menu-link"><span class="nk-menu-text">Article</span></a>
+                                                    <a href="{{url('/admin-dashboard/article')}}"
+                                                        class="nk-menu-link"><span
+                                                            class="nk-menu-text">Article</span></a>
                                                 </li>
                                             </ul>
-                                        </li>    
+                                        </li>
 
                                         <li class="nk-menu-item has-sub">
                                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                                 <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
                                                 <span class="nk-menu-text">Policies Section</span>
                                             </a>
-                                            <ul class="nk-menu-sub" >
+                                            <ul class="nk-menu-sub">
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/policies')}}" class="nk-menu-link"><span class="nk-menu-text">Policies</span></a>
+                                                    <a href="{{url('/admin-dashboard/policies')}}"
+                                                        class="nk-menu-link"><span
+                                                            class="nk-menu-text">Policies</span></a>
                                                 </li>
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/rules')}}" class="nk-menu-link"><span class="nk-menu-text">Rules</span></a>
+                                                    <a href="{{url('/admin-dashboard/rules')}}"
+                                                        class="nk-menu-link"><span class="nk-menu-text">Rules</span></a>
                                                 </li>
                                             </ul>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                    <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                    <span class="nk-menu-text">FAQ's Section</span>
-                                                </a>
-                                                <ul class="nk-menu-sub">
-                                                    <li class="nk-menu-item">
-                                                        <a href="{{url('/admin-dashboard/faqs')}}"
-                                                            class="nk-menu-link"><span class="nk-menu-text">Faq's</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                    <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                    <span class="nk-menu-text">Products Section</span>
-                                                </a>
-                                                <ul class="nk-menu-sub">
-                                                    <li class="nk-menu-item">
-                                                        <a href="{{url('/admin-dashboard/products')}}"
-                                                            class="nk-menu-link"><span class="nk-menu-text">Product</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </li>    
-                                    </ul>
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                                <span class="nk-menu-text">FAQ's Section</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="{{url('/admin-dashboard/faqs')}}"
+                                                        class="nk-menu-link"><span class="nk-menu-text">Faq's</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                                <span class="nk-menu-text">Products Section</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="{{url('/admin-dashboard/products')}}"
+                                                        class="nk-menu-link"><span class="nk-menu-text">Product</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                                <span class="nk-menu-text">Reviews Section</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="{{url('/admin-dashboard/reviews')}}"
+                                                        class="nk-menu-link"><span class="nk-menu-text">Reviews</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
                                 </li>
-                                <!-- <li class="nk-menu-item has-sub">
+                            </ul>
+                            </li>
+                            <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
                                         <span class="nk-menu-text">User Manage</span>
@@ -202,7 +239,7 @@
 
                                     </ul>
                                 </li> -->
-                                <!-- <li class="nk-menu-item has-sub">
+                            <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><i class="fas fa-network-wired"></i></span>
                                         <span class="nk-menu-text">Genre</span>
@@ -214,8 +251,8 @@
 
                                     </ul>
                                 </li> -->
-                               
-                             
+
+
                             </ul>
                         </div>
                     </div>
@@ -228,34 +265,43 @@
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
                             <div class="nk-menu-trigger d-xl-none ms-n1">
-                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em
+                                        class="icon ni ni-menu"></em></a>
                             </div>
                             <div class="nk-header-brand d-xl-none">
                                 <a href="{{url('admin-dashboard') ?? ''}}" class="logo-link">
-                                    <img class="logo-light logo-img" src="{{ asset('admin-theme/images/logo.png') }}" srcset="{{ asset('admin-theme/images/logo2x.png 2x') }}" alt="logo">
-                                    <img class="logo-dark logo-img" src="{{ asset('admin-theme/images/logo-dark.png') }}" srcset="{{ asset('admin-theme/images/logo-dark2x.png 2x') }}" alt="logo-dark">
+                                    <img class="logo-light logo-img" src="{{ asset('admin-theme/images/logo.png') }}"
+                                        srcset="{{ asset('admin-theme/images/logo2x.png 2x') }}" alt="logo">
+                                    <img class="logo-dark logo-img"
+                                        src="{{ asset('admin-theme/images/logo-dark.png') }}"
+                                        srcset="{{ asset('admin-theme/images/logo-dark2x.png 2x') }}" alt="logo-dark">
                                 </a>
                             </div>
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
-                                <li>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-bs-toggle="dropdown">
-                                            Site Language: {{ Cookie::get('language_code', config('app.locale')) }}
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <ul class="link-list-opt no-bdr">
-                                                @foreach(\App\Models\SiteLanguages::where('status', 'active')->get() as $siteLanguage)
+                                    <li>
+                                        <div class="dropdown">
+                                            <a href="#"
+                                                class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                                                data-bs-toggle="dropdown">
+                                                Site Language: {{ Cookie::get('language_code', config('app.locale')) }}
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <ul class="link-list-opt no-bdr">
+                                                    @foreach(\App\Models\SiteLanguages::where('status', 'active')->get()
+                                                    as $siteLanguage)
                                                     <li>
-                                                        <a href="{{ url('set-site-active-language/' . $siteLanguage->handle) }}">
-                                                            <span>{{ $siteLanguage->name }} - {{ $siteLanguage->handle }}</span>
+                                                        <a
+                                                            href="{{ url('set-site-active-language/' . $siteLanguage->handle) }}">
+                                                            <span>{{ $siteLanguage->name }} -
+                                                                {{ $siteLanguage->handle }}</span>
                                                         </a>
                                                     </li>
-                                                @endforeach
-                                            </ul>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
 
                                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                                         <!-- <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
@@ -267,11 +313,12 @@
                                             <ul class="language-list">
                                                 <li>
                                                     <a href="#" class="language-item">
-                                                        <img src="{{ asset('admin-theme/images/flags/english.png') }}" alt="" class="language-flag">
+                                                        <img src="{{ asset('admin-theme/images/flags/english.png') }}"
+                                                            alt="" class="language-flag">
                                                         <span class="language-name">English</span>
                                                     </a>
                                                 </li>
-                                                
+
                                             </ul>
                                         </div>
                                     </li><!-- .dropdown -->
@@ -283,7 +330,8 @@
                                                 </div>
                                                 <div class="user-info d-none d-md-block">
                                                     <div class="user-status">Administrator</div>
-                                                    <div class="user-name dropdown-indicator">{{ Auth::user()->first_name ?? ''}}</div>
+                                                    <div class="user-name dropdown-indicator">
+                                                        {{ Auth::user()->first_name ?? ''}}</div>
                                                 </div>
                                             </div>
                                         </a>
@@ -302,19 +350,25 @@
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <!-- <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> -->
-                                                    <li><a href="{{url('admin-dashboard/setting') ?? ''}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                    <li><a href="{{url('admin-dashboard/setting') ?? ''}}"><em
+                                                                class="icon ni ni-setting-alt"></em><span>Account
+                                                                Setting</span></a></li>
                                                     <!-- <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
-                                                    <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                                    <li><a class="dark-switch" href="#"><em
+                                                                class="icon ni ni-moon"></em><span>Dark Mode</span></a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="{{ url('/logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                    <li><a href="{{ url('/logout') }}"><em
+                                                                class="icon ni ni-signout"></em><span>Sign
+                                                                out</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </li>
-                                    
+
                                     <!-- <li class="dropdown notification-dropdown me-n1">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
@@ -394,14 +448,15 @@
                 </div>
                 <!-- content @start -->
                 <div class="nk-content ">
-                @yield('content')
+                    @yield('content')
                 </div>
                 <!-- content @end -->
                 <!-- footer @s -->
                 <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2024 by <a href="{{ url('admin-dashboard') ?? ''}}" target="_blank">localio</a>
+                            <div class="nk-footer-copyright"> &copy; 2024 by <a href="{{ url('admin-dashboard') ?? ''}}"
+                                    target="_blank">localio</a>
                             </div>
                         </div>
                     </div>
@@ -421,94 +476,95 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- remove confermation pop up -->
     <script>
-        $('body').delegate('.removeConfermation', 'click', function(e) {
-            event.preventDefault();
-            url = $(this).attr('data-url');
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You lost your all related data if you remove this",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = url;
-                }
-            });
-            // console.log(url);
+    $('body').delegate('.removeConfermation', 'click', function(e) {
+        event.preventDefault();
+        url = $(this).attr('data-url');
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You lost your all related data if you remove this",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
         });
+        // console.log(url);
+    });
     </script>
     @if (Session::get('error'))
         <script>
             toastr.clear();
             NioApp.Toast('{{ Session::get('error') }}', 'error', {
-                position: 'top-right'
-            });
+                    position: 'top-right'
+                });
         </script>
     @endif
+
     @if (Session::get('success'))
-        <script>
-            toastr.clear();
-            NioApp.Toast('{{ Session::get('success') }}', 'info', {
-                position: 'top-right'
-            });
-        </script>
+    <script>
+    toastr.clear();
+    NioApp.Toast('{{ Session::get('success') }}', 'success', {
+            position: 'top-right'
+        });
+    </script>
     @endif
     <!-- script make theme dark mode dinamic: -->
     <script>
-        $(document).ready(function() {
-            var theme = localStorage.getItem('siteTheme');
-            if (theme && theme === 'dark') {
-                $('body').addClass('nk-body bg-lighter npc-general has-sidebar no-touch nk-nio-theme dark-mode');
+    $(document).ready(function() {
+        var theme = localStorage.getItem('siteTheme');
+        if (theme && theme === 'dark') {
+            $('body').addClass('nk-body bg-lighter npc-general has-sidebar no-touch nk-nio-theme dark-mode');
+        }
+        $('.dark-switch').on('click', function() {
+            if ($(this).hasClass('active')) {
+                localStorage.setItem('siteTheme', 'light');
+            } else {
+                localStorage.setItem('siteTheme', 'dark');
             }
-            $('.dark-switch').on('click', function() {
-                if ($(this).hasClass('active')) {
-                    localStorage.setItem('siteTheme', 'light');
-                } else {
-                    localStorage.setItem('siteTheme', 'dark');
-                }
-            });
         });
+    });
     </script>
     <!-- script make theme dark mode dinamic end: -->
 
     <!--ckeditor script -->
     <script>
-        var editorElements = document.querySelectorAll('.description');
+    var editorElements = document.querySelectorAll('.description');
 
-        editorElements.forEach(function(element) {
-            ClassicEditor
-                .create(element)
-                .catch(error => {
-                    console.error(error);
-                });
-        });
-        var vareditorElements = document.querySelectorAll('.variation_description');
-
-        vareditorElements.forEach(function(element) {
-            ClassicEditor
-                .create(element)
-                .catch(error => {
-                    console.error(error);
-                });
-        });
-
-        function initializeEditors(container) {
-            var var_editorElements = container.querySelectorAll('.variation_description');
-
-            var_editorElements.forEach(function(element) {
-                ClassicEditor
-                    .create(element)
-                    .then(editor => {
-                        editor.setData('');
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+    editorElements.forEach(function(element) {
+        ClassicEditor
+            .create(element)
+            .catch(error => {
+                console.error(error);
             });
-        }
+    });
+    var vareditorElements = document.querySelectorAll('.variation_description');
+
+    vareditorElements.forEach(function(element) {
+        ClassicEditor
+            .create(element)
+            .catch(error => {
+                console.error(error);
+            });
+    });
+
+    function initializeEditors(container) {
+        var var_editorElements = container.querySelectorAll('.variation_description');
+
+        var_editorElements.forEach(function(element) {
+            ClassicEditor
+                .create(element)
+                .then(editor => {
+                    editor.setData('');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    }
     </script>
 </body>
 

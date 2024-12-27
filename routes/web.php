@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 
-use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController,HomeContentController};
+use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController,HomeContentController,ReviewController};
 use App\Http\Controllers\Admin\SiteContent\SiteContentController;
 
 use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
@@ -239,6 +239,13 @@ Route::group(['middleware' =>['admin']],function(){
 
     Route::get('/admin-dashboard/top-product-page',[SiteContentController::class,'topProductPageContent'])->name('top-product-page-content');
     Route::post('/admin-dashboard/product-page-update',[SiteContentController::Class,'topProductPageUpdate'])->name('product-page-update');
+
+    // Reviews Section Route
+
+    Route::get('/admin-dashboard/reviews',[ReviewController::class,'reviews'])->name('reviews');
+    Route::get('/admin-dashboard/review/add',[ReviewController::class,'reviewAdd'])->name('review-add');
+    Route::post('/admin-dashboard/review-add-procc',[ReviewController::class,'reviewAddProc'])->name('review-add-procc');
+    Route::get('/admin-dashboard/review-status-update/{id}',[ReviewController::class,'reviewStatusUpdate'])->name('review-status-update');
     
 });
 
