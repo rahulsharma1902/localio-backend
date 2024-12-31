@@ -116,6 +116,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
 
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
+    Route::post('wishlist',[ProductController::class,'addToWishlist'])->name('withlist');
 
 
 });

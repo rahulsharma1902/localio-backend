@@ -1,10 +1,22 @@
 @extends('user_layout.master')
 @section('content')
-<!-- <div class="header_inner"> -->
+
 <?php
     $files = \App\Models\TopProductContent::where([['lang_code','en'],['type','file']])->pluck('meta_value','meta_key');
 
 ?>
+<style>
+.star-rating li {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.star-rating i {
+    font-size: 24px; 
+}
+
+
+</style>
 <section class="banner_sec help-cntr-bnr top-auto-bnr dark " style="background-color: #003F7D;">
     <div class="bubble-wrp" data-aos="fade-up" data-aos-duration="1000">
         @if(isset($files['banner_bg_image']) && $files['banner_bg_image'])
@@ -312,6 +324,7 @@
                                 <option value="product2">product 2</option>
                             </select>
                         </div>
+                        <div class="text-danger" id="message"></div>
                         <div id="productContainer">
                             @if(isset($products) && !$products->isEmpty())
                             @foreach($products as $product)
@@ -325,6 +338,7 @@
                                                     src="{{asset('ProductIcon/' .$product->product_icon) }}" alt="">
                                             </div>
                                             @endif
+                                           
                                             <div class="sl_h">
                                                 <div class="inn_h">
                                                     <div class="sl_main">
@@ -332,26 +346,24 @@
                                                             {{$product->translations->isNotEmpty() ? $product->translations->first()->name : $product->name ?? ''}}
                                                         </h6>
                                                         <div class="wishlist">
-                                                            <a href="#" class="heart-container" tabindex="0">
+                                                            <a href="javascript:void(0)" class="heart-container" tabindex="0" data-id="{{$product->id}}">
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="tp-btm d-flex flex-col-mob">
                                                     <div class="inn_ul">
-                                                        <div class="tab_star_li">
-                                                            <span class="rating-on rate-1" data-rating="1"></span>
-                                                            <span class="rating-on rate-2" data-rating="2"></span>
-                                                            <span class="rating-on rate-3" data-rating="3"></span>
-                                                            <span class="rating-on rate-4" data-rating="4"></span>
-                                                            <span class="rating-on rate-5" data-rating="5"></span>
+                                                        <div class="tab_star_li star-rating" id="starContainer">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <span class="fa-solid fa-star" style="color: {{ $i <= round($product->average_rating) ? '#FF9D28' : '#D9D9D9' }}" data-rating="{{ $i }}"></span>
+                                                            @endfor
                                                         </div>
                                                         <div>
                                                             <i class="fa-solid fa-angle-down"></i>
                                                         </div>
                                                     </div>
                                                     <div class="rate_box">
-                                                        5.0 | 124 {{$topProductContents['rating'] ?? ''}}
+                                                        {{ number_format($product->average_rating, 1) }} | {{ $product->reviews_count }}  {{$topProductContents['rating'] ?? ''}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -502,9 +514,57 @@
 //     document.getElementById('price-range').innerText = `${minPrice} - ${maxPrice}`;
 
 // }
-
-
+const isLoggedIn = @json(auth()->check());
 $(document).ready(function() {
+    let hearts = $('.heart-container');
+    $('.heart-container').click(function() {
+        let id    = $(this).data('id');
+        if (!isLoggedIn) {
+            window.location.href = "/login";
+            return
+        }
+        $.ajax({
+            url: "{{url(app()->getLocale(). '/wishlist')}}",
+            type:"Post",
+            data:{
+                id:id,
+                _token:"{{csrf_token()}}",
+            },
+          
+            success: function(response)
+            {
+                if (response.info) {
+                    $('#message')
+                        .text(response.info)
+                        .addClass('text-info')
+                        .removeClass('text-danger text-success');
+                } else if (response.success) {
+                    $('#message')
+                        .text(response.success)
+                        .addClass('text-success')
+                        .removeClass('text-danger text-info');
+                }
+            },
+            error: function(xhr, status, error) {
+                let errorMessage = 'An unexpected error occurred';  
+
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.error) {
+                        errorMessage = response.error;  
+                    }
+                } catch (e) {
+                    errorMessage = 'Failed to parse error response';
+                }
+                $('#message').text(errorMessage);
+              
+            }
+            
+        });
+    });
+});
+$(document).ready(function() {
+
     let minPrice = 0;
     let maxPrice = 1000;
     let searchQuery = '';
@@ -563,22 +623,38 @@ function fetchProducts(searchQuery, minPrice, maxPrice) {
             const files = response.files || {};
             const products = response.products || [];
             const formattedProductRelations = response.formattedProductRelations || [];
-
             const productContainer = $('#productContainer');
             const pagination = $('.pagination');
             pagination.empty();
             productContainer.empty();
             if (Array.isArray(products) && products.length > 0) {
                 products.forEach((product) => {
-                    const productRelationData = formattedProductRelations.find(pr => pr.product
-                        .id === product.id);
+        
+                    const productRelationData = formattedProductRelations.find(pr => pr.product.id === product.id);
+
                     const keyFeatures = productRelationData ? productRelationData.keyFeatures : [];
 
-                    const productName = (product.translations && product.translations[0] && product
-                        .translations[0].name) || product.name;
-                    const productDescription = (product.translations && product.translations[0] &&
-                        product.translations[0].description) || product.description;
+                    const productName = (product.translations && product.translations[0] && product.translations[0].name) || product.name;
 
+                    const productDescription = (product.translations && product.translations[0] && product.translations[0].description) || product.description;
+
+                    const averageRating = (product.average_rating); 
+                    
+                    const formattedRating = averageRating.toFixed(1);
+                    
+                    const roundedRating = Math.round(averageRating); 
+
+                    function generateRatingStars(roundedRating) {
+                        let stars = '';
+                        for (let i = 1; i <= 5; i++) {
+                            // const ratingClass = i <= roundedRating ? 'rating-on' : 'rating-off';
+                            // stars += `<span class="${ratingClass} rate-${i}" data-rating="${i}"></span>`;
+
+                            const starColor = i <= roundedRating ? '#FF9D28' : '#D9D9D9';
+                            stars +=`<span class="fa-solid fa-star" style="color: ${starColor}" data-rating="${i}"></span>`;
+                        }
+                        return stars;
+                    }
                     const productHTML = `
                         <div class="automotive-card auto-bg" data-aos="fade-up" data-aos-duration="1000">
                             <div class="auto-choice-card">
@@ -600,22 +676,18 @@ function fetchProducts(searchQuery, minPrice, maxPrice) {
                                             <div class="tp-btm d-flex flex-col-mob">
                                                 <div class="inn_ul">
                                                     <div class="tab_star_li">
-                                                        <span class="rating-on rate-1" data-rating="1"></span>
-                                                        <span class="rating-on rate-2" data-rating="2"></span>
-                                                        <span class="rating-on rate-3" data-rating="3"></span>
-                                                        <span class="rating-on rate-4" data-rating="4"></span>
-                                                        <span class="rating-on rate-5" data-rating="5"></span>
+                                                       ${generateRatingStars(roundedRating)}
                                                     </div>
                                                     <div>
                                                         <i class="fa-solid fa-angle-down"></i>
                                                     </div>
                                                 </div>
                                                 <div class="rate_box">
-                                                    5.0 | 124 ${topProductContents['rating'] || ''}
+                                                    ${formattedRating || ''} | ${product.reviews_count || ''} ${topProductContents['rating'] || ''}
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div class="auto-choice-btn">
                                         <a href="${product.product_link || '#'}" target="blank" class="cta cta_orange">
                                             ${topProductContents['visit_website'] || ''}
@@ -663,6 +735,7 @@ function fetchProducts(searchQuery, minPrice, maxPrice) {
 
                     productContainer.append(productHTML);
                 });
+              
             } else {
                 console.log('No products available or invalid response format.');
             }

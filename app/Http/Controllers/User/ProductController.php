@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\SiteLanguages;
 use App\Models\TopProductContent;
+use App\Models\Wishlist;
 class ProductController extends Controller
 {
     //
@@ -19,19 +20,36 @@ class ProductController extends Controller
 
         $productMaxPrice = Product::max('product_price');
         $siteLanguage = SiteLanguages::where('handle',$locale)->first();
+        // $products = Product::with([
+        //                         'translations' => function($query) use($siteLanguage) {
+        //                             $query->where('language_id', $siteLanguage->id);
+        //                         },
+        //                         'keyFeatures.translations' => function($query) use ($siteLanguage) {
+        //                             $query->where('language_id', $siteLanguage->id);
+        //                         },
+        //                         'categories.translations'=> function($query) use ($siteLanguage) {
+        //                             $query->where('language_id', $siteLanguage->id);
+        //                         },
+        //                     ])
+        //                     ->orderBy('product_price', 'desc')
+        //                     ->paginate(2);
         $products = Product::with([
-                                'translations' => function($query) use($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                                'keyFeatures.translations' => function($query) use ($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                                'categories.translations'=> function($query) use ($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                            ])
-                            ->orderBy('product_price', 'desc')
-                            ->paginate(2);
+                            'translations' => function($query) use($siteLanguage) {
+                                $query->where('language_id', $siteLanguage->id);
+                            },
+                            'keyFeatures.translations' => function($query) use ($siteLanguage) {
+                                $query->where('language_id', $siteLanguage->id);
+                            },
+                            'categories.translations'=> function($query) use ($siteLanguage) {
+                                $query->where('language_id', $siteLanguage->id);
+                            },'reviews'
+                        ])
+                        ->orderBy('product_price', 'desc')
+                        ->paginate(2);
+        foreach ($products as $product) {
+            $product->average_rating = $product->reviews->avg('rating') ?: 0;
+            $product->reviews_count = $product->reviews->count();
+        }
 
         $topProductContents = TopProductContent::where([['lang_code',$locale],['type','text']])->pluck('meta_value','meta_key');
         if($topProductContents->isEmpty())
@@ -59,12 +77,23 @@ class ProductController extends Controller
             $files = $this->getFiles();
 
             $productPriceFilter = $this->getProductPriceFilter($min, $max, $siteLanguage);
-        
+            
+            foreach ($productPriceFilter as $product) {
+                $product->average_rating = $product->reviews->avg('rating') ?: 0;
+                $product->reviews_count = $product->reviews->count();
+            }
+
+
             $formattedProductRelations = $this->mapProductRelations($productPriceFilter);
 
             if ($searchQuery) {
                 $searchResults = $this->getSearchResults($searchQuery, $siteLanguage);
             
+                foreach ($searchResults as $product) {
+                    $product->average_rating = $product->reviews->avg('rating') ?: 0;
+                    $product->reviews_count = $product->reviews->count();
+                }
+  
                 $formattedProductRelations = $this->mapProductRelations($searchResults);
                 return response()->json([
                     'products' => $searchResults,
@@ -113,7 +142,8 @@ class ProductController extends Controller
             return Product::whereBetween('product_price', [$min, $max])
                 ->with(['translations' => function ($query) use ($siteLanguage) {
                     $query->where('language_id', $siteLanguage->id);
-                }])
+                },'reviews'
+                ])
                 ->orderBy('product_price', 'desc')
                 ->get();
         }
@@ -130,7 +160,7 @@ class ProductController extends Controller
                 },
                 'keyFeatures.translations' => function ($query) use ($siteLanguage) {
                     $query->where('language_id', $siteLanguage->id);
-                },
+                },'reviews'
             ])
             ->orderBy('name', 'desc')
             ->get();
@@ -153,4 +183,33 @@ class ProductController extends Controller
             ];
         });
     }
+
+    public function addToWishlist(Request $request)
+    {
+        $id = $request->id;
+        $userId = auth()->id();
+        if (!$userId) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+    
+        $existingWishlist = Wishlist::where('user_id', $userId)
+            ->where('product_id', $product->id)
+            ->first();
+    
+        if ($existingWishlist) {
+            return response()->json(['info' => 'Product already in wishlist'], 200);
+        }
+        $wishlist = new Wishlist();
+        $wishlist->user_id = $userId;
+        $wishlist->product_id = $product->id;
+        $wishlist->save();
+    
+        return response()->json(['success' => 'Wishlist added successfully'], 200);
+    }
+    
+
 }
