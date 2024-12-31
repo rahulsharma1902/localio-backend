@@ -509,16 +509,7 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-//   function updateRange() {
-//     const slider1 = document.getElementById('slider-1');
 
-//     const slider2 = document.getElementById('slider-2');
-//     const minPrice = Math.min(parseInt(slider1.value), parseInt(slider2.value));
-
-//     const maxPrice = Math.max(parseInt(slider1.value), parseInt(slider2.value));
-//     document.getElementById('price-range').innerText = `${minPrice} - ${maxPrice}`;
-
-// }
 const isLoggedIn = @json(auth()->check());
 $(document).ready(function() {
     let hearts = $('.heart-container');
@@ -688,7 +679,10 @@ function fetchProducts(searchQuery, minPrice, maxPrice) {
                                                 <div class="sl_main">
                                                     <h6 class="head">${productName}</h6>
                                                     <div class="wishlist">
-                                                        <a href="javascript:void(0)" class="heart-container" data-id="${product.id}" tabindex="0"></a>
+                                                    ${isLoggedIn 
+                                                        ? `<a href="javascript:void(0)" class="heart-container" data-id="${product.id}" tabindex="0"></a>`
+                                                        : `<a href="/login" class="heart-container" data-id="${product.id}" tabindex="0"></a>`
+                                                    }
                                                     </div>
                                                 </div>
                                             </div>
@@ -755,9 +749,10 @@ function fetchProducts(searchQuery, minPrice, maxPrice) {
                 });
                 $('.heart-container').click(function(){
                     let id = $(this).data('id');
-                    console.log(id);
+                    if (!isLoggedIn) {
+                        return
+                    }
                     wishlist(id);
-                    
                 });
             } else {
                 console.log('No products available or invalid response format.');

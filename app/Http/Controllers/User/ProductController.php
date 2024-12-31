@@ -209,6 +209,5 @@ class ProductController extends Controller
     
         return response()->json(['success' => 'Wishlist added successfully'], 200);
     }
-    
 
 }
