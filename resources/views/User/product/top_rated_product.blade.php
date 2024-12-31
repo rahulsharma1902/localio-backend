@@ -346,8 +346,13 @@
                                                             {{$product->translations->isNotEmpty() ? $product->translations->first()->name : $product->name ?? ''}}
                                                         </h6>
                                                         <div class="wishlist">
+                                                        @if(!auth()->user())
+                                                            <a href="{{url('/login')}}" class="heart-container" tabindex="0" data-id="{{$product->id}}">
+                                                            </a>
+                                                            @else 
                                                             <a href="javascript:void(0)" class="heart-container" tabindex="0" data-id="{{$product->id}}">
                                                             </a>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -519,50 +524,64 @@ $(document).ready(function() {
     let hearts = $('.heart-container');
     $('.heart-container').click(function() {
         let id    = $(this).data('id');
+        console.log(id);
         if (!isLoggedIn) {
-            window.location.href = "/login";
             return
         }
-        $.ajax({
-            url: "{{url(app()->getLocale(). '/wishlist')}}",
-            type:"Post",
-            data:{
-                id:id,
-                _token:"{{csrf_token()}}",
-            },
-          
-            success: function(response)
-            {
-                if (response.info) {
-                    $('#message')
-                        .text(response.info)
-                        .addClass('text-info')
-                        .removeClass('text-danger text-success');
-                } else if (response.success) {
-                    $('#message')
-                        .text(response.success)
-                        .addClass('text-success')
-                        .removeClass('text-danger text-info');
-                }
-            },
-            error: function(xhr, status, error) {
-                let errorMessage = 'An unexpected error occurred';  
-
-                try {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.error) {
-                        errorMessage = response.error;  
-                    }
-                } catch (e) {
-                    errorMessage = 'Failed to parse error response';
-                }
-                $('#message').text(errorMessage);
-              
-            }
-            
-        });
+        wishlist(id);
     });
 });
+       
+function wishlist(id){
+    $.ajax({
+    url: "{{url(app()->getLocale(). '/wishlist')}}",
+    type:"Post",
+    data:{
+        id:id,
+        _token:"{{csrf_token()}}",
+    },
+    
+    success: function(response)
+    {
+        if (response.info) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: response.info,
+                position: 'top-right',
+                toast: true,
+                showConfirmButton: false,
+                timer: 3000,
+            });
+        } else if (response.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: response.success,
+                position: 'top-right',
+                toast: true,
+                showConfirmButton: false,
+                timer: 3000, 
+            });
+        }
+    },
+    error: function(xhr, status, error) {
+        let errorMessage = 'An unexpected error occurred';  
+
+        try {
+            const response = JSON.parse(xhr.responseText);
+            if (response.error) {
+                errorMessage = response.error;  
+            }
+        } catch (e) {
+            errorMessage = 'Failed to parse error response';
+        }
+        $('#message').text(errorMessage);
+        
+    }
+    
+    });
+}
 $(document).ready(function() {
 
     let minPrice = 0;
@@ -669,7 +688,7 @@ function fetchProducts(searchQuery, minPrice, maxPrice) {
                                                 <div class="sl_main">
                                                     <h6 class="head">${productName}</h6>
                                                     <div class="wishlist">
-                                                        <a href="#" class="heart-container" tabindex="0"></a>
+                                                        <a href="javascript:void(0)" class="heart-container" data-id="${product.id}" tabindex="0"></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -732,10 +751,14 @@ function fetchProducts(searchQuery, minPrice, maxPrice) {
                                 </div>
                             </div>
                         </div>`;
-
                     productContainer.append(productHTML);
                 });
-              
+                $('.heart-container').click(function(){
+                    let id = $(this).data('id');
+                    console.log(id);
+                    wishlist(id);
+                    
+                });
             } else {
                 console.log('No products available or invalid response format.');
             }

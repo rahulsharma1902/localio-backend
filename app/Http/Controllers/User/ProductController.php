@@ -199,7 +199,6 @@ class ProductController extends Controller
         $existingWishlist = Wishlist::where('user_id', $userId)
             ->where('product_id', $product->id)
             ->first();
-    
         if ($existingWishlist) {
             return response()->json(['info' => 'Product already in wishlist'], 200);
         }
