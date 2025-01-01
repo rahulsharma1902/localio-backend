@@ -91,4 +91,5 @@ return [
 
     'what_type_of_software' => 'What type of software are you looking for?',
 
+    '12' => 'Get This Deal',
 ];
