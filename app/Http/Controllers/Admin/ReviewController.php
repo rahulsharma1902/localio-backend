@@ -10,7 +10,7 @@ class ReviewController extends Controller
 {
     public function reviews()
     {
-        $reviews = Review::with('user','product')->get();
+        $reviews = Review::with('user','product')->orderBy('created_at', 'desc')->get();
 
         return view('Admin.reviews.index',compact('reviews'));
     }
