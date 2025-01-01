@@ -110,7 +110,14 @@
                                                         @else
                                                             <li><a href="{{ url('admin-dashboard/review-status-update') ?? '' }}/{{ $review->id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Active</span></a></li>
                                                         @endif
-
+                                                        <li><a href="{{ route('review-edit', ['id' => $review->id]) }}">
+                                                            <em class="icon ni ni-edit-fill"></em><span>Edit</span></a>
+                                                           </li>
+                        <!-- Delete Button -->
+                                                          <li>
+                                                          <li><a href="{{ route('review-delete', ['id' => $review->id]) }}">
+                                                            <em class="icon ni ni-trash"></em><span>Delete</span></a>
+                                                          </li>
                                                     </ul>
                                                 </div>
                                             </div>
