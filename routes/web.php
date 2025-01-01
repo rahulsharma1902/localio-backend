@@ -246,8 +246,12 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/reviews',[ReviewController::class,'reviews'])->name('reviews');
     Route::get('/admin-dashboard/review/add',[ReviewController::class,'reviewAdd'])->name('review-add');
     Route::post('/admin-dashboard/review-add-procc',[ReviewController::class,'reviewAddProc'])->name('review-add-procc');
-    Route::get('/admin-dashboard/review-status-update/{id}',[ReviewController::class,'reviewStatusUpdate'])->name('review-status-update');
-    
+    Route::get('/admin-dashboard/review-status-edit/{id}', [ReviewController::class, 'reviewEdit'])->name('review-edit');
+Route::post('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewUpdate'])->name('review-update');
+Route::get('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewStatusUpdate'])->name('review-status-update');
+Route::get('/admin-dashboard/review-delete/{id}', [ReviewController::class, 'reviewDelete'])->name('review-delete');
+
+
 });
 
 Route::group(['middleware' =>['vendor']],function(){

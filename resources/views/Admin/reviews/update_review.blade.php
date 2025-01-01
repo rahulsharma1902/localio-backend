@@ -3,7 +3,7 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
         <div class="nk-block-head-content review-title">
-            <h4 class="title nk-block-title">Add Review</h4>   
+            <h4 class="title nk-block-title">Update Review</h4>   
         </div>
     </div>
     <?php 
@@ -12,7 +12,7 @@
     <div class="card card-bordered review-section">
         <div class="card-inner review-inner">
             <div class="nk-block">
-                <form action="{{ url('admin-dashboard/review-add-procc') ?? '' }}" class="form-validate" novalidate="novalidate" method="POST">
+            <form action="{{ url('admin-dashboard/review-status-update/'.$review->id) }}" method="POST">
                 @csrf
                     <div class="row g-3 form-row">
                         <div class="col-md-12">
@@ -20,7 +20,7 @@
                                 <label class="form-label" for="name">Rating</label>
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                        <input type="number" min="1" max="5" class="form-control" name="rating" id="rating" value="">
+                                    <input type="number" name="rating" value="{{ old('rating', $review->rating) }}" />
                                     </div>
                                 </div>
                                 @error('rating')
@@ -35,12 +35,14 @@
                                 <label class="form-label">Products</label>
                                 <div class="form-control-wrap">
                                     @if ($locale === 'en') 
-                                        <select class="form-select js-select2" name="product_id" data-search="on">
-                                            @foreach($products as $product)
-                                                <option value="{{ $product->id }}" > {{ $product->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                    <select name="product_id">
+    @foreach($products as $product)
+        <option value="{{ $product->id }}" {{ $product->id == $review->product_id ? 'selected' : '' }}>
+            {{ $product->name }}
+        </option>
+    @endforeach
+</select>
+
                                     @endif
                                 </div>
 
@@ -54,19 +56,18 @@
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea class="form-control" name="description" id="description" rows="4" cols="79">
-                                       
-                                    </textarea>
+                                <textarea name="description">{{ old('description', $review->description) }}</textarea>
                                 </div>
                                 @error('description')
                                     <div class="error text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+                        
                     </div>
                     <div class="col-md-12 mt-4">
                         <div class="form-group">
-                            <button class="addCategory btn btn-primary  text-center review-btn"><em class="icon ni ni-plus"></em><span>Add Review</span></button>
+                            <button type= "submit" class="addCategory btn btn-primary  text-center review-btn"><em class="icon ni ni-plus"></em><span>Update Review</span></button>
                         </div>
                     </div>
                 </form>
