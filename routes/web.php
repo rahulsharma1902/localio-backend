@@ -97,6 +97,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('new-password-procc',[AuthenticationController::class,'newPasswordProcc'])->name('new-password-procc');
     // Category Controller
     Route::get('/category',[CategoryController::class,'index'])->name('category');
+    
     // Product Controller
     Route::get('/product',[ProductController::class,'productDetail'])->name('product');
     Route::get('/top-rated-product',[ProductController::class,'topRatedProduct'])->name('top-rated-product');
