@@ -12,6 +12,8 @@ use App\Http\Controllers\User\MetaPages\MetaPagesController;
 use App\Http\Controllers\Vendor\HomeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
+use Google\Cloud\Translate\V2\TranslateClient;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -127,6 +129,8 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', 'en');
     // Route::get('/admin-dashboard',[AdminDashController::class,'index']);
     // Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', '^(en|de|es)$');
+
+
 
 
 
@@ -266,5 +270,6 @@ Route::group(['middleware' =>['vendor']],function(){
 // });
 
 Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
+
 
 
