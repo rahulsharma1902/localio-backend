@@ -33,47 +33,51 @@
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
-<div class="spinner-container">
-  <div class="spinner"></div>
-</div>
-<div class="nk-app-root">
+    <div class="spinner-container">
+        <div class="spinner"></div>
+    </div>
+    <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
             <!-- sidebar @s -->
             <div class="nk-sidebar nk-sidebar-fixed is-dark " data-content="sidebarMenu">
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-menu-trigger">
-                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
-                        <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none"
+                            data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                        <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex"
+                            data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                     </div>
                     <div class="nk-sidebar-brand">
-                        <a href="{{ url('admin-dashboard') ?? ''}}" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="{{ asset('front/img/logo.svg') }}" srcset="{{ asset('front/img/logo.svg') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('front/img/logo-dark.svg') }}" srcset="{{ asset('front/img/logo.svg') }}" alt="logo-dark">
+                        <a href="{{ url('admin-dashboard') ?? '' }}" class="logo-link nk-sidebar-logo">
+                            <img class="logo-light logo-img" src="{{ asset('front/img/logo.svg') }}"
+                                srcset="{{ asset('front/img/logo.svg') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('front/img/logo-dark.svg') }}"
+                                srcset="{{ asset('front/img/logo.svg') }}" alt="logo-dark">
                         </a>
                     </div>
-                    
+
                 </div><!-- .nk-sidebar-element -->
                 <!-- <div class="nk-sidebar-element nk-sidebar-body">
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
                                 <li class="nk-menu-heading">
-                                    <a href="{{ url('admin-dashboard') ?? ''}}"><h6 class="overline-title text-primary-alt">Dashboard</h6></a>
+                                    <a href="{{ url('admin-dashboard') ?? '' }}"><h6 class="overline-title text-primary-alt">Dashboard</h6></a>
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
                                         <span class="nk-menu-text">categories</span>
                                     </a>
-                                    
+
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/filters') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><em class="icon ni ni-filter-fill"></em></span>
                                         <span class="nk-menu-text">Filter</span>
                                     </a>
-                                    
+
                                 </li>
                                  <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -82,7 +86,7 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{url('/admin-dashboard/site-languages')}}" class="nk-menu-link"><span class="nk-menu-text">Site - Languages</span></a>
+                                            <a href="{{ url('/admin-dashboard/site-languages') }}" class="nk-menu-link"><span class="nk-menu-text">Site - Languages</span></a>
                                         </li>
 
                                     </ul>
@@ -93,7 +97,7 @@
                                         <span class="nk-menu-text">Store Front</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                      
+
                                         <li class="nk-menu-item has-sub">
                                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                                 <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
@@ -101,13 +105,13 @@
                                             </a>
                                             <ul class="nk-menu-sub" >
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/article-category')}}" class="nk-menu-link"><span class="nk-menu-text">Article-Category</span></a>
+                                                    <a href="{{ url('/admin-dashboard/article-category') }}" class="nk-menu-link"><span class="nk-menu-text">Article-Category</span></a>
                                                 </li>
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/article')}}" class="nk-menu-link"><span class="nk-menu-text">Article</span></a>
+                                                    <a href="{{ url('/admin-dashboard/article') }}" class="nk-menu-link"><span class="nk-menu-text">Article</span></a>
                                                 </li>
                                             </ul>
-                                        </li>    
+                                        </li>
 
                                         <li class="nk-menu-item has-sub">
                                             <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -116,13 +120,13 @@
                                             </a>
                                             <ul class="nk-menu-sub" >
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/policies')}}" class="nk-menu-link"><span class="nk-menu-text">Policies</span></a>
+                                                    <a href="{{ url('/admin-dashboard/policies') }}" class="nk-menu-link"><span class="nk-menu-text">Policies</span></a>
                                                 </li>
                                                 <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/rules')}}" class="nk-menu-link"><span class="nk-menu-text">Rules</span></a>
+                                                    <a href="{{ url('/admin-dashboard/rules') }}" class="nk-menu-link"><span class="nk-menu-text">Rules</span></a>
                                                 </li>
                                             </ul>
-                                        </li>    
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -137,34 +141,43 @@
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
                             <div class="nk-menu-trigger d-xl-none ms-n1">
-                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon"
+                                    data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                             </div>
                             <div class="nk-header-brand d-xl-none">
-                                <a href="{{url('admin-dashboard') ?? ''}}" class="logo-link">
-                                    <img class="logo-light logo-img" src="{{ asset('admin-theme/images/logo.png') }}" srcset="{{ asset('admin-theme/images/logo2x.png 2x') }}" alt="logo">
-                                    <img class="logo-dark logo-img" src="{{ asset('admin-theme/images/logo-dark.png') }}" srcset="{{ asset('admin-theme/images/logo-dark2x.png 2x') }}" alt="logo-dark">
+                                <a href="{{ url('admin-dashboard') ?? '' }}" class="logo-link">
+                                    <img class="logo-light logo-img" src="{{ asset('admin-theme/images/logo.png') }}"
+                                        srcset="{{ asset('admin-theme/images/logo2x.png 2x') }}" alt="logo">
+                                    <img class="logo-dark logo-img"
+                                        src="{{ asset('admin-theme/images/logo-dark.png') }}"
+                                        srcset="{{ asset('admin-theme/images/logo-dark2x.png 2x') }}"
+                                        alt="logo-dark">
                                 </a>
                             </div>
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
-                                <li>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-bs-toggle="dropdown">
-                                            Site Language: {{ Cookie::get('language_code', config('app.locale')) }}
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <ul class="link-list-opt no-bdr">
-                                                @foreach(\App\Models\SiteLanguages::where('status', 'active')->get() as $siteLanguage)
-                                                    <li>
-                                                        <a href="{{ url('set-site-active-language/' . $siteLanguage->handle) }}">
-                                                            <span>{{ $siteLanguage->name }} - {{ $siteLanguage->handle }}</span>
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
+                                    <li>
+                                        <div class="dropdown">
+                                            <a href="#"
+                                                class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                                                data-bs-toggle="dropdown">
+                                                Site Language: {{ Cookie::get('language_code', config('app.locale')) }}
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <ul class="link-list-opt no-bdr">
+                                                    @foreach (\App\Models\SiteLanguages::where('status', 'active')->get() as $siteLanguage)
+                                                        <li>
+                                                            <a
+                                                                href="{{ url('set-site-active-language/' . $siteLanguage->handle) }}">
+                                                                <span>{{ $siteLanguage->name }} -
+                                                                    {{ $siteLanguage->handle }}</span>
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
 
                                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                                         <!-- <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
@@ -176,11 +189,12 @@
                                             <ul class="language-list">
                                                 <li>
                                                     <a href="#" class="language-item">
-                                                        <img src="{{ asset('admin-theme/images/flags/english.png') }}" alt="" class="language-flag">
+                                                        <img src="{{ asset('admin-theme/images/flags/english.png') }}"
+                                                            alt="" class="language-flag">
                                                         <span class="language-name">English</span>
                                                     </a>
                                                 </li>
-                                                
+
                                             </ul>
                                         </div>
                                     </li><!-- .dropdown -->
@@ -192,7 +206,8 @@
                                                 </div>
                                                 <div class="user-info d-none d-md-block">
                                                     <div class="user-status">Administrator</div>
-                                                    <div class="user-name dropdown-indicator">{{ Auth::user()->first_name ?? ''}}</div>
+                                                    <div class="user-name dropdown-indicator">
+                                                        {{ Auth::user()->first_name ?? '' }}</div>
                                                 </div>
                                             </div>
                                         </a>
@@ -203,22 +218,26 @@
                                                         <span>AB</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">{{ Auth::user()->name ?? ''}}</span>
-                                                        <span class="sub-text">{{ Auth::user()->email ?? ''}}</span>
+                                                        <span class="lead-text">{{ Auth::user()->name ?? '' }}</span>
+                                                        <span class="sub-text">{{ Auth::user()->email ?? '' }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <!-- <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> -->
-                                                    <!-- <li><a href="{{url('admin-dashboard/setting') ?? ''}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
+                                                    <!-- <li><a href="{{ url('admin-dashboard/setting') ?? '' }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
                                                     <!-- <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
-                                                    <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                                    <li><a class="dark-switch" href="#"><em
+                                                                class="icon ni ni-moon"></em><span>Dark Mode</span></a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="{{ url('/logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                    <li><a href="{{ route('logout') }}"><em
+                                                                class="icon ni ni-signout"></em><span>Sign
+                                                                out</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -230,14 +249,15 @@
                 </div>
                 <!-- content @start -->
                 <div class="nk-content ">
-                @yield('content')
+                    @yield('content')
                 </div>
                 <!-- content @end -->
                 <!-- footer @s -->
                 <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2024 by <a href="{{ url('admin-dashboard') ?? ''}}" target="_blank">localio</a>
+                            <div class="nk-footer-copyright"> &copy; 2024 by <a
+                                    href="{{ url('admin-dashboard') ?? '' }}" target="_blank">localio</a>
                             </div>
                         </div>
                     </div>

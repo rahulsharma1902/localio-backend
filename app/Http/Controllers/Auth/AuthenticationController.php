@@ -17,7 +17,7 @@ use App\Models\OtpVerification;
 use App\Mail\ForgetPasswordMail;
 use Mail;
 use Carbon\Carbon;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 use App\Models\Country;
 use App;
 use App\Models\MetaVendor;
@@ -29,33 +29,28 @@ class AuthenticationController extends Controller
 
     }
     public function loginProcc(Request $request)
-    {   
+    {
         $lang = Session::get('current_lang');
-
         $request->validate([
             'email' => 'required',
             'password' => 'required',
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-
             if (Auth::user()->user_type === 'admin') {
-                return redirect("/{$lang}/admin-dashboard")->with('success', 'Successfully loggedin! Welcome Come Admin');
-                // return redirect("/admin-dashboard")->with('success', 'Successfully loggedin! Welcome Come Admin');
-
+                return redirect()->route('admin_dashboard');
             } elseif (Auth::user()->user_type === 'user') {
-                // $changeID = $this->convertTemporaryIdToUserId();
                 if ($request->url != null) {
                     return redirect($request->url);
                 } else {
-                    return redirect("/{$lang}/")->with('success', 'Successfully loggedin');
+                    return redirect()->route('home')->with('success', 'Successfully loggedin');
                 }
             } else {
                 Auth::logout();
-                return redirect()->back()->with('error', 'failed! Something went wrong');
+                return redirect()->route('home')->with('error', 'failed! Something went wrong');
             }
         } else {
-            return redirect()->back()->with('error', 'failed to login');
+            return redirect()->route('home')->with('error', 'failed to login');
 
         }
     }
@@ -71,47 +66,36 @@ class AuthenticationController extends Controller
         $validated = $request->validate([
             'first_name' => 'required',
             'last_name'  => 'required',
-            'email' => 'required|email|unique:users,email',  
-            'password' => 'required|confirmed', 
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed',
             'country_id' => 'required', // Validate country_id exists in the countries table
         ]);
-
-        $user = new User();
-        $user->first_name = $request->first_name;
-        $user->last_name  = $request->last_name;
-        $user->email      = $request->email;
-        $user->password   = Hash::make($request->password);
-        $user->country_id    = $request->country_id ;
-        $user->save();
-        if ($user) {
-            // Attempt to log the user in
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
-    
-                // Check the user type and redirect accordingly
-                if (Auth::user()->user_type === 'admin') {
-                    return redirect("/{$lang}/admin-dashboard")
-                        ->with('success', 'Successfully logged in! Welcome Admin');
-                } else {
-                    return redirect("/{$lang}/")
-                        ->with('success', 'Successfully logged in');
-                }
+        if($validated){
+            $user = new User();
+            $user->first_name = $request->first_name;
+            $user->last_name  = $request->last_name;
+            $user->email      = $request->email;
+            $user->password   = Hash::make($request->password);
+            $user->country_id    = $request->country_id ;
+            $user->save();
+            if ($user) {
+                Auth::login($user);
+                return redirect()->route('home')->with('success','Success full Register');
             } else {
-                // Authentication failed
                 return redirect()->back()->withErrors(['error' => 'Authentication failed']);
             }
         }
     }
-    public function logout(){
-        $lang = app()->getLocale();
 
-        Auth::logout();
-        return redirect("/{$lang}/")->with('success',"You have logged out succesfully");
-    }
-   
     
-   
-   
+    public function logout(){
+        Auth::logout();
+        return redirect()->back()->with('success',"You have logged out succesfully");
+    }
+
+
+
+
 // {
 //     public function index()
 //     {
@@ -157,7 +141,6 @@ class AuthenticationController extends Controller
 //     }
 //     public function registerProcc(Request $request)
 //     {
-//         // dd($request->all());
 
 //         $request->validate([
 //             'first_name' => 'required',
@@ -188,7 +171,7 @@ class AuthenticationController extends Controller
 //             'name' => $request->name,
 //             'email' => $request->email,
 //         ];
-//         // $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+//         // $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData));
 //         if (Auth::attempt($request->only('email', 'password'))) {
 //             if (Auth::user()->is_admin == 0) {
 //                 $changeID = $this->convertTemporaryIdToUserId();
@@ -231,21 +214,21 @@ class AuthenticationController extends Controller
         OtpVerification::updateOrCreate($verification);
 
         $data = Mail::to($request->email)->send(new ForgetPasswordMail($data));
-    
+
         return redirect('/otp-confirm')->with('success' ,'OTP has been sent to your email');
     }
     public function otpConfirm()
     {
         return view('Authentication.get_opt');
     }
- 
+
     public function optProcc(Request $request)
     {
         $request->validate([
             'otp' => 'required|digits:6', // Assuming OTP is a 6-digit number
         ]);
         $otp = $request->otp;
-     
+
         $verificationExists = OtpVerification::where('otp', $otp)
                                             ->where('expires_at', '>=', Carbon::now()->subMinutes(5))
                                             ->first();
@@ -255,7 +238,7 @@ class AuthenticationController extends Controller
         }
 
         $verificationExists->update([
-            'expires_at' => Carbon::now()->subMinutes(5) 
+            'expires_at' => Carbon::now()->subMinutes(5)
         ]);
 
         return redirect('/new-password')->with('success' ,'Your OTP is confirmed');
@@ -266,7 +249,7 @@ class AuthenticationController extends Controller
     }
     public function newPasswordProcc(Request $request)
      {
-       $email = session('reset_email'); 
+       $email = session('reset_email');
 
        $lang = app()->getLocale();
 
@@ -274,15 +257,15 @@ class AuthenticationController extends Controller
             'password' => 'required|confirmed',
         ]);
         $user = User::where('email', $email)->first();
-    
+
         if (!$user) {
             return redirect()->back()->with('error','User not found');
         }
-    
+
         $password = Hash::make($request->password);
         $remember = $request->has('remember');
         $user->password = $password;
-        $user->save(); 
+        $user->save();
         if (Auth::attempt(['email' => $email, 'password' => $request->password],$remember)) {
             // If authentication is successful, check user role
         if (Auth::user()->user_type == 'admin') {
@@ -314,7 +297,7 @@ class AuthenticationController extends Controller
 //         }
 //     }
 
-     
+
 
 //     public function newpassword($secret_key = null)
 //     {
@@ -494,7 +477,7 @@ class AuthenticationController extends Controller
         } else {
             // Handle the case where the user does not exist
             list($firstName, $lastName) = explode(' ', $googleUser->name . ' ', 2);
-            
+
             // Create a new user
             $newUser = User::create([
                 'first_name' => trim($firstName), // Use trim to avoid any leading/trailing spaces
@@ -510,7 +493,7 @@ class AuthenticationController extends Controller
 
         // Get the logged-in user
         $user = auth()->user();
-        
+
         // Redirect based on user type
         return $this->redirectUser($user, $lang);
     }
@@ -538,29 +521,29 @@ class AuthenticationController extends Controller
     // {
     //     // Get the current locale
     //     $lang = app()->getLocale();
-    
+
     //     try {
     //         // Retrieve the user information from Facebook
     //         $facebookUser = Socialite::driver('facebook')->user();
     //     } catch (\Exception $e) {
     //         // Log the exception message
     //         \Log::error('Facebook authentication error: ' . $e->getMessage());
-            
+
     //         // Redirect back to the login page if authentication fails
     //         return redirect("/{$lang}/login")->with('error', 'Facebook authentication failed.');
     //     }
-    
+
     //     // Log the returned user data for debugging
     //     \Log::info('Facebook User Data:', (array) $facebookUser);
-    
+
     //     // Check if the user object is not null and has the necessary properties
     //     if (is_null($facebookUser) || !property_exists($facebookUser, 'email')) {
     //         return redirect("/{$lang}/login")->with('error', 'Unable to retrieve user data from Facebook.');
     //     }
-    
+
     //     // Check if the user already exists in the database
     //     $existingUser = User::where('email', $facebookUser->email)->first();
-    
+
     //     if ($existingUser) {
     //         // Log in the existing user
     //         Auth::login($existingUser);
@@ -582,10 +565,10 @@ class AuthenticationController extends Controller
     //             'user_type' => 'user', // Default user type
     //             'password' => Hash::make($facebookUser->email), // Generate a unique password
     //         ]);
-    
+
     //         // Log in the newly created user
     //         Auth::login($newUser);
-    
+
     //         // Redirect based on user type
     //         if ($newUser->user_type === 'admin') {
     //             return redirect("/{$lang}/admin-dashboard")->with('success', 'Successfully logged in! Welcome, Admin.');
@@ -600,26 +583,26 @@ class AuthenticationController extends Controller
     {
         // Get the current locale
         $lang = app()->getLocale();
-        
+
         try {
             // Retrieve the user information from Facebook
             $facebookUser = Socialite::driver('facebook')->user();
         } catch (\Exception $e) {
             // Log the exception message
             \Log::error('Facebook authentication error: ' . $e->getMessage());
-            
+
             // Redirect back to the login page if authentication fails
             return redirect("/{$lang}/login")->with('error', 'Facebook authentication failed.');
         }
-        
+
         // Log the returned user data for debugging
         \Log::info('Facebook User Data:', (array) $facebookUser);
-        
+
         // Check if the user object is not null and has the necessary properties
         if (is_null($facebookUser) || !property_exists($facebookUser, 'email')) {
             return redirect("/{$lang}/login")->with('error', 'Unable to retrieve user data from Facebook.');
         }
-        
+
         // Check if the user already exists in the database
         $existingUser = User::where('email', $facebookUser->email)->first();
 
@@ -636,14 +619,14 @@ class AuthenticationController extends Controller
                 'user_type' => 'user', // Default user type
                 'password' => Hash::make($facebookUser->email), // Generate a random password
             ]);
-            
+
             // Log in the newly created user
             Auth::login($newUser);
         }
 
         // Get the logged-in user
         $user = auth()->user();
-        
+
         // Redirect based on user type
         return $this->redirectUserRole($user, $lang);
     }
@@ -678,7 +661,7 @@ class AuthenticationController extends Controller
             'last_name'     => 'required',
             'job_title'     => 'required',
             'business_email'=> 'required|email',
-            'business_phone'=> 'required|numeric|digits:10', 
+            'business_phone'=> 'required|numeric|digits:10',
             'country_id'    => 'required',
             'company_name'  => 'required',
             'company_size'  => 'required',
@@ -714,7 +697,7 @@ class AuthenticationController extends Controller
         //         $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
         //         if (Auth::user()->user_type === 'vendor') {
         //             return redirect("/{$lang}/vendor-dashboard")->with('success', 'Successfully logged in! Welcome Vendor');
-        //         } 
+        //         }
         //     } else {
         //         // Authentication failed
         //         return redirect()->back()->withErrors(['error' => 'Authentication failed']);
@@ -723,4 +706,3 @@ class AuthenticationController extends Controller
     }
 
 }
-

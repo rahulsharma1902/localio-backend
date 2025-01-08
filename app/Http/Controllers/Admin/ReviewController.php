@@ -11,14 +11,13 @@ class ReviewController extends Controller
     public function reviews()
     {
         $reviews = Review::with('user','product')->get();
-
         return view('Admin.reviews.index',compact('reviews'));
     }
     public function reviewAdd()
     {
-      
+
         $products = Product::all('name','id');
-       
+
         return view('Admin.reviews/add_review',compact('products'));
     }
     public function reviewAddProc(Request $request)
@@ -43,12 +42,10 @@ class ReviewController extends Controller
     public function reviewStatusUpdate(Request $request)
     {
         $id = $request->id;
-
         $review = Review::find($id);
         if (!$review) {
             return redirect()->back()->with(['error' => 'Review not found']);
         }
-    
         $review->update([
             'status' => $review->status == 1 ? 0 : 1
         ]);
@@ -61,7 +58,7 @@ class ReviewController extends Controller
     //     $review = Review::find($id);
 
     //     if (!$review) {
-        
+
     //         return response()->json(['error' => 'Review not found'], 404);
     //     }
 
