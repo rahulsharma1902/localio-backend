@@ -9,6 +9,8 @@
 }
 </style>
 
+
+
 <div class="nk-block nk-block-lg">
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
@@ -25,6 +27,7 @@
                                         <a href="#" data-target="addProduct" class="toggle btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                         <a href="#" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Categories</span></a>
                                     </li>
+                                    
                                 </ul>
                             </div>
                     </div>
@@ -34,6 +37,11 @@
     <div class="card card-bordered card-preview">
         <div class="card-inner">
             <table class="datatable-init nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            @if($categories->isEmpty())
+                        <div class="text-center">
+                            <button class="btn btn-primary">No data found</button>
+                         </div>
+    @else
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <!-- <th class="nk-tb-col">Sno.</th> -->
@@ -48,14 +56,7 @@
                 <tbody>
                 @foreach($categories as $category)
                     <tr class="nk-tb-item">
-                        <!-- <td class="nk-tb-col">
-                            <div class="user-card">
-                                <div class="user-info">
-                                    <span class="tb-lead">dfgd</span>
-
-                                </div>
-                            </div>
-                        </td> -->
+                      
                         
                         <td class="nk-tb-col">
                             <div class="user-card">
@@ -71,9 +72,7 @@
                         </td>
 
 
-                        <!-- <td class="nk-tb-col tb-col-md">
-                            <span class="tb-amount">{{ $category->status ?? ''}}</span>
-                        </td> -->
+                        
 
                         <td class="nk-tb-col nk-tb-col-tools">
                             <ul class="nk-tb-actions gx-1">
@@ -99,7 +98,10 @@
                         </td>
                     </tr>
                 @endforeach
+                
+                
                 </tbody>
+                @endif
             </table>
         </div>
     </div>

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryTranslation extends Model
 {
     use HasFactory;
+
+  
+    protected $fillable = ['category_id', 'language_id', 'name', 'description', 'slug'];
+
     public function language()
     {
         return $this->hasOne(SiteLanguages::class, 'id', 'language_id');
@@ -15,7 +19,6 @@ class CategoryTranslation extends Model
     // public function category(){
     //     return $this->hasOne(Country::class,'id','category_id');
     // }
-    protected $fillable = ['category_id', 'language_id', 'name', 'description', 'slug'];
 
     // Define the category relationship
     // public function categoryData()
