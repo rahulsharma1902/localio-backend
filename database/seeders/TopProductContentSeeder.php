@@ -230,7 +230,7 @@ class TopProductContentSeeder extends Seeder
                 'updated_at'    =>  now(),
                 'type'          =>  'text',
 
-            ], 
+            ],
             [
                 'meta_key' => 'read_more',
                 'meta_value' => 'Read More',
@@ -358,7 +358,7 @@ class TopProductContentSeeder extends Seeder
                 'type'          =>  'text',
 
             ],
-           
+
         ]);
     }
 }

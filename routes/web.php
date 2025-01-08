@@ -25,38 +25,6 @@ use Google\Cloud\Translate\V2\TranslateClient;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['web']], function () {
-
-//         Route::get('/',[ViewController::class,'home']);
-
-//         // Route::get('/', function () {
-//         //     return 'Current locale: ' . LaravelLocalization::getCurrentLocale();
-//         // });
-        
-
-//         Route::get('/login',[AuthenticationController::class,'index']);
-//         Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);
-//         Route::get('/logout',[AuthenticationController::class,'logout']);
-
-
-//         //admin
-//         Route ::group(['middleware' =>['admin']],function(){
-//             Route::get('/admin-dashboard',[AdminDashController::class,'index']);
-
-
-//             // profile settings 
-//             Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
-//             Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
-//             Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
-            
-
-//         });
-
-// });
 
 Route::get('auth/google', [AuthenticationController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('login/google/callback', [AuthenticationController::class, 'handleGoogleCallback']);
@@ -71,17 +39,14 @@ Route::get('login/facebook/callback', [AuthenticationController::class, 'handleF
 Route::get('/switch-language/{langCode?}', [ViewController::class, 'changeLanguage'])->name('change-lang');
 
 
+Route::get('/', [ViewController::class, 'home'])->name('home');
+Route::get('/login',[AuthenticationController::class,'index'])->name('login');
+Route::post('/loginprocc',[AuthenticationController::class,'loginProcc'])->name('login_process');
+Route::get('/register',[AuthenticationController::class,'register'])->name('register');
+Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register-process');
+Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
 Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
-
-    Route::get('/', [ViewController::class, 'home'])->name('/');
-
-    Route::get('/login',[AuthenticationController::class,'index'])->name('login');
-    Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
-
-    Route::get('/register',[AuthenticationController::class,'register'])->name('register');
-    Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register-process');
-    Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
     // Vendor Register Route
 
@@ -120,26 +85,22 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
     Route::post('wishlist',[ProductController::class,'addToWishlist'])->name('withlist');
-
-
 });
 
-// Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);  
+// Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);
 
 Route::group(['middleware' =>['admin']],function(){
-    Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', 'en');
+    Route::get('/admin-dashboard',[AdminDashController::class,'index'])->name('admin_dashboard');
     // Route::get('/admin-dashboard',[AdminDashController::class,'index']);
     // Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', '^(en|de|es)$');
 
 
 
 
-
-    // profile settings 
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
     Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
-    
+
     //  CategoriesController  categories
     Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
     Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
@@ -182,7 +143,7 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/article-category',[ArticleController::class,'articleCategory'])->name('article-category');
 
     Route::get('/admin-dashboard/article/category/add',[ArticleController::class,'articleCategoryAdd'])->name('article-category-add');
-    
+
     Route::post('/admin-dashboard/article/category/addProcc',[ArticleController::class,'articleCategoryAddProcc'])->name('article-category-addProcc');
     Route::get('/admin-dashboard/edit-article-category/{id}',[ArticleController::class,'articleCategoryEdit'])->name('article-category-edit');
     Route::post('/admin-dashboard/article/category/update',[ArticleController::class,'articleCategoryUpdate'])->name('article-category-update');
@@ -198,7 +159,7 @@ Route::group(['middleware' =>['admin']],function(){
     // Remove policy
 
     Route::get('/admin-dashboard/policy-remove/{id?}',[SitePagesController::class,'pulicyRemove'])->name('policy-remove');
-    
+
     // Rules Route
 
     Route::get('/admin-dashboard/rules',[SitePagesController::class,'rules'])->name('rules');
@@ -251,6 +212,9 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/reviews',[ReviewController::class,'reviews'])->name('reviews');
     Route::get('/admin-dashboard/review/add',[ReviewController::class,'reviewAdd'])->name('review-add');
     Route::post('/admin-dashboard/review-add-procc',[ReviewController::class,'reviewAddProc'])->name('review-add-procc');
+
+    Route::get('/admin-dashboard/review-status-update/{id}',[ReviewController::class,'reviewStatusUpdate'])->name('review-status-update');
+
     Route::get('/admin-dashboard/review-status-edit/{id}', [ReviewController::class, 'reviewEdit'])->name('review-edit');
 Route::post('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewUpdate'])->name('review-update');
 Route::get('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewStatusUpdate'])->name('review-status-update');
@@ -261,8 +225,6 @@ Route::get('/admin-dashboard/review-delete/{id}', [ReviewController::class, 'rev
 
 Route::group(['middleware' =>['vendor']],function(){
     Route::get('/{locale}/vendor-dashboard',[HomeController::class,'index'])->name('vendor-dashboard')->where('locale', 'en');
-   
-    
 });
 // Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
 //     Route::group(['middleware' => ['vendor']], function () {
@@ -271,6 +233,4 @@ Route::group(['middleware' =>['vendor']],function(){
 // });
 
 Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
-
-
 

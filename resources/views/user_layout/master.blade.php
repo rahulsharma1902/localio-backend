@@ -45,34 +45,30 @@
 
 <body>
     <?php
-        $lang = getCurrentLocale();
-
-         $headerLogo = \App\Models\HeaderContent::where([['lang_code','en'],['meta_key','header_logo']])->first();
-         $headerContent = \App\Models\HeaderContent::where([['lang_code',$lang],['type','text']])->pluck('meta_value', 'meta_key');
-        
-         if($headerContent->isEmpty())
-         {
-            $headerContent = \App\Models\HeaderContent::where([['lang_code','en'],['type','text']])->pluck('meta_value', 'meta_key');
-
-         }
-         $footerLogo = \App\Models\FooterContent::where([['lang_code','en'],['meta_key', 'footer_logo']])->first();
-         $icons = \App\Models\FooterContent::where('lang_code', 'en')
-                                             ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
-                                             ->get();
-
-         $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
-         $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
-         $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
-
-         $footerContents = \App\Models\FooterContent::where('lang_code',$lang)->where('type','text')->pluck('meta_value', 'meta_key');
-         $footerMediaUrls = \App\Models\FooterContent::where('lang_code',$lang)->where('type','url')->where('lang_code','en')->pluck('meta_value', 'meta_key');
-  
-         if($footerContents->isEmpty())
-         {
-            $footerContents = \App\Models\FooterContent::where('lang_code','en')->where('type','text')->pluck('meta_value', 'meta_key');
-         
-         }
-
+    $lang = getCurrentLocale();
+    
+    $headerLogo = \App\Models\HeaderContent::where([['lang_code', 'en'], ['meta_key', 'header_logo']])->first();
+    $headerContent = \App\Models\HeaderContent::where([['lang_code', $lang], ['type', 'text']])->pluck('meta_value', 'meta_key');
+    
+    if ($headerContent->isEmpty()) {
+        $headerContent = \App\Models\HeaderContent::where([['lang_code', 'en'], ['type', 'text']])->pluck('meta_value', 'meta_key');
+    }
+    $footerLogo = \App\Models\FooterContent::where([['lang_code', 'en'], ['meta_key', 'footer_logo']])->first();
+    $icons = \App\Models\FooterContent::where('lang_code', 'en')
+        ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
+        ->get();
+    
+    $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
+    $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
+    $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
+    
+    $footerContents = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'text')->pluck('meta_value', 'meta_key');
+    $footerMediaUrls = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'url')->where('lang_code', 'en')->pluck('meta_value', 'meta_key');
+    
+    if ($footerContents->isEmpty()) {
+        $footerContents = \App\Models\FooterContent::where('lang_code', 'en')->where('type', 'text')->pluck('meta_value', 'meta_key');
+    }
+    
     ?>
     <header>
         <section class="sec_head">
@@ -81,28 +77,32 @@
                     <div class="header_row">
                         <div class="search_logo">
                             <div class="logo_col">
-                                <!-- <a href="{{url('/' ?? '' )}}" class="brand"><img src="{{asset('front/img/logo.svg') }}"></a>               -->
-                                @if(isset($headerLogo) && $headerLogo)
-                                <a href="{{url('/' ?? '' )}}" class="brand"><img
-                                        src="{{ asset($headerLogo->meta_value) }}"
-                                        alt="{{ $headerLogo->meta_key }}"></a>
+                                <!-- <a href="{{ url('/' ?? '') }}" class="brand"><img src="{{ asset('front/img/logo.svg') }}"></a>               -->
+                                @if (isset($headerLogo) && $headerLogo)
+                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                            src="{{ asset($headerLogo->meta_value) }}"
+                                            alt="{{ $headerLogo->meta_key }}"></a>
                                 @else
-                                <a href="{{url('/' ?? '' )}}" class="brand"><img
-                                        src="{{asset('front/img/logo.svg') }}"></a>
+                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                            src="{{ asset('front/img/logo.svg') }}"></a>
                                 @endif
                             </div>
                         </div>
                         <div id="myID" class="search-box">
-                            <input type="text" placeholder="{{$headerContent['header_search_placeholder'] ?? ''}}">
+                            <input type="text"
+                                placeholder="{{ $headerContent['header_search_placeholder'] ?? '' }}">
                             <i class="fa fa-search"></i>
                         </div>
                         <div class="header_button_col">
                             <div class="Header_buttons">
-                                @if(!auth()->user())
-                                <a href="{{url('/login')}}" class="cta cta_trans">{{$headerContent['login_btn_lable'] ?? ''}}</a>
-                                <a href="{{url('/register') }}" class="cta cta_orange">{{$headerContent['sign_up_btn_lable'] ?? ''}}</a>
+                                @if (!auth()->user())
+                                    <a href="{{ url('/login') }}"
+                                        class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? '' }}</a>
+                                    <a href="{{ url('/register') }}"
+                                        class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? '' }}</a>
                                 @else
-                                <a href="{{url('/logout') }}" class="cta cta_orange">{{$headerContent['sign_out_btn_lable'] ?? ''}}</a>
+                                    <a href="{{ url('/logout') }}"
+                                        class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? '' }}</a>
                                 @endif
                             </div>
                         </div>
@@ -120,47 +120,50 @@
                             <span class="bar"></span>
                         </button>
                         <?php
-                     use App\Models\Category; 
-
-                     $categories = Category::all();
-                     ?>
+                        use App\Models\Category;
+                        
+                        $categories = Category::all();
+                        ?>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="left_menu">
                                 <ul class="menu">
                                     <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                                        <a href="javascript:void(0)" class="cat_menu">{{$headerContent['categories'] ?? ''}}</a>
+                                        <a href="javascript:void(0)"
+                                            class="cat_menu">{{ $headerContent['categories'] ?? '' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                            @foreach($categories as $category)
-                                            <li class="dropdown_item-1">
-                                                <a href="#">{{$category->name ?? 'not category found' }}</a>
-                                            </li>
+                                            @foreach ($categories as $category)
+                                                <li class="dropdown_item-1">
+                                                    <a href="#">{{ $category->name ?? 'not category found' }}</a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </li>
                                     <?php
-                                        use App\Models\Product;
-                                        $products = Product::all();
-                                        
+                                    use App\Models\Product;
+                                    $products = Product::all();
+                                    
                                     ?>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{$headerContent['top_rated_product'] ?? ''}}</a>
+                                        <a href="#">{{ $headerContent['top_rated_product'] ?? '' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                            @if(isset($products) && !$products->isEmpty())
-                                            @foreach($products as $product)
-                                            <li class="dropdown_item-1">
-                                                <a href="javascript:void(0)" class="product-name" data-id="{{$product->id}}" data-slug="{{$product->slug}}">{{ $product->name ?? '' }}</a>
-                                            </li>
-                                            @endforeach
+                                            @if (isset($products) && !$products->isEmpty())
+                                                @foreach ($products as $product)
+                                                    <li class="dropdown_item-1">
+                                                        <a href="javascript:void(0)" class="product-name"
+                                                            data-id="{{ $product->id }}"
+                                                            data-slug="{{ $product->slug }}">{{ $product->name ?? '' }}</a>
+                                                    </li>
+                                                @endforeach
                                             @endif
-                                           
+
                                         </ul>
                                     </li>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{$headerContent['exclusive'] ?? ''}}</a>
+                                        <a href="#">{{ $headerContent['exclusive'] ?? '' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -186,10 +189,12 @@
                             <div class="right_menu">
                                 <ul>
                                     <li>
-                                        <a href="{{route('expert-guide')}}">{{$headerContent['expert_guide'] ?? ''}}</a>
+                                        <a
+                                            href="{{ route('expert-guide') }}">{{ $headerContent['expert_guide'] ?? '' }}</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('help-center')}}">{{$headerContent['help_center'] ?? ''}}</a>
+                                        <a
+                                            href="{{ route('help-center') }}">{{ $headerContent['help_center'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -212,96 +217,113 @@
                         <div class="foot-row-lft p_80">
                             <div class="foot-logo">
 
-                                @if(isset($footerLogo) && $footerLogo)
-                                <a href="{{url('/' ?? '' )}}" class="brand"><img
-                                        src="{{ asset($footerLogo->meta_value) }}"
-                                        alt="{{ $footerLogo->meta_key }}"></a>
+                                @if (isset($footerLogo) && $footerLogo)
+                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                            src="{{ asset($footerLogo->meta_value) }}"
+                                            alt="{{ $footerLogo->meta_key }}"></a>
                                 @else
-                                <a href="{{url('/' ?? '' )}}" class="brand"><img
-                                        src="{{asset('front/img/foot-logo.svg') }}"></a>
+                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                            src="{{ asset('front/img/foot-logo.svg') }}"></a>
                                 @endif
                             </div>
                             <div class="foot-col">
-                                <h6> {{$footerContents['discover'] ?? '' }}</h6>
+                                <h6> {{ $footerContents['discover'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
-                                    <li><a href="{{route('category')}}">{{$footerContents['categories'] ?? '' }} </a></li>
-                                    <li><a href="{{route('top-rated-product')}}">{{$footerContents['top_rated_product'] ?? '' }} </a>
+                                    <li><a href="{{ route('category') }}">{{ $footerContents['categories'] ?? '' }}
+                                        </a></li>
+                                    <li><a href="{{ route('top-rated-product') }}">{{ $footerContents['top_rated_product'] ?? '' }}
+                                        </a>
                                     </li>
-                                    <li><a href="javascript:void(0)">{{$footerContents['exclusive_deal'] ?? ''}}</a></li>
-                                </ul>
-                            </div>
-                            <div class="foot-col">
-                                <h6>{{$footerContents['company'] ?? ''}}</h6>
-                                <ul class="foot-col-list">
-                                    <li><a href="{{route('who-we-are')}}">{{$footerContents['who_we_are'] ?? ''}}</a></li>
-                                    <li><a href="{{route('privacy-policy')}}">{{$footerContents['privacy_policy'] ?? ''}}</a></li>
-                                    <li><a href="{{route('terms-condition')}}">{{$footerContents['terms_and_conditions'] ?? ''}}</a>
+                                    <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{$footerContents['vendors'] ?? ''}}</h6>
+                                <h6>{{ $footerContents['company'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
-                                    <li><a href="{{route('vendor-get-listed')}}">{{$footerContents['get_listed'] ?? ''}}</a></li>
-                                    <li><a href="{{route('login')}}">{{$footerContents['vendor_login'] ?? ''}}</a></li>
+                                    <li><a
+                                            href="{{ route('who-we-are') }}">{{ $footerContents['who_we_are'] ?? '' }}</a>
+                                    </li>
+                                    <li><a
+                                            href="{{ route('privacy-policy') }}">{{ $footerContents['privacy_policy'] ?? '' }}</a>
+                                    </li>
+                                    <li><a
+                                            href="{{ route('terms-condition') }}">{{ $footerContents['terms_and_conditions'] ?? '' }}</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{$footerContents['help'] ?? ''}}</h6>
+                                <h6>{{ $footerContents['vendors'] ?? '' }}</h6>
+                                <ul class="foot-col-list">
+                                    <li><a
+                                            href="{{ route('vendor-get-listed') }}">{{ $footerContents['get_listed'] ?? '' }}</a>
+                                    </li>
+                                    <li><a
+                                            href="{{ route('login') }}">{{ $footerContents['vendor_login'] ?? '' }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="foot-col">
+                                <h6>{{ $footerContents['help'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
                                     <li>
-                                        <a href="{{route('expert-guide')}}">{{$footerContents['expert_guides'] ?? ''}}</a>
+                                        <a
+                                            href="{{ route('expert-guide') }}">{{ $footerContents['expert_guides'] ?? '' }}</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('help-center')}}">{{$footerContents['help_center'] ?? ''}}</a>
+                                        <a
+                                            href="{{ route('help-center') }}">{{ $footerContents['help_center'] ?? '' }}</a>
                                     </li>
-                                    <li><a href="{{route('contact')}}">{{$footerContents['contact'] ?? ''}}</a></li>
+                                    <li><a href="{{ route('contact') }}">{{ $footerContents['contact'] ?? '' }}</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="foot-row-right foot-col p_80">
-                            <h6> {{$footerContents['follow_us'] ?? ''}}</h6>
+                            <h6> {{ $footerContents['follow_us'] ?? '' }}</h6>
                             <ul class="foot-right-list">
-                                <li><a href="{{$footerMediaUrls['facebook_url'] ?? ''}}" target="blank" class="d-flex align-items-center">
+                                <li><a href="{{ $footerMediaUrls['facebook_url'] ?? '' }}" target="blank"
+                                        class="d-flex align-items-center">
 
-                                        @if(isset($facebookIcon))
-                                        <img class="media_icon" src="{{ asset($facebookIcon->meta_value) }}"
-                                            alt="{{ $facebookIcon->meta_key }}"
-                                            style="width: 19px; height: 17px; color: #ffffff;">
-                                           
+                                        @if (isset($facebookIcon))
+                                            <img class="media_icon" src="{{ asset($facebookIcon->meta_value) }}"
+                                                alt="{{ $facebookIcon->meta_key }}"
+                                                style="width: 19px; height: 17px; color: #ffffff;">
                                         @else
-                                        <i class="fa-brands fa-facebook-f" style="color: #ffffff;">
-                                        </i>
+                                            <i class="fa-brands fa-facebook-f" style="color: #ffffff;">
+                                            </i>
                                         @endif
-                                        {{$footerContents['facebook'] ?? ''}}
+                                        {{ $footerContents['facebook'] ?? '' }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{$footerMediaUrls['instagram_url'] ?? ''}}" target="blank" class="d-flex align-items-center">
-                                        @if(isset($instagramIcon))
-                                        <img class="media_icon" src="{{ asset($instagramIcon->meta_value) }}"
-                                            alt="{{ $instagramIcon->meta_key }}"
-                                            style="width: 19px; height: 17px; color: #ffffff;">
+                                    <a href="{{ $footerMediaUrls['instagram_url'] ?? '' }}" target="blank"
+                                        class="d-flex align-items-center">
+                                        @if (isset($instagramIcon))
+                                            <img class="media_icon" src="{{ asset($instagramIcon->meta_value) }}"
+                                                alt="{{ $instagramIcon->meta_key }}"
+                                                style="width: 19px; height: 17px; color: #ffffff;">
                                         @else
-                                        <i class="fa-brands fa-instagram" style="color: #ffffff;">
-                                        </i>
+                                            <i class="fa-brands fa-instagram" style="color: #ffffff;">
+                                            </i>
                                         @endif
-                                        {{$footerContents['instagram'] ?? ''}}
+                                        {{ $footerContents['instagram'] ?? '' }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{$footerMediaUrls['twitter_url'] ?? ''}}"  target="blank" class="d-flex align-items-center">
-                                        @if(isset($twitterIcon))
-                                        <img class="media_icon" src="{{ asset($twitterIcon->meta_value) }}"
-                                            alt="{{ $twitterIcon->meta_key }}"
-                                            style="width: 19px; height: 17px; color: #ffffff;">
+                                    <a href="{{ $footerMediaUrls['twitter_url'] ?? '' }}" target="blank"
+                                        class="d-flex align-items-center">
+                                        @if (isset($twitterIcon))
+                                            <img class="media_icon" src="{{ asset($twitterIcon->meta_value) }}"
+                                                alt="{{ $twitterIcon->meta_key }}"
+                                                style="width: 19px; height: 17px; color: #ffffff;">
                                         @else
-                                        <i class="fa-brands fa-twitter" style="color: #ffffff;">
-                                        </i>
+                                            <i class="fa-brands fa-twitter" style="color: #ffffff;">
+                                            </i>
                                         @endif
-                                        {{$footerContents['twitter'] ?? ''}}
+                                        {{ $footerContents['twitter'] ?? '' }}
                                     </a>
                                 </li>
                             </ul>
@@ -310,56 +332,67 @@
                 </div>
                 <div class="foot-btm d-flex justify-content-between">
                     <div class="ft-btm-lft">
-                        <p>©<?php echo date('Y');?> Localio. All rights reserved.</p>
+                        <p>©<?php echo date('Y'); ?> Localio. All rights reserved.</p>
                     </div>
                     <div class="ft-btm-rgt">
                         <div class="select-menu ">
                             <?php
-                     use Illuminate\Support\Facades\Session;
-                     
-                     // Get the current language/locale of the application
-                     $currentLanguage = app()->getLocale();
-        
-                     // Get the current language code from session (if exists)
-                     $session_lang_code = Session::get('current_lang');
-                     
-                     // If no language is set in the session, store the current app language in the session
-                     if ($session_lang_code === null) {
-                        Session::put('current_lang', $currentLanguage);  // Store current language code in session
-                     }
-
-                     // Optionally, set the app's locale to the session language
-                     $session_lang_code = Session::get('current_lang'); // Get the updated language from the session
-                     app()->setLocale($session_lang_code);  // Set the app's locale to the session language
-                  ?>
+                            use Illuminate\Support\Facades\Session;
+                            
+                            // Get the current language/locale of the application
+                            $currentLanguage = app()->getLocale();
+                            // dd($currentLanguage);
+                            
+                            // Get the current language code from session (if exists)
+                            $session_lang_code = Session::get('current_lang');
+                            
+                            // If no language is set in the session, store the current app language in the session
+                            if ($session_lang_code === null) {
+                                Session::put('current_lang', $currentLanguage); // Store current language code in session
+                            }
+                            
+                            // Optionally, set the app's locale to the session language
+                            $session_lang_code = Session::get('current_lang'); // Get the updated language from the session
+                            app()->setLocale($session_lang_code); // Set the app's locale to the session language
+                            ?>
 
                             @php
-                            use App\Models\SiteLanguages;
-                            $languages = SiteLanguages::with('language')->get();
+                                use App\Models\SiteLanguages;
+                                use App\Models\Country;
+                                $languages = SiteLanguages::with('language')->get();
                             @endphp
-                            @foreach($languages as $language)
-
-                            @if($language->handle == $session_lang_code)
-                            <?php  $curent_selected_lang = $language->name; ?>
-                            @endif
+                            @foreach ($languages as $language)
+                                {{-- {{ dd($language->country_id) }} --}}
+                                @if ($language->handle == $session_lang_code)
+                                    @php
+                                        $country_name = Country::where('id', $language->country_id)->value('name');
+                                        $curent_selected_lang = $language->name;
+                                    @endphp
+                                @endif
                             @endforeach
                             <div class="select-btn">
-                                <span class="sBtn-text">{{ $curent_selected_lang  ?? ''}}</span>
+                                <span
+                                    class="sBtn-text">{{ $country_name ?? '' }}-{{ $curent_selected_lang ?? '' }}</span>
                                 <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
                             </div>
 
                             <ul class="options">
-                                @foreach($languages as $language)
-                                <li class="option">
-                                    <span class="option-text">
-                                        <a href="{{ route('change-lang',['langCode'=>$language->handle]) }}">
+                                @foreach ($languages as $language)
+                                    <li class="option">
+                                        @php
+                                            $country_name1 = Country::where('id', $language->country_id)->value('name');
+                                            $curent_selected_lang = $language->name;
+                                        @endphp
+                                        {{-- <span class="sBtn-text">{{ $country_name ?? '' }}</span> --}}
+                                        <span class="option-text">
+                                            <a href="{{ route('change-lang', ['langCode' => $language->handle]) }}">
+                                                {{ $country_name1 ?? '' }}- {{ $language->name }}
+                                            </a>
+                                            <!-- <a href="{{ url('/') }}/{{ $language->handle }}">
                                             {{ $language->name }}
-                                        </a>
-                                        <!-- <a href="{{url('/')}}/{{$language->handle}}">
-                                       {{ $language->name }}
-                                    </a> -->
-                                    </span>
-                                </li>
+                                            </a> -->
+                                        </span>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -369,7 +402,7 @@
         </div>
     </footer>
     <!----------------------------------------- read section end --------------------------------------- -->
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -384,55 +417,58 @@
 
     <script src="{{ asset('front/js/script.js') }}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <script>
-    $(function() {
-        AOS.init();
-    });
+        $(function() {
+            AOS.init();
+        });
     </script>
     <script type="text/javascript"></script>
     <!-- header search js -->
     <script>
-    $(document).ready(function() {
-        function checkScroll() {
-            const $myElement = $('#myID');
-         
-            if ($(window).scrollTop() > 460) {
-                $myElement.show();
-            } else {
-                $myElement.hide();
-            }
-        }
-        checkScroll();
-        $(window).on('scroll', checkScroll);
-    });
-    </script>
-    <script>
-    @if(Session::has('error'))
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: '{{ Session::get('
-        error ') }}',
-        position: 'top-right',
-        toast: true,
-        showConfirmButton: false,
-        timer: 3000, // Auto close after 3 seconds
-    });
-    @endif
+        $(document).ready(function() {
+            function checkScroll() {
+                const $myElement = $('#myID');
 
-    @if(Session::has('success'))
-    Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: '{{ Session::get('
-        success ') }}',
-        position: 'top-right',
-        toast: true,
-        showConfirmButton: false,
-        timer: 3000, // Auto close after 3 seconds
-    });
-    @endif
+                if ($(window).scrollTop() > 460) {
+                    $myElement.show();
+                } else {
+                    $myElement.hide();
+                }
+            }
+            checkScroll();
+            $(window).on('scroll', checkScroll);
+        });
+    </script>
+    @session('success')
+        {{-- $session = session('success'); --}}
+        <script>
+            @if (Session::has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: "{{ session('success') }}",
+                    text: '{{ Session::get('sy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        success ') }}',
+                    position: 'top-right',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 3000, // Auto close after 3 seconds
+                });
+            @endif
+        </script>
+    @endsession
+    <script>
+        @if (Session::has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ Session::get('
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
+                position: 'top-right',
+                toast: true,
+                showConfirmButton: false,
+                timer: 3000, // Auto close after 3 seconds
+            });
+        @endif
     </script>
 </body>
 
