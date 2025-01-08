@@ -13,10 +13,9 @@ use App\Http\Controllers\Vendor\HomeController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-<<<<<<< HEAD
-=======
+
 use Google\Cloud\Translate\V2\TranslateClient;
->>>>>>> staging
+
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +65,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('new-password-procc',[AuthenticationController::class,'newPasswordProcc'])->name('new-password-procc');
     // Category Controller
     Route::get('/category',[CategoryController::class,'index'])->name('category');
-    
+
     // Product Controller
     Route::get('/product',[ProductController::class,'productDetail'])->name('product');
     Route::get('/top-rated-product',[ProductController::class,'topRatedProduct'])->name('top-rated-product');
@@ -246,9 +245,4 @@ Route::group(['middleware' =>['vendor']],function(){
 //     });
 // });
 
-<<<<<<< HEAD
-Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
-=======
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
-
->>>>>>> staging
