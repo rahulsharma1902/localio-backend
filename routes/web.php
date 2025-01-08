@@ -13,7 +13,6 @@ use App\Http\Controllers\Vendor\HomeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 use Google\Cloud\Translate\V2\TranslateClient;
-use Illuminate\Support\Facades\Crypt;
 
 /*
 |--------------------------------------------------------------------------
@@ -235,6 +234,3 @@ Route::group(['middleware' =>['vendor']],function(){
 
 Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
 
-Route::get('/test', function (){
- dd(" we will work here.");
-});
