@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('languages', function (Blueprint $table) {
-            $table->string('lang_code', 10)->after('id'); // Adjust 'after' based on column order preference
+            $table->string('lang_code', 10)->after('id')->default('en-us'); // Adjust 'after' based on column order preference
             $table->foreignId('country_id')->nullable()->after('lang_code')->constrained('countries')->onDelete('cascade');
             $table->enum('status', ['blocked', 'active'])->default('active')->after('country_id');
             $table->tinyInteger('is_active_translation')->default(0)->after('status');
