@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
+
 
 use Illuminate\Support\ServiceProvider;
 
@@ -19,11 +21,14 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
 
-public function boot()
+ public function boot()
 {
-    // Set the locale based on user preferences or session
-    if (session()->has('locale')) {
-        App::setLocale(session('locale'));
+    // Check if the session has the 'locale' key, and if so, set it
+    if (Session::has('locale')) {
+        App::setLocale(Session::get('locale'));
+    } else {
+        // If no locale is set, default to 'en' (or your default language)
+        App::setLocale('en');
     }
 }
 
