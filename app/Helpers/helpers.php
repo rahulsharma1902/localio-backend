@@ -6,7 +6,11 @@ use App\Models\Log;
 
 if (!function_exists('getCurrentLocale')) {
     function getCurrentLocale() {
-        return Cookie::get('lang_code', config('app.locale'));
+        $lang_code = Cookie::get('lang_code', 'en-us');
+        if(!$lang_code){
+            $lang_code= session()->get($lang_code);
+        }
+        return $lang_code;
     }
 }
 
@@ -98,7 +102,7 @@ if (!function_exists('saveLog')) {
             'file_name' => $fileName,
             'message' => $message,
             'name' => $name,
-            'payload' => $payload,
+            'payload' => json_encode($payload),
             'is_show_admin' => $isShowAdmin,
             'sent_mail' => $sentMail,
             'status' => $status,

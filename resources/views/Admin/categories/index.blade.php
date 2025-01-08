@@ -10,7 +10,6 @@
 </style>
 
 
-
 <div class="nk-block nk-block-lg">
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
@@ -41,7 +40,7 @@
                         <div class="text-center">
                             <button class="btn btn-primary">No data found</button>
                          </div>
-    @else
+             @else
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <!-- <th class="nk-tb-col">Sno.</th> -->
@@ -61,13 +60,13 @@
                         <td class="nk-tb-col">
                             <div class="user-card">
                                 <div class="user-info">
-                                <span class="tb-lead">{{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name ?? '' }}</span>
+                                <span class="tb-lead">{{  $category->name ?? '' }}</span>
                                 </div>
                             </div>
                         </td>
                         <td class="nk-tb-col tb-col-mb">
                             <span class="tb-amount">
-                            {{ strip_tags($category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description) }}
+                            {{ $category->description ?? "" }}
                             </span>
                         </td>
 
@@ -85,7 +84,7 @@
                                                 <li><a
                                                         href="{{ url('admin-dashboard/update-category') ?? '' }}/{{ $category->id ?? ''}}/{{ $category->language_id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
                                                 
-                                                @if($category->translations->isEmpty())
+                                                @if($category)
                                                 <li class="removeConfermation" data-url="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->id ?? ''}}">
                                                     <a class="delete" href="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
                                                 </li>

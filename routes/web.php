@@ -232,5 +232,5 @@ Route::group(['middleware' =>['vendor']],function(){
 //     });
 // });
 
-Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
+Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
 
