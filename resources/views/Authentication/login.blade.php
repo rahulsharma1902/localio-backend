@@ -37,7 +37,7 @@
                     <span class="size16">or</span>
                 </div>
                 @if(session('loginerror'))
-        <div class="alert alert-danger">{{ session('loginerror') }}</div>
+        <div class="text-danger">{{ session('loginerror') }}</div>
     @endif
                 <!-- Continue with the rest of your form -->
                 <form class="login_form" action="{{ route('login_process') }}" method="post">
