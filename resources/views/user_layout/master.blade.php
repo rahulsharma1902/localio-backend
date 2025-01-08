@@ -456,7 +456,7 @@
             @endif
         </script>
     @endsession
-    <script>
+    <!-- <script>
         @if (Session::has('error'))
             Swal.fire({
                 icon: 'error',
@@ -469,7 +469,7 @@
                 timer: 3000, // Auto close after 3 seconds
             });
         @endif
-    </script>
+    </script> -->
 </body>
 
 </html>
