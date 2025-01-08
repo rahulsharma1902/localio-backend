@@ -36,6 +36,9 @@
                 <div class="or-separator">
                     <span class="size16">or</span>
                 </div>
+                @if(session('loginerror'))
+        <div class="text-danger">{{ session('loginerror') }}</div>
+    @endif
                 <!-- Continue with the rest of your form -->
                 <form class="login_form" action="{{ route('login_process') }}" method="post">
 
@@ -68,6 +71,7 @@
                             <a href="{{ url('recover-password') }}" class="small">Forgot Passwoed?</a>
                         </div>
                     </div>
+                  
                     <div class="accor-btn">
                         <button type="submit" class="cta cta_white">Log In</button>
                     </div>

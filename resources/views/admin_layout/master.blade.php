@@ -145,6 +145,19 @@
                                     </ul>
                                 </li>
 
+                                <li class="nk-menu-item has-sub">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                                <span class="nk-menu-text">Reviews</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="{{url('/admin-dashboard/reviews')}}"
+                                                        class="nk-menu-link"><span class="nk-menu-text">Reviews</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -290,16 +303,16 @@
                                             <a href="#"
                                                 class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                                 data-bs-toggle="dropdown">
-                                                Site Language: {{ Cookie::get('language_code', config('app.locale')) }}
+                                                {{ Cookie::get('lang_code', config('app.locale')) }}
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
-                                                    @foreach (\App\Models\SiteLanguages::where('status', 'active')->get() as $siteLanguage)
+                                                    @foreach (\App\Models\Language::where('status', 'active')->get() as $languages)
                                                         <li>
                                                             <a
-                                                                href="{{ url('set-site-active-language/' . $siteLanguage->handle) }}">
-                                                                <span>{{ $siteLanguage->name }} -
-                                                                    {{ $siteLanguage->handle }}</span>
+                                                                href="{{ url('set-site-active-languages/' . $languages->lang_code) }}">
+                                                                <span>{{ $languages->name }} -
+                                                                    {{ $languages->lang_code }}</span>
                                                             </a>
                                                         </li>
                                                     @endforeach

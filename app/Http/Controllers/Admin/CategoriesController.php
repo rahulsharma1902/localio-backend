@@ -13,14 +13,23 @@ class CategoriesController extends Controller
    
 
     public function index(Request $request) {
-        $locale = getCurrentLocale(); 
-
+        $locale = getCurrentLocale();
+        //dd($locale);
         // $locale = Session::get('current_lang');
         $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        //dd($siteLanguage);
         
-        $categories = Category::with(['translations' => function ($query) use ($siteLanguage) {
-            $query->where('language_id', $siteLanguage->id);
-        }])->get();
+        if ($siteLanguage && $siteLanguage->primary != 1) {
+            // If the language is not primary, fetch categories with translations for this language
+            $categories = Category::whereHas('translations', function ($query) use ($siteLanguage) {
+                $query->where('language_id', $siteLanguage->id);
+            })->get();
+        } else {
+            // If the language is primary, fetch all categories (no translation filtering)
+            $categories = Category::all();
+        }
+       
+         //dd($categories);
         return view('Admin.categories.index', compact('categories'));
     }
 
@@ -81,6 +90,20 @@ class CategoriesController extends Controller
         }
 
         if ($category->save()) {
+
+            
+                // Add data to the category_translations table
+                $translation = $category->translations()->updateOrCreate(
+                    ['language_id' => 1], // Ensure unique category and language pair
+                    [
+                        'name' => $category->name,
+                        'slug' => $category->slug,
+                        'description' => $category->description,
+                    ]
+                );
+                if (!$translation) {
+                    return redirect()->back()->with('error', 'Failed to save category translation.');
+                }
             // return response()->json(['message' => 'Category saved successfully'], 200);
             return redirect()->back()->with('success','Category saved successfully');
         } else {
@@ -89,7 +112,7 @@ class CategoriesController extends Controller
 
         }
     }
-
+    
     public function updateCategory($categoryId){
     
         $locale = getCurrentLocale();

@@ -1,6 +1,8 @@
 <?php 
 use Illuminate\Support\Facades\Cookie;
 use App\Models\{Category,SiteLanguages,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
+use App\Services\TranslationService;
+use App\Models\Log;
 
 if (!function_exists('getCurrentLocale')) {
     function getCurrentLocale() {
@@ -65,9 +67,44 @@ if (!function_exists('formatInr')) {
 
 
 
+function website_translator($logoName , $lang_code ){
+    if($logoName=="") return "";
+    try {
+        $translationService = app(TranslationService::class);
+        $translatedLogoName = $translationService->translate($logoName, $lang_code);
+        // dd($translatedLogoName);
+        return $translatedLogoName;
+    } catch (\Exception $e) {  
+        saveLog('Language Translation Eroor','helpers',$e->getMessage());
+    }
+}
 
 
 
+
+
+if (!function_exists('saveLog')) {
+   
+    function saveLog(
+        $fileName = null,
+        $message = null,
+        $name = null,
+        $payload = null,
+        $isShowAdmin = false,
+        $sentMail = false,
+         $status = 'active'
+    ) {
+        return Log::create([
+            'file_name' => $fileName,
+            'message' => $message,
+            'name' => $name,
+            'payload' => $payload,
+            'is_show_admin' => $isShowAdmin,
+            'sent_mail' => $sentMail,
+            'status' => $status,
+        ]);
+    }
+}
 
 
 

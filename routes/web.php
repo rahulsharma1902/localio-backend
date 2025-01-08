@@ -13,6 +13,10 @@ use App\Http\Controllers\Vendor\HomeController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
+<<<<<<< HEAD
+=======
+use Google\Cloud\Translate\V2\TranslateClient;
+>>>>>>> staging
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +66,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('new-password-procc',[AuthenticationController::class,'newPasswordProcc'])->name('new-password-procc');
     // Category Controller
     Route::get('/category',[CategoryController::class,'index'])->name('category');
+    
     // Product Controller
     Route::get('/product',[ProductController::class,'productDetail'])->name('product');
     Route::get('/top-rated-product',[ProductController::class,'topRatedProduct'])->name('top-rated-product');
@@ -95,7 +100,7 @@ Route::group(['middleware' =>['admin']],function(){
 
 
 
-    // profile settings
+
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
     Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
@@ -221,7 +226,15 @@ Route::group(['middleware' =>['admin']],function(){
     Route::get('/admin-dashboard/reviews',[ReviewController::class,'reviews'])->name('reviews');
     Route::get('/admin-dashboard/review/add',[ReviewController::class,'reviewAdd'])->name('review-add');
     Route::post('/admin-dashboard/review-add-procc',[ReviewController::class,'reviewAddProc'])->name('review-add-procc');
+
     Route::get('/admin-dashboard/review-status-update/{id}',[ReviewController::class,'reviewStatusUpdate'])->name('review-status-update');
+
+    Route::get('/admin-dashboard/review-status-edit/{id}', [ReviewController::class, 'reviewEdit'])->name('review-edit');
+Route::post('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewUpdate'])->name('review-update');
+Route::get('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewStatusUpdate'])->name('review-status-update');
+Route::get('/admin-dashboard/review-delete/{id}', [ReviewController::class, 'reviewDelete'])->name('review-delete');
+
+
 });
 
 Route::group(['middleware' =>['vendor']],function(){
@@ -233,4 +246,9 @@ Route::group(['middleware' =>['vendor']],function(){
 //     });
 // });
 
+<<<<<<< HEAD
 Route::get('/set-site-active-language/{handle}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
+=======
+Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
+
+>>>>>>> staging

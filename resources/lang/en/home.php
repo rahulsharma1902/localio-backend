@@ -87,7 +87,8 @@ return [
     'small_bussiness'                           =>  'Small Business (1 - 200)',
     'mid_size_bussiness'                        =>  'Mid Size Business(201 - 500)',
     'enterprise'                                =>  'Enterprise (500+)',
-
     'what_type_of_software' => 'What type of software are you looking for?',
 
+    '12' => 'Get This Deal',
 ];
+
