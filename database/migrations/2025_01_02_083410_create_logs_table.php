@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('file_name')->nullable();
             $table->text('message')->nullable();
             $table->json('payload')->nullable();
