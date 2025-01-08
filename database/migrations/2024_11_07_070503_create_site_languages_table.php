@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('site_languages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');               
-            $table->string('handle')->unique();   
-            $table->string('slug')->unique();     
-            $table->foreignId('language_id')->nullable()->constrained('languages')->onDelete('set null'); 
-            $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');  
+            $table->string('name');
+            $table->string('handle')->unique();
+            $table->string('slug')->unique();
+            $table->foreignId('language_id')->nullable()->constrained('languages')->onDelete('set null');
+            $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');
             $table->enum('status', ['active', 'pending'])->default('active');
-            $table->integer('primary')->default(0)->nullable();     
-            $table->timestamps();                 
+            $table->integer('primary')->default(0)->nullable();
+            $table->timestamps();
         });
-        
-        
-        
+
+
+
     }
 
     /**

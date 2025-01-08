@@ -95,6 +95,10 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Site -
                                                     Languages</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/country') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Country</span></a>
+                                        </li>
 
                                     </ul>
                                 </li>
@@ -142,18 +146,18 @@
                                 </li>
 
                                 <li class="nk-menu-item has-sub">
-                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                <span class="nk-menu-text">Reviews</span>
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                        <span class="nk-menu-text">Reviews</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/reviews') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Reviews</span>
                                             </a>
-                                            <ul class="nk-menu-sub">
-                                                <li class="nk-menu-item">
-                                                    <a href="{{url('/admin-dashboard/reviews')}}"
-                                                        class="nk-menu-link"><span class="nk-menu-text">Reviews</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
                                         </li>
+                                    </ul>
+                                </li>
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
