@@ -101,13 +101,14 @@ class SiteLanguagesController extends Controller
 
 
 
-    public function setActiveSiteLanguage($handle){
+    public function setActiveSiteLanguage($lang_code){
 
-            if($handle){
-                $siteLanguage = SiteLanguages::where('handle',$handle)->first();
+            if($lang_code){
+                $siteLanguage = SiteLanguages::where('lang_code',$lang_code)->first();
                 if($siteLanguage){
-                    Cookie::queue('language_code', $siteLanguage->handle, 60 * 24 * 30);
-                    App::setLocale($siteLanguage->handle);
+                    Cookie::queue('lang_code', $siteLanguage->lang_code, 60 * 24 * 30);
+                    session(['lang_code' => $siteLanguage->lang_code]);
+                    App::setLocale($siteLanguage->lang_code);
                     return redirect()->back();
                 }
             }
