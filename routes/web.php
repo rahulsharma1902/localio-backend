@@ -1,16 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthenticationController;
-
-use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController,HomeContentController,ReviewController};
 use App\Http\Controllers\Admin\SiteContent\SiteContentController;
+use App\Http\Controllers\Admin\{AdminDashController,CategoriesController,SiteLanguagesController,FilterController,ArticleController,SitePagesController,AdminProductController,HomeContentController,ReviewController};
 
-use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\CountryController;
 
 use App\Http\Controllers\User\MetaPages\MetaPagesController;
+
+use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
 use App\Http\Controllers\Vendor\HomeController;
+use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -114,8 +116,18 @@ Route::group(['middleware' =>['admin']],function(){
     Route::post('/admin-dashboard/site-languages/addProcc', [SiteLanguagesController::class, 'addProcc'])->name('site-languages-addProcc');
     Route::get('/admin-dashboard/site-language/update/{id}', [SiteLanguagesController::class, 'update'])->name('site-language-update');
     Route::post('/admin-dashboard/site-language/updateProcc', [SiteLanguagesController::class, 'updateProcc'])->name('site-language-updateProcc');
-
     Route::get('/admin-dashboard/remove-site-language/{id}', [SiteLanguagesController::class, 'remove'])->name('site-language-remove');
+
+    // Countrycontroller
+
+    Route::get('/admin-dashboard/country', [CountryController::class,'index'])->name('country.index');
+    Route::get('/admin-dashboard/country/update/{id}', [CountryController::class, 'update'])->name('country.update');
+    Route::post('/admin-dashboard/country/updateProcc', [CountryController::class, 'updateProcc'])->name('country.updateProcc');
+    Route::get('/admin-dashboard/country/add', [CountryController::class, 'add'])->name('country.add');
+    Route::post('/admin-dashboard/country/addProcc', [CountryController::class,'addProcc'])->name('country.addProcc');
+    Route::get('/admin-dashboard/country/delete/{id}', [CountryController::class, 'delete'])->name('country.delete');
+
+
 
 
     // FilterController :

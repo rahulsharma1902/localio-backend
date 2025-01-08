@@ -95,6 +95,10 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Site -
                                                     Languages</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/country') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Country</span></a>
+                                        </li>
 
                                     </ul>
                                 </li>
