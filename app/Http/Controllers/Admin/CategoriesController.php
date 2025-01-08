@@ -14,30 +14,14 @@ class CategoriesController extends Controller
 
     public function index(Request $request) {
         $locale = getCurrentLocale();
-        // dd($locale);
-        // dd($locale, Session::get('lang_code'), Cookie::get('lang_code'));
-        // $locale = Session::get('current_lang');
         $siteLanguage = Language::where('lang_code', $locale)->first();
-        // dd($siteLanguage);
-        
         if ($siteLanguage) {
-            // Check if the language is primary or not
-            if ($siteLanguage->primary !== 1) {
-                // If the language is not primary, fetch categories with translations for this language
-                $categories = Category::whereHas('translations', function ($query) use ($siteLanguage) {
-                    $query->where('language_id', $siteLanguage->id);
-                })->get();
-                
-                dd($categories);  // Debug to see the categories for the non-primary language
-            } else {
-                // If the language is primary, fetch all categories (no translation filtering)
-                $categories = Category::all();
-            }
+            $categories = Category::all();
         } else {
-            // Fallback if the language is not found in the database
             $categories = Category::all();
         }
-         //dd($categories);
+
+
         return view('Admin.categories.index', compact('categories'));
     }
 

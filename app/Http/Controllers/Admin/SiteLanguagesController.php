@@ -81,10 +81,14 @@ class SiteLanguagesController extends Controller
                 $siteLanguage = Language::where('lang_code',$lang_code)->first();
                 if($siteLanguage){
                     Cookie::queue('lang_code', $siteLanguage->lang_code, 60 * 24 * 30);
+                    Cookie::queue('lang_id', $siteLanguage->id, 60 * 24 * 30);
                     session(['lang_code' => $siteLanguage->lang_code]);
+                    session(['lang_id' => $siteLanguage->id]);
                     App::setLocale($siteLanguage->lang_code);
-                    Log::info("Language set to: " . $siteLanguage->lang_code);
                     return redirect()->back();
+                }else{
+                    return redirect()->back()->with('error','Invalid error');
+
                 }
             }
             return redirect()->back()->with('error','Invalid error');
