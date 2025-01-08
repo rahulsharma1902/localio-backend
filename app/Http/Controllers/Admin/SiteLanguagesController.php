@@ -29,33 +29,32 @@ class SiteLanguagesController extends Controller
     public function addProcc(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:site_languages,name',              
-            'handle' => 'required|alpha_dash|unique:site_languages,handle', 
-            'slug' => 'required|unique:site_languages,slug',               
-            'country_id' => 'required|exists:countries,id',                
-            'language_id' => 'required|exists:languages,id',               
+            'name' => 'required|unique:site_languages,name',
+            'handle' => 'required|alpha_dash|unique:site_languages,handle',
+            'slug' => 'required|unique:site_languages,slug',
+            'country_id' => 'required|exists:countries,id',
+            'language_id' => 'required|exists:languages,id',
         ]);
-    
+
         $siteLanguage = new SiteLanguages;
-    
         $siteLanguage->name = $request->name ?? '';
-        $siteLanguage->handle = $request->handle ?? ''; 
+        $siteLanguage->handle = $request->handle ?? '';
         $siteLanguage->slug = $request->slug ?? '';
         $siteLanguage->country_id = $request->country_id ?? '';
         $siteLanguage->language_id = $request->language_id ?? '';
-    
+
         $siteLanguage->save();
-    
+
         return redirect()->back()->with('success', 'Site Language added successfully.');
     }
-    
+
 
     public function update($id)
     {
-        $siteLanguage = SiteLanguages::findOrFail($id); 
-        $languages = Language::all();                 
-        $countries = Country::all();                    
-    
+        $siteLanguage = SiteLanguages::findOrFail($id);
+        $languages = Language::all();
+        $countries = Country::all();
+
         return view('Admin.setting.siteLanguages.update', compact('siteLanguage', 'countries', 'languages'));
     }
     public function updateProcc(Request $request)
@@ -70,13 +69,11 @@ class SiteLanguagesController extends Controller
 
     try {
         $siteLanguage = SiteLanguages::findOrFail($request->id);
-
         $siteLanguage->name = $request->name;
         $siteLanguage->handle = $request->handle;
         $siteLanguage->slug = $request->slug;
         $siteLanguage->country_id = $request->country_id;
         $siteLanguage->language_id = $request->language_id;
-
         $siteLanguage->save();
 
         return redirect()->back()->with('success', 'Site Language updated successfully.');
@@ -94,7 +91,7 @@ class SiteLanguagesController extends Controller
     //                 return redirect()->back()->with('error','You can not delete primary language.');
     //             }
     //             $siteLanguage->delete();
-        
+
     //             return redirect()->back()->with('success', 'Site Language removed successfully.');
     //         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
     //             return redirect()->back()->with('error', 'Site Language not found.');
@@ -105,7 +102,7 @@ class SiteLanguagesController extends Controller
 
 
     public function setActiveSiteLanguage($handle){
-            
+
             if($handle){
                 $siteLanguage = SiteLanguages::where('handle',$handle)->first();
                 if($siteLanguage){
@@ -116,7 +113,7 @@ class SiteLanguagesController extends Controller
             }
             return redirect()->back()->with('error','Invalid error');
     }
-    
-    
-    
+
+
+
 }

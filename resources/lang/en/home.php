@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'home_page_heading' => 'Find the Best Deals and Save on Your Next Purchase!',
     'home_page_header_description'   => 'Get free, unbiased product comparisons, read real customer reviews, and track prices at Localio to score the best offers.',
     'home_page_search_placeholder'  =>  'Enter a product, category, or what you’d like to compare...',
