@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\{Country,Language,SiteLanguages};
 use Cookie;
@@ -104,11 +105,12 @@ class SiteLanguagesController extends Controller
     public function setActiveSiteLanguage($lang_code){
 
             if($lang_code){
-                $siteLanguage = SiteLanguages::where('lang_code',$lang_code)->first();
+                $siteLanguage = Language::where('lang_code',$lang_code)->first();
                 if($siteLanguage){
                     Cookie::queue('lang_code', $siteLanguage->lang_code, 60 * 24 * 30);
                     session(['lang_code' => $siteLanguage->lang_code]);
                     App::setLocale($siteLanguage->lang_code);
+                    Log::info("Language set to: " . $siteLanguage->lang_code);
                     return redirect()->back();
                 }
             }
