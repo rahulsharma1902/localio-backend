@@ -43,7 +43,7 @@
                         <tr class="nk-tb-item nk-tb-head">
                             <!-- <th class="nk-tb-col">Sno.</th> -->
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Language code </span></th>
+                            <th class="nk-tb-col"><span class="sub-text">lang_code</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Country</span></th>
                             <!-- <th class="nk-tb-col"><span class="sub-text">Status</span></th> -->
                             <th class="nk-tb-col tb-tnx-action">
@@ -55,13 +55,13 @@
                         @foreach ($siteLanguages as $siteLanguage)
                             <tr class="nk-tb-item">
                                 <!-- <td class="nk-tb-col">
-                                                        <div class="user-card">
-                                                            <div class="user-info">
-                                                                <span class="tb-lead">dfgd</span>
+                                                                        <div class="user-card">
+                                                                            <div class="user-info">
+                                                                                <span class="tb-lead">dfgd</span>
 
-                                                            </div>
-                                                        </div>
-                                                    </td> -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </td> -->
                                 <td class="nk-tb-col">
                                     <div class="user-card">
                                         <div class="user-info">
@@ -83,8 +83,8 @@
 
                                 </td>
                                 <!-- <td class="nk-tb-col tb-col-md">
-                                                        <span class="tb-amount">{{ $siteLanguage->status ?? '' }}</span>
-                                                    </td> -->
+                                                                        <span class="tb-amount">{{ $siteLanguage->status ?? '' }}</span>
+                                                                    </td> -->
                                 <td class="nk-tb-col nk-tb-col-tools">
                                     <ul class="nk-tb-actions gx-1">
                                         <li>
@@ -102,8 +102,8 @@
                                                         </li>
                                                         @if ($siteLanguage->primary !== 1)
                                                             <!-- <li class="removeConfermation" data-url="{{ url('admin-dashboard/remove-site-language') ?? '' }}/{{ $siteLanguage->id ?? '' }}" >
-                                                                                <a class="removeConfermation delete" href="{{ url('admin-dashboard/remove-site-language') ?? '' }}/{{ $siteLanguage->id ?? '' }}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                                            </li> -->
+                                                                                                <a class="removeConfermation delete" href="{{ url('admin-dashboard/remove-site-language') ?? '' }}/{{ $siteLanguage->id ?? '' }}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
+                                                                                            </li> -->
                                                         @endif
                                                     </ul>
                                                 </div>
