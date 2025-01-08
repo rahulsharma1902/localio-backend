@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryTranslation extends Model
 {
     use HasFactory;
-    public function language()
-    {
-        return $this->hasOne(SiteLanguages::class, 'id', 'language_id');
-    }
     // public function category(){
     //     return $this->hasOne(Country::class,'id','category_id');
     // }
@@ -25,5 +21,9 @@ class CategoryTranslation extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function language()
+    {
+        return $this->hasOne(Language::class, 'id',);
     }
 }
