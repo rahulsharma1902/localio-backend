@@ -91,7 +91,7 @@ public function handle(Request $request, Closure $next)
         $locale = $urlLocale && in_array($urlLocale, $availableLocales)
             ? $urlLocale
             : (Session::get('current_lang')
-                ?? Cookie::get('language_code')
+                ?? Cookie::get('lang_code')
                 ?? $defaultLanguage);
 
         // Fallback to default if locale is invalid
@@ -102,7 +102,7 @@ public function handle(Request $request, Closure $next)
         // Update session and cookie if locale changes
         if ($urlLocale !== $locale) {
             Session::put('current_lang', $locale);
-            Cookie::queue('language_code', $locale, 60 * 24 * 30); // 30-day expiration
+            Cookie::queue('lang_code', $locale, 60 * 24 * 30); // 30-day expiration
         }
 
         // Set the application's locale

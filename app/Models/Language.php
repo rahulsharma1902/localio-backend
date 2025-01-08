@@ -10,4 +10,8 @@ class Language extends Model
     use HasFactory;
     protected $fillable = ['name', 'iso_639-1'];
 
+    public function categoryTranslations()
+    {
+        return $this->hasMany(CategoryTranslation::class, 'language_id');
+    }
 }

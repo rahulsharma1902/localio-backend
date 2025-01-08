@@ -306,7 +306,7 @@
                                                     @foreach (\App\Models\Language::where('status', 'active')->get() as $languages)
                                                         <li>
                                                             <a
-                                                                href="{{ url('set-site-active-languages/' . $languages->lang_code) }}">
+                                                                href="{{ url('set-site-active-language/' . $languages->lang_code) }}">
                                                                 <span>{{ $languages->name }} -
                                                                     {{ $languages->lang_code }}</span>
                                                             </a>

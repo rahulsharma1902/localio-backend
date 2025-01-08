@@ -14,6 +14,6 @@ class Category extends Model
     // Define the translations relationship
     public function translations()
     {
-        return $this->hasMany(CategoryTranslation::class);
+        return $this->hasMany(CategoryTranslation::class,'category_id');
     }
 }
