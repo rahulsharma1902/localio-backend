@@ -112,32 +112,25 @@ if (!function_exists('saveLog')) {
 }
 
 
-if(!function_exists('ip_location')){
-    // function ip_location(){
-    //     // dd(getCurrentLocale());
-    //     $langCode = getCurrentLocale();
-    //     // dd($lang_code);
-    //     $ipdata = ip_location();
-    //     $countrycode = strtolower($ipdata['geoplugin_countryCode']);
-    //     if(Language::where('lang_code',getCurrentLocale().'-'.$countrycode)->exists()){
-    //         $ip_langcode = getCurrentLocale().'-'.$countrycode;
-    //         $lang_id = Language::where('lang_code' ,$ip_langcode)->value('id');
-    //     }else{
-    //         $ip_langcode = 'en'.'-'.'us';
-    //         $lang_id = Language::where('lang_code' ,$ip_langcode)->value('id');
-    //     }
-    //     $country = $ipdata["geoplugin_countryName"];
-    //     $country_id = Country::where('iso' ,$countrycode)->value('id');
-    //     $user_country_data = [
-    //         'lang_code' => $ip_langcode,
-    //         'lang_id' => $lang_id,
-    //         'country' => $country,
-    //         'country_id' => $country_id
-    //         ] ;
+if(!function_exists('getUserLocation')){
+    function getUserLocation(){
 
-    //     session()->put('user_ip_data',$user_country_data);
+        return 'en-us';
+    }
+}
 
-    //     session()->get('user_ip_data')['lang_id'];
-    //         return $user_country_data ;
-    // }
+
+function getLanguages($codes = false)
+{
+    // Fetch all languages
+    $languages = Language::all();
+
+    // If $codes is true, return only language codes
+    if ($codes) {
+        $codes = $languages->pluck('lang_code')->toArray();
+        return $codes;
+    }
+
+    // Otherwise, return all language records
+    return $languages;
 }

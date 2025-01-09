@@ -3,10 +3,7 @@
 namespace App\Providers;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
-
-
 use Illuminate\Support\ServiceProvider;
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -14,12 +11,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        
+        $lang_code = getUserLocation();
+        // App::setLocale($lang_code);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
+  
 
  public function boot()
 {
