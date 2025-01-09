@@ -96,9 +96,9 @@
                         <div class="header_button_col">
                             <div class="Header_buttons">
                                 @if (!auth()->user())
-                                    <a href="{{ url('/login') }}"
+                                    <a href="{{ route('login', ['locale' => session('locale', 'en-us')]) }}"
                                         class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? '' }}</a>
-                                    <a href="{{ url('/register') }}"
+                                    <a href="{{ route('register', ['locale' => session('locale', 'en-us')]) }}"
                                         class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? '' }}</a>
                                 @else
                                     <a href="{{ url('/logout') }}"
@@ -230,9 +230,12 @@
                             <div class="foot-col">
                                 <h6> {{ $footerContents['discover'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
-                                    <li><a href="{{ route('category') }}">{{ $footerContents['categories'] ?? '' }}
-                                        </a></li>
-                                    <li><a href="{{ route('top-rated-product') }}">{{ $footerContents['top_rated_product'] ?? '' }}
+                                <li>
+                                    <a href="{{ route('category', ['locale' => session('lang_code', 'en-us')]) }}">
+                                        {{ $footerContents['categories'] ?? '' }}
+                                    </a>
+                                </li>
+                                    <li><a href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ?? '' }}
                                         </a>
                                     </li>
                                     <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? '' }}</a>
@@ -243,13 +246,13 @@
                                 <h6>{{ $footerContents['company'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('who-we-are') }}">{{ $footerContents['who_we_are'] ?? '' }}</a>
+                                            href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ?? '' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('privacy-policy') }}">{{ $footerContents['privacy_policy'] ?? '' }}</a>
+                                            href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ?? '' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('terms-condition') }}">{{ $footerContents['terms_and_conditions'] ?? '' }}</a>
+                                            href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -257,10 +260,10 @@
                                 <h6>{{ $footerContents['vendors'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('vendor-get-listed') }}">{{ $footerContents['get_listed'] ?? '' }}</a>
+                                            href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ?? '' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('login') }}">{{ $footerContents['vendor_login'] ?? '' }}</a>
+                                            href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -269,13 +272,13 @@
                                 <ul class="foot-col-list">
                                     <li>
                                         <a
-                                            href="{{ route('expert-guide') }}">{{ $footerContents['expert_guides'] ?? '' }}</a>
+                                            href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['expert_guides'] ?? '' }}</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="{{ route('help-center') }}">{{ $footerContents['help_center'] ?? '' }}</a>
+                                            href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? '' }}</a>
                                     </li>
-                                    <li><a href="{{ route('contact') }}">{{ $footerContents['contact'] ?? '' }}</a>
+                                    <li><a href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -358,9 +361,9 @@
                             ?>
 
                             @php
-                                use App\Models\SiteLanguages;
+                                use App\Models\Language;
                                 use App\Models\Country;
-                                $languages = SiteLanguages::with('language')->get();
+                                $languages = Language::all();
                             @endphp
                             @foreach ($languages as $language)
                                 {{-- {{ dd($language->country_id) }} --}}
@@ -378,23 +381,15 @@
                             </div>
 
                             <ul class="options">
-                                @foreach ($languages as $language)
-                                    <li class="option">
-                                        @php
-                                            $country_name1 = Country::where('id', $language->country_id)->value('name');
-                                            $curent_selected_lang = $language->name;
-                                        @endphp
-                                        {{-- <span class="sBtn-text">{{ $country_name ?? '' }}</span> --}}
-                                        <span class="option-text">
-                                            <a href="{{ route('change-lang', ['langCode' => $language->handle]) }}">
-                                                {{ $country_name1 ?? '' }}- {{ $language->name }}
-                                            </a>
-                                            <!-- <a href="{{ url('/') }}/{{ $language->handle }}">
+                            @foreach ($languages as $language)
+                                <li class="option {{ Session::get('current_lang') == $language->lang_code ? 'selected' : '' }}">
+                                    <span class="option-text">
+                                        <a href="{{ route('switch-language', ['lang_code' => $language->lang_code]) }}">
                                             {{ $language->name }}
-                                            </a> -->
-                                        </span>
-                                    </li>
-                                @endforeach
+                                        </a>
+                                    </span>
+                                </li>
+                            @endforeach
                             </ul>
                         </div>
                     </div>

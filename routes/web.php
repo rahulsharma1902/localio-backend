@@ -27,10 +27,11 @@ Route::get('login/facebook/callback', [AuthenticationController::class, 'handleF
 
 
 // Switch Language Route
-Route::get('/switch-language/{langCode?}', [ViewController::class, 'changeLanguage'])->name('change-lang');
+Route::get('/switch-language/{lang_code}', [ViewController::class, 'changeLanguage'])->name('switch-language');
 
 
 Route::post('loginprocc',[AuthenticationController::class,'loginProcc'])->name('login_process');
+Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
 
 Route::group(['prefix'=> '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
@@ -40,7 +41,6 @@ Route::group(['prefix'=> '{locale?}', 'middleware' => ['AddLocaleAutomatically']
     Route::get('/login',[AuthenticationController::class,'index'])->name('login');
     Route::get('/register',[AuthenticationController::class,'register'])->name('register');
     Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register-process');
-    Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
     // Vendor Register Route
     Route::get('/vendor-register',[AuthenticationController::class,'vendorRegisterForm'])->name('vendor-register');
     Route::post('/vendor-register-process',[AuthenticationController::class,'vendorRegisterProcess'])->name('vendor-register-process');
@@ -78,6 +78,8 @@ Route::group(['prefix'=> '{locale?}', 'middleware' => ['AddLocaleAutomatically']
 
     Route::post('wishlist',[ProductController::class,'addToWishlist'])->name('withlist');
 });
+
+
 
 // Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);
 

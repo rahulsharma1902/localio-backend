@@ -89,6 +89,7 @@ class AuthenticationController extends Controller
 
 
     public function logout(){
+     
         Auth::logout();
         return redirect()->back()->with('success',"You have logged out succesfully");
     }

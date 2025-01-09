@@ -77,13 +77,13 @@
                                         @endif
                                         <div class="sfwr_name">
                                             <h6 class="big-bld">
-                                                {{ $category->translations->isNotEmpty() ? $category->translations->first()->name : $category->name }}
+                                                {{  $category->name }}
                                             </h6>
                                         </div>
                                     </div>
                                     <div class="sfwr_text">
                                         <p class="list-unstyled m-0">
-                                            {{ strip_tags($category->translations->isNotEmpty() ? $category->translations->first()->description : $category->description) }}
+                                            {{ $category->description }}
                                         </p>
                                     </div>
                                 </div>

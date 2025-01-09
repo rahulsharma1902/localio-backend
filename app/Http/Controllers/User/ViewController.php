@@ -48,19 +48,31 @@ class ViewController extends Controller
         }
         return view('User.home.index',compact('homeContents'));
     }
-    public function changeLanguage(Request $request, $langCode)
-    {
-        $availableLocales = SiteLanguages::where('status', 'active')->pluck('handle')->toArray();
-        if (!in_array($langCode, $availableLocales)) {
-            $langCode = config('app.locale'); // Default locale if invalid
-        }
-        // Persist the language selection
-        Session::put('current_lang', $langCode);
-        Cookie::queue('language_code', $langCode, 60 * 24 * 30);
-        app()->setLocale($langCode);
 
-        // Redirect to the home page with the selected language
-        $previousPath = Session::get('previous_path', '/'); // Default to home if no previous path
-        return redirect()->back()->with('success', 'Language changed successfully');
+
+    public function changeLanguage(Request $request, $lang_code)
+    {
+        $languages = getLanguages(true);
+        $locale = $lang_code;
+    
+        // Get the current route
+        $currentRoute = $request->route();
+    
+        // Check if the locale is valid or not in the allowed languages
+        if (!$locale || !in_array($locale, $languages)) {
+            // If not valid, redirect to the same route with 'en-us' as the locale
+            return redirect()->route($currentRoute->getName(), ['locale' => 'en-us']);
+        }
+    
+        // Set the application's locale
+        app()->setLocale($locale);
+    
+        // Persist the language selection in session and cookie
+        Session::put('current_lang', $lang_code);
+        Cookie::queue('language_code', $lang_code, 60 * 24 * 30);
+    
+        // Redirect to the current route with the selected language
+        return redirect()->route('home', ['locale' => $lang_code])
+                         ->with('success', 'Language changed successfully');
     }
 }
