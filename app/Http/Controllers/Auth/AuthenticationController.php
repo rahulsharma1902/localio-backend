@@ -30,6 +30,7 @@ class AuthenticationController extends Controller
     }
     public function loginProcc(Request $request)
     {
+        // dd($request->all());
         $lang = Session::get('current_lang');
         $request->validate([
             'email' => 'required|email',
@@ -51,7 +52,6 @@ class AuthenticationController extends Controller
             }
         } else {
             return redirect()->route('login')->with('loginerror', 'failed to login');
-
         }
 
 }
@@ -87,7 +87,7 @@ class AuthenticationController extends Controller
         }
     }
 
-    
+
     public function logout(){
         Auth::logout();
         return redirect()->back()->with('success',"You have logged out succesfully");

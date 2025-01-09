@@ -11,22 +11,10 @@ use App\Http\Controllers\User\MetaPages\MetaPagesController;
 use App\Http\Controllers\User\{ViewController,CategoryController,ProductController,UserController,TermAndConditionController};
 use App\Http\Controllers\Vendor\HomeController;
 use Illuminate\Support\Facades\Route;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
-use Google\Cloud\Translate\V2\TranslateClient;
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 
 Route::get('auth/google', [AuthenticationController::class, 'redirectToGoogle'])->name('google.login');
@@ -42,17 +30,18 @@ Route::get('login/facebook/callback', [AuthenticationController::class, 'handleF
 Route::get('/switch-language/{langCode?}', [ViewController::class, 'changeLanguage'])->name('change-lang');
 
 
-Route::get('/', [ViewController::class, 'home'])->name('home');
-Route::get('/login',[AuthenticationController::class,'index'])->name('login');
-Route::post('/loginprocc',[AuthenticationController::class,'loginProcc'])->name('login_process');
-Route::get('/register',[AuthenticationController::class,'register'])->name('register');
-Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register-process');
-Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
+Route::post('loginprocc',[AuthenticationController::class,'loginProcc'])->name('login_process');
 
-Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
 
+Route::group(['prefix'=> '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
+    
+    Route::get('/admin-dashboard',[AdminDashController::class,'index'])->name('admin_dashboard');
+    Route::get('/', [ViewController::class, 'home'])->name('home');
+    Route::get('/login',[AuthenticationController::class,'index'])->name('login');
+    Route::get('/register',[AuthenticationController::class,'register'])->name('register');
+    Route::post('/register-process',[AuthenticationController::class,'registerProcc'])->name('register-process');
+    Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
     // Vendor Register Route
-
     Route::get('/vendor-register',[AuthenticationController::class,'vendorRegisterForm'])->name('vendor-register');
     Route::post('/vendor-register-process',[AuthenticationController::class,'vendorRegisterProcess'])->name('vendor-register-process');
     // End Vendor Register Route
@@ -93,13 +82,8 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
 // Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);
 
 Route::group(['middleware' =>['admin']],function(){
-    Route::get('/admin-dashboard',[AdminDashController::class,'index'])->name('admin_dashboard');
     // Route::get('/admin-dashboard',[AdminDashController::class,'index']);
     // Route::get('/{locale}/admin-dashboard',[AdminDashController::class,'index'])->where('locale', '^(en|de|es)$');
-
-
-
-
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
     Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
@@ -247,4 +231,3 @@ Route::group(['middleware' =>['vendor']],function(){
 
 
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
-

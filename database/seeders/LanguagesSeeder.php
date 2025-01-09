@@ -150,7 +150,7 @@ class LanguagesSeeder extends Seeder
             ['id' => 133, 'name' => 'Xhosa', 'iso_639-1' => 'xh'],
             ['id' => 134, 'name' => 'Yoruba', 'iso_639-1' => 'yo'],
             ['id' => 135, 'name' => 'Chinese', 'iso_639-1' => 'zh'],
-            ['id' => 136, 'name' => 'Zulu', 'iso_639-1' => 'zu']
+            ['id' => 136, 'name' => 'Zulu', 'iso_639-1' => 'zu'],
         ];
 
         DB::table('languages')->insert($languages);

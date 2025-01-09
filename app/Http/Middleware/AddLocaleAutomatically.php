@@ -21,11 +21,11 @@ class AddLocaleAutomatically
 
 //         // Get the default language handle
 //         $defaultLanguage = SiteLanguages::where('primary', 1)->value('handle') ?? config('app.locale');
- 
+
 //         // Get the locale from the URL
 //         $urlLocale = $request->route('locale');
-   
-//         // // store previous path 
+
+//         // // store previous path
 
 //         if ($urlLocale) {
 //             // Get the full URL path, remove the language code part, and store the rest
