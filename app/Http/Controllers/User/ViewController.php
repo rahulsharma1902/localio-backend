@@ -11,7 +11,6 @@ use App\Models\{Category,Language,CategoryTranslation};
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use App\Models\Country;
-use App\Models\Language;
 use App\Models\HomeContent;
 class ViewController extends Controller
 {
