@@ -39,10 +39,15 @@ Route::get('login/facebook/callback', [AuthenticationController::class, 'handleF
 
 
 // Switch Language Route
-Route::get('/switch-language/{langCode?}', [ViewController::class, 'changeLanguage'])->name('change-lang');
+Route::group(['prefix' => '{langCode?}', 'where' => ['langCode' => '[a-zA-Z-]+']], function () {
+    Route::get('/', [ViewController::class, 'home'])->name('home.lang'); // Home with language code
+    Route::get('/switch-language', [ViewController::class, 'changeLanguage'])->name('change-lang');
+});
 
+// Default Home Route (without language prefix)
+Route::get('/', [ViewController::class, 'home'])->name('home'); // This is the default route
 
-Route::get('/', [ViewController::class, 'home'])->name('home');
+// Route::get('/', [ViewController::class, 'home'])->name('home');
 Route::get('/login',[AuthenticationController::class,'index'])->name('login');
 Route::post('/loginprocc',[AuthenticationController::class,'loginProcc'])->name('login_process');
 Route::get('/register',[AuthenticationController::class,'register'])->name('register');
