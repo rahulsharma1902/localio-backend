@@ -9,7 +9,6 @@ class CategoryTranslation extends Model
 {
     use HasFactory;
 
-  
     protected $fillable = ['category_id', 'language_id', 'name', 'description', 'slug'];
 
  
@@ -27,6 +26,7 @@ class CategoryTranslation extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
     public function language()
     {
         return $this->hasOne(Language::class, 'id',);
