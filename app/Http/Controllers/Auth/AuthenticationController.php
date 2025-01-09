@@ -30,10 +30,11 @@ class AuthenticationController extends Controller
     }
     public function loginProcc(Request $request)
     {
+        // dd($request->all());
         $lang = Session::get('current_lang');
         $request->validate([
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -47,14 +48,13 @@ class AuthenticationController extends Controller
                 }
             } else {
                 Auth::logout();
-                return redirect()->route('home')->with('error', 'failed! Something went wrong');
+                return redirect()->route('login')->with('loginerror', 'failed! Something went wrong');
             }
         } else {
-            return redirect()->route('home')->with('error', 'failed to login');
-
+            return redirect()->route('login')->with('loginerror', 'failed to login');
         }
-    }
 
+}
     public function register()
     {
         $countries = Country::all();
@@ -87,7 +87,7 @@ class AuthenticationController extends Controller
         }
     }
 
-    
+
     public function logout(){
         Auth::logout();
         return redirect()->back()->with('success',"You have logged out succesfully");

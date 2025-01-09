@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,SiteLanguages,CategoryTranslation};
+use App\Models\{Category,Language,CategoryTranslation};
 use Cookie;
 use App;
 use Session;
@@ -14,22 +14,14 @@ class CategoriesController extends Controller
 
     public function index(Request $request) {
         $locale = getCurrentLocale();
-        //dd($locale);
-        // $locale = Session::get('current_lang');
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
-        //dd($siteLanguage);
-        
-        if ($siteLanguage && $siteLanguage->primary != 1) {
-            // If the language is not primary, fetch categories with translations for this language
-            $categories = Category::whereHas('translations', function ($query) use ($siteLanguage) {
-                $query->where('language_id', $siteLanguage->id);
-            })->get();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
+        if ($siteLanguage) {
+            $categories = Category::all();
         } else {
-            // If the language is primary, fetch all categories (no translation filtering)
             $categories = Category::all();
         }
-       
-         //dd($categories);
+
+
         return view('Admin.categories.index', compact('categories'));
     }
 

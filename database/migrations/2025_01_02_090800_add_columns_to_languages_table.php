@@ -27,12 +27,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('languages', function (Blueprint $table) {
-            $table->dropColumn('lang_code');
-            $table->dropForeign(['country_id']);
-            $table->dropColumn('country_id');
-            $table->dropColumn('status');
-            $table->dropColumn('is_active_translation');
-            $table->dropColumn('is_valid_language_code');
+           
         });
     }
 };
