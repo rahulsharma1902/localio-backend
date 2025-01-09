@@ -345,26 +345,26 @@
                             // dd($currentLanguage);
                             
                             // Get the current language code from session (if exists)
-                            $session_lang_code = Session::get('current_lang');
+                            $session_lang_code = Session::get('lang_code');
                             
                             // If no language is set in the session, store the current app language in the session
                             if ($session_lang_code === null) {
-                                Session::put('current_lang', $currentLanguage); // Store current language code in session
+                                Session::put('lang_code', $currentLanguage); // Store current language code in session
                             }
                             
                             // Optionally, set the app's locale to the session language
-                            $session_lang_code = Session::get('current_lang'); // Get the updated language from the session
+                            $session_lang_code = Session::get('lang_code'); // Get the updated language from the session
                             app()->setLocale($session_lang_code); // Set the app's locale to the session language
                             ?>
 
                             @php
-                                use App\Models\SiteLanguages;
+                                use App\Models\Language;
                                 use App\Models\Country;
-                                $languages = SiteLanguages::with('language')->get();
+                                $languages = Language::where('status', 'active')->get();
                             @endphp
                             @foreach ($languages as $language)
                                 {{-- {{ dd($language->country_id) }} --}}
-                                @if ($language->handle == $session_lang_code)
+                                @if ($language->lang_code == $session_lang_code)
                                     @php
                                         $country_name = Country::where('id', $language->country_id)->value('name');
                                         $curent_selected_lang = $language->name;
@@ -373,7 +373,7 @@
                             @endforeach
                             <div class="select-btn">
                                 <span
-                                    class="sBtn-text">{{ $country_name ?? '' }}-{{ $curent_selected_lang ?? '' }}</span>
+                                    class="sBtn-text">{{ $country_name ?? '' }}{{ $curent_selected_lang ?? '' }}</span>
                                 <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
                             </div>
 
@@ -386,8 +386,8 @@
                                         @endphp
                                         {{-- <span class="sBtn-text">{{ $country_name ?? '' }}</span> --}}
                                         <span class="option-text">
-                                            <a href="{{ route('change-lang', ['langCode' => $language->handle]) }}">
-                                                {{ $country_name1 ?? '' }}- {{ $language->name }}
+                                            <a href="{{ route('change-lang', ['langCode' => $language->lang_code]) }}">
+                                                {{ $country_name1 ?? '' }}{{ $language->name }}
                                             </a>
                                             <!-- <a href="{{ url('/') }}/{{ $language->handle }}">
                                             {{ $language->name }}
