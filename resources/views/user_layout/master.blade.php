@@ -39,7 +39,7 @@
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-
+    <link rel="icon" href="{{ asset('front/img/icon.svg') }}" type="image/x-icon">
     <title>home page</title>
 </head>
 
