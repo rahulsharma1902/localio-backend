@@ -123,12 +123,13 @@
                         use App\Models\Category;
                         
                         $categories = Category::all();
+                        // dd($categories);
                         ?>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="left_menu">
                                 <ul class="menu">
                                     <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                                        <a href="javascript:void(0)"
+                                        <a href="jasfhaks"
                                             class="cat_menu">{{ $headerContent['categories'] ?? '' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
@@ -462,7 +463,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
                 position: 'top-right',
                 toast: true,
                 showConfirmButton: false,

@@ -1435,7 +1435,7 @@ textarea:focus-visible {
 	/* background-color: #06498b; */
 	/* color: #fff; */
 }
-/* 
+/*
 .hlp-you-box:hover h3 {
 	color: #fff;
 } */
@@ -1530,7 +1530,7 @@ textarea:focus-visible {
     font-weight: 400;
 }
 
-/* 
+/*
 global classes */
 .big-bld {
 	font-weight: 700;
@@ -2115,7 +2115,7 @@ global classes */
 	border-radius: 15px;
 }
 
-/* 
+/*
 new one 27/sep/24 */
 
 /* .csd_sec {
@@ -2194,7 +2194,7 @@ new one 27/sep/24 */
 	padding-top: 0;
 }
 
-/* 
+/*
 video section */
 
 .csd_sec.vid_sec .vide-box .csd-img {
@@ -4563,7 +4563,7 @@ section.product_comp_sec {
 .prc_dv .prc_bx .prc_contnt .inn_h {
 	gap: 5px;
 }
-/* 
+/*
 .header_row.head_srch .search-box i {
 	padding: 9px 30px;
 } */
@@ -5237,11 +5237,11 @@ header .search_logo .search-box {
 .heart-container::after {
 	content: '\f004';
 	font-family: 'Font Awesome 5 Free';
-	
+
 	position: absolute;
 	top: -12px;
 	right: -10px;
-	color: #06498B; 
+	color: #06498B;
 	font-size: 18px;
 }
 
@@ -5265,7 +5265,7 @@ header .search_logo .search-box {
 /* header .search-box input {
     padding: 13px;
 } */
-/* .inner_box_silder 
+/* .inner_box_silder
  .sl_main {
     justify-content: space-between;
 } */
@@ -5298,7 +5298,7 @@ header .search_logo .search-box {
 .sharing_ul a:hover  svg path{
 	fill: rgb(249 99 59) ;
   }
-  
+
 .sharing_ul a svg path{
 	color: rgb(0 63 125);
     font-size: 16px;
@@ -5374,11 +5374,16 @@ header .search_logo .search-box {
     height: 100%;
     max-width: 10px!important;
     margin: auto;
-  
+
 }
 .sharing_icons .sharing_ul a:hover {
     background-color: rgb(0 63 125);
 }
 .sharing_ul a:hover  svg path {
     fill: #fff;
+}
+
+
+ul.dropdown_menu.dropdown_menu--animated.dropdown_menu-6.mob-drp-contnt.show {
+    display: block;
 }
