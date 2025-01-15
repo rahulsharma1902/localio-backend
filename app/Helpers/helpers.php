@@ -1,42 +1,46 @@
 <?php
 use Illuminate\Support\Facades\Cookie;
-use App\Models\{Category,Language,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
+use App\Models\{Category, Language,WebSetting,  CategoryTranslation, Filter, FilterOption, FilterTranslation, FilterOptionTranslation};
 use App\Services\TranslationService;
 use App\Models\Country;
 use App\Models\Log;
+use Illuminate\Support\Facades\Session;
 
 if (!function_exists('getCurrentLocale')) {
-    function getCurrentLocale() {
+    function getCurrentLocale()
+    {
         $lang_code = Cookie::get('lang_code', 'en-us');
-        if(!$lang_code){
-            $lang_code= session()->get($lang_code);
+        if (!$lang_code) {
+            $lang_code = session()->get($lang_code);
         }
         return $lang_code;
     }
 }
 
-
 if (!function_exists('getCurrentSiteLanguage')) {
-    function getCurrentSiteLanguage() {
-         $locale = Cookie::get('lang_code', config('app.locale'));
-         return Language::where('lang_code', $locale)->first();
+    function getCurrentSiteLanguage()
+    {
+        $locale = Cookie::get('lang_code', config('app.locale'));
+        return Language::where('lang_code', $locale)->first();
     }
 }
 
 if (!function_exists('getLanguageRole')) {
-    function getLanguageRole() {
-         $locale = Cookie::get('lang_code', config('app.locale'));
-         $siteLanguage = Language::where('lang_code', $locale)->first();
+    function getLanguageRole()
+    {
+        $locale = Cookie::get('lang_code', config('app.locale'));
+        $siteLanguage = Language::where('lang_code', $locale)->first();
 
-         if ($siteLanguage && $siteLanguage->primary !== 1) {
+        if ($siteLanguage && $siteLanguage->primary !== 1) {
             return $siteLanguage->handle;
-         } else {
+        } else {
             return 'global';
-         }
+        }
     }
 }
 if (!function_exists('formatInr')) {
-    function formatInr($amount) {
+    function formatInr($amount)
+    {
         // Ensure the amount is a number
         $amount = (float) $amount;
 
@@ -44,7 +48,7 @@ if (!function_exists('formatInr')) {
         $amount = floor($amount);
 
         // Convert the amount to a string for manipulation
-        $amount = (string)$amount;
+        $amount = (string) $amount;
 
         // Get the length of the amount
         $length = strlen($amount);
@@ -70,35 +74,22 @@ if (!function_exists('formatInr')) {
     }
 }
 
-
-
-function website_translator($logoName , $lang_code ){
-    if($logoName=="") return "";
+function website_translator($logoName, $lang_code)
+{
+    if ($logoName == "") {
+        return "";
+    }
     try {
         $translationService = app(TranslationService::class);
         $translatedLogoName = $translationService->translate($logoName, $lang_code);
         // dd($translatedLogoName);
         return $translatedLogoName;
     } catch (\Exception $e) {
-        saveLog('Language Translation Eroor','helpers',$e->getMessage());
+        saveLog('Language Translation Eroor', 'helpers', $e->getMessage());
     }
-}
 
-
-
-
-
-if (!function_exists('saveLog')) {
-
-    function saveLog(
-        $fileName = null,
-        $message = null,
-        $name = null,
-        $payload = null,
-        $isShowAdmin = false,
-        $sentMail = false,
-         $status = 'active'
-    ) {
+    function saveLog($fileName = null, $message = null, $name = null, $payload = null, $isShowAdmin = false, $sentMail = false, $status = 'active')
+    {
         return Log::create([
             'file_name' => $fileName,
             'message' => $message,
@@ -111,20 +102,21 @@ if (!function_exists('saveLog')) {
     }
 }
 
-
-if(!function_exists('getUserLocation')){
-    function getUserLocation(){
-
+if (!function_exists('getUserLocation')) {
+    function getUserLocation()
+    {
         return 'en-us';
     }
 }
 
-
 function getLanguages($codes = false)
 {
-    // Fetch all languages
-    $languages = Language::all();
-
+    $cacheKey = 'languages';
+    $languages = Cache::get($cacheKey);
+    if (!$languages) {
+        $languages = Language::all();
+        Cache::put($cacheKey, $languages, now()->addDay());
+    }
     // If $codes is true, return only language codes
     if ($codes) {
         $codes = $languages->pluck('lang_code')->toArray();
@@ -134,3 +126,70 @@ function getLanguages($codes = false)
     // Otherwise, return all language records
     return $languages;
 }
+
+
+function getWebSetting($key, $value = false)
+{
+    $cacheKey = 'web_settings';
+    $webSettings = Cache::get($cacheKey);
+    if (!$webSettings) {
+        $webSettings = WebSetting::all()->keyBy('key'); 
+        Cache::put($cacheKey, $webSettings, now()->addDays(7));
+    }
+
+    if ($value) {
+        if (isset($webSettings[$key])) {
+            return $webSettings[$key]->value;
+        } else {
+            return null; 
+        }
+    }
+
+    return $webSettings;
+}
+
+
+// Store the user prefrences
+function storePrefrences($data)
+{
+
+
+    $sessionTimeInDays = getWebSetting('USER_SESSION_LOGOUT_TIME', true);
+    if (!$sessionTimeInDays) {
+        $sessionTimeInDays = 30;
+    }
+    $minutes = $sessionTimeInDays * 24 * 60; 
+    Cookie::queue('userDetails', json_encode($data), $minutes);
+    Session::put('userDetails', $data);
+    $test = Session::get('userDetails');
+
+
+}
+
+
+function detectLocation($ip = null)
+{
+    if (!$ip) {
+        $ip = $request->ip();
+    }
+
+    $cacheKey = 'userDetails';
+    $userDetails = Session::get('userDetails');
+
+    if ($userDetails) {
+        return $userDetails;
+    }
+    // Call the api to get the user data
+
+    // find the user details and then push into the session and the cookies
+
+    $userDetails = [
+        'lang_code' => 'en-us',
+        'lang_name' => 'United States - English',
+        'lang_id' => 33,
+    ];
+
+    storePrefrences($userDetails);
+    return $userDetails;
+}
+

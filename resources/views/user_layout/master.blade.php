@@ -101,6 +101,7 @@
                                     <a href="{{ route('register', ['locale' => session('locale', 'en-us')]) }}"
                                         class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? '' }}</a>
                                 @else
+            
                                     <a href="{{ url('/logout') }}"
                                         class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? '' }}</a>
                                 @endif
@@ -340,49 +341,16 @@
                     </div>
                     <div class="ft-btm-rgt">
                         <div class="select-menu ">
-                            <?php
-                            use Illuminate\Support\Facades\Session;
-                            
-                            // Get the current language/locale of the application
-                            $currentLanguage = app()->getLocale();
-                            // dd($currentLanguage);
-                            
-                            // Get the current language code from session (if exists)
-                            $session_lang_code = Session::get('current_lang');
-                            
-                            // If no language is set in the session, store the current app language in the session
-                            if ($session_lang_code === null) {
-                                Session::put('current_lang', $currentLanguage); // Store current language code in session
-                            }
-                            
-                            // Optionally, set the app's locale to the session language
-                            $session_lang_code = Session::get('current_lang'); // Get the updated language from the session
-                            app()->setLocale($session_lang_code); // Set the app's locale to the session language
-                            ?>
-
-                            @php
-                                use App\Models\Language;
-                                use App\Models\Country;
-                                $languages = Language::all();
-                            @endphp
-                            @foreach ($languages as $language)
-                                {{-- {{ dd($language->country_id) }} --}}
-                                @if ($language->handle == $session_lang_code)
-                                    @php
-                                        $country_name = Country::where('id', $language->country_id)->value('name');
-                                        $curent_selected_lang = $language->name;
-                                    @endphp
-                                @endif
-                            @endforeach
                             <div class="select-btn">
                                 <span
-                                    class="sBtn-text">{{ $country_name ?? '' }}-{{ $curent_selected_lang ?? '' }}</span>
+                            
+                                    class="sBtn-text">{{ "United State- English" }}</span>
                                 <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
                             </div>
 
                             <ul class="options">
                             @foreach ($languages as $language)
-                                <li class="option {{ Session::get('current_lang') == $language->lang_code ? 'selected' : '' }}">
+                                <li class="option {{ 'en-us' == $language->lang_code ? 'selected' : '' }}">
                                     <span class="option-text">
                                         <a href="{{ route('switch-language', ['lang_code' => $language->lang_code]) }}">
                                             {{ $language->name }}

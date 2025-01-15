@@ -20,10 +20,9 @@ class AddLocaleAutomatically
         // Get the current route and the locale parameter
         $currentRoute = $request->route();
         $locale = $request->route('locale');
-    
+
         // Check if the locale is not set or not in the allowed languages
         if (!$locale || !in_array($locale, $languages)) {
-            // Redirect to the same route with 'en-us' as the locale
             return redirect()->route($currentRoute->getName(), ['locale' => 'en-us']);
         }
         // Set the application's locale

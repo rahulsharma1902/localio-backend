@@ -18,6 +18,9 @@ class ViewController extends Controller
 
     public function home()
     {
+
+
+
         // dd(ip_location());
         $langCode = getCurrentLocale();
         // $ipdata = ip_location();
@@ -52,27 +55,24 @@ class ViewController extends Controller
 
     public function changeLanguage(Request $request, $lang_code)
     {
-        $languages = getLanguages(true);
-        $locale = $lang_code;
-    
-        // Get the current route
-        $currentRoute = $request->route();
-    
-        // Check if the locale is valid or not in the allowed languages
-        if (!$locale || !in_array($locale, $languages)) {
-            // If not valid, redirect to the same route with 'en-us' as the locale
-            return redirect()->route($currentRoute->getName(), ['locale' => 'en-us']);
+
+        $cacheKey="userDetails";
+        $languages = getLanguages();
+        $languageRecord = $languages->firstWhere('lang_code', $lang_code); 
+        if (!$languageRecord) {
+            $lang_code = 'en-us';
+            $languageRecord = $languages->firstWhere('lang_code', $lang_code); // Fetch the default language record
         }
-    
-        // Set the application's locale
-        app()->setLocale($locale);
-    
-        // Persist the language selection in session and cookie
-        Session::put('current_lang', $lang_code);
-        Cookie::queue('language_code', $lang_code, 60 * 24 * 30);
-    
-        // Redirect to the current route with the selected language
+        $userDetails = [
+            'lang_code' => $languageRecord->lang_code,
+            'lang_name' => $languageRecord->name,
+            'lang_id' => $languageRecord->id,
+        ];
+                
+
+        storePrefrences($userDetails);
+        $currentRoute = $request->route();
         return redirect()->route('home', ['locale' => $lang_code])
-                         ->with('success', 'Language changed successfully');
+        ->with('success', 'Language changed successfully');
     }
 }
