@@ -31,7 +31,7 @@ class RedirectIfAuthenticated
             } 
 
             // Default redirect for other roles (optional)
-            return redirect('/default-dashboard');
+            return $next($request);
         }
 
         // If the user is not authenticated, proceed with the request

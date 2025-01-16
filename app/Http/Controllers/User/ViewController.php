@@ -13,12 +13,12 @@ use App\Models\Country;
 use App\Models\Language;
 use Illuminate\Support\Facades\Session;
 use App\Models\HomeContent;
+use Illuminate\Support\Facades\Auth;
 class ViewController extends Controller
 {
 
     public function home()
     {
-
         // dd(ip_location());
         $langCode = getCurrentLocale();
         // dd($langCode);
