@@ -19,13 +19,11 @@ function getCurrentLocale()
 }
 
 
-if (!function_exists('getCurrentSiteLanguage')) {
     function getCurrentSiteLanguage()
     {
         $locale = Cookie::get('lang_code', config('app.locale'));
         return Language::where('lang_code', $locale)->first();
     }
-}
 
 
     function getLanguageRole()

@@ -18,6 +18,7 @@ class ViewController extends Controller
 
     public function home()
     {
+
         // dd(ip_location());
         $langCode = getCurrentLocale();
         // dd($langCode);
@@ -54,7 +55,6 @@ class ViewController extends Controller
             return view('User.home.index',compact('homeContents','translated_data'));
         }else{
         $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
-        dd($translated_data);
         return view('User.home.index',compact('homeContents','translated_data'));
         }
 

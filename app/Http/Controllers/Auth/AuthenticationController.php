@@ -4,23 +4,24 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
-use Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\DesignTemplate;
 use App\Models\Basket;
-use Session;
+use  Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\OtpVerification;
 // use App\Mail\UserRegisterMail;
 // use App\Mail\ForgottenPassword;
 use App\Mail\ForgetPasswordMail;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\Country;
 use App;
 use App\Models\MetaVendor;
+use Illuminate\Support\Facades\Log;
 class AuthenticationController extends Controller
 {
     public function index(){
@@ -612,7 +613,7 @@ class AuthenticationController extends Controller
             Auth::login($existingUser);
         } else {
             // Create a new user if they do not exist
-            list($firstName, $lastName) = explode(' ', $googleUser->name . ' ', 2);
+            list($firstName, $lastName) = explode(' ', $facebookUser->name . ' ', 2);
             $newUser = User::create([
                 'first_name' => trim($firstName), // Use trim to avoid any leading/trailing spaces
                 'last_name' => trim($lastName), // Last name may be empty if only one name is given
