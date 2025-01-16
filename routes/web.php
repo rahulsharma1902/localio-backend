@@ -129,7 +129,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
     // Header Page Route
     Route::get('/admin-dashboard/header-page', [SiteContentController::class, 'headerPage'])->name('header-page');
-    Route::post('/admin-dashboard/header-page-update', [SiteContentController::Class, 'headerContentUpdate'])->name('header-content-update');
+    Route::post('/admin-dashboard/header-page-update', [SiteContentController::class, 'headerContentUpdate'])->name('header-content-update');
 
     // Footer Page Route
     Route::get('/admin-dashboard/footer-page', [SiteContentController::class, 'footerPage'])->name('footer-page');
@@ -143,7 +143,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
     // Top Product Page Content Route
 
     Route::get('/admin-dashboard/top-product-page', [SiteContentController::class, 'topProductPageContent'])->name('top-product-page-content');
-    Route::post('/admin-dashboard/product-page-update', [SiteContentController::Class, 'topProductPageUpdate'])->name('product-page-update');
+    Route::post('/admin-dashboard/product-page-update', [SiteContentController::class, 'topProductPageUpdate'])->name('product-page-update');
 
     // Reviews Section Route
 

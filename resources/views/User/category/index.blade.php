@@ -63,6 +63,7 @@
                 <!-- <h2 data-aos="zoom-in" data-aos-duration="1000">What type of software are you looking for?</h2> -->
                 <h2 data-aos="zoom-in" data-aos-duration="1000">{{ $categoriesContents['main_heading'] ?? '' }}</h2>
                 <div class="row gy-4">
+
                     @foreach ($categories as $category)
                         <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1000">
                             <div class="sfwr_box">
@@ -77,7 +78,7 @@
                                         @endif
                                         <div class="sfwr_name">
                                             <h6 class="big-bld">
-                                                {{  $category->name }}
+                                                {{ $category->name }}
                                             </h6>
                                         </div>
                                     </div>

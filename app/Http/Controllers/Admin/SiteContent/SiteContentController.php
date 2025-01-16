@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\SiteContent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\HeaderContent;
-use File;
+use Illuminate\Support\Facades\File;
 use App\Models\FooterContent;
 use App\Models\HomeContent;
 use App\Models\HomeContentMedia;
@@ -26,7 +26,7 @@ class SiteContentController extends Controller
                 $newHomeContent = new homeContent;
                 $newHomeContent->meta_key = $content->meta_key;
                 $newHomeContent->meta_value = $content->meta_value;
-                $newHomeContent->lang_code = $currentLanguage->handle;  
+                $newHomeContent->lang_code = $lang;  
                 $newHomeContent->type = $content->type;  
                 $newHomeContent->save();
             }
@@ -179,10 +179,12 @@ class SiteContentController extends Controller
     {
         // $headerContents = HeaderContent::all();
         $lang = getCurrentLocale();
-
+        
         $headerContents = HeaderContent::where('lang_code',$lang)->get();
+        // dd($headerContents);
 
         $currentLanguage = SiteLanguages::where('handle', $lang)->first();
+        // dd($currentLanguage);
 
         if ($headerContents->isEmpty()) {
             $englishHeaderContents = HeaderContent::where('lang_code', 'en')->get();
@@ -192,7 +194,7 @@ class SiteContentController extends Controller
                     $HeaderContent = new HeaderContent;
                     $HeaderContent->meta_key = $content->meta_key;
                     $HeaderContent->meta_value = $content->meta_value;
-                    $HeaderContent->lang_code = $currentLanguage->handle;  
+                    $HeaderContent->lang_code = $lang;  
                     $HeaderContent->type = $content->type;  
                     $HeaderContent->save();
                 }
@@ -265,7 +267,7 @@ class SiteContentController extends Controller
                     $footerContents = new FooterContent;
                     $footerContents->meta_key = $content->meta_key;
                     $footerContents->meta_value = $content->meta_value;
-                    $footerContents->lang_code = $currentLanguage->handle;  
+                    $footerContents->lang_code = $lang;  
                     $footerContents->type = $content->type;  
                     $footerContents->save();
                 }
@@ -345,6 +347,7 @@ class SiteContentController extends Controller
         $lang = getCurrentLocale();
         $categoryPageContents = CategoryPageContent::where('lang_code',$lang)->get();
         $currentLanguage = SiteLanguages::where('handle', $lang)->first();
+        
         if ($categoryPageContents->isEmpty()) {
             $englishCategoryPageContents = CategoryPageContent::where('lang_code', 'en')->get();
             if($englishCategoryPageContents)
@@ -353,7 +356,7 @@ class SiteContentController extends Controller
                     $categoryContents = new CategoryPageContent;
                     $categoryContents->meta_key = $content->meta_key;
                     $categoryContents->meta_value = $content->meta_value;
-                    $categoryContents->lang_code = $currentLanguage->handle;  
+                    $categoryContents->lang_code = $content->lang_code;  
                     $categoryContents->type = $content->type;  
                     $categoryContents->save();
                 }

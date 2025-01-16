@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Language,CategoryTranslation};
+use App\Models\{Category,Language,CategoryTranslation,SiteLanguages};
 use Cookie;
 use App;
 use Session;
@@ -16,19 +16,16 @@ class CategoriesController extends Controller
         $locale = getCurrentLocale();
         $siteLanguage = Language::where('lang_code', $locale)->first();
         if ($siteLanguage) {
-            $categories = Category::all();
-        } else {
-            $categories = Category::all();
-        }
-
-
+            $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();  
+        } 
+        // dd($categories) ;
         return view('Admin.categories.index', compact('categories'));
     }
 
     
     public function add(Request $request)
     {
-    
+        // dd($request->all());
         $rules = [
             'name' => 'required|unique:categories,name' . ($request->id ? ',' . $request->id : ''),
             'slug' => 'required|unique:categories,slug' . ($request->id ? ',' . $request->id : ''),
@@ -45,7 +42,6 @@ class CategoriesController extends Controller
 
         if ($request->id) {
             $category = Category::find($request->id);
-
             if (!$category) {
                 return response()->json(['message' => 'Category not found'], 404);
             }
@@ -66,7 +62,6 @@ class CategoriesController extends Controller
             }
             $featuredImageName = $request->slug.rand(0,1000).time().'.'.$extension;;
             $featuredImage->move(public_path().'/CategoryImages/',$featuredImageName);
-            
             $category->image = $featuredImageName;    
         }
         if ($request->hasFile('category_icon')) {
@@ -104,88 +99,161 @@ class CategoriesController extends Controller
 
         }
     }
+
+
     
     public function updateCategory($categoryId){
-    
         $locale = getCurrentLocale();
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
-        $defaultCategory = Category::where('id',$categoryId)->first();
-  
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
-            $category = CategoryTranslation::with('language')->where('category_id',$categoryId)->where('language_id',$siteLanguage->id)->first();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
+        // dd($siteLanguage->id);
+        // if ($siteLanguage) {
+            //     $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->first();   
+            //     // dd($categories);
+            // } 
+            // dd($locale);
+            if ($siteLanguage) {
+                // dd($categoryId);
+                $defaultCategory = Category::where('id',$categoryId)->first();
+                // $category = CategoryTranslation::with('language')->where('category_id',$categoryId)->orWhere('language_id','and',$siteLanguage->id)->first();
+                $category = CategoryTranslation::with('language')->where('language_id',$siteLanguage->id)->where('category_id',$categoryId)->first(); 
+                if($category != null){
+                    return view('Admin.categories.update',compact('category','defaultCategory'));
+                }else{
+                    $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();
+                    // dd($categories);
+                    return  view('Admin.categories.index',compact('categories'));
+                }
+            }else{
+                $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();
+                // dd($categories);
+                return  view('Admin.categories.index',compact('categories'));
+            }
+            // dd($category) ;
+            
             // dd($category);
-        } else {
-            $category = Category::where('id',$categoryId)->first();
-        }
+            // dd($category);
+        // } else {
+        //     $category = Category::where('id',$categoryId)->first();
+        // }
         // echo '<pre>';
         // print_r($siteLanguage->handle);
         // die();
-        return view('Admin.categories.update',compact('category','defaultCategory'));
-
     }
 
-    public function updateProcc(Request $request) {
-      
-        $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
-        
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
-            $request->validate([
-                'name' => 'required|unique:category_translations,name' . ($request->id ? ',' . $request->id : ''),
-                'slug' => 'required|unique:category_translations,slug' . ($request->id ? ',' . $request->id : ''),
-            ]);
+    // public function updateProcc(Request $request) {
+    //      dd($request->all());
+    //     $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
+    //     // dd($siteLanguage);
+    //     if ($siteLanguage) {
+    //         $request->validate([
+    //             'name' => 'required|unique:category_translations,name' . ($request->id ? ',' . $request->id : ''),
+    //             'slug' => 'required|unique:category_translations,slug' . ($request->id ? ',' . $request->id : ''),
+    //         ]);
+    //         dd($request->name);
+    //         // dd($request->name);
             
-            if ($request->id) {
-                $category = CategoryTranslation::find($request->id);
-                if (!$category) {
-                    return back()->withErrors(['message' => 'Category translation not found.']);
-                }
-            } else {
-                $existingTranslation = CategoryTranslation::where('category_id', $request->category_id)
-                    ->where('language_id', $siteLanguage->id)
-                    ->first();
-                if ($existingTranslation) {
-                    $category = $existingTranslation;
-                } else {
-                    $category = new CategoryTranslation;
-                    $category->category_id = $request->category_id;
-                    $category->language_id = $siteLanguage->id;
-                }
-            }
-        } 
-        else {
-            $request->validate([
-                'name' => 'required|unique:categories,name' . ($request->id ? ',' . $request->id : ''),
-                'slug' => 'required|unique:categories,slug' . ($request->id ? ',' . $request->id : ''),
-            ]);
-            $category = Category::find($request->id) ?? new Category;
+    //         if ($request->id) {
+    //             $category = CategoryTranslation::find($request->id);
+    //             if (!$category) {
+    //                 return back()->withErrors(['message' => 'Category translation not found.']);
+    //             }
+    //         } else {
+    //             $existingTranslation = CategoryTranslation::where('category_id', $request->category_id)
+    //                 ->where('language_id', $siteLanguage->id)
+    //                 ->first();
+    //             if ($existingTranslation) {
+    //                 $category = $existingTranslation;
+    //             } else {
+    //                 $category = new CategoryTranslation;
+    //                 $category->category_id = $request->category_id;
+    //                 $category->language_id = $siteLanguage->id;
+    //                 $category->save();
+    //             }
+    //         }
+    //     } 
+    //     else {
+    //         $request->validate([
+    //             'name' => 'required|unique:categories,name' . ($request->id ? ',' . $request->id : ''),
+    //             'slug' => 'required|unique:categories,slug' . ($request->id ? ',' . $request->id : ''),
+    //         ]);
+    //         // dd($request->name);
+    //         $category = Category::find($request->id);
+    //         // dd($category);
+            // if ($request->hasFile('image')) {
+            //     $featuredImage = $request->file('image');
+            //     $extension = $featuredImage->getClientOriginalExtension();
+            //     $featuredImageName = $request->slug . rand(0, 1000) . time() . '.' . $extension;
+            //     $featuredImage->move(public_path('/CategoryImages/'), $featuredImageName);
+            //     $category->image = $featuredImageName;
+            // }
+            // if ($request->hasFile('category_icon')) {
+            //     $featuredImage = $request->file('category_icon');
+            //     $extension = $featuredImage->getClientOriginalExtension();
+            //     $featuredIconName = $request->slug.rand(0,1000).time().'.'.$extension;;
+            //     $featuredImage->move(public_path().'/CategoryIcon/',$featuredIconName);
+            //     $category->category_icon = $featuredIconName;    
+            // }
+    //     }
+    //     $category->name = $request->name ?? '';
+    //     $category->slug = $request->slug ?? '';
+    //     $category->description = $request->description ?? '';
+    //     $category->update();
+
+    //     CategoryTranslation::where('category_id',$request->category_id)->update(
+    //         [
+    //             'name' => $request->name ?? '',
+    //             'slug' => $request->slug ?? '',
+    //             'description' => $request->description ?? ''
+    //         ]
+    //     );
+    //     // catagory transelation save in database
     
+    //     return redirect()->back()->with('success', 'Category updated successfully.');
+    // }
+
+
+    public function updateProcc(Request $request) {
+        $request->validate([
+            'name' => 'unique:categories',
+        ]);
+        $locale = getCurrentLocale();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $category_id = CategoryTranslation::where('id',$request->id)->value('category_id');
+        if($siteLanguage){
+            CategoryTranslation::where('id',$request->id)->update(
+                [
+                    'name' => $request->name,
+                    'slug' => $request->slug,
+                    'description' => $request->description
+                ]
+            );
+
+           $category =  Category::find($request->id);
+           $category->name = $request->name;
+           $category->slug = $request->slug;
+           $category->description = $request->description;
+            
+
             if ($request->hasFile('image')) {
                 $featuredImage = $request->file('image');
                 $extension = $featuredImage->getClientOriginalExtension();
                 $featuredImageName = $request->slug . rand(0, 1000) . time() . '.' . $extension;
                 $featuredImage->move(public_path('/CategoryImages/'), $featuredImageName);
-    
                 $category->image = $featuredImageName;
             }
+
             if ($request->hasFile('category_icon')) {
                 $featuredImage = $request->file('category_icon');
                 $extension = $featuredImage->getClientOriginalExtension();
                 $featuredIconName = $request->slug.rand(0,1000).time().'.'.$extension;;
                 $featuredImage->move(public_path().'/CategoryIcon/',$featuredIconName);
-                
-                $category->category_icon = $featuredIconName;    
+                $category->category_icon = $featuredImage;
             }
-    
-        }
-        $category->name = $request->name ?? '';
-        $category->slug = $request->slug ?? '';
-        $category->description = $request->description ?? '';
-    
-        $category->save();
-    
-        return redirect()->back()->with('success', 'Category updated successfully.');
-    }
 
+            $category->update();
+            return redirect()->back()->with('success', 'Category update successfully !');
+        }
+    }
 
     public function remove(Request $request, $id) {
         $category = Category::find($id);

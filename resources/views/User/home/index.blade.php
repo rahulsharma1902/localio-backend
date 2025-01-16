@@ -1,4 +1,8 @@
 @extends('user_layout.master')
+{{-- {{ dd($translated_data) }} --}}
+
+
+
 @section('content')
     <!-- new html -->
     <style>
@@ -120,6 +124,7 @@
         </div>
     </section>
     <!-- section most-popular -->
+
     <section class="most-populr-sec light p_120 pb-0">
         <div class="container">
             <div class="most-popular-wrp" data-aos="fade-up" data-aos-duration="1000">
@@ -128,510 +133,265 @@
                         <h2 class="text-center">{{ $homeContents['most_popular'] ?? null }}</h2>
                     </h2>
                 </div>
+
                 <div class="popular-accordion-wrp">
                     <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <div class="accor-img">
-                                        <img src="{{ asset('front/img/accordion-img1.png') }}" alt="">
-                                    </div> Business Software
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <div class="accordion-bdy-wrp">
-                                        <div class="accor-bdy-hd">
-                                            <div class="row align-items-center">
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="accor-lft-img">
-                                                        <img src="{{ asset('front/img/accor-bdy-img.png') }}"
-                                                            alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="accor-txt-contnt">
-                                                        <h3>Lorem Ipsum has been the industry's standard dummy</h3>
-                                                        <p>Lorem Ipsum has been the industry's standard dummy text ever
-                                                            since the
-                                                            1500s, when an unknown printer took a galley of type and
-                                                            scrambled it to
-                                                            make a type specimen book, It has survived not only five
-                                                            centuries, but
-                                                            also the leap into electronic typesetting. </p>
-                                                        <div class="accor-btn">
-                                                            <a href=""
-                                                                class="cta cta_white">{{ $homeContents['campare_business'] ?? null }}</a>
+                        @foreach ($translated_data as $key => $value)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $key }}" aria-expanded="true"
+                                        aria-controls="collapse{{ $key }}">
+                                        <div class="accor-img">
+                                            <img src="{{ asset('front/img/accordion-img1.png') }}" alt="">
+                                        </div> {{ $value['name'] }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $key }}" class="accordion-collapse collapse show"
+                                    aria-labelledby="" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="accordion-bdy-wrp">
+                                            <div class="accor-bdy-hd">
+                                                <div class="row align-items-center">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="accor-lft-img">
+                                                            <img src="{{ asset('front/img/accor-bdy-img.png') }}"
+                                                                alt="">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accor-bdy-btm">
-                                            <div class="row accor-bdy-row">
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="inn_sl_hed mst_hdn">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img"
-                                                                        src="{{ asset('front/img/slider1_img.svg') }}"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="#" class="heart-container">
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card center-card-pack">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="best-value">
-                                                                <p> <img src="img/star.png" alt="">BEST VALUE</p>
-                                                            </div>
-                                                            <div class="inn_sl_hed mst_hdn mt-4">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img"
-                                                                        src="{{ asset('front/img/slider2_img.svg') }}"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="#" class="heart-container">
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="inn_sl_hed mst_hdn">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img"
-                                                                        src="{{ asset('front/img/slider3_img.svg') }}"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="#" class="heart-container">
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="accor-txt-contnt">
+                                                            <h3>Lorem Ipsum has been the industry's standard dummy</h3>
+                                                            <p>Lorem Ipsum has been the industry's standard dummy text ever
+                                                                since the
+                                                                1500s, when an unknown printer took a galley of type and
+                                                                scrambled it to
+                                                                make a type specimen book, It has survived not only five
+                                                                centuries, but
+                                                                also the leap into electronic typesetting. </p>
+                                                            <div class="accor-btn">
+                                                                <a href=""
+                                                                    class="cta cta_white">{{ $homeContents['campare_business'] ?? null }}</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <div class="accor-img">
-                                        <img src="{{ asset('front/img/accordion-img2.png') }}" alt="">
-                                    </div> Marketing & Sales
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <div class="accordion-bdy-wrp">
-                                        <div class="accor-bdy-hd">
-                                            <div class="row align-items-center">
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="accor-lft-img">
-                                                        <img src="{{ asset('front/img/accor-bdy-img.png') }}"
-                                                            alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="accor-txt-contnt">
-                                                        <h3>Lorem Ipsum has been the industry's standard dummy</h3>
-                                                        <p>Lorem Ipsum has been the industry's standard dummy text ever
-                                                            since the
-                                                            1500s, when an unknown printer took a galley of type and
-                                                            scrambled it to
-                                                            make a type specimen book, It has survived not only five
-                                                            centuries, but
-                                                            also the leap into electronic typesetting. </p>
-                                                        <div class="accor-btn">
-                                                            <a href=""
-                                                                class="cta cta_white">{{ $homeContents['campare_business'] ?? null }}</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accor-bdy-btm">
-                                            <div class="row accor-bdy-row">
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="inn_sl_hed mst_hdn">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img"
-                                                                        src="{{ asset('front/img/slider1_img.png') }}"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="">
-                                                                                    <div class="right-arw">
-                                                                                        <img src="img/right-arrw.svg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </a>
+                                            <div class="accor-bdy-btm">
+                                                <div class="row accor-bdy-row">
+                                                    <div class="col-lg-4">
+                                                        <div class="review_card light top-rate-card">
+                                                            <div class="inner_box_silder  top-rate-innr ">
+                                                                <div class="inn_sl_hed mst_hdn">
+                                                                    <div class="sli_img">
+                                                                        <img class="slider_img"
+                                                                            src="{{ asset('front/img/slider1_img.svg') }}"
+                                                                            alt="">
+                                                                    </div>
+                                                                    <div class="sl_h">
+                                                                        <div class="inn_h">
+                                                                            <div class="sl_main">
+                                                                                <h6 class="head">Xero</h6>
+                                                                                <div class="wishlist">
+                                                                                    <a href="#"
+                                                                                        class="heart-container">
+                                                                                    </a>
+                                                                                </div>
                                                                             </div>
+                                                                        </div>
+                                                                        <div class="tp-btm d-flex">
+                                                                            <div class="inn_ul">
+
+                                                                                <div class="tab_star_li">
+                                                                                    <span class="rating-on rate-1"
+                                                                                        data-rating="1"></span>
+                                                                                    <span class="rating-on rate-2"
+                                                                                        data-rating="2"></span>
+                                                                                    <span class="rating-on rate-3"
+                                                                                        data-rating="3"></span>
+                                                                                    <span class="rating-on rate-4"
+                                                                                        data-rating="4"></span>
+                                                                                    <span class="rating-on rate-5"
+                                                                                        data-rating="5"></span>
+
+                                                                                </div>
+                                                                                <div><i class="fa-solid fa-angle-down"></i>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="rate_box">5.0 | 124 ratings</div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
+                                                                </div>
+                                                                <div class="slider_content_sec">
+                                                                    <div class="content_para"> Lorem Ipsum has been the
+                                                                        industry's standard
+                                                                        dummy text ever since the 1500s, when an unknown
+                                                                        printer
+                                                                        took a
+                                                                        galley of type and scrambled it to make a type
+                                                                        specimen
+                                                                        book. </div>
+                                                                    <div class="view-more-btn">
+                                                                        <a href="" class="">Read More</a>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
+                                                                <div class="top-pro-box">
+                                                                    <div class="top-pro-btn ">
+                                                                        <a href=""
+                                                                            class="cta cta_orange d-flex align-items-center">
+                                                                            {{ $homeContents['visit_website'] ?? null }}
+                                                                            <div class="right-arw">
+                                                                                <i class="fa-solid fa-arrow-right"></i>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card center-card-pack">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="best-value">
-                                                                <p> <img src="{{ asset('front/img/star.png') }}"
-                                                                        alt="">BEST
-                                                                    VALUE</p>
-                                                            </div>
-                                                            <div class="inn_sl_hed mst_hdn mt-4">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img"
-                                                                        src="{{ asset('front/img/slider2_img.svg') }}"
-                                                                        alt="">
+                                                    <div class="col-lg-4">
+                                                        <div class="review_card light top-rate-card center-card-pack">
+                                                            <div class="inner_box_silder  top-rate-innr ">
+                                                                <div class="best-value">
+                                                                    <p> <img src="img/star.png" alt="">BEST VALUE
+                                                                    </p>
                                                                 </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="#" class="heart-container">
-                                                                                </a>
+                                                                <div class="inn_sl_hed mst_hdn mt-4">
+                                                                    <div class="sli_img">
+                                                                        <img class="slider_img"
+                                                                            src="{{ asset('front/img/slider2_img.svg') }}"
+                                                                            alt="">
+                                                                    </div>
+                                                                    <div class="sl_h">
+                                                                        <div class="inn_h">
+                                                                            <div class="sl_main">
+                                                                                <h6 class="head">Xero</h6>
+                                                                                <div class="wishlist">
+                                                                                    <a href="#"
+                                                                                        class="heart-container">
+                                                                                    </a>
+                                                                                </div>
                                                                             </div>
+                                                                        </div>
+                                                                        <div class="tp-btm d-flex">
+                                                                            <div class="inn_ul">
+
+                                                                                <div class="tab_star_li">
+                                                                                    <span class="rating-on rate-1"
+                                                                                        data-rating="1"></span>
+                                                                                    <span class="rating-on rate-2"
+                                                                                        data-rating="2"></span>
+                                                                                    <span class="rating-on rate-3"
+                                                                                        data-rating="3"></span>
+                                                                                    <span class="rating-on rate-4"
+                                                                                        data-rating="4"></span>
+                                                                                    <span class="rating-on rate-5"
+                                                                                        data-rating="5"></span>
+
+                                                                                </div>
+                                                                                <div><i class="fa-solid fa-angle-down"></i>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="rate_box">5.0 | 124 ratings</div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
+                                                                </div>
+                                                                <div class="slider_content_sec">
+                                                                    <div class="content_para"> Lorem Ipsum has been the
+                                                                        industry's standard
+                                                                        dummy text ever since the 1500s, when an unknown
+                                                                        printer
+                                                                        took a
+                                                                        galley of type and scrambled it to make a type
+                                                                        specimen
+                                                                        book. </div>
+                                                                    <div class="view-more-btn">
+                                                                        <a href="" class="">Read More</a>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
+                                                                <div class="top-pro-box">
+                                                                    <div class="top-pro-btn ">
+                                                                        <a href=""
+                                                                            class="cta cta_orange d-flex align-items-center">
+                                                                            {{ $homeContents['visit_website'] ?? null }}
+                                                                            <div class="right-arw">
+                                                                                <i class="fa-solid fa-arrow-right"></i>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="inn_sl_hed mst_hdn">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img" src="img/slider3_img.png"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="#" class="heart-container">
-                                                                                </a>
+                                                    <div class="col-lg-4">
+                                                        <div class="review_card light top-rate-card">
+                                                            <div class="inner_box_silder  top-rate-innr ">
+                                                                <div class="inn_sl_hed mst_hdn">
+                                                                    <div class="sli_img">
+                                                                        <img class="slider_img"
+                                                                            src="{{ asset('front/img/slider3_img.svg') }}"
+                                                                            alt="">
+                                                                    </div>
+                                                                    <div class="sl_h">
+                                                                        <div class="inn_h">
+                                                                            <div class="sl_main">
+                                                                                <h6 class="head">Xero</h6>
+                                                                                <div class="wishlist">
+                                                                                    <a href="#"
+                                                                                        class="heart-container">
+                                                                                    </a>
+                                                                                </div>
                                                                             </div>
+                                                                        </div>
+                                                                        <div class="tp-btm d-flex">
+                                                                            <div class="inn_ul">
+
+                                                                                <div class="tab_star_li">
+                                                                                    <span class="rating-on rate-1"
+                                                                                        data-rating="1"></span>
+                                                                                    <span class="rating-on rate-2"
+                                                                                        data-rating="2"></span>
+                                                                                    <span class="rating-on rate-3"
+                                                                                        data-rating="3"></span>
+                                                                                    <span class="rating-on rate-4"
+                                                                                        data-rating="4"></span>
+                                                                                    <span class="rating-on rate-5"
+                                                                                        data-rating="5"></span>
+
+                                                                                </div>
+                                                                                <div><i class="fa-solid fa-angle-down"></i>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="rate_box">5.0 | 124 ratings</div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
+                                                                </div>
+                                                                <div class="slider_content_sec">
+                                                                    <div class="content_para"> Lorem Ipsum has been the
+                                                                        industry's standard
+                                                                        dummy text ever since the 1500s, when an unknown
+                                                                        printer
+                                                                        took a
+                                                                        galley of type and scrambled it to make a type
+                                                                        specimen
+                                                                        book. </div>
+                                                                    <div class="view-more-btn">
+                                                                        <a href="" class="">Read More</a>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
+                                                                <div class="top-pro-box">
+                                                                    <div class="top-pro-btn ">
+                                                                        <a href=""
+                                                                            class="cta cta_orange d-flex align-items-center">
+                                                                            {{ $homeContents['visit_website'] ?? null }}
+                                                                            <div class="right-arw">
+                                                                                <i class="fa-solid fa-arrow-right"></i>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -642,272 +402,17 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <div class="accor-img">
-                                        <img src="{{ asset('front/img/accordion-img3.png') }}" alt="">
-                                    </div> Finance & Accounting
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <div class="accordion-bdy-wrp">
-                                        <div class="accor-bdy-hd">
-                                            <div class="row align-items-center">
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="accor-lft-img">
-                                                        <img src="{{ asset('front/img/accor-bdy-img.png') }}"
-                                                            alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="accor-txt-contnt">
-                                                        <h3>Lorem Ipsum has been the industry's standard dummy</h3>
-                                                        <p>Lorem Ipsum has been the industry's standard dummy text ever
-                                                            since the
-                                                            1500s, when an unknown printer took a galley of type and
-                                                            scrambled it to
-                                                            make a type specimen book, It has survived not only five
-                                                            centuries, but
-                                                            also the leap into electronic typesetting. </p>
-                                                        <div class="accor-btn">
-                                                            <a href="" class="cta cta_white">
-                                                                {{ $homeContents['campare_business'] ?? null }}</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accor-bdy-btm">
-                                            <div class="row accor-bdy-row">
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="inn_sl_hed mst_hdn">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img"
-                                                                        src="{{ asset('front/img/slider1_img.png') }}"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="">
-                                                                                    <div class="right-arw">
-                                                                                        <img src="img/right-arrw.svg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card center-card-pack">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="best-value">
-                                                                <p> <img src="{{ asset('front/img/star.png') }}"
-                                                                        alt="">BEST
-                                                                    VALUE</p>
-                                                            </div>
-                                                            <div class="inn_sl_hed mst_hdn mt-4">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img"
-                                                                        src="{{ asset('front/img/slider2_img.svg') }}"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="#" class="heart-container">
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="review_card light top-rate-card">
-                                                        <div class="inner_box_silder  top-rate-innr ">
-                                                            <div class="inn_sl_hed mst_hdn">
-                                                                <div class="sli_img">
-                                                                    <img class="slider_img" src="img/slider3_img.png"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="sl_h">
-                                                                    <div class="inn_h">
-                                                                        <div class="sl_main">
-                                                                            <h6 class="head">Xero</h6>
-                                                                            <div class="wishlist">
-                                                                                <a href="#" class="heart-container">
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="tp-btm d-flex">
-                                                                        <div class="inn_ul">
-
-                                                                            <div class="tab_star_li">
-                                                                                <span class="rating-on rate-1"
-                                                                                    data-rating="1"></span>
-                                                                                <span class="rating-on rate-2"
-                                                                                    data-rating="2"></span>
-                                                                                <span class="rating-on rate-3"
-                                                                                    data-rating="3"></span>
-                                                                                <span class="rating-on rate-4"
-                                                                                    data-rating="4"></span>
-                                                                                <span class="rating-on rate-5"
-                                                                                    data-rating="5"></span>
-
-                                                                            </div>
-                                                                            <div><i class="fa-solid fa-angle-down"></i>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="rate_box">5.0 | 124 ratings</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="slider_content_sec">
-                                                                <div class="content_para"> Lorem Ipsum has been the
-                                                                    industry's standard
-                                                                    dummy text ever since the 1500s, when an unknown printer
-                                                                    took a
-                                                                    galley of type and scrambled it to make a type specimen
-                                                                    book. </div>
-                                                                <div class="view-more-btn">
-                                                                    <a href="" class="">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="top-pro-box">
-                                                                <div class="top-pro-btn ">
-                                                                    <a href=""
-                                                                        class="cta cta_orange d-flex align-items-center">
-                                                                        {{ $homeContents['visit_website'] ?? null }}
-                                                                        <div class="right-arw">
-                                                                            <i class="fa-solid fa-arrow-right"></i>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
     <!-- scetion exclusive deals -->
+
+
+
     <section class="xclusve-deal light p_120 pb-0">
         <div class="section_hed xclu-m">
             <div class="container">
@@ -1060,11 +565,11 @@
                         @endif
 
                         <!-- <div class="back-image1">
-                                                  <img src="{{ asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
-                                               </div>
-                                               <div class="back-image2">
-                                                  <img src="{{ asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
-                                               </div> -->
+                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
+                                                                                                                                                                                                                                                                                   </div>
+                                                                                                                                                                                                                                                                                   <div class="back-image2">
+                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
+                                                                                                                                                                                                                                                                                   </div> -->
                     </div>
                 </div>
                 <!-- section top-rated -->
@@ -1601,8 +1106,8 @@
                     <div class="col-lg-4 col-md-4">
                         <a href="#" class="in_cont_box">
                             <div class="read_img">
-                                <div class="blog_thumb"><img class="r_img"
-                                        src="{{ asset('front/img/read_img1.png') }}" alt=""></div>
+                                <div class="blog_thumb"><img class="r_img" src="{{ asset('front/img/read_img1.png') }}"
+                                        alt=""></div>
                             </div>
                             <div class="read_content_in">
                                 <div class="read_cont_h">
@@ -1615,10 +1120,10 @@
                                         unknown printer took a galley. </p>
                                 </div>
                                 <!-- <div class="box_footer">
-                                                        <div class="more_read">
-                                                           <a href="">Read More</a>
-                                                        </div>
-                                                     </div> -->
+                                                                                                                                                                                                                                                                                            <div class="more_read">
+                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
+                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
@@ -1639,10 +1144,10 @@
                                         unknown printer took a galley. </p>
                                 </div>
                                 <!-- <div class="box_footer">
-                                                        <div class="more_read">
-                                                           <a href="">Read More</a>
-                                                        </div>
-                                                     </div> -->
+                                                                                                                                                                                                                                                                                            <div class="more_read">
+                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
+                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
@@ -1663,10 +1168,10 @@
                                         unknown printer took a galley. </p>
                                 </div>
                                 <!-- <div class="box_footer">
-                                                        <div class="more_read">
-                                                           <a href="">Read More</a>
-                                                        </div>
-                                                     </div> -->
+                                                                                                                                                                                                                                                                                            <div class="more_read">
+                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
+                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>

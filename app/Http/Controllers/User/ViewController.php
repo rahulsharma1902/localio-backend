@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Session;
 use Cookie;
 use App;
 use App\Models\{Category,SiteLanguages,CategoryTranslation};
@@ -12,17 +11,16 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Language;
+use Illuminate\Support\Facades\Session;
 use App\Models\HomeContent;
 class ViewController extends Controller
 {
 
     public function home()
     {
-
-
-
         // dd(ip_location());
         $langCode = getCurrentLocale();
+        // dd($langCode);
         // $ipdata = ip_location();
         // $countrycode = strtolower($ipdata['geoplugin_countryCode']);
         // if(Language::where('lang_code',$langCode.'-'.$countrycode)->exists()){
@@ -49,9 +47,19 @@ class ViewController extends Controller
         {
             $homeContents = HomeContent::where('lang_code', 'en')->pluck('meta_value', 'meta_key');
         }
-        return view('User.home.index',compact('homeContents'));
-    }
+        $language_id = Language::where('lang_code',$langCode )->value('id');
+        $translated_data =  CategoryTranslation::where('language_id',$language_id)->get()->toArray()    ;
+        if($translated_data){
+            // dd($translated_data);
+            return view('User.home.index',compact('homeContents','translated_data'));
+        }else{
+        $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
+        dd($translated_data);
+        return view('User.home.index',compact('homeContents','translated_data'));
+        }
 
+        
+    }
 
     public function changeLanguage(Request $request, $lang_code)
     {

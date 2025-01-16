@@ -4,18 +4,20 @@ use App\Models\{Category, Language,WebSetting,  CategoryTranslation, Filter, Fil
 use App\Services\TranslationService;
 use App\Models\Country;
 use App\Models\Log;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
-if (!function_exists('getCurrentLocale')) {
-    function getCurrentLocale()
-    {
-        $lang_code = Cookie::get('lang_code', 'en-us');
-        if (!$lang_code) {
-            $lang_code = session()->get($lang_code);
-        }
-        return $lang_code;
+
+function getCurrentLocale()
+{
+    $lang_code = Cookie::get('lang_code', 'en-us');
+    if (!$lang_code) {
+        $lang_code = session()->get($lang_code);
     }
+    return $lang_code;
 }
+
 
 if (!function_exists('getCurrentSiteLanguage')) {
     function getCurrentSiteLanguage()
@@ -25,7 +27,7 @@ if (!function_exists('getCurrentSiteLanguage')) {
     }
 }
 
-if (!function_exists('getLanguageRole')) {
+
     function getLanguageRole()
     {
         $locale = Cookie::get('lang_code', config('app.locale'));
@@ -37,8 +39,8 @@ if (!function_exists('getLanguageRole')) {
             return 'global';
         }
     }
-}
-if (!function_exists('formatInr')) {
+
+
     function formatInr($amount)
     {
         // Ensure the amount is a number
@@ -72,7 +74,6 @@ if (!function_exists('formatInr')) {
 
         return $formattedAmount;
     }
-}
 
 function website_translator($logoName, $lang_code)
 {
@@ -102,12 +103,11 @@ function website_translator($logoName, $lang_code)
     }
 }
 
-if (!function_exists('getUserLocation')) {
     function getUserLocation()
     {
         return 'en-us';
     }
-}
+
 
 function getLanguages($codes = false)
 {
@@ -122,7 +122,6 @@ function getLanguages($codes = false)
         $codes = $languages->pluck('lang_code')->toArray();
         return $codes;
     }
-
     // Otherwise, return all language records
     return $languages;
 }
@@ -152,13 +151,11 @@ function getWebSetting($key, $value = false)
 // Store the user prefrences
 function storePrefrences($data)
 {
-
-
     $sessionTimeInDays = getWebSetting('USER_SESSION_LOGOUT_TIME', true);
     if (!$sessionTimeInDays) {
         $sessionTimeInDays = 30;
     }
-    $minutes = $sessionTimeInDays * 24 * 60; 
+    $minutes = $sessionTimeInDays * 24 * 60;
     Cookie::queue('userDetails', json_encode($data), $minutes);
     Session::put('userDetails', $data);
     $test = Session::get('userDetails');
@@ -167,7 +164,7 @@ function storePrefrences($data)
 }
 
 
-function detectLocation($ip = null)
+function detectLocation($ip = null,Request $request)
 {
     if (!$ip) {
         $ip = $request->ip();
@@ -179,9 +176,8 @@ function detectLocation($ip = null)
     if ($userDetails) {
         return $userDetails;
     }
-    // Call the api to get the user data
 
-    // find the user details and then push into the session and the cookies
+    // Call the api to get the user data
 
     $userDetails = [
         'lang_code' => 'en-us',
@@ -193,3 +189,18 @@ function detectLocation($ip = null)
     return $userDetails;
 }
 
+
+function getUserPrefrences(){
+    $lang_code = getCurrentLocale();
+    $language_id = Language::where('lang_code',$lang_code )->value('id');
+    $translated_data =  CategoryTranslation::where('language_id',$language_id)->first();
+    if(!$translated_data){
+        $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
+    }
+    $lang_data = [
+        'lang_id'=> $language_id,
+        'translated_data' => $translated_data
+    ];
+    Session::put('lang_data',$lang_data);
+    return $lang_data;
+}

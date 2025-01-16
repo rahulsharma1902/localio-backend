@@ -29,6 +29,12 @@
     <!-- ckeditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/42.0.0/classic/ckeditor.js"></script>
 
+    <style>
+        .dropdown-menu.dropdown-menu-end.show {
+            height: 42vh;
+            overflow-y: scroll;
+        }
+    </style>
 
 </head>
 

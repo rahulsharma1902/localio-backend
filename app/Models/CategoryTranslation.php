@@ -31,4 +31,6 @@ class CategoryTranslation extends Model
     {
         return $this->hasOne(Language::class, 'id',);
     }
+
+    
 }

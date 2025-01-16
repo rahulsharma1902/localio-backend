@@ -28,7 +28,6 @@ class RedirectIfAuthenticated
             // Check the user's role and redirect accordingly
             if ($user->user_type === 'admin') {
                 return redirect('/admin-dashboard');
-
             } 
 
             // Default redirect for other roles (optional)
