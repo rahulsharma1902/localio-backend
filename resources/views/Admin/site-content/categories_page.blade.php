@@ -6,9 +6,6 @@
                 <h4 class="title nk-block-title">Add Category Content</h4>
             </div>
         </div>
-        <?php
-        $lang_code = getCurrentLocale();
-        ?>
         @if (isset($categoryPageContents))
             <div class="card card-bordered">
                 <div class="card-inner">
@@ -17,60 +14,59 @@
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-3">
-                                @if ($lang_code == 'en')
-                                    <div class="card border">
-                                        <div class="card-header mt-3">
-                                            Category Header Banner Section
+                                <div class="card border">
+                                    <div class="card-header mt-3">
+                                        Category Header Banner Section
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            @foreach ($categoryPageContents as $content)
+                                                @if ($content->meta_key == 'header_image')
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="image">Header Image</label>
+                                                        <div class="dz-message">
+                                                            <input type="file" class="form-control"
+                                                                name="category_header_image[{{ $content->id }}]"
+                                                                id="metaValue" value="{{ $content->value ?? '' }}">
+                                                        </div>
+                                                        @error('category_header_image')
+                                                            <div class="error text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                        @if (!empty($content->meta_value) && file_exists(public_path($content->meta_value)))
+                                                            <img src="{{ asset($content->meta_value) }}"
+                                                                alt="{{ $content->meta_key }}"
+                                                                style="width: 100px; height: auto;">
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            @endforeach
                                         </div>
-                                        <div class="card-body">
-                                            <div class="col-md-12">
-                                                @foreach ($categoryPageContents as $content)
-                                                    @if ($content->meta_key == 'header_image')
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="image">Header Image</label>
-                                                            <div class="dz-message">
-                                                                <input type="file" class="form-control"
-                                                                    name="category_header_image[{{ $content->id }}]"
-                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
-                                                            </div>
-                                                            @error('category_header_image')
-                                                                <div class="error text-danger">{{ $message }}</div>
-                                                            @enderror
-                                                            @if (!empty($content->meta_value) && file_exists(public_path($content->meta_value)))
-                                                                <img src="{{ asset($content->meta_value) }}"
-                                                                    alt="{{ $content->meta_key }}"
-                                                                    style="width: 100px; height: auto;">
-                                                            @endif
+                                        <div class="col-md-12">
+                                            @foreach ($categoryPageContents as $content)
+                                                @if ($content->meta_key == 'header_bg_image')
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="image">Background
+                                                            Image</label>
+                                                        <div class="dz-message">
+                                                            <input type="file" class="form-control"
+                                                                name="category_background_image[{{ $content->id }}]"
+                                                                id="metaValue" value="{{ $content->value ?? '' }}">
                                                         </div>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                            <div class="col-md-12">
-                                                @foreach ($categoryPageContents as $content)
-                                                    @if ($content->meta_key == 'header_bg_image')
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="image">Background
-                                                                Image</label>
-                                                            <div class="dz-message">
-                                                                <input type="file" class="form-control"
-                                                                    name="category_background_image[{{ $content->id }}]"
-                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
-                                                            </div>
-                                                            @error('category_background_image')
-                                                                <div class="error text-danger">{{ $message }}</div>
-                                                            @enderror
-                                                            @if (!empty($content->meta_value) && file_exists(public_path($content->meta_value)))
-                                                                <img src="{{ asset($content->meta_value) }}"
-                                                                    alt="{{ $content->meta_key }}"
-                                                                    style="width: 100px; height: auto;">
-                                                            @endif
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </div>
+                                                        @error('category_background_image')
+                                                            <div class="error text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                        @if (!empty($content->meta_value) && file_exists(public_path($content->meta_value)))
+                                                            <img src="{{ asset($content->meta_value) }}"
+                                                                alt="{{ $content->meta_key }}"
+                                                                style="width: 100px; height: auto;">
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
-                                @endif
+                                </div>
+
 
                                 <div class="card border">
                                     <div class="card-header mt-3">

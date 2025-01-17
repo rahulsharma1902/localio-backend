@@ -13,10 +13,16 @@ class CategoriesController extends Controller
    
 
     public function index(Request $request) {
-        $locale = getCurrentLocale();
+        $locale = 'en-us';
+        if(session()->has('lang_code')){
+            $locale = session()->get('lang_code');
+        }
+        
         $siteLanguage = Language::where('lang_code', $locale)->first();
         if ($siteLanguage) {
             $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();  
+        }else{
+            return back();
         } 
         // dd($categories) ;
         return view('Admin.categories.index', compact('categories'));

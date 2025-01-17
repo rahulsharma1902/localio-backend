@@ -7,8 +7,12 @@
             </div>
         </div>
         <?php
-        $headerLogo = \App\Models\HeaderContent::Where('lang_code', 'es-mx')->first();
-        $lang_code = getCurrentLocale();
+        $lang_id = 1;
+        if (session()->has('lang_id')) {
+            $lang_id = session()->get('lang_id');
+        }
+        $headerLogo = \App\Models\HeaderContent::Where('lang_id', $lang_id)->first();
+        // dd($headerLogo);
         ?>
         @if (isset($headerContents))
             <div class="card card-bordered">
@@ -18,7 +22,7 @@
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-3">
-                                @if ($lang_code == 'en')
+                                @if ($lang_id == '1')
                                     <div class="card border">
                                         <div class="card-header mt-3">
                                             Header Logo Section
@@ -57,7 +61,7 @@
                                                     <label class="form-label" for="{{ $key }}">Search Bar
                                                         Placeholder Text</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control " id="{{ $key }}"
+                                                        <input type="text" class="form-control" id="{{ $key }}"
                                                             name="header_search_placeholder[{{ $content->id }}]"
                                                             value="{{ $content->meta_value ?? '' }}" />
                                                     </div>

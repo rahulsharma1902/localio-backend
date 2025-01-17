@@ -25,8 +25,6 @@ Route::get('/switch-language/{lang_code}', [ViewController::class, 'changeLangua
 Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
 Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-
-
 // Admin Routes 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin-dashboard', [AdminDashController::class, 'index'])->name('admin_dashboard');

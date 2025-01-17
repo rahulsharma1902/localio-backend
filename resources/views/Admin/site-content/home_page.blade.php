@@ -7,8 +7,9 @@
             </div>
         </div>
         <?php
-        $homeContents = \App\Models\HomeContent::where('type', 'file')->Where('lang_code', 'en')->first();
-        $lang_code = getCurrentLocale();
+        $homeContents = \App\Models\HomeContent::where('type', 'file')->Where('lang_id', '1')->first()->toArray();
+        // dd($homeContents);
+        $lang_id = 1;
         ?>
         @if (isset($homeContents) && isset($allHomeContents))
             <div class="card card-bordered">
@@ -23,10 +24,12 @@
                                         Home Banner Section
                                     </div>
                                     <div class="card-body">
-                                        @if ($lang_code == 'en')
+                                        @if ($lang_id == '1')
                                             <div class="col-md-12">
-                                                @foreach ($homeContents as $content)
-                                                    @if ($content->meta_key == 'header_img')
+                                                {{-- {{ dd($homeContents->toArray()) }} --}}
+                                                @foreach ($homeContents as $key => $content)
+                                                    {{-- {{ dd($key) }} --}}
+                                                    @if ($key == 'header_img')
                                                         <div class="form-group">
                                                             <label class="form-label" for="image">Header Image</label>
                                                             <div class="dz-message">
@@ -43,7 +46,7 @@
                                                                     style="width: 100px; height: auto;">
                                                             @endif
                                                         </div>
-                                                    @elseif($content->meta_key == 'header_background_img')
+                                                    @elseif($key == 'header_background_img')
                                                         <div class="form-group">
                                                             <label class="form-label" for="image">Header Background
                                                                 Image</label>
@@ -73,6 +76,9 @@
                                                         <input type="text" class="form-control" id="{{ $key }}"
                                                             name="header_title[{{ $val->id }}]"
                                                             value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        @error('header_title')
+                                                            <p style="color: red">{{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             @elseif($val->meta_key === 'header_description')
@@ -104,9 +110,9 @@
                                         Trusted Brands Section
                                     </div>
                                     <div class="card-body">
-                                        @if ($lang_code == 'en')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'trusted_brands_img')
+                                        @if ($lang_id == '1')
+                                            @foreach ($homeContents as $key => $content)
+                                                @if ($key == 'trusted_brands_img')
                                                     <div class="form-group">
                                                         <label class="form-label" for="image">Trusted brand
                                                             images</label>
@@ -248,9 +254,9 @@
                                         AI Search Section
                                     </div>
                                     <div class="card-body">
-                                        @if ($lang_code == 'en')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'ai_section_left_img')
+                                        @if ($lang_id == '1')
+                                            @foreach ($homeContents as $key => $content)
+                                                @if ($key == 'ai_section_left_img')
                                                     <div class="form-group">
 
                                                         <label class="form-label" for="image">Ai Section Left
@@ -270,7 +276,7 @@
                                                                 style="width: 100px; height: auto;">
                                                         @endif
                                                     </div>
-                                                @elseif($content->meta_key == 'ai_section_right_img')
+                                                @elseif($key == 'ai_section_right_img')
                                                     <div class="form-group">
 
                                                         <label class="form-label" for="image">Ai Section Right
@@ -322,9 +328,9 @@
                                                     value="{{ $val->meta_value ?? '' }}" />
                                             </div>
                                         </div>
-                                        @if ($lang_code == 'en')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'ai_send_img')
+                                        @if ($lang_id == '1')
+                                            @foreach ($homeContents as $key => $content)
+                                                @if ($key == 'ai_send_img')
                                                     <div class="form-group">
 
                                                         <label class="form-label" for="image">AI Send Message Button
@@ -419,9 +425,9 @@
                                         Read Article Section
                                     </div>
                                     <div class="card-body">
-                                        @if ($lang_code == 'en')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'review_section_right_img')
+                                        @if ($lang_id == '1')
+                                            @foreach ($homeContents as $key => $content)
+                                                @if ($key == 'review_section_right_img')
                                                     <div class="form-group">
                                                         <label class="form-label" for="image">Review Section Right
                                                             Image</label>
@@ -439,7 +445,7 @@
                                                                 style="width: 100px; height: auto;">
                                                         @endif
                                                     </div>
-                                                @elseif($content->meta_key == 'review_section_left_img')
+                                                @elseif($key == 'review_section_left_img')
                                                     <div class="form-group">
                                                         <label class="form-label" for="image">Review Section Left
                                                             Image</label>
@@ -491,9 +497,9 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="col-md-12">
-                                            @if ($lang_code == 'en')
-                                                @foreach ($homeContents as $content)
-                                                    @if ($content->meta_key == 'find_tool_left_img')
+                                            @if ($lang_id == '1')
+                                                @foreach ($homeContents as $key => $content)
+                                                    @if ($key == 'find_tool_left_img')
                                                         <div class="form-group">
                                                             <label class="form-label" for="image">Find Tool Section
                                                                 Left Image</label>
@@ -511,7 +517,7 @@
                                                                     style="width: 100px; height: auto;">
                                                             @endif
                                                         </div>
-                                                    @elseif($content->meta_key == 'find_tool_right_img')
+                                                    @elseif($key == 'find_tool_right_img')
                                                         <div class="form-group">
                                                             <label class="form-label" for="image">Find Tool Section
                                                                 Right Image</label>
@@ -531,7 +537,7 @@
                                                         </div>
 
                                                         <!-- new -->
-                                                    @elseif($content->meta_key == 'user_reviews_img')
+                                                    @elseif($key == 'user_reviews_img')
                                                         <div class="form-group">
                                                             <label class="form-label" for="image">Verified Reviews
                                                                 Image</label>
@@ -549,7 +555,7 @@
                                                                     style="width: 50px; height: 50px;">
                                                             @endif
                                                         </div>
-                                                    @elseif($content->meta_key == 'price_compare_img')
+                                                    @elseif($key == 'price_compare_img')
                                                         <div class="form-group">
                                                             <label class="form-label" for="image">Feature Price
                                                                 Image</label>
@@ -567,7 +573,7 @@
                                                                     style="width: 50px; height: 50px;">
                                                             @endif
                                                         </div>
-                                                    @elseif($content->meta_key == 'independent_img')
+                                                    @elseif($key == 'independent_img')
                                                         <div class="form-group">
                                                             <label class="form-label" for="image">Independent
                                                                 Image</label>
@@ -588,7 +594,7 @@
                                                     @endif
                                                 @endforeach
                                             @endif
-                                        @elseif($val->meta_key === 'find_tool')
+                                        @elseif($key === 'find_tool')
                                             <div class="form-group col-lg-12">
                                                 <label class="form-label" for="{{ $key }}">Find Tool
                                                     Text</label>

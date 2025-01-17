@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Session;
 function getCurrentLocale()
 {
     if(Session('userDetails')){
-        $langcode = Session::get('userDetails')['lang_code'];
+        $lang_id = Session::get('userDetails')['lang_id'];
     }else{
-        $langcode = "en-us";
+        $lang_id = "1";
     }
-    return $langcode;
+    return $lang_id;
 }
 
 
@@ -186,20 +186,4 @@ function detectLocation($ip = null,Request $request)
 
     storePrefrences($userDetails);
     return $userDetails;
-}
-
-
-function getUserPrefrences(){
-    $lang_code = getCurrentLocale();
-    $language_id = Language::where('lang_code',$lang_code )->value('id');
-    $translated_data =  CategoryTranslation::where('language_id',$language_id)->first();
-    if(!$translated_data){
-        $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
-    }
-    $lang_data = [
-        'lang_id'=> $language_id,
-        'translated_data' => $translated_data
-    ];
-    Session::put('lang_data',$lang_data);
-    return $lang_data;
 }

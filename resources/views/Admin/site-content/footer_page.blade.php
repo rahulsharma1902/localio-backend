@@ -7,8 +7,11 @@
             </div>
         </div>
         <?php
-        $footerFiles = \App\Models\FooterContent::where('type', 'file')->Where('lang_code', 'en')->first();
-        $lang_code = getCurrentLocale();
+        $lang_id = 1;
+        if (session()->has('lang_id')) {
+            $lang_id = session()->get('lang_id');
+        }
+        $footerFiles = \App\Models\FooterContent::Where('lang_id', $lang_id)->first()->toArray();
         ?>
         @if (isset($footerContents))
             <div class="card card-bordered">
@@ -18,20 +21,20 @@
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-3">
-                                @if ($lang_code == 'en')
+                                @if ($lang_id == '1')
                                     <div class="card border">
                                         <div class="card-header mt-3">
                                             Footer Logo Section
                                         </div>
                                         <div class="card-body">
                                             <div class="col-md-12">
-                                                @if ($footerLogo->meta_key == 'footer_logo')
+                                                @if ($footerFiles['meta_key'] == 'footer_logo')
                                                     <div class="form-group">
                                                         <label class="form-label" for="image">Footer Logo</label>
                                                         <div class="dz-message">
                                                             <input type="file" class="form-control"
-                                                                name="footer_logo[{{ $footerLogo->id }}]" id="metaValue"
-                                                                value="{{ $footerLogo->meta_value ?? '' }}">
+                                                                name="footer_logo[{{ $footerFiles['id'] }}]" id="metaValue"
+                                                                value="{{ $footerFiles['meta_value'] ?? '' }}">
                                                         </div>
                                                         @error('header_logo')
                                                             <div class="error text-danger">{{ $message }}</div>
@@ -257,7 +260,7 @@
                                                 </div>
                                             @endif
                                         @endforeach
-                                        @if ($lang_code === 'en')
+                                        @if ($lang_id === '1')
                                             @foreach ($footerFiles as $key => $file)
                                                 @if ($file->meta_key == 'facebook_icon')
                                                     <div class="form-group">

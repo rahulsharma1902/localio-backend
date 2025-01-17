@@ -46,15 +46,16 @@
 <body>
     <?php
     $lang = getCurrentLocale();
+    // dd($lang);
     
-    $headerLogo = \App\Models\HeaderContent::where([['lang_code', 'en'], ['meta_key', 'header_logo']])->first();
-    $headerContent = \App\Models\HeaderContent::where([['lang_code', $lang], ['type', 'text']])->pluck('meta_value', 'meta_key');
+    $headerLogo = \App\Models\HeaderContent::where([['lang_id', '1'], ['meta_key', 'header_logo']])->first();
+    $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang], ['type', 'text']])->pluck('meta_value', 'meta_key');
     
     if ($headerContent->isEmpty()) {
-        $headerContent = \App\Models\HeaderContent::where([['lang_code', 'en'], ['type', 'text']])->pluck('meta_value', 'meta_key');
+        $headerContent = \App\Models\HeaderContent::where([['lang_id', '1'], ['type', 'text']])->pluck('meta_value', 'meta_key');
     }
-    $footerLogo = \App\Models\FooterContent::where([['lang_code', 'en'], ['meta_key', 'footer_logo']])->first();
-    $icons = \App\Models\FooterContent::where('lang_code', 'en')
+    $footerLogo = \App\Models\FooterContent::where([['lang_id', '1'], ['meta_key', 'footer_logo']])->first();
+    $icons = \App\Models\FooterContent::where('lang_id', '1')
         ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
         ->get();
     
@@ -62,11 +63,11 @@
     $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
     $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
     
-    $footerContents = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'text')->pluck('meta_value', 'meta_key');
-    $footerMediaUrls = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'url')->where('lang_code', 'en')->pluck('meta_value', 'meta_key');
+    $footerContents = \App\Models\FooterContent::where('lang_id', $lang)->where('type', 'text')->pluck('meta_value', 'meta_key');
+    $footerMediaUrls = \App\Models\FooterContent::where('lang_id', $lang)->where('type', 'url')->where('lang_id', '1')->pluck('meta_value', 'meta_key');
     
     if ($footerContents->isEmpty()) {
-        $footerContents = \App\Models\FooterContent::where('lang_code', 'en')->where('type', 'text')->pluck('meta_value', 'meta_key');
+        $footerContents = \App\Models\FooterContent::where('lang_id', '1')->where('type', 'text')->pluck('meta_value', 'meta_key');
     }
     
     ?>
@@ -433,7 +434,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
                 position: 'top-right',
                 toast: true,
                 showConfirmButton: false,
