@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Session;
 
 function getCurrentLocale()
 {
-    $lang_code = Cookie::get('lang_code', 'en-us');
-    if (!$lang_code) {
-        $lang_code = session()->get($lang_code);
+    if(Session('userDetails')){
+        $langcode = Session::get('userDetails')['lang_code'];
+    }else{
+        $langcode = "en-us";
     }
-    return $lang_code;
+    return $langcode;
 }
 
 

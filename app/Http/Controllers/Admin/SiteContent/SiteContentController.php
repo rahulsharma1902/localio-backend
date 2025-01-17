@@ -18,8 +18,10 @@ class SiteContentController extends Controller
     public function homeContent()
     {
         $lang = getCurrentLocale();  
+        if(session()->has('lang_code')){
+            $lang = session()->get('lang_code');
+        }
         $allHomeContents = homeContent::where('lang_code', $lang)->get();
-        $currentLanguage = SiteLanguages::where('handle', $lang)->first();
         if ($allHomeContents->isEmpty()) {
             $englishHomeContents = homeContent::where('lang_code', 'en')->get();
             foreach ($englishHomeContents as $content) {
@@ -179,12 +181,10 @@ class SiteContentController extends Controller
     {
         // $headerContents = HeaderContent::all();
         $lang = getCurrentLocale();
-        
+        if(session()->has('lang_code')){
+            $lang = session()->get('lang_code');
+        }
         $headerContents = HeaderContent::where('lang_code',$lang)->get();
-        // dd($headerContents);
-
-        $currentLanguage = SiteLanguages::where('handle', $lang)->first();
-        // dd($currentLanguage);
 
         if ($headerContents->isEmpty()) {
             $englishHeaderContents = HeaderContent::where('lang_code', 'en')->get();
@@ -257,8 +257,10 @@ class SiteContentController extends Controller
     public function footerPage()
     {
         $lang = getCurrentLocale();
+        if(session()->has('lang_code')){
+            $lang = session()->get('lang_code');
+        }
         $footerContents = FooterContent::where('lang_code',$lang)->get();
-        $currentLanguage = SiteLanguages::where('handle', $lang)->first();
         if ($footerContents->isEmpty()) {
             $englishFooterContents = FooterContent::where('lang_code', 'en')->get();
             if($englishFooterContents)
@@ -345,9 +347,10 @@ class SiteContentController extends Controller
     public function categoriesPage()
     {
         $lang = getCurrentLocale();
+        if(session()->has('lang_code')){
+            $lang = session()->get('lang_code');
+        }
         $categoryPageContents = CategoryPageContent::where('lang_code',$lang)->get();
-        $currentLanguage = SiteLanguages::where('handle', $lang)->first();
-        
         if ($categoryPageContents->isEmpty()) {
             $englishCategoryPageContents = CategoryPageContent::where('lang_code', 'en')->get();
             if($englishCategoryPageContents)
@@ -363,8 +366,6 @@ class SiteContentController extends Controller
             }
             $categoryPageContents = CategoryPageContent::where('lang_code', $lang)->get();
         }
-
-        
         return view('Admin.site-content.categories_page',compact('categoryPageContents'));
     }
     public function categoryPageContentUpdate(Request $request)
@@ -415,9 +416,10 @@ class SiteContentController extends Controller
 
     public function topProductPageContent()
     {
-        $topProductContents = TopProductContent::where('lang_code','en')->get();
-
         $lang = getCurrentLocale();
+        if(session()->has('lang_code')){
+            $lang = session()->get('lang_code');
+        }
         $topProductContents = TopProductContent::where('lang_code',$lang)->get();
         $currentLanguage = SiteLanguages::where('handle', $lang)->first();
         if ($topProductContents->isEmpty()) {

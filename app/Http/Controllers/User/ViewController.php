@@ -22,6 +22,7 @@ class ViewController extends Controller
         // dd(ip_location());
         $langCode = getCurrentLocale();
         // dd($langCode);
+        // dd($langCode);
         // $ipdata = ip_location();
         // $countrycode = strtolower($ipdata['geoplugin_countryCode']);
         // if(Language::where('lang_code',$langCode.'-'.$countrycode)->exists()){
@@ -43,7 +44,9 @@ class ViewController extends Controller
         // session()->put('user_ip_data',$user_country_data);
 
         // session()->get('user_ip_data')['lang_id'];
-        $homeContents = HomeContent::where('lang_code', $langCode)->pluck('meta_value', 'meta_key');
+
+        if($langCode){
+            $homeContents = HomeContent::where('lang_code', $langCode)->pluck('meta_value', 'meta_key');
         if($homeContents->isEmpty())
         {
             $homeContents = HomeContent::where('lang_code', 'en')->pluck('meta_value', 'meta_key');
@@ -57,6 +60,8 @@ class ViewController extends Controller
         $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
         return view('User.home.index',compact('homeContents','translated_data'));
         }
+        }
+        
 
         
     }

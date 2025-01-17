@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             HomeContentSeeder::class,
             FooterSeeder::class,
-            CategoryPageContent::class
+            CategoryPageContent::class,
+            EnglishSeeder::class,
+            SpanishSeeder::class
         ]);
     }
 }

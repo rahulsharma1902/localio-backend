@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-        $headerLogo = \App\Models\HeaderContent::where('type', 'file')->Where('lang_code', 'en')->first();
+        $headerLogo = \App\Models\HeaderContent::Where('lang_code', 'es-mx')->first();
         $lang_code = getCurrentLocale();
         ?>
         @if (isset($headerContents))
@@ -17,7 +17,6 @@
                         <form action="{{ url('admin-dashboard/header-page-update') ?? '' }}" class="form-validate"
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
-
                             <div class="row g-3">
                                 @if ($lang_code == 'en')
                                     <div class="card border">
@@ -183,14 +182,12 @@
                                 </div>
                             </div>
                     </div>
-
                     </form>
                 </div>
             </div>
     </div>
     @endif
     </div>
-
     <script>
         $(document).ready(function() {
             $(".site_text_input").on('keyup', function(e) {
@@ -231,5 +228,4 @@
             });
         });
     </script>
-
 @endsection

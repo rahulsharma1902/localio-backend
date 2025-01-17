@@ -28,6 +28,13 @@
                 transform: translateX(-100%);
             }
         }
+
+        /* add scroller on front side country */
+        ul.options {
+            overflow-y: scroll;
+            height: 20vh;
+            width: 227px !important;
+        }
     </style>
     <section class="banner_sec dark" style="background-color: #003F7D;">
         <div class="bubble-wrp">
@@ -161,14 +168,7 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="accor-txt-contnt">
-                                                            <h3>Lorem Ipsum has been the industry's standard dummy</h3>
-                                                            <p>Lorem Ipsum has been the industry's standard dummy text ever
-                                                                since the
-                                                                1500s, when an unknown printer took a galley of type and
-                                                                scrambled it to
-                                                                make a type specimen book, It has survived not only five
-                                                                centuries, but
-                                                                also the leap into electronic typesetting. </p>
+                                                            {!! $value['description'] !!}
                                                             <div class="accor-btn">
                                                                 <a href=""
                                                                     class="cta cta_white">{{ $homeContents['campare_business'] ?? null }}</a>
@@ -411,8 +411,6 @@
     </section>
     <!-- scetion exclusive deals -->
 
-
-
     <section class="xclusve-deal light p_120 pb-0">
         <div class="section_hed xclu-m">
             <div class="container">
@@ -525,7 +523,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>`
     <!-- section combined  smart search + top rated -->
     <section class="smart-combined p_120">
         <div class="combined-section-bg">
@@ -565,11 +563,11 @@
                         @endif
 
                         <!-- <div class="back-image1">
-                                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
-                                                                                                                                                                                                                                                                                                   </div>
-                                                                                                                                                                                                                                                                                                   <div class="back-image2">
-                                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
-                                                                                                                                                                                                                                                                                                   </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                   </div>
+                                                                                                                                                                                                                                                                                                                                                                                                   <div class="back-image2">
+                                                                                                                                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                   </div> -->
                     </div>
                 </div>
                 <!-- section top-rated -->
@@ -1120,10 +1118,10 @@
                                         unknown printer took a galley. </p>
                                 </div>
                                 <!-- <div class="box_footer">
-                                                                                                                                                                                                                                                                                                            <div class="more_read">
-                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
-                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                         </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                            <div class="more_read">
+                                                                                                                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
+                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
@@ -1144,10 +1142,10 @@
                                         unknown printer took a galley. </p>
                                 </div>
                                 <!-- <div class="box_footer">
-                                                                                                                                                                                                                                                                                                            <div class="more_read">
-                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
-                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                         </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                            <div class="more_read">
+                                                                                                                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
+                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
@@ -1168,10 +1166,10 @@
                                         unknown printer took a galley. </p>
                                 </div>
                                 <!-- <div class="box_footer">
-                                                                                                                                                                                                                                                                                                            <div class="more_read">
-                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
-                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                         </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                            <div class="more_read">
+                                                                                                                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
+                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
