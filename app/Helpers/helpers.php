@@ -1,42 +1,47 @@
 <?php
 use Illuminate\Support\Facades\Cookie;
-use App\Models\{Category,Language,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
+use App\Models\{Category, Language,WebSetting,  CategoryTranslation, Filter, FilterOption, FilterTranslation, FilterOptionTranslation};
 use App\Services\TranslationService;
 use App\Models\Country;
 use App\Models\Log;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 
-if (!function_exists('getCurrentLocale')) {
-    function getCurrentLocale() {
-        $lang_code = Cookie::get('lang_code', 'en-us');
-        if(!$lang_code){
-            $lang_code= session()->get($lang_code);
-        }
-        return $lang_code;
+
+function getCurrentLocale()
+{
+    if(Session('userDetails')){
+        $lang_id = Session::get('userDetails')['lang_id'];
+    }else{
+        $lang_id = "1";
     }
+    return $lang_id;
 }
 
 
-if (!function_exists('getCurrentSiteLanguage')) {
-    function getCurrentSiteLanguage() {
-         $locale = Cookie::get('lang_code', config('app.locale'));
-         return Language::where('lang_code', $locale)->first();
+    function getCurrentSiteLanguage()
+    {
+        $locale = Cookie::get('lang_code', config('app.locale'));
+        return Language::where('lang_code', $locale)->first();
     }
-}
 
-if (!function_exists('getLanguageRole')) {
-    function getLanguageRole() {
-         $locale = Cookie::get('lang_code', config('app.locale'));
-         $siteLanguage = Language::where('lang_code', $locale)->first();
 
-         if ($siteLanguage && $siteLanguage->primary !== 1) {
+    function getLanguageRole()
+    {
+        $locale = Cookie::get('lang_code', config('app.locale'));
+        $siteLanguage = Language::where('lang_code', $locale)->first();
+
+        if ($siteLanguage && $siteLanguage->primary !== 1) {
             return $siteLanguage->handle;
-         } else {
+        } else {
             return 'global';
-         }
+        }
     }
-}
-if (!function_exists('formatInr')) {
-    function formatInr($amount) {
+
+
+    function formatInr($amount)
+    {
         // Ensure the amount is a number
         $amount = (float) $amount;
 
@@ -44,7 +49,7 @@ if (!function_exists('formatInr')) {
         $amount = floor($amount);
 
         // Convert the amount to a string for manipulation
-        $amount = (string)$amount;
+        $amount = (string) $amount;
 
         // Get the length of the amount
         $length = strlen($amount);
@@ -68,37 +73,23 @@ if (!function_exists('formatInr')) {
 
         return $formattedAmount;
     }
-}
 
-
-
-function website_translator($logoName , $lang_code ){
-    if($logoName=="") return "";
+function website_translator($logoName, $lang_code)
+{
+    if ($logoName == "") {
+        return "";
+    }
     try {
         $translationService = app(TranslationService::class);
         $translatedLogoName = $translationService->translate($logoName, $lang_code);
         // dd($translatedLogoName);
         return $translatedLogoName;
     } catch (\Exception $e) {
-        saveLog('Language Translation Eroor','helpers',$e->getMessage());
+        saveLog('Language Translation Eroor', 'helpers', $e->getMessage());
     }
-}
 
-
-
-
-
-if (!function_exists('saveLog')) {
-
-    function saveLog(
-        $fileName = null,
-        $message = null,
-        $name = null,
-        $payload = null,
-        $isShowAdmin = false,
-        $sentMail = false,
-         $status = 'active'
-    ) {
+    function saveLog($fileName = null, $message = null, $name = null, $payload = null, $isShowAdmin = false, $sentMail = false, $status = 'active')
+    {
         return Log::create([
             'file_name' => $fileName,
             'message' => $message,
@@ -111,33 +102,88 @@ if (!function_exists('saveLog')) {
     }
 }
 
+    function getUserLocation()
+    {
+        return 'en-us';
+    }
 
-if(!function_exists('ip_location')){
-    // function ip_location(){
-    //     // dd(getCurrentLocale());
-    //     $langCode = getCurrentLocale();
-    //     // dd($lang_code);
-    //     $ipdata = ip_location();
-    //     $countrycode = strtolower($ipdata['geoplugin_countryCode']);
-    //     if(Language::where('lang_code',getCurrentLocale().'-'.$countrycode)->exists()){
-    //         $ip_langcode = getCurrentLocale().'-'.$countrycode;
-    //         $lang_id = Language::where('lang_code' ,$ip_langcode)->value('id');
-    //     }else{
-    //         $ip_langcode = 'en'.'-'.'us';
-    //         $lang_id = Language::where('lang_code' ,$ip_langcode)->value('id');
-    //     }
-    //     $country = $ipdata["geoplugin_countryName"];
-    //     $country_id = Country::where('iso' ,$countrycode)->value('id');
-    //     $user_country_data = [
-    //         'lang_code' => $ip_langcode,
-    //         'lang_id' => $lang_id,
-    //         'country' => $country,
-    //         'country_id' => $country_id
-    //         ] ;
 
-    //     session()->put('user_ip_data',$user_country_data);
+function getLanguages($codes = false)
+{
+    $cacheKey = 'languages';
+    $languages = Cache::get($cacheKey);
+    if (!$languages) {
+        $languages = Language::all();
+        Cache::put($cacheKey, $languages, now()->addDay());
+    }
+    // If $codes is true, return only language codes
+    if ($codes) {
+        $codes = $languages->pluck('lang_code')->toArray();
+        return $codes;
+    }
+    // Otherwise, return all language records
+    return $languages;
+}
 
-    //     session()->get('user_ip_data')['lang_id'];
-    //         return $user_country_data ;
-    // }
+
+function getWebSetting($key, $value = false)
+{
+    $cacheKey = 'web_settings';
+    $webSettings = Cache::get($cacheKey);
+    if (!$webSettings) {
+        $webSettings = WebSetting::all()->keyBy('key'); 
+        Cache::put($cacheKey, $webSettings, now()->addDays(7));
+    }
+
+    if ($value) {
+        if (isset($webSettings[$key])) {
+            return $webSettings[$key]->value;
+        } else {
+            return null; 
+        }
+    }
+
+    return $webSettings;
+}
+
+
+// Store the user prefrences
+function storePrefrences($data)
+{
+    $sessionTimeInDays = getWebSetting('USER_SESSION_LOGOUT_TIME', true);
+    if (!$sessionTimeInDays) {
+        $sessionTimeInDays = 30;
+    }
+    $minutes = $sessionTimeInDays * 24 * 60;
+    Cookie::queue('userDetails', json_encode($data), $minutes);
+    Session::put('userDetails', $data);
+    $test = Session::get('userDetails');
+
+
+}
+
+
+function detectLocation($ip = null,Request $request)
+{
+    if (!$ip) {
+        $ip = $request->ip();
+    }
+
+    $cacheKey = 'userDetails';
+    $userDetails = Session::get('userDetails');
+
+    if ($userDetails) {
+        return $userDetails;
+    }
+
+    // Call the api to get the user data
+
+    $userDetails = [
+        'lang_code' => 'en-us',
+        'lang_name' => 'United States - English',
+        'lang_id' => 33,
+    ];
+
+    storePrefrences($userDetails);
+    return $userDetails;
 }

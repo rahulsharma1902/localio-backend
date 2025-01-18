@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class UserCheck
 {
@@ -17,10 +17,12 @@ class UserCheck
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::check()){
-            return $next($request); 
-        }else{
-            return redirect('/')->with('error','kindly login to open dashboard');
+            $user = Auth::user();
+            $role = $user->user_type ; 
+           return $next($request); 
         }
        
+        return $next($request); 
+
     }
 }

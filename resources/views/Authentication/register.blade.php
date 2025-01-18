@@ -116,7 +116,6 @@
                     <div class="accor-btn">
                         <button type="submit" class="cta cta_white register_btn">Sign Up</button>
                     </div>
-
                 </form>
             </div>
         </div>

@@ -71,6 +71,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\UserCheck::class,
         'vendor' => \App\Http\Middleware\CheckVendor::class,
+        'User' => \App\Http\Middleware\UserCheck::class,
+
 
         // other
         // 'localize' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,

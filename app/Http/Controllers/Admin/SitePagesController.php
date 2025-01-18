@@ -19,13 +19,16 @@ class SitePagesController extends Controller
     public function policies()
     {   
         $locale = getCurrentLocale();
-  
-    
+        // dd($locale);
         $siteLanguage = SiteLanguages::where('handle', $locale)->first();
 
+        if($siteLanguage == null){
+            $siteLanguage = SiteLanguages::where('handle', 'en')->first();
+        }
         $policies = Policy::with(['translations' => function ($query) use ($siteLanguage) {
                                                 $query->where('language_id', $siteLanguage->id);
-                                            }])->get();                    
+                                            }])->get();    
+                                            // dd($policies);
 
         return view('Admin.policy.index',compact('policies'));
     }

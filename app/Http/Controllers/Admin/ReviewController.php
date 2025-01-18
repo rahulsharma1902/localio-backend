@@ -8,7 +8,7 @@ use App\Models\Product;
 use App\Models\Review;
 class ReviewController extends Controller
 {
-    public function reviews()
+    public function reviews(){
 
         $reviews = Review::with('user','product')->orderBy('created_at', 'desc')->get();
 

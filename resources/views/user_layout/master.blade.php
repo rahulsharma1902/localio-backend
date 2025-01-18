@@ -46,15 +46,16 @@
 <body>
     <?php
     $lang = getCurrentLocale();
+    // dd($lang);
     
-    $headerLogo = \App\Models\HeaderContent::where([['lang_code', 'en'], ['meta_key', 'header_logo']])->first();
-    $headerContent = \App\Models\HeaderContent::where([['lang_code', $lang], ['type', 'text']])->pluck('meta_value', 'meta_key');
+    $headerLogo = \App\Models\HeaderContent::where([['lang_id', '1'], ['meta_key', 'header_logo']])->first();
+    $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang], ['type', 'text']])->pluck('meta_value', 'meta_key');
     
     if ($headerContent->isEmpty()) {
-        $headerContent = \App\Models\HeaderContent::where([['lang_code', 'en'], ['type', 'text']])->pluck('meta_value', 'meta_key');
+        $headerContent = \App\Models\HeaderContent::where([['lang_id', '1'], ['type', 'text']])->pluck('meta_value', 'meta_key');
     }
-    $footerLogo = \App\Models\FooterContent::where([['lang_code', 'en'], ['meta_key', 'footer_logo']])->first();
-    $icons = \App\Models\FooterContent::where('lang_code', 'en')
+    $footerLogo = \App\Models\FooterContent::where([['lang_id', '1'], ['meta_key', 'footer_logo']])->first();
+    $icons = \App\Models\FooterContent::where('lang_id', '1')
         ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
         ->get();
     
@@ -62,11 +63,11 @@
     $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
     $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
     
-    $footerContents = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'text')->pluck('meta_value', 'meta_key');
-    $footerMediaUrls = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'url')->where('lang_code', 'en')->pluck('meta_value', 'meta_key');
+    $footerContents = \App\Models\FooterContent::where('lang_id', $lang)->where('type', 'text')->pluck('meta_value', 'meta_key');
+    $footerMediaUrls = \App\Models\FooterContent::where('lang_id', $lang)->where('type', 'url')->where('lang_id', '1')->pluck('meta_value', 'meta_key');
     
     if ($footerContents->isEmpty()) {
-        $footerContents = \App\Models\FooterContent::where('lang_code', 'en')->where('type', 'text')->pluck('meta_value', 'meta_key');
+        $footerContents = \App\Models\FooterContent::where('lang_id', '1')->where('type', 'text')->pluck('meta_value', 'meta_key');
     }
     
     ?>
@@ -96,9 +97,9 @@
                         <div class="header_button_col">
                             <div class="Header_buttons">
                                 @if (!auth()->user())
-                                    <a href="{{ url('/login') }}"
+                                    <a href="{{ route('login', ['locale' => session('locale', 'en-us')]) }}"
                                         class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? '' }}</a>
-                                    <a href="{{ url('/register') }}"
+                                    <a href="{{ route('register', ['locale' => session('locale', 'en-us')]) }}"
                                         class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? '' }}</a>
                                 @else
                                     <a href="{{ url('/logout') }}"
@@ -120,10 +121,15 @@
                             <span class="bar"></span>
                         </button>
                         <?php
-                        use App\Models\Category;
-                        
-                        $categories = Category::all();
-                        // dd($categories);
+                        use App\Models\CategoryTranslation;
+                        use App\Models\Language;
+                        if (Session::has('userDetails')) {
+                            $lang_id = Session::get('userDetails')['lang_id'];
+                        } else {
+                            $lang_id = 1;
+                        }
+                        // dd($lang_code);
+                        $categories = CategoryTranslation::where('language_id', $lang_id)->get()->toArray();
                         ?>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="left_menu">
@@ -136,7 +142,8 @@
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
                                             @foreach ($categories as $category)
                                                 <li class="dropdown_item-1">
-                                                    <a href="#">{{ $category->name ?? 'not category found' }}</a>
+                                                    <a
+                                                        href="#">{{ $category['name'] ?? 'not category found' }}</a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -230,9 +237,14 @@
                             <div class="foot-col">
                                 <h6> {{ $footerContents['discover'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
-                                    <li><a href="{{ route('category') }}">{{ $footerContents['categories'] ?? '' }}
-                                        </a></li>
-                                    <li><a href="{{ route('top-rated-product') }}">{{ $footerContents['top_rated_product'] ?? '' }}
+                                    <li>
+                                        <a
+                                            href="{{ route('category', ['locale' => session('lang_code', 'en-us')]) }}">
+                                            {{ $footerContents['categories'] ?? '' }}
+                                        </a>
+                                    </li>
+                                    <li><a
+                                            href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ?? '' }}
                                         </a>
                                     </li>
                                     <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? '' }}</a>
@@ -243,13 +255,13 @@
                                 <h6>{{ $footerContents['company'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('who-we-are') }}">{{ $footerContents['who_we_are'] ?? '' }}</a>
+                                            href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ?? '' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('privacy-policy') }}">{{ $footerContents['privacy_policy'] ?? '' }}</a>
+                                            href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ?? '' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('terms-condition') }}">{{ $footerContents['terms_and_conditions'] ?? '' }}</a>
+                                            href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -257,10 +269,10 @@
                                 <h6>{{ $footerContents['vendors'] ?? '' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('vendor-get-listed') }}">{{ $footerContents['get_listed'] ?? '' }}</a>
+                                            href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ?? '' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('login') }}">{{ $footerContents['vendor_login'] ?? '' }}</a>
+                                            href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -269,13 +281,14 @@
                                 <ul class="foot-col-list">
                                     <li>
                                         <a
-                                            href="{{ route('expert-guide') }}">{{ $footerContents['expert_guides'] ?? '' }}</a>
+                                            href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['expert_guides'] ?? '' }}</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="{{ route('help-center') }}">{{ $footerContents['help_center'] ?? '' }}</a>
+                                            href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? '' }}</a>
                                     </li>
-                                    <li><a href="{{ route('contact') }}">{{ $footerContents['contact'] ?? '' }}</a>
+                                    <li><a
+                                            href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? '' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -337,6 +350,7 @@
                     </div>
                     <div class="ft-btm-rgt">
                         <div class="select-menu ">
+<<<<<<< HEAD
                             <?php
                             use Illuminate\Support\Facades\Session;
                             
@@ -374,24 +388,26 @@
                             <div class="select-btn">
                                 <span
                                     class="sBtn-text">{{ $country_name ?? '' }}{{ $curent_selected_lang ?? '' }}</span>
+=======
+                            <div class="select-btn">
+                                <span class="sBtn-text">{{ 'United State- English' }}</span>
+>>>>>>> a1857a8a0916a5dfe88205074a4bf5456659607e
                                 <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
                             </div>
 
                             <ul class="options">
                                 @foreach ($languages as $language)
-                                    <li class="option">
-                                        @php
-                                            $country_name1 = Country::where('id', $language->country_id)->value('name');
-                                            $curent_selected_lang = $language->name;
-                                        @endphp
-                                        {{-- <span class="sBtn-text">{{ $country_name ?? '' }}</span> --}}
+                                    <li class="option {{ 'en-us' == $language->lang_code ? 'selected' : '' }}">
                                         <span class="option-text">
+<<<<<<< HEAD
                                             <a href="{{ route('change-lang', ['langCode' => $language->lang_code]) }}">
                                                 {{ $country_name1 ?? '' }}{{ $language->name }}
+=======
+                                            <a
+                                                href="{{ route('switch-language', ['lang_code' => $language->lang_code]) }}">
+                                                {{ $language->name }}
+>>>>>>> a1857a8a0916a5dfe88205074a4bf5456659607e
                                             </a>
-                                            <!-- <a href="{{ url('/') }}/{{ $language->handle }}">
-                                            {{ $language->name }}
-                                            </a> -->
                                         </span>
                                     </li>
                                 @endforeach
@@ -463,7 +479,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
                 position: 'top-right',
                 toast: true,
                 showConfirmButton: false,
