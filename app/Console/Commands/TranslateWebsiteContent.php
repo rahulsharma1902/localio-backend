@@ -44,18 +44,21 @@ class TranslateWebsiteContent extends Command
             saveLog($category->name);
         
             foreach ($languages as $language) {
-                saveLog($language->id);
-        
-                $translatedName = website_translator($category->name, $language->lang_code); // Translated name
-                $translatedDescription = website_translator($category->description, $language->lang_code); // Translated description
-        
-                CategoryTranslation::create([
-                    'category_id' => $category->id,
-                    'language_id' => $language->id,
-                    'name' => $translatedName,
-                    'description' => $translatedDescription,
-                    'slug' => Str::slug($translatedName), // Generate slug dynamically
-                ]);
+              $translationExists = CategoryTranslation::where([['category_id',$category->id],['language_id',$language->id]])->exists();
+              if (!$translationExists) {
+                    // saveLog($language->id);
+            
+                    $translatedName = website_translator($category->name, $language->lang_code); // Translated name
+                    $translatedDescription = website_translator($category->description, $language->lang_code); // Translated description
+            
+                    CategoryTranslation::create([
+                        'category_id' => $category->id,
+                        'language_id' => $language->id,
+                        'name' => $translatedName,
+                        'description' => $translatedDescription,
+                        'slug' => Str::slug($translatedName), // Generate slug dynamically
+                    ]);
+                }
             }
         }
     }

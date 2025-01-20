@@ -19,50 +19,26 @@ class ViewController extends Controller
 
     public function home()
     {
-        // dd(ip_location());
-        $langCode = getCurrentLocale();
-        // dd($langCode);
-        // dd($langCode);
-        // $ipdata = ip_location();
-        // $countrycode = strtolower($ipdata['geoplugin_countryCode']);
-        // if(Language::where('lang_code',$langCode.'-'.$countrycode)->exists()){
-        //     $ip_langcode = $langCode.'-'.$countrycode;
-        //     $lang_id = Language::where('lang_code' ,$ip_langcode)->value('id');
-        // }else{
-        //     $ip_langcode = 'en'.'-'.'us';
-        //     $lang_id = Language::where('lang_code' ,$ip_langcode)->value('id');
-        // }
-        // $country = $ipdata["geoplugin_countryName"];
-        // $country_id = Country::where('iso' ,$countrycode)->value('id');
-        // $user_country_data = [
-        //     'lang_code' => $ip_langcode,
-        //     'lang_id' => $lang_id,
-        //     'country' => $country,
-        //     'country_id' => $country_id
-        //     ] ;
+     
+        $langCode = getCurrentLocale(); 
 
-        // session()->put('user_ip_data',$user_country_data);
-
-        // session()->get('user_ip_data')['lang_id'];
-
-        if($langCode){
-            $homeContents = HomeContent::where('lang_code', $langCode)->pluck('meta_value', 'meta_key');
+        $lang_id = getCurrentLanguageID();
+       
+        $homeContents = HomeContent::where('lang_id', $lang_id)->pluck('meta_value', 'meta_key');
         if($homeContents->isEmpty())
         {
-            $homeContents = HomeContent::where('lang_code', 'en')->pluck('meta_value', 'meta_key');
+            $homeContents = HomeContent::where('lang_id', 1)->pluck('meta_value', 'meta_key');
         }
         $language_id = Language::where('lang_code',$langCode )->value('id');
-        $translated_data =  CategoryTranslation::where('language_id',$language_id)->get()->toArray()    ;
-        if($translated_data){
-            // dd($translated_data);
-            return view('User.home.index',compact('homeContents','translated_data'));
-        }else{
-        $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
-        return view('User.home.index',compact('homeContents','translated_data'));
-        }
-        }
-        
+        $translated_data =  CategoryTranslation::where('language_id',$lang_id)->get()->toArray();
 
+
+        $homeContantImages = HomeContent::where('lang_id',1)
+            ->whereIn('meta_key', ['header_background_img', 'header_img', 'trusted_brands_img', 'ai_section_left_img', 'ai_section_right_img', 'ai_send_img', 'review_section_right_img', 'review_section_left_img', 'find_tool_left_img', 'find_tool_right_img', 'user_reviews_img', 'price_compare_img', 'independent_img'])
+            ->get()
+            ->keyBy('meta_key'); 
+
+        return view('User.home.index',compact('homeContents','translated_data','homeContantImages'));
         
     }
 

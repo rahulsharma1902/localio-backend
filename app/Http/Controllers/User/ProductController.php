@@ -17,6 +17,7 @@ class ProductController extends Controller
     public function topRatedProduct()
     {
         $locale = getCurrentLocale();
+        $lang_id = getCurrentLanguageID();
 
         $productMaxPrice = Product::max('product_price');
         $siteLanguage = SiteLanguages::where('handle',$locale)->first();
@@ -51,13 +52,13 @@ class ProductController extends Controller
             $product->reviews_count = $product->reviews->count();
         }
 
-        $topProductContents = TopProductContent::where([['lang_code',$locale],['type','text']])->pluck('meta_value','meta_key');
+        $topProductContents = TopProductContent::where([['lang_id',$lang_id],['type','text']])->pluck('meta_value','meta_key');
         if($topProductContents->isEmpty())
         {
-            $topProductContents = TopProductContent::where([['lang_code','en'],['type','text']])->pluck('meta_value','meta_key');
-
+            $topProductContents = TopProductContent::where([['lang_id',1],['type','text']])->pluck('meta_value','meta_key');
         }
-        return view('User.product.top_rated_product',compact('products','topProductContents','productMaxPrice'));
+        $files = TopProductContent::where([['lang_id',1],['type','file']])->pluck('meta_value','meta_key');
+        return view('User.product.top_rated_product',compact('products','topProductContents','productMaxPrice','files'));
     }
     public function productComparison()
     {
@@ -129,7 +130,7 @@ class ProductController extends Controller
 
     private function getFiles()
     {
-        return TopProductContent::where([['lang_code', 'en'], ['type', 'file']])
+        return TopProductContent::where([['lang_id', 1], ['type', 'file']])
             ->pluck('meta_value', 'meta_key')
             ->mapWithKeys(function ($value, $key) {
                 return [$key => asset($value)];

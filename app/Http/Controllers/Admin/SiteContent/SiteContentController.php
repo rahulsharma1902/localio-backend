@@ -18,24 +18,25 @@ class SiteContentController extends Controller
     public function homeContent()
     {
         $lang = getCurrentLocale();  
+        $lang_id = getCurrentLanguageID();  
         if(session()->has('lang_code')){
             $lang = session()->get('lang_code');
         }
-        $allHomeContents = homeContent::where('lang_code', $lang)->get();
+        $allHomeContents = homeContent::where('lang_id', $lang_id)->get();
         if ($allHomeContents->isEmpty()) {
-            $englishHomeContents = homeContent::where('lang_code', 'en')->get();
+            $englishHomeContents = homeContent::where('lang_id', 1)->get();
             foreach ($englishHomeContents as $content) {
                 $newHomeContent = new homeContent;
                 $newHomeContent->meta_key = $content->meta_key;
                 $newHomeContent->meta_value = $content->meta_value;
-                $newHomeContent->lang_code = $lang;  
+                $newHomeContent->lang_id = $lang_id;  
                 $newHomeContent->type = $content->type;  
                 $newHomeContent->save();
             }
-            $allHomeContents = homeContent::where('lang_code', $lang)->get();
+            $allHomeContents = homeContent::where('lang_id', $lang_id)->get();
         }
-        
-        return view('Admin.site-content.home_page', compact('allHomeContents'));
+        $homeContents = HomeContent::where('type', 'file')->Where('lang_id', 1)->get();
+        return view('Admin.site-content.home_page', compact('allHomeContents','homeContents'));
     }
     public function updateLangFile(Request $request)
     {
@@ -184,24 +185,26 @@ class SiteContentController extends Controller
         if(session()->has('lang_code')){
             $lang = session()->get('lang_code');
         }
-        $headerContents = HeaderContent::where('lang_code',$lang)->get();
+        $lang_id = getCurrentLanguageID();
+        $headerContents = HeaderContent::where('lang_id',$lang_id)->get();
 
         if ($headerContents->isEmpty()) {
-            $englishHeaderContents = HeaderContent::where('lang_code', 'en')->get();
+            $englishHeaderContents = HeaderContent::where('lang_id',1)->get();
             if($englishHeaderContents)
             {
                 foreach ($englishHeaderContents as $content) {
                     $HeaderContent = new HeaderContent;
                     $HeaderContent->meta_key = $content->meta_key;
                     $HeaderContent->meta_value = $content->meta_value;
-                    $HeaderContent->lang_code = $lang;  
+                    $HeaderContent->lang_id = $lang_id;  
                     $HeaderContent->type = $content->type;  
                     $HeaderContent->save();
                 }
             }
-            $headerContents = HeaderContent::where('lang_code', $lang)->get();
+            $headerContents = HeaderContent::where('lang_id',$lang_id)->get();
         }
-        return view('Admin.site-content.header_page',compact('headerContents'));
+        $headerLogo = HeaderContent::Where('lang_id', 1)->first();
+        return view('Admin.site-content.header_page',compact('headerContents','headerLogo'));
     }
     public function headerContentUpdate(Request $request)
     {
@@ -257,27 +260,30 @@ class SiteContentController extends Controller
     public function footerPage()
     {
         $lang = getCurrentLocale();
+        $lang_id = getCurrentLanguageID();
         if(session()->has('lang_code')){
             $lang = session()->get('lang_code');
         }
-        $footerContents = FooterContent::where('lang_code',$lang)->get();
+        $footerContents = FooterContent::where('lang_id',$lang_id)->get();
         if ($footerContents->isEmpty()) {
-            $englishFooterContents = FooterContent::where('lang_code', 'en')->get();
+            $englishFooterContents = FooterContent::where('lang_id', 1)->get();
             if($englishFooterContents)
             {
                 foreach ($englishFooterContents as $content) {
                     $footerContents = new FooterContent;
                     $footerContents->meta_key = $content->meta_key;
                     $footerContents->meta_value = $content->meta_value;
-                    $footerContents->lang_code = $lang;  
+                    $footerContents->lang_id = $lang_id;  
                     $footerContents->type = $content->type;  
                     $footerContents->save();
                 }
             }
-            $footerContents = FooterContent::where('lang_code', $lang)->get();
+            $footerContents = FooterContent::where('lang_id', $lang_id)->get();
         }
+        $footerFiles = FooterContent::where('type', 'file')->Where('lang_id', 1)->get();
+        $footerLogo = FooterContent::where('meta_key', 'footer_logo')->Where('lang_id', 1)->first();
 
-        return view('Admin.site-content.footer_page',compact('footerContents'));
+        return view('Admin.site-content.footer_page',compact('footerContents','footerFiles','footerLogo'));
     }
     public function footerPageUpdate(Request $request)
     {   
@@ -347,24 +353,25 @@ class SiteContentController extends Controller
     public function categoriesPage()
     {
         $lang = getCurrentLocale();
+        $lang_id = getCurrentLanguageID();
         if(session()->has('lang_code')){
             $lang = session()->get('lang_code');
         }
-        $categoryPageContents = CategoryPageContent::where('lang_code',$lang)->get();
+        $categoryPageContents = CategoryPageContent::where('lang_id',$lang_id)->get();
         if ($categoryPageContents->isEmpty()) {
-            $englishCategoryPageContents = CategoryPageContent::where('lang_code', 'en')->get();
+            $englishCategoryPageContents = CategoryPageContent::where('lang_id', 1)->get();
             if($englishCategoryPageContents)
             {
                 foreach ($englishCategoryPageContents as $content) {
                     $categoryContents = new CategoryPageContent;
                     $categoryContents->meta_key = $content->meta_key;
                     $categoryContents->meta_value = $content->meta_value;
-                    $categoryContents->lang_code = $content->lang_code;  
+                    $categoryContents->lang_id = $lang_id;  
                     $categoryContents->type = $content->type;  
                     $categoryContents->save();
                 }
             }
-            $categoryPageContents = CategoryPageContent::where('lang_code', $lang)->get();
+            $categoryPageContents = CategoryPageContent::where('lang_id', $lang_id)->get();
         }
         return view('Admin.site-content.categories_page',compact('categoryPageContents'));
     }
@@ -417,28 +424,30 @@ class SiteContentController extends Controller
     public function topProductPageContent()
     {
         $lang = getCurrentLocale();
+        $lang_id = getCurrentLanguageID();
         if(session()->has('lang_code')){
             $lang = session()->get('lang_code');
         }
-        $topProductContents = TopProductContent::where('lang_code',$lang)->get();
-        $currentLanguage = SiteLanguages::where('handle', $lang)->first();
+        $topProductContents = TopProductContent::where('lang_id',$lang_id)->get();
+        // $currentLanguage = SiteLanguages::where('handle', $lang)->first(); 
         if ($topProductContents->isEmpty()) {
-            $englishTopProductContents= TopProductContent::where('lang_code', 'en')->get();
+            $englishTopProductContents= TopProductContent::where('lang_id', 1)->get();
             if($englishTopProductContents)
             {
                 foreach ($englishTopProductContents as $content) {
                     $topProductContents = new TopProductContent;
                     $topProductContents->meta_key = $content->meta_key;
                     $topProductContents->meta_value = $content->meta_value;
-                    $topProductContents->lang_code = $currentLanguage->handle;  
+                    $topProductContents->lang_id = $lang_id;  
                     $topProductContents->type = $content->type;  
                     $topProductContents->save();
                 }
             }
-            $topProductContents = TopProductContent::where('lang_code', $lang)->get();
+            $topProductContents = TopProductContent::where('lang_id', $lang_id)->get();
         }
+        $productFiles = TopProductContent::where('type', 'file')->Where('lang_id', 1)->get();
 
-        return view('Admin.site-content.top_product_page',compact('topProductContents'));
+        return view('Admin.site-content.top_product_page',compact('topProductContents','productFiles'));
     }
     public function topProductPageUpdate(Request $request)
     {

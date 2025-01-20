@@ -61,7 +61,7 @@
                             </td>
 
                             <td class="nk-tb-col tb-col-md">
-                                <span class="tb-amount"> {{ $filter->category->translations->isNotEmpty() ? $filter->category->translations->first()->name : $filter->category->name }}</span>
+                                <span class="tb-amount"> {{ $filter->category->translations ? $filter->category->translations->first()->name : $filter->category->name }}</span>
                                
                             </td>
 

@@ -1,7 +1,5 @@
 <?php
 
-namespace Mcamara\LaravelLocalization\Tests;
-
 use Illuminate\Database\Eloquent\Model;
 use Mcamara\LaravelLocalization\Interfaces\LocalizedUrlRoutable;
 

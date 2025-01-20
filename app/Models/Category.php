@@ -32,6 +32,18 @@ class Category extends Model
         return $category; 
     }
 
+    public function Gettranslations($lang_id)
+    {
+        $category=  $this->hasOne(CategoryTranslation::class, 'category_id', 'id')
+        ->where('language_id',$this->lang_id ); 
+        if(!$category){
+            $category=  $this->hasOne(CategoryTranslation::class, 'category_id', 'id')
+         ->where('language_id', 1); 
+
+        }
+        return $category; 
+    }
+
     public function getNameAttribute()
     {
         // Fetch the translation based on the language_id

@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-        $lang_code = getCurrentLocale();
+            $lang_code = getCurrentLocale();
         ?>
         @if (isset($categoryPageContents))
             <div class="card card-bordered">
@@ -17,7 +17,7 @@
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-3">
-                                @if ($lang_code == 'en')
+                                @if ($lang_code == 'en-us')
                                     <div class="card border">
                                         <div class="card-header mt-3">
                                             Category Header Banner Section

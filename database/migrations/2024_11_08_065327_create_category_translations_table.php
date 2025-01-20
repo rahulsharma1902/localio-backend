@@ -12,10 +12,10 @@ return new class extends Migration
     {
         Schema::create('category_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); 
-            $table->foreignId('language_id')->constrained('languages')->onDelete('cascade'); 
-            $table->string('name');  
-            $table->string('slug')->unique();      
+            $table->bigInteger('category_id')->nullable(); 
+            $table->bigInteger('language_id')->nullable(); 
+            $table->string('name')->nullable();  
+            $table->string('slug')->nullable();      
         
             $table->text('description')->nullable(); 
             $table->timestamps();

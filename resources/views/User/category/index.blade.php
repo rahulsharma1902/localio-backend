@@ -1,18 +1,6 @@
 @extends('user_layout.master')
 @section('content')
-    <?php
-    $lang = getCurrentLocale();
-    $categoryImages = \App\Models\CategoryPageContent::where('lang_code', 'en')
-        ->WhereIn('meta_key', ['header_image', 'header_bg_image'])
-        ->get();
-    $headerImage = $categoryImages->where('meta_key', 'header_image')->first();
-    $backgroundImage = $categoryImages->where('meta_key', 'header_bg_image')->first();
-    
-    $categoriesContents = \App\Models\CategoryPageContent::where('lang_code', $lang)->where('type', 'text')->pluck('meta_value', 'meta_key');
-    if ($categoriesContents->isEmpty()) {
-        $categoriesContents = \App\Models\CategoryPageContent::where('lang_code', 'en')->where('type', 'text')->pluck('meta_value', 'meta_key');
-    }
-    ?>
+
     <h1>hello haia</h1>
     <section class="banner_sec help-cntr-bnr inr-bnr dark " style="background-color: #003F7D;">
         <div class="bubble-wrp">
@@ -84,7 +72,7 @@
                                     </div>
                                     <div class="sfwr_text">
                                         <p class="list-unstyled m-0">
-                                            {{ $category->description }}
+                                            {!! $category->description !!}
                                         </p>
                                     </div>
                                 </div>

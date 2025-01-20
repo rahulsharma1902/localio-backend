@@ -13,12 +13,13 @@ class CategoriesController extends Controller
    
 
     public function index(Request $request) {
-        $locale = getCurrentLocale();
+        $locale = session()->get('lang_code');
+
         $siteLanguage = Language::where('lang_code', $locale)->first();
+        $categories = '';
         if ($siteLanguage) {
             $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();  
         } 
-        // dd($categories) ;
         return view('Admin.categories.index', compact('categories'));
     }
 
@@ -105,39 +106,21 @@ class CategoriesController extends Controller
     public function updateCategory($categoryId){
         $locale = getCurrentLocale();
         $siteLanguage = Language::where('lang_code', $locale)->first();
-        // dd($siteLanguage->id);
-        // if ($siteLanguage) {
-            //     $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->first();   
-            //     // dd($categories);
-            // } 
-            // dd($locale);
-            if ($siteLanguage) {
-                // dd($categoryId);
-                $defaultCategory = Category::where('id',$categoryId)->first();
-                // $category = CategoryTranslation::with('language')->where('category_id',$categoryId)->orWhere('language_id','and',$siteLanguage->id)->first();
-                $category = CategoryTranslation::with('language')->where('language_id',$siteLanguage->id)->where('category_id',$categoryId)->first(); 
-                if($category != null){
-                    return view('Admin.categories.update',compact('category','defaultCategory'));
-                }else{
-                    $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();
-                    // dd($categories);
-                    return  view('Admin.categories.index',compact('categories'));
-                }
-            }else{
-                $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();
-                // dd($categories);
-                return  view('Admin.categories.index',compact('categories'));
-            }
-            // dd($category) ;
+       
+        if ($siteLanguage) {
             
-            // dd($category);
-            // dd($category);
-        // } else {
-        //     $category = Category::where('id',$categoryId)->first();
-        // }
-        // echo '<pre>';
-        // print_r($siteLanguage->handle);
-        // die();
+            $defaultCategory = Category::find($categoryId);
+            // $category = CategoryTranslation::with('language')->where('category_id',$categoryId)->orWhere('language_id','and',$siteLanguage->id)->first();
+            $category = CategoryTranslation::with('language')->where('language_id',$siteLanguage->id)->where('category_id',$categoryId)->first(); 
+            if(!$category){
+                return redirect()->back()->with('error','Category is Not Translated in this Language');
+            }
+            return view('Admin.categories.update',compact('category','defaultCategory'));
+           
+        }else{
+            return redirect()->back()->with('error','Category is Not Found');
+        }
+          
     }
 
     // public function updateProcc(Request $request) {
@@ -214,7 +197,7 @@ class CategoriesController extends Controller
 
     public function updateProcc(Request $request) {
         $request->validate([
-            'name' => 'unique:categories',
+            'name' => 'unique:category_translations,name,'. $request->id,
         ]);
         $locale = getCurrentLocale();
         $siteLanguage = Language::where('lang_code', $locale)->first();
@@ -228,10 +211,10 @@ class CategoriesController extends Controller
                 ]
             );
 
-           $category =  Category::find($request->id);
-           $category->name = $request->name;
-           $category->slug = $request->slug;
-           $category->description = $request->description;
+           $category = Category::find($category_id);
+        //    $category->name = $request->name;
+        //    $category->slug = $request->slug;
+        //    $category->description = $request->description;
             
 
             if ($request->hasFile('image')) {

@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-        $productFiles = \App\Models\TopProductContent::where('type', 'file')->Where('lang_code', 'en')->first();
+        
         $lang_code = getCurrentLocale();
         ?>
         @if (isset($productFiles) && !$productFiles->isEmpty())

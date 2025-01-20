@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class CountryController extends Controller
 {
-    public function index(){
-        $countries = Country::all();
+    public function index(Request $request){
+        $countries = Country::where('status',1)->get();
+        if($request->ajax()){
+            return response()->json($countries);
+        }
         return view('Admin.setting.country.index',compact('countries'));
     }
 

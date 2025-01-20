@@ -13,9 +13,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"
         integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
@@ -46,15 +46,16 @@
 <body>
     <?php
     $lang = getCurrentLocale();
+    $lang_id = getCurrentLanguageID();
     
-    $headerLogo = \App\Models\HeaderContent::where([['lang_code', 'en'], ['meta_key', 'header_logo']])->first();
-    $headerContent = \App\Models\HeaderContent::where([['lang_code', $lang], ['type', 'text']])->pluck('meta_value', 'meta_key');
+    $headerLogo = \App\Models\HeaderContent::where([['lang_id', 1], ['meta_key', 'header_logo']])->first();
+    $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang_id], ['type', 'text']])->pluck('meta_value', 'meta_key');
     
     if ($headerContent->isEmpty()) {
-        $headerContent = \App\Models\HeaderContent::where([['lang_code', 'en'], ['type', 'text']])->pluck('meta_value', 'meta_key');
+        $headerContent = \App\Models\HeaderContent::where([['lang_id', 1], ['type', 'text']])->pluck('meta_value', 'meta_key');
     }
-    $footerLogo = \App\Models\FooterContent::where([['lang_code', 'en'], ['meta_key', 'footer_logo']])->first();
-    $icons = \App\Models\FooterContent::where('lang_code', 'en')
+    $footerLogo = \App\Models\FooterContent::where([['lang_id', 1], ['meta_key', 'footer_logo']])->first();
+    $icons = \App\Models\FooterContent::where('lang_id', 1)
         ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
         ->get();
     
@@ -62,11 +63,11 @@
     $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
     $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
     
-    $footerContents = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'text')->pluck('meta_value', 'meta_key');
-    $footerMediaUrls = \App\Models\FooterContent::where('lang_code', $lang)->where('type', 'url')->where('lang_code', 'en')->pluck('meta_value', 'meta_key');
+    $footerContents = \App\Models\FooterContent::where('lang_id', $lang_id)->where('type', 'text')->pluck('meta_value', 'meta_key');
+    $footerMediaUrls = \App\Models\FooterContent::where('type', 'url')->where('lang_id', 1)->pluck('meta_value', 'meta_key');
     
     if ($footerContents->isEmpty()) {
-        $footerContents = \App\Models\FooterContent::where('lang_code', 'en')->where('type', 'text')->pluck('meta_value', 'meta_key');
+        $footerContents = \App\Models\FooterContent::where('lang_id', 1)->where('type', 'text')->pluck('meta_value', 'meta_key');
     }
     
     ?>
@@ -394,7 +395,20 @@
             AOS.init();
         });
     </script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectBtn = document.querySelector('.select-btn');
+            const options = document.querySelectorAll('.option');
+            const sBtnText = document.querySelector('.sBtn-text');
+
+            options.forEach(option => {
+                if (!this.classList.contains('selected')) {
+                    const selectedName = this.dataset.langName;
+                    sBtnText.textContent = selectedName;
+                }
+            });
+        });
+    </script>
     <!-- header search js -->
     <script>
         $(document).ready(function() {

@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-        $headerLogo = \App\Models\HeaderContent::Where('lang_code', 'es-mx')->first();
+        
         $lang_code = getCurrentLocale();
         ?>
         @if (isset($headerContents))
@@ -18,7 +18,7 @@
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-3">
-                                @if ($lang_code == 'en')
+                                @if ($lang_code == 'en-us')
                                     <div class="card border">
                                         <div class="card-header mt-3">
                                             Header Logo Section
@@ -46,13 +46,13 @@
                                     </div>
                                 @endif
                                 @foreach ($headerContents as $key => $content)
-                                    @if ($content->meta_key == 'header_logo')
+                                    @if ($content->meta_key === 'header_search_placeholder')
                                         <div class="card border">
                                             <div class="card-header mt-3">
                                                 Header Search Placeholer Text
                                             </div>
                                             <div class="card-body">
-                                            @elseif($content->meta_key === 'header_search_placeholder')
+                                        {{-- @elseif($content->meta_key === 'header_search_placeholder') --}}
                                                 <div class="form-group col-lg-12">
                                                     <label class="form-label" for="{{ $key }}">Search Bar
                                                         Placeholder Text</label>

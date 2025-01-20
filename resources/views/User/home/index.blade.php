@@ -39,26 +39,19 @@
     <section class="banner_sec dark" style="background-color: #003F7D;">
         <div class="bubble-wrp">
             <?php
-            
-            $homeContantImages = \App\Models\HomeContent::where('lang_code', 'en')
-                ->whereIn('meta_key', ['header_background_img', 'header_img', 'trusted_brands_img', 'ai_section_left_img', 'ai_section_right_img', 'ai_send_img', 'review_section_right_img', 'review_section_left_img', 'find_tool_left_img', 'find_tool_right_img', 'user_reviews_img', 'price_compare_img', 'independent_img'])
-                ->get()
-                ->keyBy('meta_key'); // Convert to keyed collection by 'meta_key'
-            
-            // Now you can directly access each image based on the 'meta_key'
-            $headerBackgroundImage = $homeContantImages->get('header_background_img');
-            $headerImage = $homeContantImages->get('header_img');
-            $trustedBrandImages = $homeContantImages->get('trusted_brands_img');
-            $aiLeftImage = $homeContantImages->get('ai_section_left_img');
-            $aiRightImage = $homeContantImages->get('ai_section_right_img');
-            $findToolRightImage = $homeContantImages->get('find_tool_right_img');
-            $findToolLeftImage = $homeContantImages->get('find_tool_left_img');
-            $verifiedImage = $homeContantImages->get('user_reviews_img');
-            $featureImage = $homeContantImages->get('price_compare_img');
-            $indepentImage = $homeContantImages->get('independent_img');
-            $reviewRightImage = $homeContantImages->get('review_section_right_img');
-            $reviewLeftImage = $homeContantImages->get('review_section_left_img');
-            $aiImage = $homeContantImages->get('ai_send_img');
+                $headerBackgroundImage = $homeContantImages->get('header_background_img');
+                $headerImage = $homeContantImages->get('header_img');
+                $trustedBrandImages = $homeContantImages->get('trusted_brands_img');
+                $aiLeftImage = $homeContantImages->get('ai_section_left_img');
+                $aiRightImage = $homeContantImages->get('ai_section_right_img');
+                $findToolRightImage = $homeContantImages->get('find_tool_right_img');
+                $findToolLeftImage = $homeContantImages->get('find_tool_left_img');
+                $verifiedImage = $homeContantImages->get('user_reviews_img');
+                $featureImage = $homeContantImages->get('price_compare_img');
+                $indepentImage = $homeContantImages->get('independent_img');
+                $reviewRightImage = $homeContantImages->get('review_section_right_img');
+                $reviewLeftImage = $homeContantImages->get('review_section_left_img');
+                $aiImage = $homeContantImages->get('ai_send_img');
             
             ?>
             @if (isset($headerBackgroundImage))
@@ -72,7 +65,6 @@
                 <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                     <div class="banner_text_col">
                         <div class="banner_content_inner">
-                            {{-- {{ dd($homeContents) }} --}}
                             <h1>{{ $homeContents['header_title'] ?? null }}</h1>
                             <p>{{ $homeContents['header_description'] ?? null }}</p>
                             <div class="search-bar-wrp">
@@ -561,13 +553,6 @@
                                     alt="{{ $aiRightImage->meta_key }}">
                             </div>
                         @endif
-
-                        <!-- <div class="back-image1">
-                                                                                                                                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector1.png') }}" class="image-pattern1" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                   </div>
-                                                                                                                                                                                                                                                                                                                                                                                                   <div class="back-image2">
-                                                                                                                                                                                                                                                                                                                                                                                                      <img src="{{ asset('front/img/right-tool-vector2.png') }}" class="image-pattern2" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                   </div> -->
                     </div>
                 </div>
                 <!-- section top-rated -->
@@ -1117,11 +1102,6 @@
                                         an
                                         unknown printer took a galley. </p>
                                 </div>
-                                <!-- <div class="box_footer">
-                                                                                                                                                                                                                                                                                                                                                                                                            <div class="more_read">
-                                                                                                                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
-                                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
@@ -1141,11 +1121,6 @@
                                         an
                                         unknown printer took a galley. </p>
                                 </div>
-                                <!-- <div class="box_footer">
-                                                                                                                                                                                                                                                                                                                                                                                                            <div class="more_read">
-                                                                                                                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
-                                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
@@ -1165,11 +1140,6 @@
                                         an
                                         unknown printer took a galley. </p>
                                 </div>
-                                <!-- <div class="box_footer">
-                                                                                                                                                                                                                                                                                                                                                                                                            <div class="more_read">
-                                                                                                                                                                                                                                                                                                                                                                                                               <a href="">Read More</a>
-                                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                                         </div> -->
                             </div>
                         </a>
                     </div>
@@ -1261,7 +1231,6 @@
         </div>
 
     </section>
-    <script type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js"></script>
 
@@ -1272,7 +1241,5 @@
                 gap: 20
             });
         });
-    </script>
-
     </script>
 @endsection

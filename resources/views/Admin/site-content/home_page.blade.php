@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-        $homeContents = \App\Models\HomeContent::where('type', 'file')->Where('lang_code', 'en')->first();
+
         $lang_code = getCurrentLocale();
         ?>
         @if (isset($homeContents) && isset($allHomeContents))
@@ -18,13 +18,13 @@
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-3">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Home Banner Section
-                                    </div>
-                                    <div class="card-body">
-                                        @if ($lang_code == 'en')
-                                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Home Banner Section
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
                                                 @foreach ($homeContents as $content)
                                                     @if ($content->meta_key == 'header_img')
                                                         <div class="form-group">
@@ -63,8 +63,7 @@
                                                         </div>
                                                     @endif
                                                 @endforeach
-                                            </div>
-                                        @endif
+                                            @endif
                                         @foreach ($allHomeContents as $key => $val)
                                             @if ($val->meta_key == 'header_title')
                                                 <div class="form-group col-lg-12">
@@ -104,7 +103,7 @@
                                         Trusted Brands Section
                                     </div>
                                     <div class="card-body">
-                                        @if ($lang_code == 'en')
+                                        @if ($lang_code == 'en-us')
                                             @foreach ($homeContents as $content)
                                                 @if ($content->meta_key == 'trusted_brands_img')
                                                     <div class="form-group">
@@ -248,7 +247,7 @@
                                         AI Search Section
                                     </div>
                                     <div class="card-body">
-                                        @if ($lang_code == 'en')
+                                        @if ($lang_code == 'en-us')
                                             @foreach ($homeContents as $content)
                                                 @if ($content->meta_key == 'ai_section_left_img')
                                                     <div class="form-group">
@@ -322,7 +321,7 @@
                                                     value="{{ $val->meta_value ?? '' }}" />
                                             </div>
                                         </div>
-                                        @if ($lang_code == 'en')
+                                        @if ($lang_code == 'en-us')
                                             @foreach ($homeContents as $content)
                                                 @if ($content->meta_key == 'ai_send_img')
                                                     <div class="form-group">

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('meta_key')->nullable();
             $table->text('meta_value')->nullable();
             $table->text('type')->nullable();
-            $table->string('lang_code')->default('en');
+            $table->integer('lang_id')->default(1);
             $table->timestamps();
         });
     }

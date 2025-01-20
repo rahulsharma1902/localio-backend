@@ -20,7 +20,7 @@ class CountrySeeder extends Seeder
 
         foreach ($csv as $row) {
             DB::table('countries')->insert([
-                'iso' => $row['iso'] ?? null,        // Ensure 'iso' is in your CSV
+                'country_code' => $row['country_code'] ?? null,        // Ensure 'iso' is in your CSV
                 'name' => $row['name'] ?? null,      // Ensure 'name' is in your CSV
                 'iso3' => $row['iso3'] ?? null, // iso3 is nullable
                 'phonecode' => $row['dial'] ?? null, // Ensure 'dial' is in your CSV

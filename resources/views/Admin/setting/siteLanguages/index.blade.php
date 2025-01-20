@@ -54,14 +54,6 @@
                     <tbody>
                         @foreach ($siteLanguages as $siteLanguage)
                             <tr class="nk-tb-item">
-                                <!-- <td class="nk-tb-col">
-                                                                        <div class="user-card">
-                                                                            <div class="user-info">
-                                                                                <span class="tb-lead">dfgd</span>
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </td> -->
                                 <td class="nk-tb-col">
                                     <div class="user-card">
                                         <div class="user-info">
@@ -71,7 +63,7 @@
                                     </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-mb">
-                                    <span class="tb-amount">{{ $siteLanguage->handle ?? '' }}</span>
+                                    <span class="tb-amount">{{ $siteLanguage->lang_code ?? '' }}</span>
                                 </td>
 
                                 <td class="nk-tb-col tb-col-md">

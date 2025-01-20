@@ -2,8 +2,8 @@
 @section('content')
 
 <?php
-    $files = \App\Models\TopProductContent::where([['lang_code','en'],['type','file']])->pluck('meta_value','meta_key');
-
+    // $files = \App\Models\TopProductContent::where([['lang_code','en'],['type','file']])->pluck('meta_value','meta_key');
+ 
 ?>
 <style>
 .star-rating li {

@@ -71,9 +71,9 @@
                                 </td>
                                 <td class="nk-tb-col tb-col-mb">
                                     <span class="tb-lead">
-                                    @if($product->categories->isNotEmpty())
+                                    @if(isset($product->categories))
                                         @foreach($product->categories as $category)
-                                            {{ $category->translations->isNotEmpty()  ? $category->translations->first()->name : ($category->name ?? '')}}{{ !$loop->last ? ', ' : '' }}
+                                            {{ isset($category->translations)  ? $category->translations->firstWhere('language_id', getCurrentLanguageID())->name : ($category->name ?? '')}}{{ !$loop->last ? ', ' : '' }}
                                         @endforeach
                                     @else
                                         not data found

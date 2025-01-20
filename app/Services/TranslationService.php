@@ -29,7 +29,7 @@ class TranslationService
             return $result['text'];
             
         }catch(\Exception $e ){
-            saveAppLog($e->getMessage());
+            saveLog('translateService', 'error in translation', $targetLanguage, $e->getMessage());
             return false ; 
         }
 

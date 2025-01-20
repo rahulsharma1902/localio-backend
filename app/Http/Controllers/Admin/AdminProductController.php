@@ -8,7 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductKeyFeature;
 use Illuminate\Support\Str;
-use App\Models\SiteLanguages;
+use App\Models\Language;
 use App\Models\ProductTranslation;
 use App\Models\ProductKeyFeatureTranslation;
 class AdminProductController extends Controller
@@ -18,7 +18,7 @@ class AdminProductController extends Controller
     {
         // $products = Product::with(['translations', 'keyFeatures.translations', 'categories'])->get();
         $locale = getCurrentLocale();
-        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
+        $siteLanguage = Language::where('lang_code',$locale)->first();
         $products = Product::with([
                                 'translations' => function($query) use($siteLanguage) {
                                     $query->where('language_id', $siteLanguage->id);
@@ -55,7 +55,7 @@ class AdminProductController extends Controller
             'product_link' => 'required|url',
             'key_features' => 'required|array|min:1',
         ]);
-        $siteLanguage = SiteLanguages::where('handle',$request->handle)->first();
+        $siteLanguage = Language::where('lang_code',$request->lang_code)->first();
         if(!$siteLanguage)
         {
             return redirect()->back()->with('error','current langauge not found');
@@ -113,6 +113,16 @@ class AdminProductController extends Controller
             }
             $product->product_link = $request->product_link;
             $product->save();
+
+            $lang_id = getCurrentLanguageID();
+
+            $productTranslation =  new ProductTranslation();
+            $productTranslation->name = $request->name;
+            $productTranslation->slug = Str::slug($request->name);
+            $productTranslation->description = $request->description;
+            $productTranslation->product_id  = $product->id;
+            $productTranslation->language_id  = $lang_id;
+            $productTranslation->save();
     
             $productCategorys = $request->product_category;
             $selectedCategories  = $request->selected_categories;
@@ -131,10 +141,24 @@ class AdminProductController extends Controller
     
             $product->keyFeatures()->delete(); 
             foreach ($keyFeatures as $feature) {
-                ProductKeyFeature::create([
-                    'product_id' => $product->id,
-                    'feature' => $feature,
-                ]);
+                $productkeyfeature = new ProductKeyFeature();
+                
+                $productkeyfeature->product_id = $product->id;
+                $productkeyfeature->feature = $feature;
+                $productkeyfeature->save();
+            
+                if($productkeyfeature){
+                    $keyFeatureTranslation = ProductKeyFeatureTranslation::Create(
+                        [
+                            'product_key_id' => $productkeyfeature->id,
+                            'language_id' => $lang_id,
+                        ],
+                        [
+                            'feature' => $feature,
+                        ]
+                    );
+                }
+                
             }
             $message = isset($request->id) ? 'Product updated successfully' : 'Product added successfully';
             return redirect()->route('products')->with('success', $message);
@@ -145,7 +169,7 @@ class AdminProductController extends Controller
     {   
         $locale = getCurrentLocale();
 
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
 
         if (!$siteLanguage) {
             return redirect()->back()->with('error', 'Server error: Language not found.');

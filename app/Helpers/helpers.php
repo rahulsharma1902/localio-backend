@@ -9,15 +9,33 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 
-function getCurrentLocale()
-{
-    if(Session('userDetails')){
-        $langcode = Session::get('userDetails')['lang_code'];
-    }else{
-        $langcode = "en-us";
+    function getCurrentLocale()
+    {
+        if(Cookie::get('lang_code')){
+            $langcode = Cookie::get('lang_code');
+        }elseif(Session::get('lang_code')){
+            $langcode = Session::get('lang_code');
+        } else {
+            $langcode = "en-us";
+        }
+        return $langcode;
     }
-    return $langcode;
-}
+
+    function getCurrentLanguageID()
+    {
+        if(Cookie::get('lang_code')){
+            $langcode = Cookie::get('lang_code');
+        }elseif(Session::get('lang_code')){
+            $langcode = Session::get('lang_code');
+        } else {
+            $langcode = "en-us";
+        }
+        $siteLanguage = Language::where('lang_code', $langcode)->first();
+        if($siteLanguage){
+            return $siteLanguage->id;
+        } 
+        return 1;
+    }
 
 
     function getCurrentSiteLanguage()
@@ -74,21 +92,21 @@ function getCurrentLocale()
         return $formattedAmount;
     }
 
-function website_translator($logoName, $lang_code)
-{
-    if ($logoName == "") {
-        return "";
+    function website_translator($logoName, $lang_code)
+    {
+        if ($logoName == "") {
+            return "";
+        }
+        try {
+            $translationService = app(TranslationService::class);
+            $translatedLogoName = $translationService->translate($logoName, $lang_code);
+            // dd($translatedLogoName);
+            return $translatedLogoName;
+        } catch (\Exception $e) {
+            saveLog('Language Translation Eroor', 'helpers', $e->getMessage());
+        }
     }
-    try {
-        $translationService = app(TranslationService::class);
-        $translatedLogoName = $translationService->translate($logoName, $lang_code);
-        // dd($translatedLogoName);
-        return $translatedLogoName;
-    } catch (\Exception $e) {
-        saveLog('Language Translation Eroor', 'helpers', $e->getMessage());
-    }
-
-    function saveLog($fileName = null, $message = null, $name = null, $payload = null, $isShowAdmin = false, $sentMail = false, $status = 'active')
+    function saveLog($fileName = null, $message = null, $name = null, $payload = [], $isShowAdmin = false, $sentMail = false, $status = 'active')
     {
         return Log::create([
             'file_name' => $fileName,
@@ -100,7 +118,7 @@ function website_translator($logoName, $lang_code)
             'status' => $status,
         ]);
     }
-}
+
 
     function getUserLocation()
     {
@@ -108,98 +126,90 @@ function website_translator($logoName, $lang_code)
     }
 
 
-function getLanguages($codes = false)
-{
-    $cacheKey = 'languages';
-    $languages = Cache::get($cacheKey);
-    if (!$languages) {
-        $languages = Language::all();
-        Cache::put($cacheKey, $languages, now()->addDay());
-    }
-    // If $codes is true, return only language codes
-    if ($codes) {
-        $codes = $languages->pluck('lang_code')->toArray();
-        return $codes;
-    }
-    // Otherwise, return all language records
-    return $languages;
-}
-
-
-function getWebSetting($key, $value = false)
-{
-    $cacheKey = 'web_settings';
-    $webSettings = Cache::get($cacheKey);
-    if (!$webSettings) {
-        $webSettings = WebSetting::all()->keyBy('key'); 
-        Cache::put($cacheKey, $webSettings, now()->addDays(7));
-    }
-
-    if ($value) {
-        if (isset($webSettings[$key])) {
-            return $webSettings[$key]->value;
-        } else {
-            return null; 
+    function getLanguages($codes = false)
+    {
+        $cacheKey = 'languages';
+        $languages = Cache::get($cacheKey);
+        if (!$languages) {
+            $languages = Language::all();
+            Cache::put($cacheKey, $languages, now()->addDay());
         }
+        if ($codes) {
+            $codes = $languages->pluck('lang_code')->toArray();
+            return $codes;
+        }
+        return $languages;
     }
 
-    return $webSettings;
-}
 
+    function getWebSetting($key, $value = false)
+    {
+        $cacheKey = 'web_settings';
+        $webSettings = Cache::get($cacheKey);
+        if (!$webSettings) {
+            $webSettings = WebSetting::all()->keyBy('key'); 
+            Cache::put($cacheKey, $webSettings, now()->addDays(7));
+        }
 
-// Store the user prefrences
-function storePrefrences($data)
-{
-    $sessionTimeInDays = getWebSetting('USER_SESSION_LOGOUT_TIME', true);
-    if (!$sessionTimeInDays) {
-        $sessionTimeInDays = 30;
-    }
-    $minutes = $sessionTimeInDays * 24 * 60;
-    Cookie::queue('userDetails', json_encode($data), $minutes);
-    Session::put('userDetails', $data);
-    $test = Session::get('userDetails');
+        if ($value) {
+            if (isset($webSettings[$key])) {
+                return $webSettings[$key]->value;
+            } else {
+                return null; 
+            }
+        }
 
-
-}
-
-
-function detectLocation($ip = null,Request $request)
-{
-    if (!$ip) {
-        $ip = $request->ip();
+        return $webSettings;
     }
 
-    $cacheKey = 'userDetails';
-    $userDetails = Session::get('userDetails');
 
-    if ($userDetails) {
+    function storePrefrences($data)
+    {
+        $sessionTimeInDays = getWebSetting('USER_SESSION_LOGOUT_TIME', true);
+        if (!$sessionTimeInDays) {
+            $sessionTimeInDays = 30;
+        }
+        $minutes = $sessionTimeInDays * 24 * 60;
+        Cookie::queue('userDetails', json_encode($data), $minutes);
+        Session::put('userDetails', $data);
+    }
+
+
+    function detectLocation($ip = null,Request $request)
+    {
+        if (!$ip) {
+            $ip = $request->ip();
+        }
+
+        $cacheKey = 'userDetails';
+        $userDetails = Session::get('userDetails');
+
+        if ($userDetails) {
+            return $userDetails;
+        }
+
+        $userDetails = [
+            'lang_code' => 'en-us',
+            'lang_name' => 'United States - English',
+            'lang_id' => 33,
+        ];
+
+        storePrefrences($userDetails);
         return $userDetails;
     }
 
-    // Call the api to get the user data
 
-    $userDetails = [
-        'lang_code' => 'en-us',
-        'lang_name' => 'United States - English',
-        'lang_id' => 33,
-    ];
-
-    storePrefrences($userDetails);
-    return $userDetails;
-}
-
-
-function getUserPrefrences(){
-    $lang_code = getCurrentLocale();
-    $language_id = Language::where('lang_code',$lang_code )->value('id');
-    $translated_data =  CategoryTranslation::where('language_id',$language_id)->first();
-    if(!$translated_data){
-        $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
+    function getUserPrefrences(){
+        $lang_code = getCurrentLocale();
+        $language_id = Language::where('lang_code',$lang_code )->value('id');
+        $translated_data =  CategoryTranslation::where('language_id',$language_id)->first();
+        if(!$translated_data){
+            $translated_data =  CategoryTranslation::where('language_id',1)->get()->toArray();
+        }
+        $lang_data = [
+            'lang_id'=> $language_id,
+            'translated_data' => $translated_data
+        ];
+        Session::put('lang_data',$lang_data);
+        return $lang_data;
     }
-    $lang_data = [
-        'lang_id'=> $language_id,
-        'translated_data' => $translated_data
-    ];
-    Session::put('lang_data',$lang_data);
-    return $lang_data;
-}

@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-        $footerFiles = \App\Models\FooterContent::where('type', 'file')->Where('lang_code', 'en')->first();
+       
         $lang_code = getCurrentLocale();
         ?>
         @if (isset($footerContents))
@@ -18,7 +18,7 @@
                             novalidate="novalidate" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-3">
-                                @if ($lang_code == 'en')
+                                @if ($lang_code == 'en-us')
                                     <div class="card border">
                                         <div class="card-header mt-3">
                                             Footer Logo Section
@@ -257,7 +257,7 @@
                                                 </div>
                                             @endif
                                         @endforeach
-                                        @if ($lang_code === 'en')
+                                        @if ($lang_code === 'en-us')
                                             @foreach ($footerFiles as $key => $file)
                                                 @if ($file->meta_key == 'facebook_icon')
                                                     <div class="form-group">

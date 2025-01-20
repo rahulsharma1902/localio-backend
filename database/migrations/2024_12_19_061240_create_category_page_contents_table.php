@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('meta_key'); 
             $table->text('meta_value');
-            $table->string('lang_code')->default('en');
+            $table->integer('lang_id')->default(1);
             $table->timestamps();
         });
     }

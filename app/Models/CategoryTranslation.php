@@ -29,7 +29,7 @@ class CategoryTranslation extends Model
 
     public function language()
     {
-        return $this->hasOne(Language::class, 'id',);
+        return $this->hasOne(Language::class, 'id','language_id');
     }
 
     

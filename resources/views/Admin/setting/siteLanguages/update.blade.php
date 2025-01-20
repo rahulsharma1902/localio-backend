@@ -32,21 +32,21 @@
                         </div>
 
                         <!-- Slug Field (Hidden) -->
-                        <input type="hidden" class="form-control" id="slug" name="slug"
-                            value="{{ old('slug', $siteLanguage->slug) }}" />
+                        {{-- <input type="hidden" class="form-control" id="slug" name="slug"
+                            value="{{ old('slug', $siteLanguage->slug) }}" /> --}}
 
                         <!-- Handle Field -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="handle">Lang code</label>
+                                <label class="form-label" for="lang_code">Lang code</label>
                                 <sup>
-                                    @error('handle')
+                                    @error('lang_code')
                                         <div class="error text-danger">{{ $message }}</div>
                                     @enderror
                                 </sup>
                                 <div class="form-control-wrap">
-                                    <input type="text" class="form-control" id="handle" name="handle"
-                                        value="{{ old('handle', $siteLanguage->handle) }}" />
+                                    <input type="text" class="form-control" id="lang_code" name="lang_code"
+                                        value="{{ old('lang_code', $siteLanguage->lang_code) }}" />
                                 </div>
                             </div>
                         </div>
@@ -91,19 +91,19 @@
     <script>
         $(document).ready(function() {
             // Update the slug field based on the name field
-            $('#name').on('input', function() {
-                let name = $(this).val().toLowerCase();
-                let slug = name.replace(/\s+/g, "-").replace(/\//g, "-");
-                $('#slug').val(slug);
-            });
+            // $('#name').on('input', function() {
+            //     let name = $(this).val().toLowerCase();
+            //     let slug = name.replace(/\s+/g, "-").replace(/\//g, "-");
+            //     $('#slug').val(slug);
+            // });
 
             // Slug input: sanitize spaces and slashes
-            $('#slug').on('change', function() {
-                this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
-            });
+            // $('#slug').on('change', function() {
+            //     this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
+            // });
 
             // Handle input: Allow only alphanumeric characters and dashes
-            $('#handle').on('input', function() {
+            $('#lang_code').on('input', function() {
                 var value = $(this).val();
                 var validValue = value.replace(/[^a-zA-Z0-9-]/g, ''); // Allow only alphanumeric and dash
                 $(this).val(validValue);
