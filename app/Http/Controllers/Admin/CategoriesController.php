@@ -14,10 +14,10 @@ class CategoriesController extends Controller
 
     public function index(Request $request) {
         $locale = session()->get('lang_code');
-        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
         $categories = '';
-        if ($siteLanguage) {
-            $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();  
+        if ($lang_code) {
+            $categories = CategoryTranslation::where('language_id',$lang_code->id)->get();  
         } 
         return view('Admin.categories.index', compact('categories'));
     }
@@ -104,13 +104,13 @@ class CategoriesController extends Controller
     
     public function updateCategory($categoryId){
         $locale = getCurrentLocale();
-        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
        
-        if ($siteLanguage) {
+        if ($lang_code) {
             
             $defaultCategory = Category::find($categoryId);
             // $category = CategoryTranslation::with('language')->where('category_id',$categoryId)->orWhere('language_id','and',$siteLanguage->id)->first();
-            $category = CategoryTranslation::with('language')->where('language_id',$siteLanguage->id)->where('category_id',$categoryId)->first(); 
+            $category = CategoryTranslation::with('language')->where('language_id',$lang_code->id)->where('category_id',$categoryId)->first(); 
             if(!$category){
                 return redirect()->back()->with('error','Category is Not Translated in this Language');
             }
@@ -199,9 +199,9 @@ class CategoriesController extends Controller
             'name' => 'unique:category_translations,name,'. $request->id,
         ]);
         $locale = getCurrentLocale();
-        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
         $category_id = CategoryTranslation::where('id',$request->id)->value('category_id');
-        if($siteLanguage){
+        if($lang_code){
             CategoryTranslation::where('id',$request->id)->update(
                 [
                     'name' => $request->name,

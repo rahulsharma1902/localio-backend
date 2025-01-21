@@ -37,7 +37,7 @@ class ArticleController extends Controller
             return redirect()->back()->with('error', 'Article not found');
         }
         if ($lang_code) {
-            $articleTranslation = ArticleTranslation::with('language')->where('article_id',$id)->where('language_id',$siteLanguage->id)->first();
+            $articleTranslation = ArticleTranslation::with('language')->where('article_id',$id)->where('language_id',$lang_code->id)->first();
         } else {
             $articleTranslation = Article::where('id',$id)->first();
         }
@@ -120,7 +120,7 @@ class ArticleController extends Controller
                 }
             }else{
                     $existingTranslation = ArticleTranslation::where('id', $request->article_tr_id)
-                    ->where('language_id', $siteLanguage->id)
+                    ->where('language_id', $lang_code->id)
                     ->first();
 
                 if ($existingTranslation) {
@@ -128,7 +128,7 @@ class ArticleController extends Controller
                 } else {
                     $article = new ArticleTranslation;
                     $article->article_id = $request->article_id;
-                    $article->language_id = $siteLanguage->id;
+                    $article->language_id = $lang_code->id;
                
                 }
             }
@@ -184,10 +184,10 @@ class ArticleController extends Controller
     {
         $locale = getCurrentLocale(); 
     
-        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
 
-        $articleCategory = ArticleCategory::with(['translations' => function ($query) use ($siteLanguage) {
-                                                $query->where('language_id', $siteLanguage->id);
+        $articleCategory = ArticleCategory::with(['translations' => function ($query) use ($lang_code) {
+                                                $query->where('language_id', $lang_code->id);
                                             }])->get();
         return view('Admin.article.article_categories',compact('articleCategory'));
 
