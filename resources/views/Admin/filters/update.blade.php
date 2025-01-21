@@ -52,7 +52,7 @@
                                     <option disabled selected>Default Option</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id ?? ''}}" {{ old('category_id', $filter->category_id) == $category->id ? 'selected' : '' }}>
-                                                {{ $filter->category->translations->isNotEmpty() ? $filter->category->translations->first()->name : $filter->category->name }}
+                                                {{ isset($filter->category->translations) ? $filter->category->translations->first()->name : $filter->category->name }}
                                             </option>
                                         @endforeach
                                 </select>

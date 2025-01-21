@@ -67,7 +67,7 @@ class SiteLanguagesController extends Controller
                 $siteLanguage->lang_code = $request->lang_code;
                 $siteLanguage->country_id = $request->country_id;
                 $siteLanguage->save();
-                return redirect()->back()->with('success', 'Site Language updated successfully.');
+                return redirect('/admin-dashboard/site-languages')->with('success', 'Site Language updated successfully.');
             } else {
                 return redirect()->back()->with('error', 'Incorrect language code');
             }

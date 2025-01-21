@@ -14,4 +14,9 @@ class Language extends Model
     {
         return $this->hasMany(CategoryTranslation::class, 'language_id');
     }
+
+    public function country()
+    {
+        return $this->hasOne(Country::class, 'id', 'country_id');
+    }
 }
