@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use App\Models\RuleTranslation;
 use App\Models\Faq;
 use App\Models\FaqTranslation;
+use App\Models\Language;
+
 class SitePagesController extends Controller
 {
     //
@@ -19,22 +21,19 @@ class SitePagesController extends Controller
     public function policies()
     {   
         $locale = getCurrentLocale();
-        // dd($locale);
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
-
-        if($siteLanguage == null){
-            $siteLanguage = SiteLanguages::where('handle', 'en')->first();
+        $Language = Language::where('lang_code', $locale)->first();
+        if($Language == null){
+            $Language = Language::where('lang_code', 'en-us')->first();
         }
-        $policies = Policy::with(['translations' => function ($query) use ($siteLanguage) {
-                                                $query->where('language_id', $siteLanguage->id);
-                                            }])->get();    
-                                            // dd($policies);
-
+        $policies = Policy::with(['translations' => function ($query) use ($Language) {
+            $query->where('language_id', $Language->id);
+        }])->get();    
         return view('Admin.policy.index',compact('policies'));
     }
     public function policyEdit($id)
     {
         $locale = getCurrentLocale();
+        // dd($locale);
 
         $policy = Policy::find($id);
     
@@ -43,8 +42,7 @@ class SitePagesController extends Controller
             return redirect()->back()->with('error', 'Policy not found');
         }
     
-        // Fetch the site language
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
     
         // Check if site language exists
         if ($siteLanguage) {
@@ -79,8 +77,8 @@ class SitePagesController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
-        $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
+        $siteLanguage = Language::where('lang_code', $request->handle)->first();
+        if ($siteLanguage) {
   
             // Handle the translation logic
             if ($request->policy_tr_id) {
@@ -164,7 +162,7 @@ class SitePagesController extends Controller
 
         $locale = getCurrentLocale();
 
-        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
+        $siteLanguage = Language::where('lang_code',$locale)->first();
 
         $rules = Rule::with(['translations' => function ($query) use ($siteLanguage){
                                             $query->where('language_id',$siteLanguage->id);
@@ -182,7 +180,7 @@ class SitePagesController extends Controller
         }
         $locale = getCurrentLocale();
 
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
     
         // Check if site language exists
         if ($siteLanguage) {
@@ -221,7 +219,7 @@ class SitePagesController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
-        $siteLanguage = SiteLanguages::where('handle',$request->handle)->first();
+        $siteLanguage = Language::where('lang_code',$request->handle)->first();
         if($siteLanguage && $siteLanguage->primary !== 1)
         {
             if($request->rule_tr_id){
@@ -296,7 +294,7 @@ class SitePagesController extends Controller
     {   
         // $faqs = Faq::all();
         $locale = getCurrentLocale();
-        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
+        $siteLanguage = Language::where('lang_code',$locale)->first();
         $faqs = Faq::with(['translations' =>function($query) use ($siteLanguage){
                             $query->where('language_id',$siteLanguage->id);
                     }])->get();
@@ -318,7 +316,7 @@ class SitePagesController extends Controller
             return redirect()->back()->with('error','faq not found');
         }
 
-        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
+        $siteLanguage = Language::where('lang_code',$locale)->first();
 
         if($siteLanguage && $siteLanguage->primary !== 1)
         {
@@ -335,9 +333,9 @@ class SitePagesController extends Controller
             'question' => 'required',
             'answer'    => 'required',
         ]);
-        $siteLanguage = SiteLanguages::where('handle',$request->handle)->first();
+        $siteLanguage = Language::where('lang_ocde',$request->handle)->first();
 
-        if($siteLanguage && $siteLanguage->primary !== 1)
+        if($siteLanguage)
         {
             $faqTranslation = isset($request->faq_tr_id) ? FaqTranslation::find($request->faq_tr_id) : new FaqTranslation;
             $faqTranslation->faq_id = $request->id;

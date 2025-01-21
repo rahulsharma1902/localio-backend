@@ -12,6 +12,8 @@ use App\Http\Controllers\User\{ViewController, CategoryController, ProductContro
 use App\Http\Controllers\Vendor\HomeController;
 use Illuminate\Support\Facades\Route;
 
+
+
 Route::get('auth/google', [AuthenticationController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('login/google/callback', [AuthenticationController::class, 'handleGoogleCallback']);
 Route::get('/category/{id}', [ViewController::class, 'categoryShow'])->name('category-show');
@@ -22,13 +24,12 @@ Route::get('login/facebook/callback', [AuthenticationController::class, 'handleF
 // Switch Language Route
 Route::get('/switch-language/{lang_code}', [ViewController::class, 'changeLanguage'])->name('switch-language');
 
-Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
+
 Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
-
-
+Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
 
 // Admin Routes 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware','auth'], function () {
     Route::get('/admin-dashboard', [AdminDashController::class, 'index'])->name('admin_dashboard');
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
@@ -159,7 +160,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin-dashboard/review-delete/{id}', [ReviewController::class, 'reviewDelete'])->name('review-delete');
 });
 
-
 // Add Locale 
 Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically','guest','User']], function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
@@ -207,18 +207,10 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('withlist');
 });
 
-// Route::post('/loginprocc',[AuthenticationController::class,'loginProcc']);
-
-
 Route::group(['middleware' => ['vendor']], function () {
     Route::get('/{locale}/vendor-dashboard', [HomeController::class, 'index'])
         ->name('vendor-dashboard')
         ->where('locale', 'en');
 });
-// Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
-//     Route::group(['middleware' => ['vendor']], function () {
-//         Route::get('/vendor-dashboard', [HomeController::class, 'index'])->name('vendor-dashboard');
-//     });
-// });
 
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');

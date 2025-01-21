@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Session;
         return $langcode;
     }
 
+
     function getCurrentLanguageID()
     {
         if(Cookie::get('lang_code')){
@@ -120,10 +121,10 @@ use Illuminate\Support\Facades\Session;
     }
 
 
-    function getUserLocation()
-    {
-        return 'en-us';
-    }
+    // function getUserLocation()
+    // {
+    //     return 'en-us';
+    // }
 
 
     function getLanguages($codes = false)

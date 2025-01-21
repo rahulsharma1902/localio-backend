@@ -41,7 +41,7 @@
                 @endif
                 <!-- Continue with the rest of your form -->
                 <form class="login_form" action="{{ route('login_process') }}" method="POST">
-                    @csrf
+                    @csrf 
                     {{-- safgagsgas --}}
                     <div class="form-group">
                         <input type="email" class="form-control" name="email" id="emailAddress" placeholder="Email">

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,SiteLanguages,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
+use App\Models\{Category,SiteLanguages,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation, Language};
 use DB;
 use Illuminate\Validation\Rule;
 
@@ -130,13 +130,13 @@ class FilterController extends Controller
     
         // Find the site language
         if ($request->language_id) {
-            $siteLanguage = SiteLanguages::where('id', $request->language_id)->first();
+            $siteLanguage = Language::where('id', $request->language_id)->first();
         } else {
-            $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
+            $siteLanguage = Language::where('handle', $request->handle)->first();
         }
     
         // Check if the language is a secondary language (not primary)
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
+        if ($siteLanguage) {
             $request->validate([
                 'name' => 'required',
                 'slug' => 'required',
