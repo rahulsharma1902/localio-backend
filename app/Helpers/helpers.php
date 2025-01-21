@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Session;
         return $langcode;
     }
 
-
+    
     function getCurrentLanguageID()
     {
         if(Cookie::get('lang_code')){

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use Illuminate\Support\Str;
-use App\Models\SiteLanguages;
 use App\Models\ArticleCategoryTranslation;
 use App\Models\ArticleTranslation;
 use App\Models\Language;
@@ -257,6 +256,7 @@ class ArticleController extends Controller
         }
         return view('Admin.article.article_category_update', compact('articleCategory', 'articleTranslationCategory'));
     }
+    
     public function articleCategoryUpdate(Request $request) 
     {   
         // dd($request->all());
