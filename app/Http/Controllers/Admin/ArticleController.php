@@ -19,10 +19,10 @@ class ArticleController extends Controller
         // $articles = Article::all();
         $locale = getCurrentLocale(); 
     
-        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
 
-        $articles = Article::with(['articleCategory', 'translations' => function ($query) use ($siteLanguage) {
-                                                $query->where('language_id', $siteLanguage->id);
+        $articles = Article::with(['articleCategory', 'translations' => function ($query) use ($lang_code) {
+                                                $query->where('language_id', $lang_code->id);
                                             }])->get();                    
         return view('Admin.article.index',compact('articles'));
     }
@@ -32,11 +32,11 @@ class ArticleController extends Controller
         $article = Article::with('articleCategory')->findOrFail($id);
         $categories = ArticleCategory::all();
         $locale = getCurrentLocale();
-        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
         if (!$article) {
             return redirect()->back()->with('error', 'Article not found');
         }
-        if ($siteLanguage) {
+        if ($lang_code) {
             $articleTranslation = ArticleTranslation::with('language')->where('article_id',$id)->where('language_id',$siteLanguage->id)->first();
         } else {
             $articleTranslation = Article::where('id',$id)->first();
@@ -105,9 +105,9 @@ class ArticleController extends Controller
     public function articleUpdateProcc(Request $request)
     {   
    
-        $siteLanguage = Language::where('lang_code', $request->handle)->first();
+        $lang_code = Language::where('lang_code', $request->lang_code)->first();
  
-        if ($siteLanguage) {
+        if ($lang_code) {
             $request->validate([
                 'name' => 'required' ,
                 'description' => 'required',
@@ -261,8 +261,9 @@ class ArticleController extends Controller
     }
     public function articleCategoryUpdate(Request $request) 
     {   
-        $siteLanguage = Language::where('handle', $request->handle)->first();
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
+        // dd($request->all());
+        $siteLanguage = Language::where('lang_code', $request->lang_code)->first();
+        if ($siteLanguage) {
             $request->validate([
                 'name' => 'required' ,
                 'description' => 'required',

@@ -33,7 +33,6 @@ class SitePagesController extends Controller
     public function policyEdit($id)
     {
         $locale = getCurrentLocale();
-        // dd($locale);
 
         $policy = Policy::find($id);
     
@@ -219,8 +218,8 @@ class SitePagesController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
-        $siteLanguage = Language::where('lang_code',$request->handle)->first();
-        if($siteLanguage && $siteLanguage->primary !== 1)
+        $lang_code = Language::where('lang_code',$request->handle)->first();
+        if($lang_code)
         {
             if($request->rule_tr_id){
 
@@ -233,7 +232,7 @@ class SitePagesController extends Controller
                     $ruleTranslation->title = $request->title;
                     $ruleTranslation->description = $request->description;
                     $ruleTranslation->rule_id     = $request->rule_tr_id;
-                    $ruleTranslation->language_id  = $siteLanguage->id;
+                    $ruleTranslation->language_id  = $lang_code->id;
                     $ruleTranslation->update();
                     return redirect()->back()->with('success','Rule translation update successfully');
                 }
@@ -244,7 +243,7 @@ class SitePagesController extends Controller
                 $ruleTranslation->title =  $request->title;
                 $ruleTranslation->description = $request->description;
                 $ruleTranslation->rule_id = $request->id;
-                $ruleTranslation->language_id   =  $siteLanguage->id;
+                $ruleTranslation->language_id   =  $lang_code->id;
                 $ruleTranslation->save();
                 return redirect()->back()->with('success','Rule translation add successfully');
             }
@@ -294,9 +293,9 @@ class SitePagesController extends Controller
     {   
         // $faqs = Faq::all();
         $locale = getCurrentLocale();
-        $siteLanguage = Language::where('lang_code',$locale)->first();
-        $faqs = Faq::with(['translations' =>function($query) use ($siteLanguage){
-                            $query->where('language_id',$siteLanguage->id);
+        $lang_code = Language::where('lang_code',$locale)->first();
+        $faqs = Faq::with(['translations' =>function($query) use ($lang_code){
+                            $query->where('language_id',$lang_code->id);
                     }])->get();
         return view('Admin.faqs.index',compact('faqs'));
     }
@@ -316,11 +315,11 @@ class SitePagesController extends Controller
             return redirect()->back()->with('error','faq not found');
         }
 
-        $siteLanguage = Language::where('lang_code',$locale)->first();
+        $lang_code = Language::where('lang_code',$locale)->first();
 
-        if($siteLanguage && $siteLanguage->primary !== 1)
+        if($lang_code && $lang_code->primary !== 1)
         {
-            $faqTranslation = FaqTranslation::with('language')->where('faq_id',$id)->where('language_id', $siteLanguage->id)->first();
+            $faqTranslation = FaqTranslation::with('language')->where('faq_id',$id)->where('language_id', $lang_code->id)->first();
         }else{
             $faqTranslation = null;
         }
@@ -333,13 +332,13 @@ class SitePagesController extends Controller
             'question' => 'required',
             'answer'    => 'required',
         ]);
-        $siteLanguage = Language::where('lang_ocde',$request->handle)->first();
+        $lang_code = Language::where('lang_ocde',$request->handle)->first();
 
-        if($siteLanguage)
+        if($lang_code)
         {
             $faqTranslation = isset($request->faq_tr_id) ? FaqTranslation::find($request->faq_tr_id) : new FaqTranslation;
             $faqTranslation->faq_id = $request->id;
-            $faqTranslation->language_id = $siteLanguage->id;
+            $faqTranslation->language_id = $lang_code->id;
             $faqTranslation->question       = $request->question;
             $faqTranslation->answer  = $request->answer;
             $faqTranslation->save();  // Save the translation

@@ -30,16 +30,13 @@ class AdminDashController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . Auth::user()->id,
-            // 'number' => 'required|unique:users,number,' . Auth::user()->id,
         ]);
 
         $user = User::find(Auth::user()->id);
-
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            // 'number' => $request->number,
         ]);
 
         return redirect()->back()->with('success', 'Your profile has been updated');
@@ -67,10 +64,8 @@ class AdminDashController extends Controller
             $user->update([
                 'password' => Hash::make($request->new_password),
             ]);
-
             return redirect()->back()->with('success', 'Password updated successfully.');
         }
-
         return redirect()->back()->with(['error' => 'The old password is incorrect.']);
     }
 
