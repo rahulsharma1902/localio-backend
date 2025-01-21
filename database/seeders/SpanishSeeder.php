@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\FooterContent;
+use App\Models\HeaderContent;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\HomeContent;
@@ -61,7 +63,66 @@ class SpanishSeeder extends Seeder
             HomeContent::create([
                 'meta_key' => $meta_key,
                 'meta_value' => $meta_value,
-                'lang_code' => 'ms-mx'
+                'lang_id' => '18'
+            ]);
+        }
+
+        $headercontent = [
+            'header_logo' => 'front/img/logo.svg',
+            'header_search_placeholder' => 'Ingresa un producto, categoría o lo que te gustaría comparar...',
+            'login_btn_lable' => 'Iniciar sesión',
+            'sign_up_btn_lable' => 'Registrarse',
+            'sign_out_btn_lable' => 'Cerrar sesión',
+            'exclusive' => 'Exclusivo',
+            'categories' => 'Categorías',
+            'top_rated_product' => 'Producto más valorado',
+            'expert_guide' => 'Guía de expertos',
+            'help_center' => 'Centro de ayuda',
+        ];
+        
+        $footercontent = [
+            'footer_logo' => 'front/img/logo.svg',
+            'facebook_icon' => 'header_logo/1734508523_facebook.svg',
+            'instagram_icon' => 'header_logo/1734508559_Instagram.svg',
+            'twitter_icon' => 'header_logo/1734508611_Twitter.svg',
+            'facebook_url' => 'https://www.facebook.com/login/',
+            'twitter_url' => 'https://www.instagram.com/accounts/login/',
+            'discover' => 'https://x.com/i/flow/login',
+            'categories' => 'Descubrir',
+            'top_rated_product' => 'Productos más valorados',
+            'exclusive_deal' => 'Ofertas exclusivas',
+            'company' => 'Empresa',
+            'who_we_are' => 'Quiénes somos',
+            'privacy_policy' => 'Política de privacidad',
+            'terms_and_conditions' => 'Términos y condiciones',
+            'vendors' => 'Proveedores',
+            'get_listed' => 'Regístrate',
+            'vendor_login' => 'Iniciar sesión como proveedor',
+            'help' => 'Ayuda',
+            'expert_guides' => 'Guías de expertos',
+            'help_center' => 'Centro de ayuda',
+            'contact' => 'Contacto',
+            'follow_us' => 'Síguenos',
+            'facebook' => 'Facebook',
+            'instagram' => 'Instagram',
+            'twitter' => 'Twitter',
+        ];
+
+
+
+        foreach($headercontent as $meta_key=> $meta_value){
+            HeaderContent::create([
+                'meta_key' => $meta_key,
+                'meta_value' => $meta_value,
+                'lang_id' => '18'
+            ]);
+        }
+
+        foreach($footercontent as $meta_key=> $meta_value){
+            FooterContent::create([
+                'meta_key' => $meta_key,
+                'meta_value' => $meta_value,
+                'lang_id' => '18'
             ]);
         }
     }
