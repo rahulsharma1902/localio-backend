@@ -239,7 +239,6 @@ class ArticleController extends Controller
             }
         } catch (\Exception $e) {
             // Log the exception error for debugging purposes
-            \Log::error('Error saving Article Category: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while saving the Article Category.');
         }
     }
