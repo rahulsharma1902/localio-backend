@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,SiteLanguages,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation, Language};
+use App\Models\{Category,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation, Language};
 use DB;
 use Illuminate\Validation\Rule;
 

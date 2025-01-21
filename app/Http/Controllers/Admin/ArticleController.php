@@ -19,7 +19,7 @@ class ArticleController extends Controller
         // $articles = Article::all();
         $locale = getCurrentLocale(); 
     
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
 
         $articles = Article::with(['articleCategory', 'translations' => function ($query) use ($siteLanguage) {
                                                 $query->where('language_id', $siteLanguage->id);
