@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\FooterContent;
+use App\Models\HeaderContent;
 use App\Models\HomeContent;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -53,9 +55,67 @@ class EnglishSeeder extends Seeder
             'get_button_lable' => 'Get Started'
         ];
 
+
+        $headercontent = [
+            'header_logo' => 'front/img/logo.svg',
+            'header_search_placeholder' => 'Enter a product, category, or what you would like to compare...',
+            'login_btn_lable' => 'Log In',
+            'sign_up_btn_lable' => 'Sign Up',
+            'sign_out_btn_lable' => 'Sign Out',
+            'exclusive' => 'Exclusive',
+            'categories' => 'Categories',
+            'top_rated_product' => 'Top-rated product',
+            'expert_guide' => 'Expert Guide',
+            'help_center' => 'Help Center',
+        ];
+        
+        $footercontent = [
+            'footer_logo' => 'front/img/logo.svg',
+            'facebook_icon' => 'header_logo/1734508523_facebook.svg',
+            'instagram_icon' => 'header_logo/1734508559_Instagram.svg',
+            'twitter_icon' => 'header_logo/1734508611_Twitter.svg',
+            'facebook_url' => 'https://www.facebook.com/login/',
+            'twitter_url' => 'https://www.instagram.com/accounts/login/',
+            'discover' => 'https://x.com/i/flow/login',
+            'categories' => 'Discover',
+            'top_rated_product' => 'Top-rated products',
+            'exclusive_deal' => 'Exclusive deals',
+            'company' => 'Company',
+            'who_we_are' => 'Who we are',
+            'privacy_policy' => 'Privacy policy',
+            'terms_and_conditions' => 'Terms and conditions',
+            'vendors' => 'Vendors',
+            'get_listed' => 'Sign up',
+            'vendor_login' => 'Vendor login',
+            'help' => 'Help',
+            'expert_guides' => 'Expert guides',
+            'help_center' => 'Help Center',
+            'contact' => 'Contact',
+            'follow_us' => 'Follow us',
+            'facebook' => 'Facebook',
+            'instagram' => 'Instagram',
+            'twitter' => 'Twitter',
+        ];
+
         foreach($arr as $meta_key => $meta_value){
             HomeContent::create([
                 'meta_key'  => $meta_key,
+                'meta_value' => $meta_value,
+                'lang_id' => '1'
+            ]);
+        }
+
+        foreach($headercontent as $meta_key=> $meta_value){
+            HeaderContent::create([
+                'meta_key' => $meta_key,
+                'meta_value' => $meta_value,
+                'lang_id' => '1'
+            ]);
+        }
+
+        foreach($footercontent as $meta_key=> $meta_value){
+            FooterContent::create([
+                'meta_key' => $meta_key,
                 'meta_value' => $meta_value,
                 'lang_id' => '1'
             ]);
