@@ -61,7 +61,7 @@ class SpanishSeeder extends Seeder
             HomeContent::create([
                 'meta_key' => $meta_key,
                 'meta_value' => $meta_value,
-                'lang_code' => 'ms-mx'
+                'lang_id' => '18'
             ]);
         }
     }

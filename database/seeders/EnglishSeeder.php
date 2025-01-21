@@ -55,9 +55,9 @@ class EnglishSeeder extends Seeder
 
         foreach($arr as $meta_key => $meta_value){
             HomeContent::create([
-                'meta_key' => $meta_key,
+                'meta_key'  => $meta_key,
                 'meta_value' => $meta_value,
-                'lang_code' => 'en-us'
+                'lang_id' => '1'
             ]);
         }
     }

@@ -1,3 +1,4 @@
+{{-- {{ dd($categories) }} --}}
 @extends('admin_layout.master')
 @section('content')
     <style>

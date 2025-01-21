@@ -14,7 +14,6 @@ class CategoriesController extends Controller
 
     public function index(Request $request) {
         $locale = session()->get('lang_code');
-
         $siteLanguage = Language::where('lang_code', $locale)->first();
         $categories = '';
         if ($siteLanguage) {
@@ -236,7 +235,7 @@ class CategoriesController extends Controller
             $category->update();
             return redirect()->back()->with('success', 'Category update successfully !');
         }
-    }
+    }   
 
     public function remove(Request $request, $id) {
         $category = Category::find($id);

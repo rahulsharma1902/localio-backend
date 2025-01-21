@@ -22,10 +22,10 @@ class CountrySeeder extends Seeder
             DB::table('countries')->insert([
                 'country_code' => $row['country_code'] ?? null,        // Ensure 'iso' is in your CSV
                 'name' => $row['name'] ?? null,      // Ensure 'name' is in your CSV
-                'iso3' => $row['iso3'] ?? null, // iso3 is nullable
-                'phonecode' => $row['dial'] ?? null, // Ensure 'dial' is in your CSV
-                'currency' => $row['currency'] ?? null, // Ensure 'currency' is in your CSV
-                'currency_name' => $row['currency_name'] ?? null // Ensure 'currency' is in your CSV
+                // 'iso3' => $row['iso3'] ?? null, // iso3 is nullable
+                // 'phonecode' => $row['dial'] ?? null, // Ensure 'dial' is in your CSV
+                // 'currency' => $row['currency'] ?? null, // Ensure 'currency' is in your CSV
+                // 'currency_name' => $row['currency_name'] ?? null // Ensure 'currency' is in your CSV
             ]);
         }
     }
