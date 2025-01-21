@@ -95,7 +95,6 @@ class ArticleController extends Controller
             }
         } catch (\Exception $e) {
             // Log the exception error for debugging purposes
-            \Log::error('Error saving article: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while saving the article.');
         }
     }

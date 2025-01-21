@@ -99,10 +99,6 @@ class LanguagesSeeder extends Seeder
         //     ['id' => 82, 'name' => 'Dutch', 'lang_code' => 'es-ar'],
         //     ['id' => 83, 'name' => 'Norwegian', 'lang_code' => 'es-cl']
         // ];
-
-
-
-
         $languages = [
             ['id' => 1, 'name' => 'Argentina - Español', 'lang_code' => 'es-ar'],
             ['id' => 2, 'name' => 'Australia - English', 'lang_code' => 'en-au'],
