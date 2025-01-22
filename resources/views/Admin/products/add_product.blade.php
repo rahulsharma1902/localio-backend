@@ -126,38 +126,44 @@
                         <div id="selected-category-ids-container"></div>
                         <div id="selected-categories"></div>
                         <!-- Product Icon (File Input) -->
-                        <div class="col-md-12 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="product-icon">Product Icon</label>
-                                @if (!isset($product) || $lang == 'en-us')
-                                    <input type="file" class="form-control" name="product_icon" id="product-icon">
-                                @endif
-                                @if (isset($product))
-                                    <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
-                                        alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                                @endif
+
+                        <div class="row mt-3">
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-icon">Product Icon</label>
+                                    @if (!isset($product) || $lang == 'en-us')
+                                        <input type="file" class="form-control" name="product_icon"
+                                            id="product-icon">
+                                    @endif
+                                    @if (isset($product))
+                                        <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
+                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                                    @endif
+                                </div>
+                                @error('product_icon')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('product_icon')
-                                <div class="error text-danger">{{ $message }}</div>
-                            @enderror
+
+                            <!-- Product Image -->
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-image">Product Image</label>
+                                    @if (!isset($product) || $lang == 'en-us')
+                                        <input type="file" class="form-control" name="product_image"
+                                            id="product-image">
+                                    @endif
+                                    @if (isset($product))
+                                        <img src="{{ asset('ProductImage/' . $product->product_image) }}"
+                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                                    @endif
+                                </div>
+                                @error('product_image')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Product Image -->
-                        <div class="col-md-12 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="product-image">Product Image</label>
-                                @if (!isset($product) || $lang == 'en-us')
-                                    <input type="file" class="form-control" name="product_image" id="product-image">
-                                @endif
-                                @if (isset($product))
-                                    <img src="{{ asset('ProductImage/' . $product->product_image) }}"
-                                        alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                                @endif
-                            </div>
-                            @error('product_image')
-                                <div class="error text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
 
                         <!-- Product Link -->
                         <div class="col-md-12 mt-3">
