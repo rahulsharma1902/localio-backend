@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Policy;
-use App\Models\SiteLanguages;
+use App\Models\Language;
 use App\Models\PolicyTranslation;
 use App\Models\Rule;
 use Illuminate\Support\Str;
@@ -21,9 +21,11 @@ class SitePagesController extends Controller
     public function policies()
     {   
         $locale = getCurrentLocale();
+
         $Language = Language::where('lang_code', $locale)->first();
         if($Language == null){
             $Language = Language::where('lang_code', 'en-us')->first();
+
         }
         $policies = Policy::with(['translations' => function ($query) use ($Language) {
             $query->where('language_id', $Language->id);
@@ -41,19 +43,20 @@ class SitePagesController extends Controller
             return redirect()->back()->with('error', 'Policy not found');
         }
     
+
         $siteLanguage = Language::where('lang_code', $locale)->first();
     
         // Check if site language exists
         if ($siteLanguage) {
-            // If the language is not primary, fetch the translation for the policy
-            if ($siteLanguage->primary !== 1) {
+            // // If the language is not primary, fetch the translation for the policy
+            // if ($siteLanguage->primary !== 1) {
                 $policiesTranslation = PolicyTranslation::with('language')->where('policy_id', $id)
                                                          ->where('language_id', $siteLanguage->id)
                                                          ->first();
-            } else {
-                // If it's the primary language or no translation found, use the main policy
-                $policiesTranslation = null;
-            }
+            // } else {
+            //     // If it's the primary language or no translation found, use the main policy
+            //     $policiesTranslation = null;
+            // }
         } 
         else {
             // Handle the case when no matching site language is found
@@ -76,7 +79,9 @@ class SitePagesController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
-        $siteLanguage = Language::where('lang_code', $request->handle)->first();
+
+        $siteLanguage = Language::where('lang_code', $request->lang_code)->first();
+
         if ($siteLanguage) {
   
             // Handle the translation logic
@@ -107,35 +112,33 @@ class SitePagesController extends Controller
                 return redirect()->back()->with('success', 'Policy Translations add successfully');
             }
         }else{
-        //  Check if the request has an id and is not null
-        if ($request->has('id') && $request->id) {
-            // Attempt to find the existing policy
-            $policy = Policy::find($request->id);
-    
-            if (!$policy) {
-                // If the policy is not found, redirect back with an error message
-                return redirect()->back()->with('error', 'Policy not found');
+            //  Check if the request has an id and is not null
+            if ($request->has('id') && $request->id) {
+                // Attempt to find the existing policy
+                $policy = Policy::find($request->id);
+        
+                if (!$policy) {
+                    // If the policy is not found, redirect back with an error message
+                    return redirect()->back()->with('error', 'Policy not found');
+                }
+        
+                // Update the policy with the new data
+                $policy->title = $request->title;
+                $policy->slug  = Str::slug($request->title);
+                $policy->description = $request->description;
+                $policy->save();
+        
+                return redirect()->back()->with('success', 'Policy updated successfully');
             }
     
-            // Update the policy with the new data
+            // If no id, create a new policy
+            $policy = new Policy();
             $policy->title = $request->title;
             $policy->slug  = Str::slug($request->title);
             $policy->description = $request->description;
             $policy->save();
-    
-            // Redirect back with a success message
-            return redirect()->back()->with('success', 'Policy updated successfully');
-        }
-    
-        // If no id, create a new policy
-        $policy = new Policy();
-        $policy->title = $request->title;
-        $policy->slug  = Str::slug($request->title);
-        $policy->description = $request->description;
-        $policy->save();
-    
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Policy added successfully');
+        
+            return redirect()->back()->with('success', 'Policy added successfully');
         }
      
     }
@@ -218,8 +221,10 @@ class SitePagesController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
+
         $lang_code = Language::where('lang_code',$request->handle)->first();
         if($lang_code)
+
         {
             if($request->rule_tr_id){
 
@@ -265,7 +270,6 @@ class SitePagesController extends Controller
             $rule->description = $request->description;
             $rule->save();
     
-            // Redirect back with a success message
             return redirect()->back()->with('success', 'Rule updated successfully');
         }
     
@@ -276,7 +280,7 @@ class SitePagesController extends Controller
         $rule->policy_id  = $request->policy_id;
         $rule->description = $request->description;
         $rule->save();
-        // Redirect back with a success message
+
         return redirect()->back()->with('success', 'Rule added successfully');
     }
     public function ruleRemove($id)
@@ -293,9 +297,11 @@ class SitePagesController extends Controller
     {   
         // $faqs = Faq::all();
         $locale = getCurrentLocale();
+
         $lang_code = Language::where('lang_code',$locale)->first();
         $faqs = Faq::with(['translations' =>function($query) use ($lang_code){
                             $query->where('language_id',$lang_code->id);
+
                     }])->get();
         return view('Admin.faqs.index',compact('faqs'));
     }
@@ -315,7 +321,9 @@ class SitePagesController extends Controller
             return redirect()->back()->with('error','faq not found');
         }
 
+
         $lang_code = Language::where('lang_code',$locale)->first();
+
 
         if($lang_code && $lang_code->primary !== 1)
         {
@@ -332,14 +340,18 @@ class SitePagesController extends Controller
             'question' => 'required',
             'answer'    => 'required',
         ]);
+
         $lang_code = Language::where('lang_ocde',$request->handle)->first();
+
 
         if($lang_code)
         {
             $faqTranslation = isset($request->faq_tr_id) ? FaqTranslation::find($request->faq_tr_id) : new FaqTranslation;
             $faqTranslation->faq_id = $request->id;
+
             $faqTranslation->language_id = $lang_code->id;
             $faqTranslation->question       = $request->question;
+
             $faqTranslation->answer  = $request->answer;
             $faqTranslation->save();  // Save the translation
             return redirect()->back()->with('success', isset($request->faq_tr_id) ? 'FAQ translation successfully updated' : 'FAQ translation successfully added');

@@ -14,10 +14,12 @@ class CategoriesController extends Controller
 
     public function index(Request $request) {
         $locale = session()->get('lang_code');
-        $lang_code = Language::where('lang_code', $locale)->first();
-        $categories = '';
-        if ($lang_code) {
-            $categories = CategoryTranslation::where('language_id',$lang_code->id)->get();  
+
+        $siteLanguage = Language::where('lang_code', $locale)->first();
+        $categories = collect();
+        if ($siteLanguage) {
+            $categories = CategoryTranslation::where('language_id',$siteLanguage->id)->get();  
+
         } 
         return view('Admin.categories.index', compact('categories'));
     }
@@ -65,13 +67,13 @@ class CategoriesController extends Controller
             $category->image = $featuredImageName;    
         }
         if ($request->hasFile('category_icon')) {
-            $featuredImage = $request->file('category_icon');
-            $extension = $featuredImage->getClientOriginalExtension();
-            if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
+            $featuredIcon = $request->file('category_icon');
+            $IconExtension = $featuredIcon->getClientOriginalExtension();
+            if (!in_array(strtolower($IconExtension), ['png', 'jpg', 'svg'])) {
                 return redirect()->back()->with('error', 'Only PNG, JPG, and SVG icons are allowed.');
             }
-            $featuredIconName = $request->slug.rand(0,1000).time().'.'.$extension;;
-            $featuredImage->move(public_path().'/CategoryIcon/',$featuredIconName);
+            $featuredIconName = $request->slug.rand(0,1000).time().'.'.$IconExtension;;
+            $featuredIcon->move(public_path().'/CategoryIcon/',$featuredIconName);
             
             $category->category_icon = $featuredIconName;    
         }
@@ -195,9 +197,10 @@ class CategoriesController extends Controller
 
 
     public function updateProcc(Request $request) {
-        $request->validate([
-            'name' => 'unique:category_translations,name,'. $request->id,
-        ]);
+        // $request->validate([
+        //     'name' => 'unique:category_translations,name,'. $request->id,
+        //     'slug' => 'unique:category_translations,slug,'. $request->id,
+        // ]);
         $locale = getCurrentLocale();
         $lang_code = Language::where('lang_code', $locale)->first();
         $category_id = CategoryTranslation::where('id',$request->id)->value('category_id');
@@ -225,11 +228,11 @@ class CategoriesController extends Controller
             }
 
             if ($request->hasFile('category_icon')) {
-                $featuredImage = $request->file('category_icon');
-                $extension = $featuredImage->getClientOriginalExtension();
-                $featuredIconName = $request->slug.rand(0,1000).time().'.'.$extension;;
-                $featuredImage->move(public_path().'/CategoryIcon/',$featuredIconName);
-                $category->category_icon = $featuredImage;
+                $featuredIcon = $request->file('category_icon');
+                $IconExtension = $featuredIcon->getClientOriginalExtension();
+                $featuredIconName = $request->slug.rand(0,1000).time().'.'.$IconExtension;;
+                $featuredIcon->move(public_path().'/CategoryIcon/',$featuredIconName);
+                $category->category_icon = $featuredIconName;
             }
 
             $category->update();

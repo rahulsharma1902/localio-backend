@@ -16,6 +16,6 @@ class FaqTranslation extends Model
     // Define the relationship with the language
     public function language()
     {
-        return $this->belongsTo(SiteLanguages::class,);
+        return $this->belongsTo(Language::class,'language_id');
     }
 }

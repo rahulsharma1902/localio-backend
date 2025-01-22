@@ -5,6 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Category;
 use App\Models\Language;
+use App\Models\Filter;
+use App\Models\FilterTranslation;
+use App\Models\FilterOption;
+use App\Models\FilterOptionTranslation;
 use App\Models\CategoryTranslation;
 use Illuminate\Support\Str;
 
@@ -38,10 +42,10 @@ class TranslateWebsiteContent extends Command
             ->where('is_valid_language_code', 1)
             ->get();
     
+        //:::::::::::::: Category Translation :::::::::://
         $categories = Category::all();
     
         foreach ($categories as $category) {
-            saveLog($category->name);
         
             foreach ($languages as $language) {
               $translationExists = CategoryTranslation::where([['category_id',$category->id],['language_id',$language->id]])->exists();
@@ -57,6 +61,49 @@ class TranslateWebsiteContent extends Command
                         'name' => $translatedName,
                         'description' => $translatedDescription,
                         'slug' => Str::slug($translatedName), // Generate slug dynamically
+                    ]);
+                }
+            }
+        }
+
+        //:::::::::::::: Filter Translation :::::::::://
+        $filters = Filter::all();
+    
+        foreach ($filters as $filter) {
+        
+            foreach ($languages as $language) {
+              $ftranslationExists = FilterTranslation::where([['filter_id',$filter->id],['language_id',$language->id]])->exists();
+              if (!$ftranslationExists) {
+                    // saveLog($language->id);
+            
+                    $ftranslatedName = website_translator($filter->name, $language->lang_code); 
+            
+                    FilterTranslation::create([
+                        'filter_id' => $filter->id,
+                        'language_id' => $language->id,
+                        'name' => $ftranslatedName,
+                        'slug' => Str::slug($ftranslatedName), 
+                    ]);
+                }
+            }
+        }
+
+        //:::::::::::::: Filter Option Translation :::::::::://
+        $filterOptions = FilterOption::all();
+    
+        foreach ($filterOptions as $option) {
+        
+            foreach ($languages as $language) {
+              $fotranslationExists = FilterOptionTranslation::where([['filter_option_id',$option->id],['language_id',$language->id]])->exists();
+              if (!$fotranslationExists) {
+                    // saveLog($language->id);
+            
+                    $fotranslatedName = website_translator($option->name, $language->lang_code); 
+            
+                    FilterOptionTranslation::create([
+                        'filter_option_id' => $option->id,
+                        'language_id' => $language->id,
+                        'name' => $fotranslatedName,
                     ]);
                 }
             }

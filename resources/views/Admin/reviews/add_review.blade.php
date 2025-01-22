@@ -34,11 +34,10 @@
                             <div class="form-group">
                                 <label class="form-label">Products</label>
                                 <div class="form-control-wrap">
-                                    @if ($locale === 'en') 
+                                    @if ($locale === 'en-us') 
                                         <select class="form-select js-select2" name="product_id" data-search="on">
                                             @foreach($products as $product)
-                                                <option value="{{ $product->id }}" > {{ $product->name }}
-                                                </option>
+                                                <option value="{{ $product->id }}" > {{ $product->name }}</option>
                                             @endforeach
                                         </select>
                                     @endif

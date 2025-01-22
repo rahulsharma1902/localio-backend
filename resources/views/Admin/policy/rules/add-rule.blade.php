@@ -34,12 +34,11 @@
                             <div class="form-group">
                                 <label class="form-label">Policies</label>
                                 <div class="form-control-wrap">
-                                    @if ($locale === 'en')  <!-- If the current language is English -->
+                                    @if ($locale == 'en-us')  <!-- If the current language is English -->
                                         <select class="form-select js-select2" name="policy_id" data-search="on">
                                             <!-- <option disabled>Select Policies</option> -->
                                             @foreach($policies as $policy)
-                                                <option value="{{ $policy->id }}" > {{ $policy->title }}
-                                                </option>
+                                                <option value="{{ $policy->id }}" > {{ $policy->title }}</option>
                                             @endforeach
                                         </select>
                                     @endif
@@ -51,8 +50,8 @@
                             </div>
                         </div>
                         @else
-                        <div class="form-control-wrap">
-                                @if ($locale === 'en')  <!-- If the current language is English -->
+                            <div class="form-control-wrap">
+                                @if ($locale === 'en-us')  <!-- If the current language is English -->
                                     <select class="form-select js-select2" name="policy_id" data-search="on">
                                         <option disabled>Select Policies</option>
                                         @foreach($policies as $policy)
@@ -82,9 +81,9 @@
                         </div>
 
                         @if($ruleTranslation->language ?? '')
-                            <input type="hidden" name="handle" value="{{ $ruleTranslation->language->handle ?? '' }}">
+                            <input type="hidden" name="lang_code" value="{{ $ruleTranslation->language->lang_code ?? '' }}">
                         @else
-                            <input type="hidden" class="form-control" id="handle" name="handle" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
+                            <input type="hidden" class="form-control" id="lang_code" name="lang_code" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
                         @endif
                         <input type="hidden" name="rule_tr_id" value="{{ $ruleTranslation->id ?? '' }}">
                     </div>

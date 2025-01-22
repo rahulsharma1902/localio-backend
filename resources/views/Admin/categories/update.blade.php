@@ -114,9 +114,9 @@
                         </div>
                         {{-- @endif
                         @endif --}}
-                        @if ($category)
-                            @if ($category->category_icon)
-                                <img src="{{ asset('CategoryIcon') ?? '' }}/{{ $category->category_icon ?? '' }}"
+                        @if ($defaultCategory)
+                            @if ($defaultCategory->category_icon)
+                                <img src="{{ asset('CategoryIcon') ?? '' }}/{{ $defaultCategory->category_icon ?? '' }}"
                                     alt="not image found" style="width: 50px; height: 50px; border-radius: 5px";>
                             @endif
                         @endif

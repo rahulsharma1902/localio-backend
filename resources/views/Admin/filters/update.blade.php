@@ -36,7 +36,7 @@
                     @if( $filter->translations->first()->language_id ?? '' )
                         <input type="hidden" class="form-control" id="language_id" name="language_id" value="{{  $filter->translations->first()->language_id ?? '' }}" />
                     @else
-                        <input type="hidden" class="form-control" id="handle" name="handle" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
+                        <input type="hidden" class="form-control" id="lang_code" name="lang_code" value="{{ Cookie::get('language_code', config('app.locale')) }}" />
                     @endif
                     <!-- Categories Selection -->
                     <div class="col-md-6">
@@ -81,7 +81,7 @@
                             @endforeach
                         </div>
                         @if($languageRole === 'global')
-                        <button type="button" id="add-option" class="btn btn-primary mt-3">Add More Options</button>
+                            <button type="button" id="add-option" class="btn btn-primary mt-3">Add More Options</button>
                         @endif
                         <sup>
                             @error('options')

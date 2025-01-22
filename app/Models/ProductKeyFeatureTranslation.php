@@ -21,6 +21,6 @@ class ProductKeyFeatureTranslation extends Model
     }
     public function language()
     {
-        return $this->belongsTo(SiteLanguage::class, 'language_id');
+        return $this->belongsTo(Language::class, 'language_id');
     }
 }
