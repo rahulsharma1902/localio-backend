@@ -22,7 +22,6 @@ return new class extends Migration
             $table->timestamps(); // Created at and Updated at timestamps
 
             // Foreign key constraint (assuming the category table exists)
-            $table->foreign('category_id')->references('id')->on('article_categories')->onDelete('cascade');
         });
     }
     /**

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_key_feature_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_key_id')->constrained('product_key_features')->onDelete('cascade');
-            $table->foreignId('language_id')->constrained('site_languages')->onDelete('cascade');
+            $table->unsignedBigInteger('product_key_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('language_id'); // Foreign key column without constraint
             $table->string('feature');
             $table->string('status')->default('active');
             $table->timestamps();

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->foreignId('language_id')->constrained('site_languages')->onDelete('cascade');
+            $table->unsignedBigInteger('product_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('language_id'); // Foreign key column without constraint
             $table->string('name');
             $table->string('slug');
             $table->longText('description');
