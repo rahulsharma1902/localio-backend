@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('faq_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('faq_id')->constrained('faqs')->onDelete('cascade'); // Foreign key to faq table
-            $table->foreignId('language_id')->constrained('site_languages')->onDelete('cascade');
+            $table->unsignedBigInteger('faq_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('language_id'); // Foreign key column without constraint
             $table->string('question')->nullable();
             $table->longText('answer')->nullable();
             $table->timestamps();
