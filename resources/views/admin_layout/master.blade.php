@@ -77,7 +77,7 @@
                                 <li class="nk-menu-item has-sub">
                                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                                 <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                <span class="nk-menu-text">Products Section</span>
+                                                <span class="nk-menu-text">Products</span>
                                             </a>
                                             <ul class="nk-menu-sub">
                                                 <li class="nk-menu-item">
