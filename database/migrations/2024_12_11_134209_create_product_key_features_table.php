@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_key_features', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Links to the products table
+            $table->unsignedBigInteger('product_id'); // Foreign key column without constraint
             $table->string('feature'); // Stores a single feature
             $table->timestamps();
         });

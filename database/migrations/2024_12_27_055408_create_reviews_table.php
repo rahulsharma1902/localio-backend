@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('product_id'); // Foreign key column without constraint
             $table->longText('description');
             $table->unsignedTinyInteger('rating');
             $table->string('lang_code')->default('en'); 

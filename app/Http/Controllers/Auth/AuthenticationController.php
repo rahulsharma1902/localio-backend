@@ -31,7 +31,6 @@ class AuthenticationController extends Controller
     }
     public function loginProcc(Request $request)
     {
-        // dd($request->all());
         $lang = Session::get('current_lang');
         $request->validate([
             'email' => 'required|email',
@@ -47,7 +46,7 @@ class AuthenticationController extends Controller
                 } else {
                     return redirect()->route('home')->with('success', 'Successfully loggedin');
                 }
-            } else {
+            } else { 
                 Auth::logout();
                 return redirect()->route('login')->with('loginerror', 'failed! Something went wrong');
             }

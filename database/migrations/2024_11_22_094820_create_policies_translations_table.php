@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('policies_translations', function (Blueprint $table) {
             $table->id(); // auto-incrementing ID field
-            $table->foreignId('policy_id')->constrained('policies')->onDelete('cascade'); // Foreign key to policies table
-            $table->foreignId('language_id')->constrained('site_languages')->onDelete('cascade'); // Foreign key to site_languages table
+            $table->unsignedBigInteger('policy_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('language_id'); // Foreign key column without constraint
             $table->string('title'); // Title of the policy in the selected language
             $table->longText('description'); // Description of the policy in the selected language
             $table->enum('status', ['active', 'inactive'])->default('active'); // Status field to indicate whether the translation is active

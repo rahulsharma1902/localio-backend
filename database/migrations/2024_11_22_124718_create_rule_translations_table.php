@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('rule_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rule_id')->constrained('rules')->onDelete('cascade'); // Foreign key to policies table
-            $table->foreignId('language_id')->constrained('site_languages')->onDelete('cascade'); // Foreign key to site_languages table
-            $table->string('title'); // Title of the policy in the selected language
+            $table->unsignedBigInteger('rule_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('language_id'); // Foreign key column without constraint
+            $table->string('title'); // Title of the rule in the selected language
             $table->string('slug')->nullable();
-            $table->longText('description'); // Description of the policy in the selected language
+            $table->longText('description'); // Description of the rule in the selected language
             $table->enum('status', ['active', 'inactive'])->default('active'); // Status field to indicate whether the translation is active
             $table->timestamps();
         });

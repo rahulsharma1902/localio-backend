@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('category_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('category_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('product_id'); // Foreign key column without constraint
             $table->timestamps();
         });
     }

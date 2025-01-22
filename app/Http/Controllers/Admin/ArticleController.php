@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use Illuminate\Support\Str;
-use App\Models\SiteLanguages;
 use App\Models\ArticleCategoryTranslation;
 use App\Models\ArticleTranslation;
+use App\Models\Language;
+
 class ArticleController extends Controller
 {
     public function index()
@@ -17,10 +18,10 @@ class ArticleController extends Controller
         // $articles = Article::all();
         $locale = getCurrentLocale(); 
     
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
 
-        $articles = Article::with(['articleCategory', 'translations' => function ($query) use ($siteLanguage) {
-                                                $query->where('language_id', $siteLanguage->id);
+        $articles = Article::with(['articleCategory', 'translations' => function ($query) use ($lang_code) {
+                                                $query->where('language_id', $lang_code->id);
                                             }])->get();                    
         return view('Admin.article.index',compact('articles'));
     }
@@ -30,12 +31,12 @@ class ArticleController extends Controller
         $article = Article::with('articleCategory')->findOrFail($id);
         $categories = ArticleCategory::all();
         $locale = getCurrentLocale();
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
         if (!$article) {
             return redirect()->back()->with('error', 'Article not found');
         }
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
-            $articleTranslation = ArticleTranslation::with('language')->where('article_id',$id)->where('language_id',$siteLanguage->id)->first();
+        if ($lang_code) {
+            $articleTranslation = ArticleTranslation::with('language')->where('article_id',$id)->where('language_id',$lang_code->id)->first();
         } else {
             $articleTranslation = Article::where('id',$id)->first();
         }
@@ -93,7 +94,6 @@ class ArticleController extends Controller
             }
         } catch (\Exception $e) {
             // Log the exception error for debugging purposes
-            \Log::error('Error saving article: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while saving the article.');
         }
     }
@@ -103,9 +103,9 @@ class ArticleController extends Controller
     public function articleUpdateProcc(Request $request)
     {   
    
-        $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
+        $lang_code = Language::where('lang_code', $request->lang_code)->first();
  
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
+        if ($lang_code) {
             $request->validate([
                 'name' => 'required' ,
                 'description' => 'required',
@@ -118,7 +118,7 @@ class ArticleController extends Controller
                 }
             }else{
                     $existingTranslation = ArticleTranslation::where('id', $request->article_tr_id)
-                    ->where('language_id', $siteLanguage->id)
+                    ->where('language_id', $lang_code->id)
                     ->first();
 
                 if ($existingTranslation) {
@@ -126,7 +126,7 @@ class ArticleController extends Controller
                 } else {
                     $article = new ArticleTranslation;
                     $article->article_id = $request->article_id;
-                    $article->language_id = $siteLanguage->id;
+                    $article->language_id = $lang_code->id;
                
                 }
             }
@@ -182,10 +182,10 @@ class ArticleController extends Controller
     {
         $locale = getCurrentLocale(); 
     
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
 
-        $articleCategory = ArticleCategory::with(['translations' => function ($query) use ($siteLanguage) {
-                                                $query->where('language_id', $siteLanguage->id);
+        $articleCategory = ArticleCategory::with(['translations' => function ($query) use ($lang_code) {
+                                                $query->where('language_id', $lang_code->id);
                                             }])->get();
         return view('Admin.article.article_categories',compact('articleCategory'));
 
@@ -237,30 +237,31 @@ class ArticleController extends Controller
             }
         } catch (\Exception $e) {
             // Log the exception error for debugging purposes
-            \Log::error('Error saving Article Category: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while saving the Article Category.');
         }
     }
     public function articleCategoryEdit($id)
     {
         $locale = getCurrentLocale();
-        $siteLanguage = SiteLanguages::where('handle', $locale)->first();
+        $siteLanguage = Language::where('lang_code', $locale)->first();
         $articleCategory = ArticleCategory::find($id);
 
         if (!$articleCategory) {
             return redirect()->back()->with('error', 'Article Category not found');
         }
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
+        if ($siteLanguage) {
             $articleTranslationCategory = ArticleCategoryTranslation::with('language')->where('article_category_id',$id)->where('language_id',$siteLanguage->id)->first();
         } else {
             $articleTranslationCategory = ArticleCategory::where('id',$id)->first();
         }
         return view('Admin.article.article_category_update', compact('articleCategory', 'articleTranslationCategory'));
     }
+    
     public function articleCategoryUpdate(Request $request) 
     {   
-        $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
+        // dd($request->all());
+        $siteLanguage = Language::where('lang_code', $request->lang_code)->first();
+        if ($siteLanguage) {
             $request->validate([
                 'name' => 'required' ,
                 'description' => 'required',

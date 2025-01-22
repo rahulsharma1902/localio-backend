@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Models\{Category,Language,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
+
 use DB;
 use Illuminate\Validation\Rule;
 
@@ -12,9 +14,7 @@ class FilterController extends Controller
 {
     //
     public function index(Request $request){
-        // $locale = getCurrentLocale(); 
         $getCurrentSiteLanguage = getCurrentSiteLanguage();
-
         $filters = Filter::with([
             'options.translations' => function ($query) use ($getCurrentSiteLanguage) {
                 $query->where('language_id', $getCurrentSiteLanguage->id);
@@ -26,9 +26,8 @@ class FilterController extends Controller
                 $query->where('language_id', $getCurrentSiteLanguage->id);
             },
         ])->get();
-      
-        return view('Admin.filters.index',compact('filters'));
 
+        return view('Admin.filters.index',compact('filters'));
     }
     public function add(Request $request){
         $categories = Category::where('status','active')->get();
@@ -105,14 +104,6 @@ class FilterController extends Controller
 
         $defaultFilter = Filter::where('id',$filterId)->first();
         $categories = Category::where('status','active')->get();
-
-        // if ($getCurrentSiteLanguage && $getCurrentSiteLanguage->primary !== 1) {
-        //     $filter = FilterTranslation::with('language','category')->where('id',$filterId)->where('language_id',$getCurrentSiteLanguage->id)->first();
-
-        // } else {
-        //     $filter = Filter::where('id',$filterId)->first();
-
-        // }
         $filter = Filter::where('id',$filterId)->with([
             'options.translations' => function ($query) use ($getCurrentSiteLanguage) {
                 $query->where('language_id', $getCurrentSiteLanguage->id);
@@ -125,7 +116,6 @@ class FilterController extends Controller
             },
         ])->first();
 
-
         return view('Admin.filters.update',compact('filter','defaultFilter','categories','languageRole'));
     }
 
@@ -135,13 +125,14 @@ class FilterController extends Controller
  
         // Find the site language
         if ($request->language_id) {
-            $siteLanguage = Language::where('id', $request->language_id)->first();
+
+            $lang_code = Language::where('id', $request->language_id)->first();
         } else {
-            $siteLanguage = Language::where('lang_code', $request->lang_code)->first();
+            $lang_code = Language::where('lang_code', $request->lang_code)->first();
         }
     
         // Check if the language is a secondary language (not primary)
-        if ($siteLanguage ) {
+        if ($lang_code) {
             $request->validate([
                 'name' => 'required',
                 'slug' => 'required',
@@ -152,7 +143,7 @@ class FilterController extends Controller
             $filter = $request->id
                 ? FilterTranslation::find($request->id)
                 : FilterTranslation::where('filter_id', $request->filter_id)
-                    ->where('language_id', $siteLanguage->id)
+                    ->where('language_id', $lang_code->id)
                     ->first() ?? new FilterTranslation;
     
             if (!$filter) {
@@ -160,23 +151,20 @@ class FilterController extends Controller
             }
     
             $filter->filter_id = $request->filter_id;
-            $filter->language_id = $siteLanguage->id;
+            $filter->language_id = $lang_code->id;
             $filter->name = $request->name;
             $filter->slug = $request->slug;
             $filter->save();
     
             foreach ($request->options as $optionKey => $optionValue) {
-
                 $filterOption = FilterOptionTranslation::firstOrNew([
                     'filter_option_id' => $optionKey,
-                    'language_id' => $siteLanguage->id,
+                    'language_id' => $lang_code->id,
                 ]);
                 $filterOption->name = $optionValue;
                 $filterOption->save();
             }
         } 
-        
-        // die();
         else {
             // Validation for primary language filters
             $request->validate([
@@ -193,7 +181,6 @@ class FilterController extends Controller
     
             try {
                 $filter = Filter::findOrFail($request->id);
-    
                 $filter->name = $request->name;
                 $filter->slug = $request->slug;
                 $filter->category_id = $request->category_id;
@@ -234,6 +221,7 @@ class FilterController extends Controller
                 DB::rollBack();
                return redirect()->back()->with('error' , 'An error occurred: ');
             }
+
         }
     
         return redirect()->back()->with('success', 'Filter updated successfully.');

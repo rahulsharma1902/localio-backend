@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('rules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('policy_id')->constrained('policies')->onDelete('cascade'); 
+            $table->unsignedBigInteger('policy_id'); // Foreign key column without constraint
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
             $table->longText('description')->nullable();
