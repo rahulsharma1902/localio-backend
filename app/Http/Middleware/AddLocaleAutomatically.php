@@ -14,18 +14,12 @@ class AddLocaleAutomatically
 {
     public function handle(Request $request, Closure $next)
     {
-        // Get the list of available languages
         $languages = getLanguages(true);
-    
-        // Get the current route and the locale parameter
         $currentRoute = $request->route();
         $locale = $request->route('locale');
-
-        // Check if the locale is not set or not in the allowed languages
         if (!$locale || !in_array($locale, $languages)) {
             return redirect()->route($currentRoute->getName(), ['locale' => 'en-us']);
         }
-        // Set the application's locale
         app()->setLocale($locale);
         return $next($request);
     }

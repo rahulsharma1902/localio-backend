@@ -19,9 +19,7 @@ class ViewController extends Controller
 
     public function home()
     {
-     
         $langCode = getCurrentLocale(); 
-
         $lang_id = getCurrentLanguageID();
        
         $homeContents = HomeContent::where('lang_id', $lang_id)->pluck('meta_value', 'meta_key');
@@ -56,7 +54,7 @@ class ViewController extends Controller
             'lang_code' => $languageRecord->lang_code,
             'lang_name' => $languageRecord->name,
             'lang_id' => $languageRecord->id,
-        ];
+        ];  
                 
 
         storePrefrences($userDetails);

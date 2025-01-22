@@ -58,7 +58,6 @@ class SpanishSeeder extends Seeder
             'get_button_lable' => 'Comenzar'
         ];
 
-
         foreach($arr as $meta_key=> $meta_value){
             HomeContent::create([
                 'meta_key' => $meta_key,
@@ -107,7 +106,6 @@ class SpanishSeeder extends Seeder
             'instagram' => 'Instagram',
             'twitter' => 'Twitter',
         ];
-
 
 
         foreach($headercontent as $meta_key=> $meta_value){

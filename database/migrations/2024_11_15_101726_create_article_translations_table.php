@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('article_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('article_id')->constrained('articles')->onDelete('cascade');
-            $table->foreignId('language_id')->constrained('site_languages')->onDelete('cascade');
+            $table->unsignedBigInteger('article_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('language_id'); // Foreign key column without constraint
             $table->string('name');
             $table->string('slug')->unique();
             $table->longText('description')->nullable();
@@ -23,9 +23,8 @@ return new class extends Migration
             // Manually define the created_at and updated_at columns
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
+            
     
-            // Ensure unique translation per article per language
-            $table->unique(['article_id', 'language_id']);
         });
     }
     /**

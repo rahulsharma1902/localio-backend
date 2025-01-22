@@ -31,8 +31,8 @@ return new class extends Migration
     if (!Schema::hasTable('article_category_translations')) {
         Schema::create('article_category_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('article_category_id')->constrained('article_categories')->onDelete('cascade');
-            $table->foreignId('language_id')->constrained('site_languages')->onDelete('cascade');
+            $table->unsignedBigInteger('article_category_id'); // Foreign key column without constraint
+            $table->unsignedBigInteger('language_id'); // Foreign key column without constraint
             $table->string('name');
             $table->string('slug')->unique();
             $table->longText('description')->nullable();

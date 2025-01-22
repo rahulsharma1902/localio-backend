@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('meta_vendors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key to users table
+            $table->unsignedBigInteger('user_id'); // Foreign key column without constraint
             $table->string('job_title');  // Job title
             $table->string('company_name');  // Company name
             $table->string('company_size');  // Company size

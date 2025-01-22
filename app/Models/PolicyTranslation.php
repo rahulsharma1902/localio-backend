@@ -22,6 +22,6 @@ class PolicyTranslation extends Model
     }
     public function language()
     {
-        return $this->belongsTo(SiteLanguages::class, 'language_id');
+        return $this->belongsTo(Language::class, 'language_id');
     }
 }
