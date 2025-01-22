@@ -48,9 +48,11 @@
                             <input type="hidden" name="lang_code"
                                 value="{{ $productTranslation->language->lang_code ?? '' }}">
                         @else
+                            {{-- {{ dd('hello') }} --}}
                             <input type="hidden" class="form-control" id="language_id" name="lang_code"
-                                value="{{ Cookie::get('language_code', config('app.locale')) }}" />
+                                value="{{ getCurrentLanguageID() }}" />
                         @endif
+                        {{-- {{ dd('hello') }} --}}
                         <input type="hidden" name="product_tr_id" value="{{ $productTranslation->id ?? '' }}">
 
                         <!-- New Input Fields -->

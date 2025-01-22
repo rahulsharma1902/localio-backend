@@ -16,9 +16,8 @@ class AdminProductController extends Controller
     
     public function products()
     {
-        // $products = Product::with(['translations', 'keyFeatures.translations', 'categories'])->get();
-        $locale = getCurrentLocale();
-        $siteLanguage = Language::where('lang_code',$locale)->first();
+        $lang_id = getCurrentLanguageID();
+        $siteLanguage = Language::where('id',$lang_id)->first();
         $products = Product::with([
                                 'translations' => function($query) use($siteLanguage) {
                                     $query->where('language_id', $siteLanguage->id);
@@ -40,6 +39,7 @@ class AdminProductController extends Controller
     }
     public function productAddProccess(Request $request)
     {   
+        // dd($request->all());
         $keyFeatures = array_filter($request->input('key_features'), function ($value) {
             return !empty($value);
         });
@@ -55,39 +55,14 @@ class AdminProductController extends Controller
             'product_link' => 'required|url',
             'key_features' => 'required|array|min:1',
         ]);
-        $lang_code = Language::where('lang_code',$request->lang_code)->first();
-        if(!$lang_code)
+        $language = Language::where('id',$request->lang_code)->first();
+        if(!$language)
         {
             return redirect()->back()->with('error','current langauge not found');
         }
 
-        if($lang_code)
+        if($language)
         {
-            $productTranslation = isset($request->product_tr_id) ? ProductTranslation::find($request->product_tr_id) : new ProductTranslation();
-            $productTranslation->name = $request->name;
-            $productTranslation->slug = Str::slug($request->name);
-            $productTranslation->description = $request->description;
-            $productTranslation->product_id  = $request->id;
-            $productTranslation->language_id  = $lang_code->id;
-            $productTranslation->save();
-            $keyFeatures = $request->key_features; 
-            foreach ($keyFeatures as $keyFeatureId => $translatedFeature) {
-                $feature = ProductKeyFeature::find($keyFeatureId);
-                if ($feature) {
-                    $keyFeatureTranslation = ProductKeyFeatureTranslation::updateOrCreate(
-                        [
-                            'product_key_id' => $keyFeatureId,
-                            'language_id' => $lang_code->id,
-                        ],
-                        [
-                            'feature' => $translatedFeature,
-                        ]
-                    );
-                }
-            }
-            return redirect()->route('products')->with('success', 'Product translation added successfully');
-
-        }else{
             $product = isset($request->id) ?  product::find($request->id) : new Product;
             $product->name = $request->name;
             $product->slug = Str::slug($request->name);
@@ -109,57 +84,19 @@ class AdminProductController extends Controller
             }
             $product->product_link = $request->product_link;
             $product->save();
-
-            $lang_id = getCurrentLanguageID();
-
+            $language_id = Language::where('lang_code','en-us')->value('id');
             $productTranslation =  new ProductTranslation();
             $productTranslation->name = $request->name;
             $productTranslation->slug = Str::slug($request->name);
             $productTranslation->description = $request->description;
             $productTranslation->product_id  = $product->id;
-            $productTranslation->language_id  = $lang_id;
+            $productTranslation->language_id  = $language_id;
             $productTranslation->save();
-    
-            $productCategorys = $request->product_category;
-            $selectedCategories  = $request->selected_categories;
 
-            $product->categories()->sync($selectedCategories ?: $productCategorys);
-            // if (empty($selectedCategories)) {
-
-            //     $product->categories()->sync($productCategorys);
-            // } elseif (!empty($request->selected_categories)) {
-
-            //     $product->categories()->sync($request->selected_categories);
-            // } else {
-
-            //     $product->categories()->sync([]);
-            // }
-    
-            $product->keyFeatures()->delete(); 
-            foreach ($keyFeatures as $feature) {
-                $productkeyfeature = new ProductKeyFeature();
-                
-                $productkeyfeature->product_id = $product->id;
-                $productkeyfeature->feature = $feature;
-                $productkeyfeature->save();
-            
-                if($productkeyfeature){
-                    $keyFeatureTranslation = ProductKeyFeatureTranslation::Create(
-                        [
-                            'product_key_id' => $productkeyfeature->id,
-                            'language_id' => $lang_id,
-                        ],
-                        [
-                            'feature' => $feature,
-                        ]
-                    );
-                }
-                
-            }
-            $message = isset($request->id) ? 'Product updated successfully' : 'Product added successfully';
-            return redirect()->route('products')->with('success', $message);
+            return redirect()->route('products')->with('success', 'Product  added successfully');
+        }else{
+            return redirect()->route('products')->with('error', 'something went wrong !');
         }
-        
     }
     public function productEdit($id)
     {   
@@ -190,7 +127,6 @@ class AdminProductController extends Controller
         } else {
             $productTranslation = Product::with('keyFeatures','categories')->find($id);
         }
-
         return view('Admin.products.add_product',compact('product','categories','productTranslation','siteLanguage'));
     }
 
