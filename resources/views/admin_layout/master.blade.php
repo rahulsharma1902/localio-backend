@@ -115,20 +115,13 @@
                                         <span class="nk-menu-text">Pages</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item ">
-                                            <a href="{{ url('/admin-dashboard/header-page') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">Header Page</span></a>
-                                        </li>
+                                       
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/home-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">home Page</span></a>
                                         </li>
 
-                                        <li class="nk-menu-item ">
-                                            <a href="{{ url('/admin-dashboard/footer-page') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">Footer Page</span></a>
-                                        </li>
 
 
                                         <li class="nk-menu-item ">
@@ -142,6 +135,27 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Top Product
                                                     Page</span></a>
                                         </li>
+                                    </ul>
+                                </li>
+
+                                <!-- Globals  -->
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
+                                        <span class="nk-menu-text">Global Section</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ url('/admin-dashboard/header-page') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Header</span></a>
+                                        </li>
+            
+
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ url('/admin-dashboard/footer-page') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Footer</span></a>
+                                        </li>
+
                                     </ul>
                                 </li>
 
