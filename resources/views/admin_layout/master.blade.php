@@ -303,7 +303,7 @@
                                             <a href="#"
                                                 class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                                 data-bs-toggle="dropdown">
-                                                {{ Cookie::get('lang_code', config('app.locale')) }}
+                                                {{ Cookie::get('name', config('app.locale')) }}
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
@@ -311,8 +311,8 @@
                                                         <li>
                                                             <a
                                                                 href="{{ url('set-site-active-language/' . $languages->lang_code) }}">
-                                                                <span>{{ $languages->name }} -
-                                                                    {{ $languages->lang_code }}</span>
+                                                                <span>{{ $languages->name }}
+                                                                    <!-- {{ $languages->lang_code }}</span> -->
                                                             </a>
                                                         </li>
                                                     @endforeach
