@@ -34,15 +34,14 @@
                             <div class="form-group">
                                 <label class="form-label">Products</label>
                                 <div class="form-control-wrap">
-                                    @if ($locale === 'en') 
-                                    <select name="product_id">
-    @foreach($products as $product)
-        <option value="{{ $product->id }}" {{ $product->id == $review->product_id ? 'selected' : '' }}>
-            {{ $product->name }}
-        </option>
-    @endforeach
-</select>
-
+                                    @if ($locale === 'en-us') 
+                                        <select name="product_id">
+                                            @foreach($products as $product)
+                                                <option value="{{ $product->id }}" {{ $product->id == $review->product_id ? 'selected' : '' }}>
+                                                    {{ $product->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     @endif
                                 </div>
 
@@ -56,7 +55,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
                                 <div class="form-control-wrap">
-                                <textarea name="description">{{ old('description', $review->description) }}</textarea>
+                                    <textarea name="description">{{ old('description', $review->description) }}</textarea>
                                 </div>
                                 @error('description')
                                     <div class="error text-danger">{{ $message }}</div>

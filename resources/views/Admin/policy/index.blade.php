@@ -73,7 +73,7 @@
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{ url('admin-dashboard/policy-edit') ?? '' }}/{{ $policy->id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
-                                                        @if($locale == 'en')
+                                                        @if($locale == 'en-us')
                                                             <li><a href="{{ url('admin-dashboard/policy-remove') ?? '' }}/{{ $policy->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a></li>
                                                         @endif
                                                     </ul>

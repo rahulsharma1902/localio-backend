@@ -19,4 +19,13 @@ class Language extends Model
     {
         return $this->hasOne(Country::class, 'id', 'country_id');
     }
+
+    public function policyTranslations()
+    {
+        return $this->hasMany(PolicyTranslation::class, 'language_id');
+    }
+    public function faqTranslations()
+    {
+        return $this->hasMany(FaqTranslation::class, 'language_id');
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,SiteLanguages,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
+use App\Models\{Category,Language,CategoryTranslation,Filter,FilterOption,FilterTranslation,FilterOptionTranslation};
 use DB;
 use Illuminate\Validation\Rule;
 
@@ -26,11 +26,7 @@ class FilterController extends Controller
                 $query->where('language_id', $getCurrentSiteLanguage->id);
             },
         ])->get();
-        // ->toArray();
-
-        // echo '<pre>';
-        // print_r($filters);
-        // die();
+      
         return view('Admin.filters.index',compact('filters'));
 
     }
@@ -59,17 +55,25 @@ class FilterController extends Controller
             'options.*' => 'required|string', 
         ]);
     
-        // Debugging output
-        // echo '<pre>';
-        // print_r($request->all());
-        // die();
-    
+        $siteLanguage = getCurrentSiteLanguage();
+
+
         // Create a new filter entry
-        $filter = new Filter;
+        $filter = new Filter();
         $filter->name = $request->name;
         $filter->slug = $request->slug;
         $filter->category_id = $request->category_id;
         $filter->save();
+
+        if($filter) {
+
+            $filterTranslation = new FilterTranslation();
+            $filterTranslation->filter_id = $request->filter_id;
+            $filterTranslation->language_id = $siteLanguage->id;
+            $filterTranslation->name = $request->name;
+            $filterTranslation->slug = $request->slug;
+            $filterTranslation->save();
+        }
     
         // Get the options from the request
         $options = $request->options;
@@ -80,6 +84,14 @@ class FilterController extends Controller
             $option->filter_id = $filter->id;
             $option->name = $optionName;
             $option->save();
+            if($option){
+
+                $filterOption = new FilterOptionTranslation();
+                $filterOption->filter_option_id = $option->id;
+                $filterOption->language_id = $siteLanguage->id;
+                $filterOption->name = $optionName;
+                $filterOption->save();
+            }
         }
     
         // Redirect back with success message
@@ -113,30 +125,23 @@ class FilterController extends Controller
             },
         ])->first();
 
-        // ->toArray();
-        // echo '<pre>';
-        // print_r($filter);
-        // die();
+
         return view('Admin.filters.update',compact('filter','defaultFilter','categories','languageRole'));
     }
 
 
     public function updateProcc(Request $request)
     {
-        // Debugging output, can be removed
-        // echo '<pre>';
-        // print_r($request->all());
-        // die();
-    
+ 
         // Find the site language
         if ($request->language_id) {
-            $siteLanguage = SiteLanguages::where('id', $request->language_id)->first();
+            $siteLanguage = Language::where('id', $request->language_id)->first();
         } else {
-            $siteLanguage = SiteLanguages::where('handle', $request->handle)->first();
+            $siteLanguage = Language::where('lang_code', $request->lang_code)->first();
         }
     
         // Check if the language is a secondary language (not primary)
-        if ($siteLanguage && $siteLanguage->primary !== 1) {
+        if ($siteLanguage ) {
             $request->validate([
                 'name' => 'required',
                 'slug' => 'required',

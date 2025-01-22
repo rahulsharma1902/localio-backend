@@ -60,7 +60,7 @@ class AdminProductController extends Controller
         {
             return redirect()->back()->with('error','current langauge not found');
         }
-        if($siteLanguage && $siteLanguage->primary !==1)
+        if($siteLanguage )
         {
             $productTranslation = isset($request->product_tr_id) ? ProductTranslation::find($request->product_tr_id) : new ProductTranslation();
             $productTranslation->name = $request->name;
