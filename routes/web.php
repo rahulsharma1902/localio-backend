@@ -161,7 +161,7 @@ Route::group(['middleware'=>['auth']], function () {
 });
 
 // Add Locale 
-Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically','guest','User']], function () {
+Route::group(['prefix' => '{locale?}'], function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
     Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
     Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
