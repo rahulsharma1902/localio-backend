@@ -12,14 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id'); // Foreign key column without constraint
-            $table->unsignedBigInteger('product_id'); // Foreign key column without constraint
-            $table->longText('description');
-            $table->unsignedTinyInteger('rating');
-            $table->string('lang_code')->default('en'); 
-            $table->tinyInteger('status')->default(0); 
-            $table->timestamps(); 
+            $table->id(); // Primary key
+            $table->unsignedBigInteger('product_id'); // Foreign key to products table
+            $table->unsignedBigInteger('lang_id'); // Foreign key to languages table
+            $table->integer('rating'); // Rating (e.g., 1-5)
+            $table->timestamps(); // created_at and updated_at
+
         });
     }
 
