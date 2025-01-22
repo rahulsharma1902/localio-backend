@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps(); // created_at and updated_at
 
             // Foreign Key Constraint (Optional, if you have a products table)
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+           
         });
     }
 
