@@ -30,7 +30,14 @@
                             <label class="form-label" for="bg_top_img">Background Top Image</label>
                             <input type="file" class="form-control" id="bg_top_img" name="bg_top_img" />
                             @if(isset($whoWeAre->bg_top_img))
-        <img src="{{ asset('storage/' . $whoWeAre->bg_top_img) }}" alt="Background Top Image" class="mt-2" style="width: 100px; height: auto;">
+        <img src="{{ asset($whoWeAre->bg_top_img) }}" alt="Background Top Image" class="mt-2" style="width: 100px; height: auto;">
+    @endif
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label" for="top_left_section_img">Top left Section Image</label>
+                            <input type="file" class="form-control" id="top_left_section_img" name="top_left_section_img" />
+                            @if(isset($whoWeAre->top_left_section_img))
+        <img src="{{ asset($whoWeAre->top_left_section_img) }}" alt="Top left Section Image" class="mt-2" style="width: 100px; height: auto;">
     @endif
                         </div>
 
@@ -39,7 +46,7 @@
                             <label class="form-label" for="top_right_section_img">Top Right Section Image</label>
                             <input type="file" class="form-control" id="top_right_section_img" name="top_right_section_img" />
                             @if(isset($whoWeAre->top_right_section_img))
-        <img src="{{ asset('storage/' . $whoWeAre->top_right_section_img) }}" alt="Top Right Section Image" class="mt-2" style="width: 100px; height: auto;">
+        <img src="{{ asset($whoWeAre->top_right_section_img) }}" alt="Top Right Section Image" class="mt-2" style="width: 100px; height: auto;">
     @endif
                         </div>
 
@@ -66,7 +73,7 @@
                             <label class="form-label" for="top_card_image">Top Card Image</label>
                             <input type="file" class="form-control" id="top_card_image" name="top_card_image" />
                             @if(isset($whoWeAre->top_card_image))
-        <img src="{{ asset('storage/' . $whoWeAre->top_card_image) }}" alt="Top Card Image" class="mt-2" style="width: 100px; height: auto;">
+        <img src="{{ asset($whoWeAre->top_card_image) }}" alt="Top Card Image" class="mt-2" style="width: 100px; height: auto;">
     @endif
                         </div>
 

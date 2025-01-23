@@ -80,22 +80,36 @@ class AdminDashController extends Controller
 public function updateWhoWeAre(Request $request)
 {
     $whoWeAre = WhoWeAre::first();
-    $whoWeAre->update($request->except(['bg_top_img', 'top_right_section_img', 'top_card_image']));
+    $whoWeAre->update($request->except(['bg_top_img','top_left_section_img','top_right_section_img', 'top_card_image']));
     $whoWeAre->update($request->all());
 
     // Handle file uploads if necessary
     if ($request->hasFile('bg_top_img')) {
-        $whoWeAre->bg_top_img = $request->file('bg_top_img')->store('uploads', 'public');
+        $file = $request->file('bg_top_img');
+        $filename = time() . '_bg_top_img.' . $file->getClientOriginalExtension();
+        $file->move(public_path('front/img/'), $filename);
+        $whoWeAre->bg_top_img = 'front/img/' . $filename;
     }
 
-    // Handle `top_right_section_img` upload
+    if ($request->hasFile('top_left_section_img')) {
+        $file = $request->file('top_left_section_img');
+        $filename = time() . 'top_left_section_img.' . $file->getClientOriginalExtension();
+        $file->move(public_path('front/img/'), $filename);
+        $whoWeAre->top_left_section_img = 'front/img/' . $filename;
+    }
+
     if ($request->hasFile('top_right_section_img')) {
-        $whoWeAre->top_right_section_img = $request->file('top_right_section_img')->store('uploads', 'public');
+        $file = $request->file('top_right_section_img');
+        $filename = time() . '_top_right_section_img.' . $file->getClientOriginalExtension();
+        $file->move(public_path('front/img/'), $filename);
+        $whoWeAre->top_right_section_img = 'front/img/' . $filename;
     }
 
-    // Handle `top_card_image` upload
     if ($request->hasFile('top_card_image')) {
-        $whoWeAre->top_card_image = $request->file('top_card_image')->store('uploads', 'public');
+        $file = $request->file('top_card_image');
+        $filename = time() . '_top_card_image.' . $file->getClientOriginalExtension();
+        $file->move(public_path('front/img/'), $filename);
+        $whoWeAre->top_card_image = 'front/img/' . $filename;
     }
 
     $whoWeAre->save();
