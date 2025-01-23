@@ -102,7 +102,7 @@ class AdminProductController extends Controller
     {   
         $categories = Category::all();
         $product = Product::with('keyFeatures','categories.translations')->find($id);
-        
+        dd($product);
         return view('Admin.products.update_product',compact('product','categories'));
     }
 

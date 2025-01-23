@@ -88,7 +88,7 @@
                                             <label class="form-label" for="product-category">Product Category</label>
                                             <select class="form-control product-category" name="product_category[]"
                                                 multiple="multiple">
-                                                <option value="" disabled>Select Categories</option>
+                                                <option value="{{ $product->id }}">{{ }}</option>
                                                 @if ($categories->isNotEmpty())
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
