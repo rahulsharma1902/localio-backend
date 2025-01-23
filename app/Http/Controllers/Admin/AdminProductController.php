@@ -164,10 +164,10 @@ class AdminProductController extends Controller
                 'language_id' => $language_id,
             ]);
             foreach($request->product_category as $value){
-                DB::table('category_products')->where('product_id',$product->id)->update([
-                    'category_id' => $value,
-
-                ]);
+                DB::table('category_products')->updateOrInsert(
+                    ['product_id' => $product->id, 'category_id' => $value],
+                    ['category_id' => $value] 
+                );
             }
             if($productTranslation){
                 return redirect()->route('products')->with('success', 'Product  update successfully');
