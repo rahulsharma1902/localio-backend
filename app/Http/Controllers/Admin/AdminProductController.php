@@ -39,7 +39,7 @@ class AdminProductController extends Controller
         $categories = Category::all();
         return view('Admin.products.add_product',compact('categories'));
     }
-    public function productAddProccess(Request $request)
+    public function productAddProccess(Request $request)    
     {   
         // dd($request->all());
         $keyFeatures = array_filter($request->input('key_features'), function ($value) {
