@@ -71,13 +71,13 @@ class AdminDashController extends Controller
     }
 
   
-   public function whoweareContent()
+   public function whoWeAreContent()
 {
     $whoWeAre = WhoWeAre::first(); // Get the record to edit
     return view('Admin.site-content.who_we_are', compact('whoWeAre'));
 }
 
-public function updatewhoweare(Request $request)
+public function updateWhoWeAre(Request $request)
 {
     $whoWeAre = WhoWeAre::first();
     $whoWeAre->update($request->except(['bg_top_img', 'top_right_section_img', 'top_card_image']));
