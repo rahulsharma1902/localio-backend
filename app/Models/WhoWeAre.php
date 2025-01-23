@@ -16,6 +16,7 @@ class WhoWeAre extends Model
         'main_heading',
         'sub_heading',
         'bg_top_img',
+        'top_left_section_img',
         'top_right_section_img',
         'mp_heading',
         'mp_sub_heading',
