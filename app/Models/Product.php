@@ -14,7 +14,7 @@ class Product extends Model
     }
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_products');
+        return $this->belongsToMany(Category::class, 'category_products','product_id');
     }
     public function translations()
     {
@@ -28,5 +28,4 @@ class Product extends Model
     {
         return $this->hasMany(Wishlist::class);
     }
-    
 }

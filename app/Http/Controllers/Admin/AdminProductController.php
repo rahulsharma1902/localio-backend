@@ -20,18 +20,8 @@ class AdminProductController extends Controller
     {
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id',$lang_id)->first();
-        $products = Product::with([
-                                'translations' => function($query) use($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                                'keyFeatures.translations' => function($query) use ($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                                'categories.translations'=> function($query) use ($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                            ])->get();
-
+        $products = Product::with('categories')->get()->toArray();
+        // dd($products);
        return view('Admin.products.index',compact('products'));
     }
     public function productAdd()
@@ -126,7 +116,6 @@ class AdminProductController extends Controller
     }
 
     public function productUpdateProccess(Request $request){
-        // dd($request->all());
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
@@ -174,6 +163,12 @@ class AdminProductController extends Controller
                 'product_id' => $request->id,
                 'language_id' => $language_id,
             ]);
+            foreach($request->product_category as $value){
+                DB::table('category_products')->where('product_id',$product->id)->update([
+                    'category_id' => $value,
+
+                ]);
+            }
             if($productTranslation){
                 return redirect()->route('products')->with('success', 'Product  update successfully');
             }else{
