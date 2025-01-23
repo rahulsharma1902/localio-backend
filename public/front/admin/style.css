@@ -19,3 +19,25 @@ table.dataTable.nowrap th, table.dataTable.nowrap td {
 button.addCategory.btn.btn-primary.review-btn {
     margin-left: 27px;
 }
+
+.nk-header.nk-header-fixed.is-light {
+    background: #06498B;
+    border-left: 1px solid white;
+}
+
+.icon{
+    color: white !important;
+}
+i.icon.fas.fa-icons{
+    color:white ;
+}
+a.nk-menu-link {
+    color: white;
+}
+
+.nk-sidebar-element.nk-sidebar-head{
+    background: #06498B;
+}
+.simplebar-mask {
+    background: #06498B;
+}
