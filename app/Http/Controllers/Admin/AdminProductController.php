@@ -100,35 +100,66 @@ class AdminProductController extends Controller
     }
     public function productEdit($id)
     {   
-        $locale = getCurrentLocale();
-
-        $lang_code = Language::where('lang_code', $locale)->first();
-
-        if (!$lang_code) {
-            return redirect()->back()->with('error', 'Server error: Language not found.');
-        }
         $categories = Category::all();
         $product = Product::with('keyFeatures','categories.translations')->find($id);
-
-        if ($lang_code) {
-            $productTranslation = ProductTranslation::with([
-                                                        'product.categories',
-                                                        'language',
-                                                        'product.keyFeatures.translations' => function($query) use ($lang_code) {
-                                                            $query->where('language_id', $lang_code->id); 
-                                                        },
-                                                        'translations' => function($query) use ($lang_code) {
-                                                            $query->where('language_id', $lang_code->id);  
-                                                        }
-                                                    ])
-                                                    ->where('product_id', $id)  
-                                                    ->where('language_id', $lang_code->id)  
-                                                    ->first();
-        } else {
-            $productTranslation = Product::with('keyFeatures','categories')->find($id);
-        }
-        return view('Admin.products.add_product',compact('product','categories','productTranslation','siteLanguage'));
+        
+        return view('Admin.products.update_product',compact('product','categories'));
     }
+
+    public function productUpdateProccess(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'product_category' => 'required',  // Ensures category is selected and exists in categories table
+            'product_price' => 'required|numeric',
+            'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_link' => 'required|url',
+            'key_features' => 'required|array|min:1',
+        ]);
+        $language = Language::where('id',$request->lang_code)->first();
+        if(!$language)
+        {
+            return redirect()->back()->with('error','current langauge not found');
+        }
+
+        if($language && isset($request->id))
+        {
+            $product = product::find($request->id);
+            $product->name = $request->name;
+            $product->slug = Str::slug($request->name);
+            $product->description = $request->description;
+            $product->product_price = $request->product_price;
+            if($request->hasFile('product_icon'))
+            {   
+                $productIcon = $request->file('product_icon');
+                $iconName = $product->slug . '-' . rand(0, 1000) . time() . '.' . $productIcon->getClientOriginalExtension();
+                $productIcon->move(public_path().'/ProductIcon/',$iconName);
+                $product->product_icon = $iconName;
+            }
+            if($request->hasFile('product_image'))
+            {
+                $productImage = $request->file('product_image');
+                $imageName = $product->slug.'-'.rand(0,999).time().'.'.$productImage->getClientOriginalExtension();
+                $productImage->move(public_path().'/ProductImage/',$imageName);
+                $product->product_image = $imageName;
+            }
+            $product->product_link = $request->product_link;
+            $product->update(); 
+            $language_id = Language::where('lang_code','en-us')->value('id');
+            $productTranslation =  ProductTranslation::where('product_id',$request->id)->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->slug),
+                'description' => $request->description,
+                'product_id' => $request->id,
+                'language_id' => $language_id,
+            ]);
+            if($productTranslation){
+                return back()->with('success', 'Product  update successfully');
+            }else{
+                return back()->with('error', 'something went wrong');
+            }
+    }}
 
     public function removeProduct($id)
     {

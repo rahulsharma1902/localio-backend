@@ -10,9 +10,10 @@
         <div class="card card-bordered">
             <div class="card-inner">
                 <div class="nk-block">
-                    <form action="{{ url('admin-dashboard/product-add-procc') }}" class="form-validate" novalidate="novalidate"
-                        method="post" enctype="multipart/form-data">
+                    <form action="{{ url('admin-dashboard/product-update-procc') }}" class="form-validate"
+                        novalidate="novalidate" method="post" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id" value="{{ isset($product) ? $product->id : '' }}">
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -69,6 +70,9 @@
                                                     <option value="{{ $category->id }}">{{ $category->name ?? '' }}
                                                     </option>
                                                 @endforeach
+                                            @else
+                                                <option>No category found
+                                                </option>
                                             @endif
                                         </select>
                                     </div>
@@ -94,22 +98,6 @@
                                                     @endforeach
                                                 @endif
                                             </select>
-                                        </div>
-                                    @elseif($lang !== 'en-us')
-                                        <div class="form-group">
-                                            <label class="form-label" for="product-category">Product Category</label>
-                                            <input type="text" class="form-control" name="product_category_display"
-                                                id="product-category-display"
-                                                value="{{ isset($product->categories)
-                                                    ? $product->categories->map(function ($category) use ($siteLanguage) {
-                                                            $translation = $category->translations->firstWhere('language_id', $siteLanguage->id);
-                                                            return $translation ? $translation->name : $category->name;
-                                                        })->join(', ')
-                                                    : $product->categories->pluck('name')->join(', ') }}"
-                                                readonly>
-
-                                            <input type="hidden" name="product_category[]" id="product-category"
-                                                value="{{ implode(',', $product->categories->pluck('id')->toArray()) }}">
                                         </div>
                                     @endif
                                 </div>
@@ -197,10 +185,7 @@
                                         @foreach ($product->keyFeatures as $feature)
                                             <div class="feature-group d-flex align-items-center">
                                                 @php
-                                                    $translation = $feature->translations->firstWhere(
-                                                        'language_id',
-                                                        $siteLanguage->id,
-                                                    );
+                                                    $translation = $feature->translations->firstWhere('language_id', 1);
                                                 @endphp
                                                 <input type="text" class="form-control"
                                                     name="key_features[{{ $feature->id }}]" id="keyFeatures"
