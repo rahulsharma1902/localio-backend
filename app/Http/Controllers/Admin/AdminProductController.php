@@ -100,11 +100,9 @@ class AdminProductController extends Controller
     }
     public function productEdit($id)
     {   
-        // dd($id);
-        $locale = getCurrentLanguageID();
-        // dd($locale);
+        $locale = getCurrentLocale();
 
-        $lang_code = Language::where('id', $locale)->first();
+        $lang_code = Language::where('lang_code', $locale)->first();
 
         if (!$lang_code) {
             return redirect()->back()->with('error', 'Server error: Language not found.');
@@ -114,22 +112,22 @@ class AdminProductController extends Controller
 
         if ($lang_code) {
             $productTranslation = ProductTranslation::with([
-                    'product.categories',
-                    'language',
-                    'product.keyFeatures.translations' => function($query) use ($lang_code) {
-                        $query->where('language_id', $lang_code->id); 
-                    },
-                    'translations' => function($query) use ($lang_code) {
-                        $query->where('language_id', $lang_code->id);  
-                    }
-                ])
-                ->where('product_id', $id)  
-                ->where('language_id', $lang_code->id)  
-                ->first();
+                                                        'product.categories',
+                                                        'language',
+                                                        'product.keyFeatures.translations' => function($query) use ($lang_code) {
+                                                            $query->where('language_id', $lang_code->id); 
+                                                        },
+                                                        'translations' => function($query) use ($lang_code) {
+                                                            $query->where('language_id', $lang_code->id);  
+                                                        }
+                                                    ])
+                                                    ->where('product_id', $id)  
+                                                    ->where('language_id', $lang_code->id)  
+                                                    ->first();
         } else {
             $productTranslation = Product::with('keyFeatures','categories')->find($id);
         }
-        return view('productup',compact('product','categories','productTranslation'));
+        return view('Admin.products.add_product',compact('product','categories','productTranslation','siteLanguage'));
     }
 
     public function removeProduct($id)
