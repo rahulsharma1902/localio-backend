@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductKeyFeature;
 use Illuminate\Support\Str;
 use App\Models\Language;
 use App\Models\ProductTranslation;
-use App\Models\ProductKeyFeatureTranslation;
 use Illuminate\Support\Facades\DB;
 
 class AdminProductController extends Controller
@@ -20,8 +18,9 @@ class AdminProductController extends Controller
     {
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id',$lang_id)->first();
-        $products = Product::with('categories')->get()->toArray();
+        // $products = Product::with('categories')->get()->toArray();
         // dd($products);
+        $products = Product::with('categories')->get();
        return view('Admin.products.index',compact('products'));
     }
     public function productAdd()
@@ -163,6 +162,7 @@ class AdminProductController extends Controller
                 'product_id' => $request->id,
                 'language_id' => $language_id,
             ]);
+            DB::table('category_products')->where('product_id',$product->id)->delete();
             foreach($request->product_category as $value){
                 DB::table('category_products')->updateOrInsert(
                     ['product_id' => $product->id, 'category_id' => $value],

@@ -49,113 +49,13 @@
                             <th class="nk-tb-col"><span class="sub-text">Product Icon</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Image</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product link</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Product key Features</span></th>
+                            {{-- <th class="nk-tb-col"><span class="sub-text">Product key Features</span></th> --}}
                             <th class="nk-tb-col tb-tnx-action">
                                 <span>Action</span>
                             </th>
                         </tr>
                     </thead>
                     @if (isset($products))
-                        {{-- <tbody>
-                            @foreach ($products as $product)
-                                <tr class="nk-tb-item">
-                                    <td class="nk-tb-col">
-                                        <div class="user-card">
-                                            <div class="user-info">
-                                                <span class="tb-lead">
-                                                    {{ $product->translations->isNotEmpty() ? $product->translations->first()->name : $product->name ?? 'not name found' }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            {{ strip_tags($product->translations->isNotEmpty() ? $product->translations->first()->description : $product->description ?? '') }}
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            @if (isset($product->categories))
-                                                @foreach ($product->categories as $category)
-                                                    {{ isset($category->translations) ? $category->translations->firstWhere('language_id', getCurrentLanguageID())->name : $category->name ?? '' }}{{ !$loop->last ? ', ' : '' }}
-                                                @endforeach
-                                            @else
-                                                not data found
-                                            @endif
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            {{ formatInr($product->product_price ?? 0) }}
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            @if (isset($product->product_icon))
-                                                <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
-                                                    alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                                            @endif
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            @if (isset($product->product_image))
-                                                <img src="{{ asset('ProductImage/' . $product->product_image) }}"
-                                                    alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                                            @endif
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            <a href=" {{ $product->product_link ?? '' }} " target="blank">Product</a>
-
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <?php $count = 1; ?>
-                                        <span class="tb-lead">
-                                            @if ($product->keyFeatures->isNotEmpty())
-                                                @foreach ($product->keyFeatures as $feature)
-                                                    {{ $count++ }}
-                                                    {{ $feature->translations->isNotEmpty() ? $feature->translations->first()->feature : $feature->feature ?? 'not feature found' }}
-                                                @endforeach
-                                            @else
-                                                not data found
-                                            @endif
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col nk-tb-col-tools">
-                                        <ul class="nk-tb-actions gx-1">
-                                            <li>
-                                                <div class="drodown">
-                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
-                                                        data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-end edit">
-                                                        <ul class="link-list-opt no-bdr">
-                                                            <li><a
-                                                                    href="{{ url('admin-dashboard/product-edit') ?? '' }}/{{ $product->id ?? '' }}"><em
-                                                                        class="icon ni ni-edit-fill"></em><span>Edit</span></a>
-                                                            </li>
-                                                            @if ($locale == 'en')
-                                                                <li><a
-                                                                        href="{{ url('admin-dashboard/remove-product') ?? '' }}/{{ $product->id ?? '' }}"><em
-                                                                            class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                                </li>
-                                                            @endif
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody> --}}
-
-
-
-
-
                         <tbody>
                             @foreach ($products as $product)
                                 <tr class="nk-tb-item">
@@ -211,19 +111,6 @@
 
                                         </span>
                                     </td>
-                                    {{-- <td class="nk-tb-col tb-col-mb">
-                                        <?php $count = 1; ?>
-                                        <span class="tb-lead">
-                                            @if ($product->keyFeatures->isNotEmpty())
-                                                @foreach ($product->keyFeatures as $feature)
-                                                    {{ $count++ }}
-                                                    {{ $feature->translations->isNotEmpty() ? $feature->translations->first()->feature : $feature->feature ?? 'not feature found' }}
-                                                @endforeach
-                                            @else
-                                                not data found
-                                            @endif
-                                        </span>
-                                    </td> --}}
                                     <td class="nk-tb-col nk-tb-col-tools">
                                         <ul class="nk-tb-actions gx-1">
                                             <li>
