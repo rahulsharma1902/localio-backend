@@ -34,7 +34,10 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
     Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
+    Route::get('admin-dashboard/who_we_are', [AdminDashController::class, 'whoweareContent'])->name('who_we_are_content');
+    Route::post('admin-dashboard/who_we_are', [AdminDashController::class, 'updatewhoweare'])->name('admin.who_we_are.update');
 
+   
     //  CategoriesController  categories
     Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
     Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
@@ -127,6 +130,7 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('/admin-dashboard/home-page', [SiteContentController::class, 'homeContent'])->name('home-content');
     Route::post('/admin-dashboard/home-page-update', [SiteContentController::class, 'homeContentUpdate'])->name('home-content-update');
     Route::post('/admin-dashboard/update-lang-file', [SiteContentController::class, 'updateLangFile'])->name('update-lang-file');
+  
 
     // Header Page Route
     Route::get('/admin-dashboard/header-page', [SiteContentController::class, 'headerPage'])->name('header-page');
@@ -205,6 +209,8 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('withlist');
+
+   
 });
 
 Route::group(['middleware' => ['vendor']], function () {

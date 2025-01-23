@@ -139,6 +139,11 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">home Page</span></a>
                                         </li>
 
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ route('who_we_are_content') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">who we are</span></a>
+                                        </li>
+
 
 
                                         <li class="nk-menu-item ">

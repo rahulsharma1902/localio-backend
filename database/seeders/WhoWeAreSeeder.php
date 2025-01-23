@@ -21,7 +21,7 @@ class WhoWeAreSeeder extends Seeder
                 'bg_top_img' => 'public/front/img/small-bnnr-bg.png',
                 'top_right_section_img' => 'public/front/img/wwr-bnr.png',
                 'mp_heading' => 'Most Popular',
-                'mp_sub_heading' => 'Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book, It has survived not only five centuries, but also the leap into electronic typesetting',
+                'mp_sub_heading' => 'Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer too',
                 'top_card_title' => 'Lorem Ipsum has been the industry s standard dummy',
                 'top_card_image' => 'public/front/img/accor-bdy-img.png',
                 'top_card_desc' => 'Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book, It has survived not only five centuries, but also the leap into electronic typesetting.',

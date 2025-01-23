@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\WhoWeAre;
 use Illuminate\Support\Facades\Hash;
 
 // use Hash;
@@ -69,5 +70,37 @@ class AdminDashController extends Controller
         return redirect()->back()->with(['error' => 'The old password is incorrect.']);
     }
 
+  
+   public function whoweareContent()
+{
+    $whoWeAre = WhoWeAre::first(); // Get the record to edit
+    return view('Admin.site-content.who_we_are', compact('whoWeAre'));
+}
+
+public function updatewhoweare(Request $request)
+{
+    $whoWeAre = WhoWeAre::first();
+    $whoWeAre->update($request->except(['bg_top_img', 'top_right_section_img', 'top_card_image']));
+    $whoWeAre->update($request->all());
+
+    // Handle file uploads if necessary
+    if ($request->hasFile('bg_top_img')) {
+        $whoWeAre->bg_top_img = $request->file('bg_top_img')->store('uploads', 'public');
+    }
+
+    // Handle `top_right_section_img` upload
+    if ($request->hasFile('top_right_section_img')) {
+        $whoWeAre->top_right_section_img = $request->file('top_right_section_img')->store('uploads', 'public');
+    }
+
+    // Handle `top_card_image` upload
+    if ($request->hasFile('top_card_image')) {
+        $whoWeAre->top_card_image = $request->file('top_card_image')->store('uploads', 'public');
+    }
+
+    $whoWeAre->save();
+
+    return redirect()->back()->with('success', 'Updated successfully!');
+}
 
 }

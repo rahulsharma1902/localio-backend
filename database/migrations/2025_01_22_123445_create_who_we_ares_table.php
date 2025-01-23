@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('top_card_desc')->nullable(); // Top card description
             $table->string('specialists_heading')->nullable(); // Specialists heading
             $table->string('ss_heading')->nullable(); // Service Software heading
-            $table->text('ss_sub_desc')->nullable(); // Service Software sub-description
+            $table->text('ss_sub_desc')->nullable(); // Service Software sub-daescription
             $table->string('protfolio_btn')->nullable(); // Portfolio button text
             $table->integer('status')->default(1);// Status (active/inactive)
             $table->timestamps(); // created_at and updated_at
