@@ -2,22 +2,20 @@
 @section('content')
     <section class="banner_sec help-cntr-bnr inr-bnr dark" style="background-color: #003F7D;">
         <div class="bubble-wrp">
-            <img src="{{ asset('front/img/small-bnnr-bg.png') }}" alt="">
+            <img src="{{ asset($whoWeAre->top_right_section_img) }}" alt="">
         </div>
         <div class="banner_content">
             <div class="container">
                 <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                     <div class="banner_text_col">
                         <div class="banner_content_inner bnr_inr_contnt">
-                            <h1>Who We Are</h1>
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                laudantium, totam rem aperiam
-                            </p>
+                            <h1>{{ $whoWeAre->main_heading }}</h1>
+                            <p>{{ $whoWeAre->sub_heading }}</p>
                         </div>
                     </div>
                     <div class="banner_image_col">
                         <div class="banner_image">
-                            <img src="{{ asset('front/img/wwr-bnr.png') }}" class="banner_top_image">
+                            <img src="{{ asset($whoWeAre->top_left_section_img) }}" class="banner_top_image">
                         </div>
                     </div>
                 </div>
@@ -30,25 +28,20 @@
         <div class="container">
             <div class="most-popular-wrp">
                 <div class="hd_text">
-                    <h2 data-aos="zoom-in" data-aos-duration="1000" class="text-center">Most Popular</h2>
-                    <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                        took a galley of type and scrambled it to make a type specimen book, It has survived not only five
-                        centuries, but also the leap into electronic typesetting.</p>
+                    <h2 data-aos="zoom-in" data-aos-duration="1000" class="text-center">{{ $whoWeAre->mp_heading }}</h2>
+                    <p>{{ $whoWeAre->mp_sub_heading }}</p>
                 </div>
                 <div class="popular-accordion-wrp mst_wrp" data-aos="fade-up" data-aos-duration="1000">
                     <div class="row align-items-center ">
                         <div class="col-md-6">
                             <div class="accor-lft-img">
-                                <img src="{{ asset('front/img/accor-bdy-img.png') }}" alt="">
+                                <img src="{{ asset($whoWeAre->top_card_image) }}" alt="">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="accor-txt-contnt">
-                                <h6>Lorem Ipsum has been the industry's standard dummy</h6>
-                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen book,
-                                    It has survived not only five centuries, but also the leap into electronic
-                                    typesetting.
+                                <h6>{{ $whoWeAre->top_card_title }}</h6>
+                                <p>{{ $whoWeAre->top_card_desc }}
                                 </p>
                             </div>
                         </div>
@@ -166,7 +159,7 @@
                             </div>
                             <div class="succes_infp">
                                 <div class="succes_text">
-                                    <h6 class="big-bld">Software and Service Researchers</h6>
+                                    <h6 class="big-bld">{{ $whoWeAre->specialists_heading }}</h6>
                                     <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
                                         when an unknown printer took a galley of type and scrambled it to make a type
                                         specimen book, It has survived not only five centuries, but also the leap into
@@ -242,13 +235,11 @@
     <section class="portf_sec p_120">
         <div class="container">
             <div class="succes_content" data-aos="fade-up" data-aos-duration="1000">
-                <h2>We help software and service providers find their best customers</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
+                <h2>{{ $whoWeAre->ss_heading }}</h2>
+                <p>{{ $whoWeAre->ss_sub_desc }}
                 </p>
                 <div class="top-pro-btn  snd_bttn">
-                    <a href="#" class="cta cta_orange">Create Portfolio</a>
+                    <a href="#" class="cta cta_orange">{{ $whoWeAre->protfolio_btn }}</a>
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SiteLanguages;
 use App\Models\Faq;
+use App\Models\WhoWeAre;
 class MetaPagesController extends Controller
 {
     public function expertGuide()
@@ -35,6 +36,7 @@ class MetaPagesController extends Controller
 
     public function whoWeAre()
     {
-        return view('User.meta-pages.site-pages.who_we_are');
+        $whoWeAre = WhoWeAre::first();
+        return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre'));
     }
 }
