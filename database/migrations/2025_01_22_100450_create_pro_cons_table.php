@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id(); // Primary key
             $table->unsignedBigInteger('product_id'); // Foreign key to the products table
             $table->unsignedBigInteger('lang_id'); // Language ID (foreign key to the languages table)
+            $table->string('type');
             $table->timestamps(); // created_at and updated_at            
         });
     }

@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 use App\Models\RuleTranslation;
 use App\Models\Faq;
 use App\Models\FaqTranslation;
-use App\Models\Language;
 
 class SitePagesController extends Controller
 {

@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="{{ asset('front/admin/style.css') }}">
     <!-- slick slider cdn -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- ckeditor -->
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/42.0.0/classic/ckeditor.js"></script> --}}
@@ -34,10 +33,6 @@
         .dropdown-menu.dropdown-menu-end.show {
             height: 42vh;
             overflow-y: scroll;
-        }
-
-        .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
-            height: 130px;
         }
     </style>
 
@@ -80,18 +75,18 @@
                                     </a>
                                 </li>
                                 <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                        <span class="nk-menu-text">Products Section</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/products') }}" class="nk-menu-link"><span
-                                                    class="nk-menu-text">Product</span>
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                                <span class="nk-menu-text">Products</span>
                                             </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="{{ url('/admin-dashboard/products') }}"
+                                                        class="nk-menu-link"><span class="nk-menu-text">Product</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </li>
-                                    </ul>
-                                </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
@@ -108,10 +103,10 @@
                                     </a>
 
                                 </li>
+                               
 
-
-                                <!-- Globals  -->
-                                <li class="nk-menu-item has-sub">
+                                 <!-- Globals  -->
+                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
                                         <span class="nk-menu-text">Global Section</span>
@@ -121,7 +116,7 @@
                                             <a href="{{ url('/admin-dashboard/header-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Header</span></a>
                                         </li>
-
+            
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/footer-page') }}"
@@ -137,11 +132,16 @@
                                         <span class="nk-menu-text">Pages</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-
+                                       
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/home-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">home Page</span></a>
+                                        </li>
+
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ route('who_we_are_content') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">who we are</span></a>
                                         </li>
 
 
@@ -160,7 +160,7 @@
                                     </ul>
                                 </li>
 
-
+                               
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -232,43 +232,6 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="nk-menu-item has-sub">
-                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                <span class="nk-menu-icon"><em
-                                                        class="icon ni ni-setting-fill"></em></span>
-                                                <span class="nk-menu-text">Setting</span>
-                                            </a>
-                                            <ul class="nk-menu-sub">
-                                                <li class="nk-menu-item">
-                                                    <a href="{{ url('/admin-dashboard/site-languages') }}"
-                                                        class="nk-menu-link"><span class="nk-menu-text">Site -
-                                                            Languages</span></a>
-                                                </li>
-                                                <li class="nk-menu-item">
-                                                    <a href="{{ url('/admin-dashboard/country') }}"
-                                                        class="nk-menu-link"><span
-                                                            class="nk-menu-text">Country</span></a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-
-
-                                        <!-- <li class="nk-menu-item has-sub">
-                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                <span class="nk-menu-text">Reviews Section</span>
-                                            </a>
-                                            <ul class="nk-menu-sub">
-                                                <li class="nk-menu-item">
-                                                    <a href="{{ url('/admin-dashboard/reviews') }}"
-                                                        class="nk-menu-link"><span class="nk-menu-text">Reviews</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li> -->
-
-
                                     </ul>
                                 </li>
                                 <li class="nk-menu-item has-sub">
@@ -283,8 +246,8 @@
                                                     Languages</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/country') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">Country</span></a>
+                                            <a href="{{ url('/admin-dashboard/country') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Country</span></a>
                                         </li>
 
                                     </ul>
@@ -353,8 +316,9 @@
                                                         <li>
                                                             <a
                                                                 href="{{ url('set-site-active-language/' . $languages->lang_code) }}">
-                                                                <span>{{ $languages->name }} -
-                                                                    {{ $languages->lang_code }}</span>
+                                                                <span>{{ $languages->name }} 
+                                                                    <!-- {{ $languages->lang_code }} -->
+                                                                </span>
                                                             </a>
                                                         </li>
                                                     @endforeach
