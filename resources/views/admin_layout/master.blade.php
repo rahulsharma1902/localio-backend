@@ -39,6 +39,10 @@
         .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
             height: 130px;
         }
+
+        .dropdown-menu.dropdown-menu-end.edit.show {
+            height: 50px;
+        }
     </style>
 
 </head>
