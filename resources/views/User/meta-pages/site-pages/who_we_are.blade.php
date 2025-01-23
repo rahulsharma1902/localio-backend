@@ -9,7 +9,7 @@
                 <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                     <div class="banner_text_col">
                         <div class="banner_content_inner bnr_inr_contnt">
-                            <h1>{{ $whoWeAre->main_heading }}</h1>
+                            <h1>Who We Are</h1>
                             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
                                 laudantium, totam rem aperiam
                             </p>

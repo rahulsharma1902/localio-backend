@@ -86,28 +86,28 @@ public function updateWhoWeAre(Request $request)
     // Handle file uploads if necessary
     if ($request->hasFile('bg_top_img')) {
         $file = $request->file('bg_top_img');
-        $filename = time() . '_bg_top_img.' . $file->getClientOriginalExtension();
+        $filename = now()->format('YmdHis') . '_bg_top_img.' . $file->getClientOriginalExtension();
         $file->move(public_path('front/img/'), $filename);
         $whoWeAre->bg_top_img = 'front/img/' . $filename;
     }
 
     if ($request->hasFile('top_left_section_img')) {
         $file = $request->file('top_left_section_img');
-        $filename = time() . 'top_left_section_img.' . $file->getClientOriginalExtension();
+        $filename = now()->format('YmdHis') . '_top_left_section_img.' . $file->getClientOriginalExtension();
         $file->move(public_path('front/img/'), $filename);
         $whoWeAre->top_left_section_img = 'front/img/' . $filename;
     }
 
     if ($request->hasFile('top_right_section_img')) {
         $file = $request->file('top_right_section_img');
-        $filename = time() . '_top_right_section_img.' . $file->getClientOriginalExtension();
+        $filename = now()->format('YmdHis') . '_top_right_section_img.' . $file->getClientOriginalExtension();
         $file->move(public_path('front/img/'), $filename);
         $whoWeAre->top_right_section_img = 'front/img/' . $filename;
     }
 
     if ($request->hasFile('top_card_image')) {
         $file = $request->file('top_card_image');
-        $filename = time() . '_top_card_image.' . $file->getClientOriginalExtension();
+        $filename = now()->format('YmdHis') . '_top_card_image.' . $file->getClientOriginalExtension();
         $file->move(public_path('front/img/'), $filename);
         $whoWeAre->top_card_image = 'front/img/' . $filename;
     }
