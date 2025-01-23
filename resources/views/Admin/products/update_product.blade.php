@@ -64,7 +64,10 @@
                                         <label class="form-label" for="product-category">Product Category</label>
                                         <select class="form-control product-category" name="product_category[]"
                                             multiple="multiple">
-                                            <option value="" disabled>Select Categories</option>
+                                            {{ dd($cat_arr) }}
+                                            @foreach ($cat_arr as $item)
+                                                <option value="{{ $item['id'] }}">{{ $item['item'] }}</option>
+                                            @endforeach
                                             @if ($categories->isNotEmpty())
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}">{{ $category->name ?? '' }}
@@ -88,11 +91,10 @@
                                             <label class="form-label" for="product-category">Product Category</label>
                                             <select class="form-control product-category" name="product_category[]"
                                                 multiple="multiple">
-                                                <option value="{{ $product->id }}">{{ }}</option>
                                                 @if ($categories->isNotEmpty())
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
-                                                            @if ($product->categories->contains($category->id)) selected @endif>
+                                                            @if (in_array($category->id, array_column($cat_arr, 'id'))) selected="selected" @endif>
                                                             {{ $category->name ?? '' }}
                                                         </option>
                                                     @endforeach
@@ -220,7 +222,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center"><em
-                                        class="icon ni ni-plus"></em><span>{{ isset($product) ? 'Update Product' : 'Add Product' }}</span></button>
+                                        class="icon ni ni-plus"></em><span>Update</span></button>
                             </div>
                         </div>
                     </form>

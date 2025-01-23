@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductKeyFeature;
 use Illuminate\Support\Str;
 use App\Models\Language;
 use App\Models\ProductTranslation;
-use App\Models\ProductKeyFeatureTranslation;
+use Illuminate\Support\Facades\DB;
+
 class AdminProductController extends Controller
 {
     
@@ -18,18 +18,9 @@ class AdminProductController extends Controller
     {
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id',$lang_id)->first();
-        $products = Product::with([
-                                'translations' => function($query) use($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                                'keyFeatures.translations' => function($query) use ($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                                'categories.translations'=> function($query) use ($siteLanguage) {
-                                    $query->where('language_id', $siteLanguage->id);
-                                },
-                            ])->get();
-
+        // $products = Product::with('categories')->get()->toArray();
+        // dd($products);
+        $products = Product::with('categories')->get();
        return view('Admin.products.index',compact('products'));
     }
     public function productAdd()
@@ -37,7 +28,7 @@ class AdminProductController extends Controller
         $categories = Category::all();
         return view('Admin.products.add_product',compact('categories'));
     }
-    public function productAddProccess(Request $request)
+    public function productAddProccess(Request $request)    
     {   
         // dd($request->all());
         $keyFeatures = array_filter($request->input('key_features'), function ($value) {
@@ -50,8 +41,8 @@ class AdminProductController extends Controller
             'description' => 'required|string',
             'product_category' => 'required',  // Ensures category is selected and exists in categories table
             'product_price' => 'required|numeric',
-            'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
-            'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
             'key_features' => 'required|array|min:1',
         ]);
@@ -93,6 +84,13 @@ class AdminProductController extends Controller
             $productTranslation->language_id  = $language_id;
             $productTranslation->save();
 
+
+            foreach($request->product_category as $value){
+                DB::table('category_products')->insert([
+                    'category_id' => $value,
+                    'product_id' => $product->id
+                ]);
+            }
             return redirect()->route('products')->with('success', 'Product  added successfully');
         }else{
             return redirect()->route('products')->with('error', 'something went wrong !');
@@ -102,8 +100,18 @@ class AdminProductController extends Controller
     {   
         $categories = Category::all();
         $product = Product::with('keyFeatures','categories.translations')->find($id);
-        dd($product);
-        return view('Admin.products.update_product',compact('product','categories'));
+        // $category_products =  DB::table('category_products')->where('product_id',$id)->pluck('category_id')->toArray();
+
+            $category_products = DB::table('category_products')
+        ->where('product_id', $id)
+        ->pluck('category_id')
+        ->toArray();
+        $cat_arr = Category::whereIn('id', $category_products)
+        ->get(['id', 'name'])
+        ->toArray();
+
+
+        return view('Admin.products.update_product',compact('product','categories','cat_arr'));
     }
 
     public function productUpdateProccess(Request $request){
@@ -154,6 +162,13 @@ class AdminProductController extends Controller
                 'product_id' => $request->id,
                 'language_id' => $language_id,
             ]);
+            DB::table('category_products')->where('product_id',$product->id)->delete();
+            foreach($request->product_category as $value){
+                DB::table('category_products')->updateOrInsert(
+                    ['product_id' => $product->id, 'category_id' => $value],
+                    ['category_id' => $value] 
+                );
+            }
             if($productTranslation){
                 return redirect()->route('products')->with('success', 'Product  update successfully');
             }else{

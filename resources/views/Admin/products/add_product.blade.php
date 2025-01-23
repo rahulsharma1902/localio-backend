@@ -3,7 +3,7 @@
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
-                <h4 class="title nk-block-title">{{ isset($product) ? 'Update Product' : 'Add Product' }}</h4>
+                <h4 class="title nk-block-title">Add Product</h4>
             </div>
         </div>
         <?php $lang = getCurrentLocale(); ?>
@@ -13,6 +13,7 @@
                     <form action="{{ url('admin-dashboard/product-add-procc') }}" class="form-validate" novalidate="novalidate"
                         method="post" enctype="multipart/form-data">
                         @csrf
+
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">
