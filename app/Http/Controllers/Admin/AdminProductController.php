@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use App\Models\Language;
 use App\Models\ProductTranslation;
 use App\Models\ProductKeyFeatureTranslation;
+use Illuminate\Support\Facades\DB;
+
 class AdminProductController extends Controller
 {
     
@@ -50,8 +52,8 @@ class AdminProductController extends Controller
             'description' => 'required|string',
             'product_category' => 'required',  // Ensures category is selected and exists in categories table
             'product_price' => 'required|numeric',
-            'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
-            'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
             'key_features' => 'required|array|min:1',
         ]);
@@ -93,6 +95,13 @@ class AdminProductController extends Controller
             $productTranslation->language_id  = $language_id;
             $productTranslation->save();
 
+
+            foreach($request->product_category as $value){
+                DB::table('category_products')->insert([
+                    'category_id' => $value,
+                    'product_id' => $product->id
+                ]);
+            }
             return redirect()->route('products')->with('success', 'Product  added successfully');
         }else{
             return redirect()->route('products')->with('error', 'something went wrong !');
@@ -102,11 +111,22 @@ class AdminProductController extends Controller
     {   
         $categories = Category::all();
         $product = Product::with('keyFeatures','categories.translations')->find($id);
-        dd($product);
-        return view('Admin.products.update_product',compact('product','categories'));
+        // $category_products =  DB::table('category_products')->where('product_id',$id)->pluck('category_id')->toArray();
+
+            $category_products = DB::table('category_products')
+        ->where('product_id', $id)
+        ->pluck('category_id')
+        ->toArray();
+        $cat_arr = Category::whereIn('id', $category_products)
+        ->get(['id', 'name'])
+        ->toArray();
+
+
+        return view('Admin.products.update_product',compact('product','categories','cat_arr'));
     }
 
     public function productUpdateProccess(Request $request){
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',

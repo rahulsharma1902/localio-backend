@@ -48,11 +48,9 @@
                             <input type="hidden" name="lang_code"
                                 value="{{ $productTranslation->language->lang_code ?? '' }}">
                         @else
-                            {{-- {{ dd('hello') }} --}}
                             <input type="hidden" class="form-control" id="language_id" name="lang_code"
                                 value="{{ getCurrentLanguageID() }}" />
                         @endif
-                        {{-- {{ dd('hello') }} --}}
                         <input type="hidden" name="product_tr_id" value="{{ $productTranslation->id ?? '' }}">
 
                         <!-- New Input Fields -->
@@ -66,7 +64,9 @@
                                             <option value="" disabled>Select Categories</option>
                                             @if ($categories->isNotEmpty())
                                                 @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name ?? '' }}
+                                                    <option value="{{ $category->id }}"
+                                                        @if ($product->categories->contains($category->id)) selected @endif>
+                                                        {{ $category->name ?? '' }}
                                                     </option>
                                                 @endforeach
                                             @endif
