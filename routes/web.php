@@ -122,6 +122,7 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('/admin-dashboard/product/add', [AdminProductController::class, 'productAdd'])->name('product-add');
     Route::post('/admin-dashboard/product-add-procc', [AdminProductController::class, 'productAddProccess'])->name('product-add-procc');
     Route::get('/admin-dashboard/product-edit/{id}', [AdminProductController::class, 'productEdit'])->name('product-edit');
+    Route::post('/admin-dashboard/product-update-procc', [AdminProductController::class, 'productUpdateProccess'])->name('product-update-procc');
     Route::get('/admin-dashboard/remove-product/{id}', [AdminProductController::class, 'removeProduct'])->name('product-remove');
 
     // SiteContent Route

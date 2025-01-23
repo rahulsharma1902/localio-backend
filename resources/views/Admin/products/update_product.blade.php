@@ -10,9 +10,10 @@
         <div class="card card-bordered">
             <div class="card-inner">
                 <div class="nk-block">
-                    <form action="{{ url('admin-dashboard/product-add-procc') }}" class="form-validate" novalidate="novalidate"
-                        method="post" enctype="multipart/form-data">
+                    <form action="{{ url('admin-dashboard/product-update-procc') }}" class="form-validate"
+                        novalidate="novalidate" method="post" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id" value="{{ isset($product) ? $product->id : '' }}">
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -69,6 +70,9 @@
                                                     <option value="{{ $category->id }}">{{ $category->name ?? '' }}
                                                     </option>
                                                 @endforeach
+                                            @else
+                                                <option>No category found
+                                                </option>
                                             @endif
                                         </select>
                                     </div>
@@ -84,7 +88,7 @@
                                             <label class="form-label" for="product-category">Product Category</label>
                                             <select class="form-control product-category" name="product_category[]"
                                                 multiple="multiple">
-                                                <option value="" disabled>Select Categories</option>
+                                                <option value="{{ $product->id }}">{{ }}</option>
                                                 @if ($categories->isNotEmpty())
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
@@ -95,22 +99,9 @@
                                                 @endif
                                             </select>
                                         </div>
-                                    @elseif($lang !== 'en-us')
-                                        <div class="form-group">
-                                            <label class="form-label" for="product-category">Product Category</label>
-                                            <input type="text" class="form-control" name="product_category_display"
-                                                id="product-category-display"
-                                                value="{{ isset($product->categories)
-                                                    ? $product->categories->map(function ($category) use ($siteLanguage) {
-                                                            $translation = $category->translations->firstWhere('language_id', $siteLanguage->id);
-                                                            return $translation ? $translation->name : $category->name;
-                                                        })->join(', ')
-                                                    : $product->categories->pluck('name')->join(', ') }}"
-                                                readonly>
-
-                                            <input type="hidden" name="product_category[]" id="product-category"
-                                                value="{{ implode(',', $product->categories->pluck('id')->toArray()) }}">
-                                        </div>
+                                        @error('product_category')
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
                                     @endif
                                 </div>
                             @endif
@@ -179,7 +170,7 @@
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="name">Key Features</label>
                                 <div class="features-container">
@@ -195,12 +186,10 @@
                                         </div>
                                     @elseif(isset($product))
                                         @foreach ($product->keyFeatures as $feature)
+                                            {{ dd($feature  ) }}
                                             <div class="feature-group d-flex align-items-center">
                                                 @php
-                                                    $translation = $feature->translations->firstWhere(
-                                                        'language_id',
-                                                        $siteLanguage->id,
-                                                    );
+                                                    $translation = $feature->translations->firstWhere('language_id', 1);
                                                 @endphp
                                                 <input type="text" class="form-control"
                                                     name="key_features[{{ $feature->id }}]" id="keyFeatures"
@@ -227,7 +216,7 @@
                                     </div>
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center"><em
