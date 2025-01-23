@@ -115,7 +115,7 @@ class AdminProductController extends Controller
             'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            'key_features' => 'required|array|min:1',
+            // 'key_features' => 'required|array|min:1',
         ]);
         $language = Language::where('id',$request->lang_code)->first();
         if(!$language)
@@ -155,7 +155,7 @@ class AdminProductController extends Controller
                 'language_id' => $language_id,
             ]);
             if($productTranslation){
-                return back()->with('success', 'Product  update successfully');
+                return redirect()->route('products')->with('success', 'Product  update successfully');
             }else{
                 return back()->with('error', 'something went wrong');
             }

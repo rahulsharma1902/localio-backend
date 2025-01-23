@@ -99,6 +99,9 @@
                                                 @endif
                                             </select>
                                         </div>
+                                        @error('product_category')
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
                                     @endif
                                 </div>
                             @endif
@@ -167,7 +170,7 @@
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="name">Key Features</label>
                                 <div class="features-container">
@@ -183,6 +186,7 @@
                                         </div>
                                     @elseif(isset($product))
                                         @foreach ($product->keyFeatures as $feature)
+                                            {{ dd($feature  ) }}
                                             <div class="feature-group d-flex align-items-center">
                                                 @php
                                                     $translation = $feature->translations->firstWhere('language_id', 1);
@@ -212,7 +216,7 @@
                                     </div>
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center"><em
