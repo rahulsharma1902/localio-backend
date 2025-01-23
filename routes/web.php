@@ -34,8 +34,8 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
     Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
-    Route::get('admin-dashboard/who_we_are', [AdminDashController::class, 'whoweareContent'])->name('who_we_are_content');
-    Route::post('admin-dashboard/who_we_are', [AdminDashController::class, 'updatewhoweare'])->name('admin.who_we_are.update');
+    Route::get('admin-dashboard/who-we-are', [AdminDashController::class, 'whoweareContent'])->name('who_we_are_content');
+    Route::post('admin-dashboard/who-we-are', [AdminDashController::class, 'updatewhoweare'])->name('admin.who_we_are.update');
 
    
     //  CategoriesController  categories
