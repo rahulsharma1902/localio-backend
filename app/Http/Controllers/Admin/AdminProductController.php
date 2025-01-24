@@ -28,7 +28,6 @@ class AdminProductController extends Controller
     }
     public function productAddProccess(Request $request)    
     {   
-        // dd($request->all());
         $language = Language::where('id',$request->lang_code)->first();
         $request->validate([
             'name' => 'required|string',
@@ -76,30 +75,28 @@ class AdminProductController extends Controller
             $productTranslation->product_id  = $product->id;
             $productTranslation->language_id  = $language_id;
             $productTranslation->save();
-
+            $procons_id =   DB::table('pro_cons')->insertGetId([
+                'product_id' => $product->id,
+                'lang_id' => $language_id,
+                'type' => 'null',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
             foreach($request->product_category as $value){
                 DB::table('category_products')->insert([
                     'category_id' => $value,
                     'product_id' => $product->id
                 ]);
-            }
-
-
-            
-            
-
-
-
-
-
-            
+            }    
 
             foreach($request->key_features as $value ){
                 DB::table('pro_cons_translations')->insert([
                     'pro_cons_id' => $procons_id,
                     'name' => $value,
-                    'description' => 'null'
+                    'description' => 'null',
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
             }
             return redirect()->route('products')->with('success', 'Product  added successfully');
@@ -126,6 +123,8 @@ class AdminProductController extends Controller
     }
 
     public function productUpdateProccess(Request $request){
+        
+        // dd($request->key_features);
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
@@ -173,6 +172,25 @@ class AdminProductController extends Controller
                 'product_id' => $request->id,
                 'language_id' => $language_id,
             ]);
+            foreach ($request->key_features as $value) {
+                $existing = DB::table('pro_cons_translations')->where('name', $value)->first();
+                if ($existing) {
+                    // If the value exists, update it
+                    DB::table('pro_cons_translations')
+                        ->where('name', $value)
+                        ->update([
+                            'updated_at' => now(), 
+                    ]);
+                } else {
+                   $procons_id =  DB::table('pro_cons')->where('product_id',$request->id)->value('id');
+                    DB::table('pro_cons_translations')->insert([
+                        'name' => $value,
+                        'pro_cons_id' => $procons_id,
+                        'description' => 'null',
+                    ]);
+                }
+            }
+            
             DB::table('category_products')->where('product_id',$product->id)->delete();
             foreach($request->product_category as $value){
                 DB::table('category_products')->updateOrInsert(
