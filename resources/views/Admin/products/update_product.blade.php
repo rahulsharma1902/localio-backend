@@ -173,11 +173,11 @@
                             @enderror
                         </div>
                         {{-- product prons --}}
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-4">
                             <div class="card border">
                                 <div class="card-header mt-3 d-flex justify-content-between">
                                     <h4>
-                                        Add Cros Data
+                                        Add Prons Data
                                     </h4>
                                     <p class="btn btn-success" id="add-option">Add data</button>
                                 </div>
