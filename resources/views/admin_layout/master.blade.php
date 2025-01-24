@@ -51,6 +51,42 @@
             border: none;
             outline: none;
         }
+
+
+
+
+        .edit-btn {
+            --bs-dropdown-min-width: 45px;
+            background-color: #F9633B;
+            color: white;
+            overflow: hidden !important;
+            height: 41px !important;
+        }
+
+        .edit-btn>ul>li>a {
+            padding: 2px 21px !important;
+            color: white !important;
+        }
+
+        .link-list-opt a:hover {
+            background-color: #F9633B !important;
+            color: white !important;
+        }
+
+
+        em.icon.ni.ni-more-h {
+            color: var(--bs-link-color) !important;
+        }
+
+        a.btn.btn-primary.d-none.d-md-inline-flex {
+            background-color: var(--btn-background) !important;
+            border: none;
+        }
+
+        .nk-menu-link:hover,
+        .active>.nk-menu-link {
+            color: var(--btn-background) !important;
+        }
     </style>
 
 </head>

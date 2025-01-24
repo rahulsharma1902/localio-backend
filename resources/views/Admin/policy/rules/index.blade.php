@@ -82,7 +82,8 @@
                                                 <div class="drodown">
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                    <div class="dropdown-menu dropdown-menu-end edit-btn"
+                                                        style="height: 69px !important;">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a
                                                                     href="{{ url('admin-dashboard/rule-edit') ?? '' }}/{{ $rule->id ?? '' }}"><em

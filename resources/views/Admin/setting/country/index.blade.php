@@ -67,7 +67,8 @@
                                             <div class="drodown">
                                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                     data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
+                                                <div class="dropdown-menu dropdown-menu-end edit-btn"
+                                                    style="height: 69px !important">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li>
                                                             <a
@@ -142,56 +143,4 @@
             </div>
         </div>
     </div>
-    <script>
-        // $(document).ready(function() {
-        //     $('#CountryDataTable').DataTable({
-        //         processing: true, 
-        //         serverSide: true,
-        //         ajax: {
-        //             url: "{{ route('country.index') }}", 
-        //             type: "GET"
-        //         },
-        //         columns: [
-        //             { 
-        //                 data: 'name', 
-        //                 name: 'name' 
-        //             },
-        //             {
-        //                 data: 'id', 
-        //                 name: 'id',
-        //                 render: function(data, type, row) {
-        //                     return `
-    //                         <ul class="nk-tb-actions gx-1">
-    //                             <li>
-    //                                 <div class="drodown">
-    //                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
-    //                                         data-bs-toggle="dropdown">
-    //                                         <em class="icon ni ni-more-h"></em>
-    //                                     </a>
-    //                                     <div class="dropdown-menu dropdown-menu-end">
-    //                                         <ul class="link-list-opt no-bdr">
-    //                                             <li>
-    //                                                 <a href="/admin-dashboard/country/update/${data}">
-    //                                                     <em class="icon ni ni-edit-fill"></em>
-    //                                                     <span>Edit</span>
-    //                                                 </a>
-    //                                             </li>
-    //                                             <li>
-    //                                                 <a href="/country/delete/${data}">
-    //                                                     <em class="icon ni ni-trash-fill"></em>
-    //                                                     <span>Delete</span>
-    //                                                 </a>
-    //                                             </li>
-    //                                         </ul>
-    //                                     </div>
-    //                                 </div>
-    //                             </li>
-    //                         </ul>
-    //                     `;
-        //                 }
-        //             }
-        //         ]
-        //     });
-        // });
-    </script>
 @endsection

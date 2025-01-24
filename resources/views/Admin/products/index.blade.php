@@ -1,8 +1,6 @@
 @extends('admin_layout.master')
 @section('content')
     <style>
-        
-
         .ck.ck-content {
             min-height: 10rem;
         }
@@ -11,25 +9,9 @@
             width: 40%;
         }
 
-        em.icon.ni.ni-more-h {
-            color: var(--bs-link-color) !important;
-        }
+       
 
-        a.btn.btn-primary.d-none.d-md-inline-flex {
-            background-color: var(--btn-background) !important;
-            border: none;
-        }
-
-        .nk-menu-link:hover,
-        .active>.nk-menu-link {
-            color: var(--btn-background) !important;
-        }
-
-        .dropdown-menu.dropdown-menu-end.edit.show {
-            height: 8vh;
-            border: 2px solid #8094ae;
-            overflow: hidden;
-        }
+        
     </style>
     <?php
     $locale = getCurrentLocale();
@@ -139,7 +121,7 @@
                                                 <div class="drodown">
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-end edit">
+                                                    <div class="dropdown-menu dropdown-menu-end edit-btn">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a
                                                                     href="{{ url('admin-dashboard/product-edit') ?? '' }}/{{ $product['id'] ?? '' }}"><em
