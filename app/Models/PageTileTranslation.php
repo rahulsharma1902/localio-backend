@@ -16,4 +16,8 @@ class PageTileTranslation extends Model
         'image',
         'status',
     ];
+    public function pageTile()
+    {
+        return $this->belongsTo(PageTile::class);
+    }
 }

@@ -311,16 +311,18 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
-                                                    @foreach (\App\Models\Language::where('status', 1)->get() as
-                                                    $languages)
-                                                    <li>
-                                                        <a
-                                                            href="{{ url('set-site-active-language/' . $languages->lang_code) }}">
-                                                            <span>{{ $languages->name }}
-                                                                <!-- {{ $languages->lang_code }} -->
-                                                            </span>
-                                                        </a>
-                                                    </li>
+                                                    @php
+                                                        $languages = \App\Models\Language::where('status', 1)->get();
+                                                    @endphp
+                                                    @foreach($languages as $language)
+                                                        <li>
+                                                            <a
+                                                                href="{{ url('set-site-active-language/' . $language->lang_code) }}">
+                                                                <span>{{ $language->name }}
+                                                                   
+                                                                </span>
+                                                            </a>
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             </div>

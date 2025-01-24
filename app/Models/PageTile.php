@@ -16,4 +16,10 @@ class PageTile extends Model
         'type', 
         'source'
     ];
+
+
+    public function translations()
+    {
+        return $this->hasMany(PageTileTranslation::class);
+    }
 }
