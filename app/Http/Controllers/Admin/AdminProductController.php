@@ -18,8 +18,6 @@ class AdminProductController extends Controller
     {
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id',$lang_id)->first();
-        // $products = Product::with('categories')->get()->toArray();
-        // dd($products);
         $products = Product::with('categories')->get();
        return view('Admin.products.index',compact('products'));
     }
@@ -31,11 +29,7 @@ class AdminProductController extends Controller
     public function productAddProccess(Request $request)    
     {   
         // dd($request->all());
-        $keyFeatures = array_filter($request->input('key_features'), function ($value) {
-            return !empty($value);
-        });
-        // Validate the filtered key_features array
-        $request->merge(['key_features' => $keyFeatures]);
+        $language = Language::where('id',$request->lang_code)->first();
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
@@ -46,7 +40,6 @@ class AdminProductController extends Controller
             'product_link' => 'required|url',
             'key_features' => 'required|array|min:1',
         ]);
-        $language = Language::where('id',$request->lang_code)->first();
         if(!$language)
         {
             return redirect()->back()->with('error','current langauge not found');
@@ -89,6 +82,21 @@ class AdminProductController extends Controller
                 DB::table('category_products')->insert([
                     'category_id' => $value,
                     'product_id' => $product->id
+                ]);
+            }
+
+
+            $procons_id =   DB::table('pro_cons')->insertGetId([
+                'product_id' => $product->id,
+                'lang_id' => $language_id,
+                'type' => 'null'
+            ]);
+
+            foreach($request->key_features as $value ){
+                DB::table('pro_cons_translations')->insert([
+                    'pro_cons_id' => $procons_id,
+                    'name' => $value,
+                    'description' => 'null'
                 ]);
             }
             return redirect()->route('products')->with('success', 'Product  added successfully');

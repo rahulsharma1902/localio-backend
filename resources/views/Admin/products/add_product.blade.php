@@ -181,52 +181,17 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label" for="name">Key Features</label>
-                                <div class="features-container">
-                                    @if (!isset($product))
-                                        <div class="feature-group d-flex align-items-center">
-                                            <input type="text" class="form-control" name="key_features[]"
-                                                id="keyFeatures" placeholder="Key Features">
-                                            <button class="remove-feature btn btn-icon ml-2" type="button"
-                                                style="display:none;">
-                                                <i class="fa fa-minus-circle text-danger"
-                                                    style="font-size: 1.5rem; cursor: pointer;"></i>
-                                            </button>
-                                        </div>
-                                    @elseif(isset($product))
-                                        @foreach ($product->keyFeatures as $feature)
-                                            <div class="feature-group d-flex align-items-center">
-                                                @php
-                                                    $translation = $feature->translations->firstWhere(
-                                                        'language_id',
-                                                        $siteLanguage->id,
-                                                    );
-                                                @endphp
-                                                <input type="text" class="form-control"
-                                                    name="key_features[{{ $feature->id }}]" id="keyFeatures"
-                                                    value="{{ $translation ? $translation->feature : $feature->feature }}">
-                                                @if (!isset($product) || $lang == 'en-us')
-                                                    <button class="remove-feature btn btn-icon ml-2" type="button">
-                                                        <i class="fa fa-minus-circle text-danger"
-                                                            style="font-size: 1.5rem; cursor: pointer;"></i>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    @endif
+                            <div class="card border">
+                                <div class="card-header mt-3 d-flex justify-content-between">
+                                    <h4>
+                                        Add Cros Data
+                                    </h4>
+                                    <p class="btn btn-success" id="add-option">Add data</button>
                                 </div>
-                                @if ($errors->has('key_features'))
-                                    <div class="error text-danger">{{ $errors->first('key_features') }}</div>
-                                @endif
-                                @if (!isset($product) || $lang == 'en-us')
-                                    <div class="mt-1 text-center">
-                                        <button class="add-more-features btn btn-icon" type="button">
-                                            <i class="fa fa-plus-circle text-success"
-                                                style="font-size: 1.5rem; cursor: pointer;"></i>
-                                        </button>
-                                    </div>
-                                @endif
+                                <div class="card-body">
+
+                                    {{-- input add --}}
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12 mt-4">
@@ -245,6 +210,31 @@
         $(document).ready(function() {
             $('.product-category').select2({
                 placeholder: "Select Product Category"
+            });
+        });
+
+        // add data
+
+        $(document).ready(function() {
+            // Add dynamic option fields
+            $('#add-option').click(function() {
+                $('.card-body').append(`
+        <div class="form-group row option-group mt-2">
+            <div class="col-lg-10 col-md-10 col-sm-10">
+                <input type="text" name="key_features[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
+                <button type="button" class="btn btn-danger remove-option"><em class="icon ni ni-trash-fill"></em></button>
+            </div>
+        </div>
+    `);
+            });
+
+            // Remove option field, ensuring at least one remains
+            $('.card-body').on('click ', '.remove-option ', function() {
+                if ($('.option-group').length > 1) {
+                    $(this).closest('.option-group').remove();
+                }
             });
         });
     </script>
