@@ -86,11 +86,14 @@ class AdminProductController extends Controller
             }
 
 
-            $procons_id =   DB::table('pro_cons')->insertGetId([
-                'product_id' => $product->id,
-                'lang_id' => $language_id,
-                'type' => 'null'
-            ]);
+            
+            
+
+
+
+
+
+            
 
             foreach($request->key_features as $value ){
                 DB::table('pro_cons_translations')->insert([
@@ -106,20 +109,20 @@ class AdminProductController extends Controller
     }
     public function productEdit($id)
     {   
+        $pro_cons_id = DB::table('pro_cons')->where('product_id',$id)->value('id');
+        $pro_cons_translations =  DB::table('pro_cons_translations')->where('pro_cons_id',$pro_cons_id)->get()->toArray();
         $categories = Category::all();
         $product = Product::with('keyFeatures','categories.translations')->find($id);
-        // $category_products =  DB::table('category_products')->where('product_id',$id)->pluck('category_id')->toArray();
-
             $category_products = DB::table('category_products')
-        ->where('product_id', $id)
-        ->pluck('category_id')
-        ->toArray();
-        $cat_arr = Category::whereIn('id', $category_products)
-        ->get(['id', 'name'])
-        ->toArray();
+            ->where('product_id', $id)
+            ->pluck('category_id')
+            ->toArray();
+            $cat_arr = Category::whereIn('id', $category_products)
+            ->get(['id', 'name'])
+            ->toArray();
 
 
-        return view('Admin.products.update_product',compact('product','categories','cat_arr'));
+        return view('Admin.products.update_product',compact('product','categories','cat_arr','pro_cons_translations'));
     }
 
     public function productUpdateProccess(Request $request){
@@ -131,7 +134,7 @@ class AdminProductController extends Controller
             'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            // 'key_features' => 'required|array|min:1',
+            'key_features' => 'required|array|min:1',
         ]);
         $language = Language::where('id',$request->lang_code)->first();
         if(!$language)
