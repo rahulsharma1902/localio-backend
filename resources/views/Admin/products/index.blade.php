@@ -1,12 +1,37 @@
 @extends('admin_layout.master')
 @section('content')
     <style>
+        :root {
+            --btn-background: #F9633B;
+            ;
+        }
+
         .ck.ck-content {
             min-height: 10rem;
         }
 
         .nk-add-product.toggle-slide.toggle-slide-right.toggle-screen-any.content-active {
             width: 40%;
+        }
+
+        em.icon.ni.ni-more-h {
+            color: var(--bs-link-color) !important;
+        }
+
+        a.btn.btn-primary.d-none.d-md-inline-flex {
+            background-color: var(--btn-background) !important;
+            border: none;
+        }
+
+        .nk-menu-link:hover,
+        .active>.nk-menu-link {
+            color: var(--btn-background) !important;
+        }
+
+        .dropdown-menu.dropdown-menu-end.edit.show {
+            height: 8vh;
+            border: 2px solid #8094ae;
+            overflow: hidden;
         }
     </style>
     <?php

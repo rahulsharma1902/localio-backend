@@ -75,18 +75,18 @@
                                     </a>
                                 </li>
                                 <li class="nk-menu-item has-sub">
-                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                <span class="nk-menu-text">Products</span>
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                        <span class="nk-menu-text">Products</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/products') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Product</span>
                                             </a>
-                                            <ul class="nk-menu-sub">
-                                                <li class="nk-menu-item">
-                                                    <a href="{{ url('/admin-dashboard/products') }}"
-                                                        class="nk-menu-link"><span class="nk-menu-text">Product</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
                                         </li>
+                                    </ul>
+                                </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
@@ -103,10 +103,10 @@
                                     </a>
 
                                 </li>
-                               
 
-                                 <!-- Globals  -->
-                                 <li class="nk-menu-item has-sub">
+
+                                <!-- Globals  -->
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
                                         <span class="nk-menu-text">Global Section</span>
@@ -116,7 +116,7 @@
                                             <a href="{{ url('/admin-dashboard/header-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Header</span></a>
                                         </li>
-            
+
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/footer-page') }}"
@@ -132,7 +132,7 @@
                                         <span class="nk-menu-text">Pages</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                       
+
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/home-page') }}"
@@ -140,8 +140,8 @@
                                         </li>
 
                                         <li class="nk-menu-item ">
-                                            <a href="{{ route('who_we_are_content') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">who we are</span></a>
+                                            <a href="{{ route('who_we_are_content') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">who we are</span></a>
                                         </li>
 
 
@@ -160,7 +160,7 @@
                                     </ul>
                                 </li>
 
-                               
+
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -246,8 +246,8 @@
                                                     Languages</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/country') }}" class="nk-menu-link"><span
-                                                    class="nk-menu-text">Country</span></a>
+                                            <a href="{{ url('/admin-dashboard/country') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Country</span></a>
                                         </li>
 
                                     </ul>
@@ -316,7 +316,7 @@
                                                         <li>
                                                             <a
                                                                 href="{{ url('set-site-active-language/' . $languages->lang_code) }}">
-                                                                <span>{{ $languages->name }} 
+                                                                <span>{{ $languages->name }}
                                                                     <!-- {{ $languages->lang_code }} -->
                                                                 </span>
                                                             </a>
