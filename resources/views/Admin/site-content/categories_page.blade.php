@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-            $lang_code = getCurrentLocale();
+        $lang_code = getCurrentLocale();
         ?>
         @if (isset($categoryPageContents))
             <div class="card card-bordered">
@@ -122,7 +122,7 @@
                                 </div>
                                 <div class="col-md-12 mt-4">
                                     <div class="form-group">
-                                        <button class="addCategory btn btn-primary  text-center"><em
+                                        <button class="addCategory btn btn-primary  text-center btn-localio"><em
                                                 class="icon ni ni-plus"></em><span>Update Content</span></button>
                                     </div>
                                 </div>

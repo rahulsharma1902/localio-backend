@@ -34,6 +34,23 @@
             height: 42vh;
             overflow-y: scroll;
         }
+
+        :root {
+            --btn-background: #F9633B;
+            ;
+        }
+
+        .btn-localio {
+            background-color: var(--btn-background);
+            border: none;
+            outline: none;
+        }
+
+        .btn-localio:hover {
+            background-color: var(--btn-background);
+            border: none;
+            outline: none;
+        }
     </style>
 
 </head>

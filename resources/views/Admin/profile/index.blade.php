@@ -16,7 +16,8 @@
                                 <div class="form-group">
                                     <label class="form-label" for="first_name">First Name</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="first_name" class="form-control" id="first_name" value="{{ Auth::user()->first_name}}" >
+                                        <input type="text" name="first_name" class="form-control" id="first_name"
+                                            value="{{ Auth::user()->first_name }}">
                                     </div>
                                     @error('first_name')
                                         <span class="text text-danger">{{ $message }}</span>
@@ -27,20 +28,22 @@
                                 <div class="form-group">
                                     <label class="form-label" for="last_name">Last Name</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="last_name" class="form-control" id="last_name" value="{{ Auth::user()->last_name}}" >
+                                        <input type="text" name="last_name" class="form-control" id="last_name"
+                                            value="{{ Auth::user()->last_name }}">
                                     </div>
                                     @error('last_name')
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                            </div>
-                            <div class="row">
+                        </div>
+                        <div class="row">
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
                                     <label class="form-label" for="name"> Email</label>
                                     <div class="form-control-wrap">
-                                        <input type="email" name="email" class="form-control" id="email" value="{{ Auth::user()->email}}" >
+                                        <input type="email" name="email" class="form-control" id="email"
+                                            value="{{ Auth::user()->email }}">
                                     </div>
                                     @error('email')
                                         <span class="text text-danger">{{ $message }}</span>
@@ -51,17 +54,17 @@
                                 <div class="form-group">
                                     <label class="form-label" for="name">Phone Number</label>
                                     <div class="form-control-wrap">
-                                        <input type="number" name="number" class="form-control" id="number" value="{{ Auth::user()->number ?? '' }}" >
+                                        <input type="number" name="number" class="form-control" id="number"
+                                            value="{{ Auth::user()->number ?? '' }}">
                                     </div>
                                     @error('number')
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                            </div>
+                        </div>
                         <div class="form-group mt-3">
-                            <button type="submit"
-                                class="btn btn-lg btn-primary">Update </button>
+                            <button type="submit" class="btn btn-lg btn-primary btn-localio">Update </button>
                         </div>
                     </form>
                 </div>
@@ -74,14 +77,14 @@
                             </div>
                             <div class="row gy-4">
                                 <div class="col-sm-6">
-                                    <form action="{{ url('admin-dashboard/change-password-procc') }}" method="POST" >
+                                    <form action="{{ url('admin-dashboard/change-password-procc') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <label class="form-label" for="name"> Old Password</label>
                                             <div class="form-control-wrap">
-                                                <input type="password" class="form-control" name="old_password" id="old_password"
-                                                    placeholder="Old Password">
-                                                    @error('old_password')
+                                                <input type="password" class="form-control" name="old_password"
+                                                    id="old_password" placeholder="Old Password">
+                                                @error('old_password')
                                                     <span class="text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -89,9 +92,9 @@
                                         <div class="form-group">
                                             <label class="form-label" for="name"> New Password</label>
                                             <div class="form-control-wrap">
-                                                <input type="password" class="form-control" name="new_password" id="new_password"
-                                                    placeholder="New Password">
-                                                    @error('new_password')
+                                                <input type="password" class="form-control" name="new_password"
+                                                    id="new_password" placeholder="New Password">
+                                                @error('new_password')
                                                     <span class="text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -99,19 +102,19 @@
                                         <div class="form-group">
                                             <label class="form-label" for="name"> Confirm Password</label>
                                             <div class="form-control-wrap">
-                                                <input type="password" class="form-control" name="new_password_confirmation" id="new_password_confirmation"
-                                                    placeholder="Confirm Password">
-                                                    @error('new_password_confirmation')
+                                                <input type="password" class="form-control" name="new_password_confirmation"
+                                                    id="new_password_confirmation" placeholder="Confirm Password">
+                                                @error('new_password_confirmation')
                                                     <span class="text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary add" id="add"><span
-                                                    id="button_value">Update</span></button>
-                                            
+                                            <button type="submit" class="btn btn-primary add btn-localio"
+                                                id="add"><span id="button_value">Update</span></button>
+
                                         </div>
-                                    </div>
+                                </div>
                                 </form>
                             </div>
                         </div>
@@ -120,22 +123,22 @@
             </div>
             <div class="form-group col-lg-12 mt-3 text-right">
                 <div class="d-flex justify-content-end">
-                   <button type="button" class="btn btn-primary add-new" id="changepass">
-                      <span>Change Password</span>
-                  </button>
-               </div>
-            </div>                                    
+                    <button type="button" class="btn btn-primary add-new btn-localio" id="changepass">
+                        <span>Change Password</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <script>
-        $('#changepass').click(function(){
+        $('#changepass').click(function() {
             $('#changepasswordCard').removeClass('d-none');
             $(this).hide();
-           
+
         });
-         $('.close').click(function(){
-                $('#changepasswordCard').addClass('d-none');
-                $('#changepass').show();
-            });
+        $('.close').click(function() {
+            $('#changepasswordCard').addClass('d-none');
+            $('#changepass').show();
+        });
     </script>
 @endsection

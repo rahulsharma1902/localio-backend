@@ -33,7 +33,7 @@
                         <!-- Submit Button -->
                         <div class="col-md-12">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-primary">Update</button>
+                                <button type="submit" class="btn btn-lg btn-primary btn-localio">Update</button>
                             </div>
                         </div>
                     </div>

@@ -1,10 +1,7 @@
 @extends('admin_layout.master')
 @section('content')
     <style>
-        :root {
-            --btn-background: #F9633B;
-            ;
-        }
+        
 
         .ck.ck-content {
             min-height: 10rem;

@@ -30,7 +30,7 @@
                                         class="toggle btn btn-icon btn-primary d-md-none"><em
                                             class="icon ni ni-plus"></em></a>
                                     <a href="#" data-target="addProduct"
-                                        class="toggle btn btn-primary d-none d-md-inline-flex"><em
+                                        class="toggle btn btn-primary d-none d-md-inline-flex btn-localio"><em
                                             class="icon ni ni-plus"></em><span>Add Categories</span></a>
                                 </li>
 
@@ -45,7 +45,7 @@
                 <table class="datatable-init nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     @if ($categories->isEmpty())
                         <div class="text-center">
-                            <button class="btn btn-primary">No data found</button>
+                            <button class="btn btn-primary btn-localio">No data found</button>
                         </div>
                     @else
                         <thead>

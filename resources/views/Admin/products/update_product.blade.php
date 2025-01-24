@@ -221,7 +221,7 @@
                         </div> --}}
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
-                                <button class="addCategory btn btn-primary text-center"><em
+                                <button class="addCategory btn btn-primary text-center btn-localio"><em
                                         class="icon ni ni-plus"></em><span>Update</span></button>
                             </div>
                         </div>
