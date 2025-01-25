@@ -38,7 +38,8 @@
                         @endif
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label" for="top_lef  <img src="" alt=" Image" class="mt-2" style="width: 100px; height: auto;">Top left Section Image</label>
+                        <label class="form-label" for="top_lef  <img src="" alt=" Image" class="mt-2"
+                            style="width: 100px; height: auto;">Top left Section Image</label>
                         <input type="file" class="form-control" id="top_left_section_img" name="top_left_section_img" />
                         @if(isset($whoWeAre->top_left_section_img))
                         <img src="{{ asset($whoWeAre->top_left_section_img) }}" alt="Top left Section Image"
@@ -115,7 +116,8 @@
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="title">Title</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="title" value="{{ old('title') }}" placeholder="Enter Here Tittle.." />
+                                        <input type="text" class="form-control" id="title" value="{{ old('title') }}"
+                                            placeholder="Enter Here Tittle.." />
                                     </div>
                                 </div>
 
@@ -168,7 +170,7 @@
                                                 <!-- Delete Button -->
                                                 <a class="btn btn-danger btn-sm"
                                                     href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
-                                 
+
                                             </td>
                                         </tr>
                                         @empty
@@ -188,6 +190,38 @@
                         <input type="text" class="form-control" id="specialists_heading" name="specialists_heading"
                             value="{{ $whoWeAre->specialists_heading ?? '' }}" />
                     </div>
+                    <div class="card border mt-3">
+                    <div class="card-header">
+                        Specialists Section
+                        <button type="button" class="btn btn-success btn-sm float-end" id="add-specialists-item">Add Item</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group col-lg-12">
+                            <label class="form-label" for="specialists_title">Title</label>
+                            <input type="text" class="form-control" id="specialists_title" name="specialists_title[]" placeholder="Enter Title">
+                        </div>
+
+                        <div class="form-group col-lg-12">
+                            <label class="form-label" for="specialists_description">Description</label>
+                            <input type="text" class="form-control" id="specialists_description" name="specialists_description[]" placeholder="Enter Description">
+                        </div>
+
+                        <div class="form-group col-lg-12">
+                            <label class="form-label" for="specialists_image">Image</label>
+                            <input type="file" class="form-control" id="specialists_image" name="specialists_image[]">
+                        </div>
+
+                        <div class="form-group col-lg-12">
+            <label class="form-label" for="specialists_img">Image</label>
+            <input type="file" class="form-control" id="specialists_img" name="specialists_img[]">
+        </div>
+                    </div>
+                </div>
+
+                <div id="specialists-items-list">
+                    <!-- Specialists items will be appended here -->
+                </div>
+
 
                     <!-- Service Software Heading -->
                     <div class="col-md-12">
@@ -229,8 +263,8 @@
     </div>
 </div>
 <script>
-   let addedItems = [];
-
+let addedItems = [];
+let addedSpecialistsItems = [];
 // When you add an item to the list
 document.getElementById('add-popular-item').addEventListener('click', function() {
     const title = document.getElementById('title').value;
@@ -316,8 +350,8 @@ function clearForm() {
 }
 
 // Before submitting the form, remove the hidden inputs of removed items
-document.getElementById('your-form-id').addEventListener('submit', function(e) {
-    e.preventDefault();  // Prevent form submission for testing purposes (remove this line in production)
+document.getElementById('popular-items-list').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form submission for testing purposes (remove this line in production)
 
     // Exclude removed items' hidden inputs from the form submission
     addedItems = addedItems.filter(item => !item.removed);
@@ -337,5 +371,105 @@ document.getElementById('your-form-id').addEventListener('submit', function(e) {
     // Uncomment the following line when you're ready to submit the form
     // this.submit();
 });
+
+document.getElementById('add-specialists-item').addEventListener('click', function() {
+        const title = document.getElementById('specialists_title').value;
+        const description = document.getElementById('specialists_description').value;
+        const imageInput = document.getElementById('specialists_image');
+        const imgInput = document.getElementById('specialists_img');
+        const imageFile = imageInput.files[0];
+        const imgFile = imgInput.files[0];
+
+        if (title && description && imageFile && imgFile) {
+            const reader1 = new FileReader();
+            const reader2 = new FileReader();
+
+            reader1.onload = function(e) {
+                const imgSrc1 = e.target.result;
+
+                reader2.onload = function(e) {
+                    const imgSrc2 = e.target.result;
+
+                    const itemCard = document.createElement('div');
+                    itemCard.className = 'item-card mt-2 p-2 border';
+                    itemCard.innerHTML = `
+                        <h5>${title}</h5>
+                        <p>${description}</p>
+                        <img src="${imgSrc1}" alt="Image 1" style="width: 100px; height: auto;">
+                        <img src="${imgSrc2}" alt="Image 2" style="width: 100px; height: auto;">
+                        <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+                    `;
+                    document.getElementById('specialists-items-list').appendChild(itemCard);
+
+                    const hiddenTitleInput = document.createElement('input');
+                    hiddenTitleInput.type = 'hidden';
+                    hiddenTitleInput.name = 'specialists_title[]';
+                    hiddenTitleInput.value = title;
+
+                    const hiddenDescriptionInput = document.createElement('input');
+                    hiddenDescriptionInput.type = 'hidden';
+                    hiddenDescriptionInput.name = 'specialists_description[]';
+                    hiddenDescriptionInput.value = description;
+
+                    const hiddenImageInput1 = document.createElement('input');
+                    hiddenImageInput1.type = 'hidden';
+                    hiddenImageInput1.name = 'specialists_image[]';
+                    hiddenImageInput1.value = imgSrc1;
+
+                    const hiddenImageInput2 = document.createElement('input');
+                    hiddenImageInput2.type = 'hidden';
+                    hiddenImageInput2.name = 'specialists_img[]';
+                    hiddenImageInput2.value = imgSrc2;
+
+                    document.getElementById('specialists-items-list').appendChild(hiddenTitleInput);
+                    document.getElementById('specialists-items-list').appendChild(hiddenDescriptionInput);
+                    document.getElementById('specialists-items-list').appendChild(hiddenImageInput1);
+                    document.getElementById('specialists-items-list').appendChild(hiddenImageInput2);
+
+                    addedSpecialistsItems.push({
+                        title: title,
+                        description: description,
+                        image1: imgSrc1,
+                        image2: imgSrc2,
+                        card: itemCard,
+                        hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1, hiddenImageInput2]
+                    });
+
+                    clearForm();
+                };
+
+                reader2.readAsDataURL(imgFile);
+            };
+
+            reader1.readAsDataURL(imageFile);
+        } else {
+            alert('Please fill in all fields and select both images.');
+        }
+    });
+
+    // Remove specialists item
+    document.getElementById('specialists-items-list').addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-item')) {
+            const itemCard = e.target.closest('.item-card');
+            const itemIndex = addedSpecialistsItems.findIndex(item => item.card === itemCard);
+
+            if (itemIndex > -1) {
+                addedSpecialistsItems[itemIndex].removed = true;
+                itemCard.remove();
+                addedSpecialistsItems[itemIndex].hiddenInputs.forEach(input => input.remove());
+            }
+        }
+    });
+
+    // Clear form fields after adding item
+    function clearForm() {
+        document.getElementById('specialists_title').value = '';
+        document.getElementById('specialists_description').value = '';
+        document.getElementById('specialists_image').value = '';
+        document.getElementById('specialists_img').value = '';
+    }
+
+
 </script>
+
 @endsection

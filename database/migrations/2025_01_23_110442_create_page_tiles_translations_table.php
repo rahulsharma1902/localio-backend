@@ -18,6 +18,8 @@ return new class extends Migration
                 $table->text('description')->nullable();
                 $table->string('image')->nullable();  // Image for translation
                 $table->integer('status')->default(1);  // Status for the translation
+                $table->string('img')->nullable();
+                $table->string('small_img')->nullable();
                 $table->timestamps();
             });
        

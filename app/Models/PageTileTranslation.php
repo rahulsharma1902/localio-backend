@@ -15,6 +15,8 @@ class PageTileTranslation extends Model
         'description',
         'image',
         'status',
+        'img',
+        'small_img',
     ];
     public function pageTile()
     {

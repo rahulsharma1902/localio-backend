@@ -14,7 +14,9 @@ class PageTile extends Model
         'lang_id', 
         'image', 
         'type', 
-        'source'
+        'source',
+        'img',
+        'small_img',
     ];
 
 

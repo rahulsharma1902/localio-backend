@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('image')->nullable();  // Path to image
             $table->string('type')->nullable();  // Type of the tile (can be a category, product, etc.)
             $table->string('source')->nullable();  // Source of the tile (for example: URL or file)
+            $table->string('img')->nullable();
+            $table->string('small_img')->nullable();
             $table->timestamps();
         });
     }

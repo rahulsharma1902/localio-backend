@@ -89,6 +89,9 @@ public function updateWhoWeAre(Request $request)
     $pageTile = PageTile::first();
     $pageTileTranslation = PageTileTranslation::first();
 
+    if (!$whoWeAre || !$pageTile || !$pageTileTranslation) {
+        return redirect()->back()->with('error', 'Required data not found.');
+    }
     // Get popular items from the request
     $popularItems = $request->input('popular_items', []);
 
@@ -110,7 +113,7 @@ public function updateWhoWeAre(Request $request)
                 }
             }
         
-        $pageTile = new PageTile();
+$pageTile = new PageTile();
 $pageTile->lang_id = $request->input('lang_id', 1);
 $pageTile->image = $image ? 'front/img/' . $filename : null;
 $pageTile->type = 'page';
