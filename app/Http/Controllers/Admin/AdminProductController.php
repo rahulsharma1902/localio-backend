@@ -269,6 +269,62 @@ class AdminProductController extends Controller
     // }
 
 
+
+
+
+//<!-- 
+//$matched = [];
+//$notmatched = [];
+
+//$procons_id = DB::table('pro_cons')
+    //->where('product_id', $product->id)
+    //->value('id');
+
+//if ($procons_id) {
+    // Step 1: Fetch all existing translations for the pro_cons_id
+    //$existingTranslations = DB::table('pro_cons_translations')
+        //->where('pro_cons_id', $procons_id)
+       // ->pluck('name')
+        //->toArray();
+
+    // Step 2: Compare with request key_features
+  //  $incomingFeatures = $request->key_features;
+
+    // Find values to delete (those not in incoming features)
+ //   $toDelete = array_diff($existingTranslations, $incomingFeatures);
+
+    // Find values to insert (those in incoming features but not in existing)
+    //$toInsert = array_diff($incomingFeatures, $existingTranslations);
+
+    // Step 3: Delete values not in the request
+  //  DB::table('pro_cons_translations')
+        //->where('pro_cons_id', $procons_id)
+       // ->whereIn('name', $toDelete)
+        //->delete();
+
+    // Step 4: Insert new values
+   // foreach ($toInsert as $feature) {
+    //    DB::table('pro_cons_translations')->insert([
+         //   'pro_cons_id' => $procons_id,
+           // 'name' => $feature,
+          // 'created_at' => now(),
+           // 'updated_at' => now()
+       // ]);
+   ///}
+
+    // Optional: Prepare data for debugging/logging
+   // $matched = array_intersect($existingTranslations, $incomingFeatures); // Matched values
+   /// $notmatched = $toInsert; // New values inserted
+
+    // Debug or return data if needed
+   //dd([
+        //'deleted' => $toDelete,
+       // 'inserted' => $toInsert,
+       // 'matched' => $matched
+  //  ]);
+//} -->
+
+
         $matched = []; 
         $notmatched = []; 
         $procons_id = DB::table('pro_cons')->where('product_id', $product->id)->value('id');
