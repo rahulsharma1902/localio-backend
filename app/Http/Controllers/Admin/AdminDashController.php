@@ -75,23 +75,31 @@ class AdminDashController extends Controller
   
    public function whoWeAreContent()
 {
-    $whoWeAre = WhoWeAre::first(); // Get the record to edit
-    // $pageTile = PageTile::first();
-    $pageTileTranslation = PageTileTranslation::all();
-    return view('Admin.site-content.who_we_are', compact('whoWeAre','pageTileTranslation'));
-}
+        $whoWeAre = WhoWeAre::first(); // Get the record to edit
+    
+        $pageTileTranslationPopular = PageTile::where('source', 'popularItem')
+            ->with('translations')  // Eager load translations
+            ->get();
+            // dd($pageTileTranslationPopular);
+        $specilistTileTranslation = PageTile::where('source', 'specialists')
+            ->with('translations')  // Eager load translations
+            ->get();
+    
+        return view('Admin.site-content.who_we_are', compact('whoWeAre', 'pageTileTranslationPopular', 'specilistTileTranslation'));
+    }
+    
 
 public function updateWhoWeAre(Request $request)
 {
     // dd($request->all());
     // Get the first instance of WhoWeAre, PageTile, and PageTileTranslation
-    $whoWeAre = WhoWeAre::first();
-    $pageTile = PageTile::first();
-    $pageTileTranslation = PageTileTranslation::first();
+    $whoWeAre = WhoWeAre::first() ?? new WhoWeAre();
+    $pageTile = PageTile::first() ?? new PageTile();
+    $pageTileTranslation = PageTileTranslation::first() ?? new PageTileTranslation();
 
-    if (!$whoWeAre || !$pageTile || !$pageTileTranslation) {
-        return redirect()->back()->with('error', 'Required data not found.');
-    }
+    // if (!$whoWeAre || !$pageTile || !$pageTileTranslation) {
+    //     return redirect()->back()->with('error', 'Required data not found.');
+    // }
     // Get popular items from the request
     $popularItems = $request->input('popular_items', []);
 
@@ -116,8 +124,8 @@ public function updateWhoWeAre(Request $request)
 $pageTile = new PageTile();
 $pageTile->lang_id = $request->input('lang_id', 1);
 $pageTile->image = $image ? 'front/img/' . $filename : null;
-$pageTile->type = 'page';
-$pageTile->source = 'page';
+$pageTile->type = 'popularItem';
+$pageTile->source = 'popularItem';
 $pageTile->save();
 
 // Create a new PageTileTranslation for the new PageTile
@@ -132,10 +140,65 @@ $popularItem->save();
     }
 }
 
+    
+
+    $popularItems = $request->input('specialists_items', []);
+
+    // Check if 'popular_items' has a 'title' key before iterating
+    if (isset($popularItems['title']) && is_array($popularItems['title'])) {
+        foreach ($popularItems['title'] as $index => $title) {
+            $description = $popularItems['description'][$index] ?? null;
+            $img = $popularItems['img'][$index] ?? null;
+            $small_img = $popularItems['small_img'][$index] ?? null;
+
+            // Save image if provided
+            $filenameBig = null;
+            if ($img) {
+                // Decode and save the image if it's in base64 format
+                if (preg_match('/^data:image\/(\w+);base64,/', $img, $type)) {
+                    $img = substr($img, strpos($img, ',') + 1);
+                    $img = base64_decode($img);
+                    $filenameBig = now()->format('YmdHis') . '_img_' . $index . '.webp';
+                    file_put_contents(public_path('front/img/') . $filenameBig, $img);
+                }
+            }
+            $filenameSmall = null;
+            if ($small_img) {
+                // Decode and save the image if it's in base64 format
+                if (preg_match('/^data:image\/(\w+);base64,/', $small_img, $type)) {
+                    $small_img = substr($small_img, strpos($small_img, ',') + 1);
+                    $small_img = base64_decode($small_img);
+                    $filenameSmall = now()->format('YmdHis') . '_small_img_' . $index . '.webp';
+                    file_put_contents(public_path('front/img/') . $filenameSmall, $small_img);
+                }
+            }
+        
+$pageTile = new PageTile();
+$pageTile->lang_id = $request->input('lang_id', 1);
+$pageTile->img = $img ? 'front/img/' . $filenameBig : null;
+$pageTile->small_img = $small_img ? 'front/img/' . $filenameSmall : null;
+$pageTile->type = 'specialists';
+$pageTile->source = 'specialists';
+$pageTile->save();
+
+// Create a new PageTileTranslation for the new PageTile
+$popularItem = new PageTileTranslation();
+$popularItem->page_tile_id = $pageTile->id;
+$popularItem->title = $title;
+$popularItem->description = $description;
+$popularItem->img = $img ? 'front/img/' . $filenameBig : null;
+$popularItem->small_img = $small_img ? 'front/img/' . $filenameSmall : null;
+$popularItem->status = $request->input('status', 1);
+$popularItem->save();
+
+    }
+}
+
     // Update the rest of the `whoWeAre`, `pageTile`, and `pageTileTranslation` tables
     $whoWeAre->update($request->except(['bg_top_img', 'top_left_section_img', 'top_right_section_img', 'top_card_image']));
-    $pageTile->update($request->except(['image']));
+    $pageTile->update($request->except(['image','img','small_img']));
   
+
 
     // Handle file uploads if necessary
     $this->handleFileUpload($request, $whoWeAre, $pageTile, $pageTileTranslation);
@@ -143,7 +206,7 @@ $popularItem->save();
     // Save all models
     $whoWeAre->save();
     $pageTile->save();
-   
+    // $pageTileTranslation->save();
 
 
     // Redirect back with success message
@@ -191,31 +254,54 @@ protected function handleFileUpload($request, $whoWeAre, $pageTile, $pageTileTra
         $file->move(public_path('front/img/'), $filename);
         $pageTile->image = 'front/img/' . $filename;
     }
+
+    if ($request->hasFile('img')) {
+        $file = $request->file('img');
+        $filename = now()->format('YmdHis') . '_' . uniqid() . '_img.' . $file->getClientOriginalExtension();
+        $file->move(public_path('front/img/'), $filename);
+        $pageTile->img = 'front/img/' . $filename;  // Save the first image to the 'img' field
+    }
+    
+    if ($request->hasFile('small_img')) {
+        $file = $request->file('small_img');
+        $filename = now()->format('YmdHis') . '_' . uniqid() . '_small_img.' . $file->getClientOriginalExtension();
+        $file->move(public_path('front/img/'), $filename);
+        $pageTile->small_img = 'front/img/' . $filename;  // Save the second image to the 'small_img' field
+    }
+    
 }
 public function deletePageTileTranslation($id)
 {
-    $pageTileTranslation = PageTileTranslation::findOrFail($id);
-    $pageTile = PageTile::findOrFail($pageTileTranslation->page_tile_id);
+    
+    // Find the PageTileTranslation by ID
+    $pageTileTranslation = PageTileTranslation::find($id);  
+     
+    $pageTile = PageTile::find($pageTileTranslation->page_tile_id);
+   
 
-    // Delete images
+    // Delete the images if they exist
     if ($pageTileTranslation->image && file_exists(public_path($pageTileTranslation->image))) {
         unlink(public_path($pageTileTranslation->image));
     }
 
-    if ($pageTile->image && file_exists(public_path($pageTile->image))) {
-        unlink(public_path($pageTile->image));
+    if ($pageTileTranslation->img && file_exists(public_path($pageTileTranslation->img))) {
+        unlink(public_path($pageTileTranslation->img));
     }
 
-    // Delete records
+    if ($pageTileTranslation->small_img && file_exists(public_path($pageTileTranslation->small_img))) {
+        unlink(public_path($pageTileTranslation->small_img));
+    }
+
+    // Delete the PageTileTranslation record
     $pageTileTranslation->delete();
 
-    // Delete associated PageTile if no other translations exist
+    // Check if the PageTile has any translations remaining
     if ($pageTile->translations()->count() === 0) {
+        // Delete the PageTile if no translations are left
         $pageTile->delete();
     }
 
     return redirect()->back()->with('success', 'Item and its associated page tile deleted successfully!');
 }
-
 
 }

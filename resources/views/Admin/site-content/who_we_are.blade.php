@@ -116,8 +116,9 @@
                                 <div class="form-group col-lg-12">
                                     <label class="form-label" for="title">Title</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="title" value="{{ old('title') }}"
-                                            placeholder="Enter Here Tittle.." />
+                                        <input type="text" class="form-control" id="title"
+                                            placeholder="Enter Here Title.." />
+
                                     </div>
                                 </div>
 
@@ -125,7 +126,8 @@
                                     <label class="form-label" for="description">Description</label>
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control site_text_input" id="description"
-                                            value="{{ old('description') }}" placeholder="Enter Here Description..." />
+                                            placeholder="Enter Here Description..." />
+
                                     </div>
                                 </div>
 
@@ -142,6 +144,8 @@
                                 Most Popular Items
                             </div>
                             <div class="card-body">
+                           
+
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -153,23 +157,123 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($pageTileTranslation as $index => $item)
+                                        @forelse ($pageTileTranslationPopular as $index => $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
-                                                @if ($item->image)
-                                                <img src="{{ asset($item->image) }}" alt="Item Image"
+                                                @if ($item->translations->first() &&
+                                                $item->translations->first()->image)
+                                                <img src="{{ asset($item->translations->first()->image) }}"
+                                                    alt="Item Image" style="width: 100px; height: auto;">
+                                                @else
+                                                N/A
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->translations->first()->title ?? 'No Title' }}</td>
+                                            <td>{{ $item->translations->first()->description ?? 'No Description' }}</td>
+                                            <td>
+                                                <a class="btn btn-danger btn-sm"
+                                                    href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="5">No popular items available.</td>
+                                        </tr>
+                                        @endforelse
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Specialists Heading -->
+                    <div class="col-md-12">
+                        <label class="form-label" for="specialists_heading">Specialists Heading</label>
+                        <input type="text" class="form-control" id="specialists_heading" name="specialists_heading"
+                            value="{{ $whoWeAre->specialists_heading ?? '' }}" />
+                    </div>
+                    <div class="card border mt-3">
+                        <div class="card-header">
+                            Specialists Section
+                            <button type="button" class="btn btn-success btn-sm float-end" id="add-specialists-item">Add
+                                Item</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group col-lg-12">
+                                <label class="form-label" for="specialists_title">Title</label>
+                                <input type="text" class="form-control" id="specialists_title"
+                                    name="specialists_title[]" placeholder="Enter Title">
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label class="form-label" for="specialists_description">Description</label>
+                                <input type="text" class="form-control" id="specialists_description"
+                                    name="specialists_description[]" placeholder="Enter Description">
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label class="form-label" for="specialists_img">Image</label>
+                                <input type="file" class="form-control" id="specialists_img" name="specialists_img[]">
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label class="form-label" for="specialists_small_img">small Image</label>
+                                <input type="file" class="form-control" id="specialists_small_img"
+                                    name="specialists_small_img[]">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="specialists-items-list">
+                        <!-- Specialists items will be appended here -->
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <div class="card border">
+                            <div class="card-header">
+                                Specialists Section
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Image</th>
+                                            <th>Small Image</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($specilistTileTranslation as $index => $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                @if ($item->img)
+                                                <img src="{{ asset($item->img) }}" alt="Item Image"
                                                     style="width: 100px; height: auto;">
                                                 @else
                                                 N/A
                                                 @endif
                                             </td>
-                                            <td>{{ $item->title }}</td>
-                                            <td>{{ $item->description }}</td>
+                                            <td>
+                                                @if ($item->small_img)
+                                                <img src="{{ asset($item->small_img) }}" alt="Item Image"
+                                                    style="width: 100px; height: auto;">
+                                                @else
+                                                N/A
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->translations->first()->title ?? 'No title' }}</td>
+                                            <td>{{ $item->translations->first()->description ?? 'No Description' }}</td>
                                             <td>
                                                 <!-- Delete Button -->
                                                 <a class="btn btn-danger btn-sm"
                                                     href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
+
 
                                             </td>
                                         </tr>
@@ -183,44 +287,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Specialists Heading -->
-                    <div class="col-md-12">
-                        <label class="form-label" for="specialists_heading">Specialists Heading</label>
-                        <input type="text" class="form-control" id="specialists_heading" name="specialists_heading"
-                            value="{{ $whoWeAre->specialists_heading ?? '' }}" />
-                    </div>
-                    <div class="card border mt-3">
-                    <div class="card-header">
-                        Specialists Section
-                        <button type="button" class="btn btn-success btn-sm float-end" id="add-specialists-item">Add Item</button>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group col-lg-12">
-                            <label class="form-label" for="specialists_title">Title</label>
-                            <input type="text" class="form-control" id="specialists_title" name="specialists_title[]" placeholder="Enter Title">
-                        </div>
-
-                        <div class="form-group col-lg-12">
-                            <label class="form-label" for="specialists_description">Description</label>
-                            <input type="text" class="form-control" id="specialists_description" name="specialists_description[]" placeholder="Enter Description">
-                        </div>
-
-                        <div class="form-group col-lg-12">
-                            <label class="form-label" for="specialists_image">Image</label>
-                            <input type="file" class="form-control" id="specialists_image" name="specialists_image[]">
-                        </div>
-
-                        <div class="form-group col-lg-12">
-            <label class="form-label" for="specialists_img">Image</label>
-            <input type="file" class="form-control" id="specialists_img" name="specialists_img[]">
-        </div>
-                    </div>
-                </div>
-
-                <div id="specialists-items-list">
-                    <!-- Specialists items will be appended here -->
-                </div>
 
 
                     <!-- Service Software Heading -->
@@ -264,7 +330,7 @@
 </div>
 <script>
 let addedItems = [];
-let addedSpecialistsItems = [];
+
 // When you add an item to the list
 document.getElementById('add-popular-item').addEventListener('click', function() {
     const title = document.getElementById('title').value;
@@ -324,6 +390,8 @@ document.getElementById('add-popular-item').addEventListener('click', function()
     }
 });
 
+
+
 // Remove item logic
 document.getElementById('popular-items-list').addEventListener('click', function(e) {
     if (e.target.classList.contains('remove-item')) {
@@ -351,7 +419,7 @@ function clearForm() {
 
 // Before submitting the form, remove the hidden inputs of removed items
 document.getElementById('popular-items-list').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent form submission for testing purposes (remove this line in production)
+    // e.preventDefault(); // Prevent form submission for testing purposes (remove this line in production)
 
     // Exclude removed items' hidden inputs from the form submission
     addedItems = addedItems.filter(item => !item.removed);
@@ -371,105 +439,111 @@ document.getElementById('popular-items-list').addEventListener('submit', functio
     // Uncomment the following line when you're ready to submit the form
     // this.submit();
 });
+</script>
+
+
+<script>
+let addedSpecialistsItems = [];
 
 document.getElementById('add-specialists-item').addEventListener('click', function() {
-        const title = document.getElementById('specialists_title').value;
-        const description = document.getElementById('specialists_description').value;
-        const imageInput = document.getElementById('specialists_image');
-        const imgInput = document.getElementById('specialists_img');
-        const imageFile = imageInput.files[0];
-        const imgFile = imgInput.files[0];
+    const title = document.getElementById('specialists_title').value;
+    const description = document.getElementById('specialists_description').value;
+    const imgFile = document.getElementById('specialists_img').files[0];
+    const smallImgFile = document.getElementById('specialists_small_img').files[0];
 
-        if (title && description && imageFile && imgFile) {
-            const reader1 = new FileReader();
-            const reader2 = new FileReader();
+    if (title && description && imgFile && smallImgFile) {
+        const reader1 = new FileReader();
+        const reader2 = new FileReader();
 
-            reader1.onload = function(e) {
-                const imgSrc1 = e.target.result;
+        reader1.onload = function(e) {
+            const imgFileData = e.target.result;
 
-                reader2.onload = function(e) {
-                    const imgSrc2 = e.target.result;
+            reader2.onload = function(e) {
+                const smallImgFileData = e.target.result;
 
-                    const itemCard = document.createElement('div');
-                    itemCard.className = 'item-card mt-2 p-2 border';
-                    itemCard.innerHTML = `
-                        <h5>${title}</h5>
-                        <p>${description}</p>
-                        <img src="${imgSrc1}" alt="Image 1" style="width: 100px; height: auto;">
-                        <img src="${imgSrc2}" alt="Image 2" style="width: 100px; height: auto;">
-                        <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
-                    `;
-                    document.getElementById('specialists-items-list').appendChild(itemCard);
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card mt-2 p-2 border';
+                itemCard.innerHTML = `
+                    <h5>${title}</h5>
+                    <p>${description}</p>
+                    <img src="${imgFileData}" alt="Image 1" style="width: 100px; height: auto;">
+                    <img src="${smallImgFileData}" alt="Image 2" style="width: 100px; height: auto;">
+                    <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+                `;
 
-                    const hiddenTitleInput = document.createElement('input');
-                    hiddenTitleInput.type = 'hidden';
-                    hiddenTitleInput.name = 'specialists_title[]';
-                    hiddenTitleInput.value = title;
+                document.getElementById('specialists-items-list').appendChild(itemCard);
 
-                    const hiddenDescriptionInput = document.createElement('input');
-                    hiddenDescriptionInput.type = 'hidden';
-                    hiddenDescriptionInput.name = 'specialists_description[]';
-                    hiddenDescriptionInput.value = description;
+                // Create hidden inputs for the item
+                const hiddenTitleInput = document.createElement('input');
+                hiddenTitleInput.type = 'hidden';
+                hiddenTitleInput.name = 'specialists_items[title][]';
+                hiddenTitleInput.value = title;
 
-                    const hiddenImageInput1 = document.createElement('input');
-                    hiddenImageInput1.type = 'hidden';
-                    hiddenImageInput1.name = 'specialists_image[]';
-                    hiddenImageInput1.value = imgSrc1;
+                const hiddenDescriptionInput = document.createElement('input');
+                hiddenDescriptionInput.type = 'hidden';
+                hiddenDescriptionInput.name = 'specialists_items[description][]';
+                hiddenDescriptionInput.value = description;
 
-                    const hiddenImageInput2 = document.createElement('input');
-                    hiddenImageInput2.type = 'hidden';
-                    hiddenImageInput2.name = 'specialists_img[]';
-                    hiddenImageInput2.value = imgSrc2;
+                const hiddenImageInput1 = document.createElement('input');
+                hiddenImageInput1.type = 'hidden';
+                hiddenImageInput1.name = 'specialists_items[img][]';
+                hiddenImageInput1.value = imgFileData;
 
-                    document.getElementById('specialists-items-list').appendChild(hiddenTitleInput);
-                    document.getElementById('specialists-items-list').appendChild(hiddenDescriptionInput);
-                    document.getElementById('specialists-items-list').appendChild(hiddenImageInput1);
-                    document.getElementById('specialists-items-list').appendChild(hiddenImageInput2);
+                const hiddenImageInput2 = document.createElement('input');
+                hiddenImageInput2.type = 'hidden';
+                hiddenImageInput2.name = 'specialists_items[small_img][]';
+                hiddenImageInput2.value = smallImgFileData;
 
-                    addedSpecialistsItems.push({
-                        title: title,
-                        description: description,
-                        image1: imgSrc1,
-                        image2: imgSrc2,
-                        card: itemCard,
-                        hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1, hiddenImageInput2]
-                    });
+                // Append hidden inputs to the list
+                document.getElementById('specialists-items-list').appendChild(hiddenTitleInput);
+                document.getElementById('specialists-items-list').appendChild(hiddenDescriptionInput);
+                document.getElementById('specialists-items-list').appendChild(hiddenImageInput1);
+                document.getElementById('specialists-items-list').appendChild(hiddenImageInput2);
 
-                    clearForm();
-                };
+                addedSpecialistsItems.push({
+                    title: title,
+                    description: description,
+                    image1: imgFileData,
+                    image2: smallImgFileData,
+                    card: itemCard,
+                    hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1,
+                        hiddenImageInput2
+                    ]
+                });
 
-                reader2.readAsDataURL(imgFile);
+                clearForm();
             };
 
-            reader1.readAsDataURL(imageFile);
-        } else {
-            alert('Please fill in all fields and select both images.');
-        }
-    });
+            reader2.readAsDataURL(smallImgFile);
+        };
 
-    // Remove specialists item
-    document.getElementById('specialists-items-list').addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-item')) {
-            const itemCard = e.target.closest('.item-card');
-            const itemIndex = addedSpecialistsItems.findIndex(item => item.card === itemCard);
-
-            if (itemIndex > -1) {
-                addedSpecialistsItems[itemIndex].removed = true;
-                itemCard.remove();
-                addedSpecialistsItems[itemIndex].hiddenInputs.forEach(input => input.remove());
-            }
-        }
-    });
-
-    // Clear form fields after adding item
-    function clearForm() {
-        document.getElementById('specialists_title').value = '';
-        document.getElementById('specialists_description').value = '';
-        document.getElementById('specialists_image').value = '';
-        document.getElementById('specialists_img').value = '';
+        reader1.readAsDataURL(imgFile);
+    } else {
+        alert('Please fill in all fields and select both images.');
     }
+});
 
+// Remove specialists item
+document.getElementById('specialists-items-list').addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-item')) {
+        const itemCard = e.target.closest('.item-card');
+        const itemIndex = addedSpecialistsItems.findIndex(item => item.card === itemCard);
 
+        if (itemIndex > -1) {
+            addedSpecialistsItems[itemIndex].removed = true;
+            itemCard.remove();
+            addedSpecialistsItems[itemIndex].hiddenInputs.forEach(input => input.remove());
+        }
+    }
+});
+
+// Clear form fields after adding item
+function clearForm() {
+    document.getElementById('specialists_title').value = '';
+    document.getElementById('specialists_description').value = '';
+    document.getElementById('specialists_img').value = '';
+    document.getElementById('specialists_small_img').value = '';
+}
 </script>
 
 @endsection
