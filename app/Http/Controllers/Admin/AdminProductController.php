@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 
 class AdminProductController extends Controller
 {
-    
     public function products()
     {
         $lang_id = getCurrentLanguageID();
@@ -38,8 +37,10 @@ class AdminProductController extends Controller
             'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            'key_features' => 'required|array|min:1',
+            'key_features' => 'array',
+            'conse_data' =>  'array',
         ]);
+        
         if(!$language)
         {
             return redirect()->back()->with('error','current langauge not found');
@@ -76,13 +77,7 @@ class AdminProductController extends Controller
             $productTranslation->product_id  = $product->id;
             $productTranslation->language_id  = $language_id;
             $productTranslation->save();
-            $procons_id =   DB::table('pro_cons')->insertGetId([
-                'product_id' => $product->id,
-                'lang_id' => $language_id,
-                'type' => 'null',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            
 
             foreach($request->product_category as $value){
                 DB::table('category_products')->insert([
@@ -91,15 +86,44 @@ class AdminProductController extends Controller
                 ]);
             }    
 
-            foreach($request->key_features as $value ){
-                DB::table('pro_cons_translations')->insert([
-                    'pro_cons_id' => $procons_id,
-                    'name' => $value,
-                    'description' => 'null',
+            if(is_array($request->key_features)){
+                $procons_id =   DB::table('pro_cons')->insertGetId([
+                    'product_id' => $product->id,
+                    'lang_id' => $language_id,
+                    'type' => 'pross',
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+                foreach($request->key_features as $value ){
+                    DB::table('pro_cons_translations')->insert([
+                        'pro_cons_id' => $procons_id,
+                        'name' => $value,
+                        'description' => 'null',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
             }
+
+            if(is_array($request->conse_data)){
+                $procons_id =   DB::table('pro_cons')->insertGetId([
+                    'product_id' => $product->id,
+                    'lang_id' => $language_id,
+                    'type' => 'conse_data',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                foreach($request->conse_data as $value ){
+                    DB::table('pro_cons_translations')->insert([
+                        'pro_cons_id' => $procons_id,
+                        'name' => $value,
+                        'description' => 'null',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+            
             return redirect()->route('products')->with('success', 'Product  added successfully');
         }else{
             return redirect()->route('products')->with('error', 'something went wrong !');
@@ -107,8 +131,11 @@ class AdminProductController extends Controller
     }
     public function productEdit($id)
     {   
-        $pro_cons_id = DB::table('pro_cons')->where('product_id',$id)->value('id');
-        $pro_cons_translations =  DB::table('pro_cons_translations')->where('pro_cons_id',$pro_cons_id)->get()->toArray();
+        $proconse = DB::table('pro_cons')->where('product_id',$id)->where('type','pross')->value('id');
+        $conse =DB::table('pro_cons')->where('product_id',$id)->where('type','conse_data')->value('id');
+        dd($pro_cons_id);
+        // $pro_cons_translations =  DB::table('pro_cons_translations')->where('pro_cons_id',$pro_cons_id)->get()->toArray();
+        $cronse_data = 
         $categories = Category::all();
         $product = Product::with('keyFeatures','categories.translations')->find($id);
             $category_products = DB::table('category_products')
@@ -122,113 +149,116 @@ class AdminProductController extends Controller
         return view('Admin.products.update_product',compact('product','categories','cat_arr','pro_cons_translations'));
     }
     public function productUpdateProccess(Request $request)
-{
-    
-    $request->validate([
-        'id' => 'required|exists:products,id',
-        'lang_code' => 'required|exists:languages,id',
-        'name' => 'required|string',
-        'description' => 'required|string',
-        'product_category' => 'required|array|min:1',
-        'product_category.*' => 'exists:categories,id',
-        'product_price' => 'required|numeric',
-        'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
-        'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
-        'product_link' => 'required|url',
-        'key_features' => 'required|array|min:1',
-    ]);
+    {
+        
+        $request->validate([
+            'id' => 'required|exists:products,id',
+            'lang_code' => 'required|exists:languages,id',
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'product_category' => 'required|array|min:1',
+            'product_category.*' => 'exists:categories,id',
+            'product_price' => 'required|numeric',
+            'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'product_link' => 'required|url',
+            'key_features' => 'array',
+            'conse_data' =>  'array',
+        ]);
 
-    $errors = [];
-    foreach($request->key_features as $value){
-        if (empty($value)) {
-            $errors[] = 'This field is required'; 
+        $language = Language::find($request->lang_code);
+        if (!$language) {
+            return redirect()->back()->with('error', 'Current language not found');
         }
-    }
-    if (!empty($errors)) {
-        return redirect()->back()->with('errorkey', implode(', ', $errors));
-    }
-    $language = Language::find($request->lang_code);
-    if (!$language) {
-        return redirect()->back()->with('error', 'Current language not found');
-    }
 
-    $product = Product::find($request->id);
-    if (!$product) {
-        return redirect()->back()->with('error', 'Product not found');
-    }
+        $product = Product::find($request->id);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found');
+        }
 
-    $product->name = $request->name;
-    $product->slug = Str::slug($request->name);
-    $product->description = $request->description;
-    $product->product_price = $request->product_price;
+        $product->name = $request->name;
+        $product->slug = Str::slug($request->name);
+        $product->description = $request->description;
+        $product->product_price = $request->product_price;
 
-    if ($request->hasFile('product_icon')) {
-        $iconName = $product->slug . '-' . uniqid() . '.' . $request->file('product_icon')->getClientOriginalExtension();
-        $request->file('product_icon')->move(public_path('/ProductIcon/'), $iconName);
-        $product->product_icon = $iconName;
-    }
+        if ($request->hasFile('product_icon')) {
+            $iconName = $product->slug . '-' . uniqid() . '.' . $request->file('product_icon')->getClientOriginalExtension();
+            $request->file('product_icon')->move(public_path('/ProductIcon/'), $iconName);
+            $product->product_icon = $iconName;
+        }
 
-    if ($request->hasFile('product_image')) {
-        $imageName = $product->slug . '-' . uniqid() . '.' . $request->file('product_image')->getClientOriginalExtension();
-        $request->file('product_image')->move(public_path('/ProductImage/'), $imageName);
-        $product->product_image = $imageName;
-    }
+        if ($request->hasFile('product_image')) {
+            $imageName = $product->slug . '-' . uniqid() . '.' . $request->file('product_image')->getClientOriginalExtension();
+            $request->file('product_image')->move(public_path('/ProductImage/'), $imageName);
+            $product->product_image = $imageName;
+        }
 
-    $product->product_link = $request->product_link;
-    $product->update();
+        $product->product_link = $request->product_link;
+        $product->update();
 
-    $language_id = Language::where('lang_code', 'en-us')->value('id');
-    ProductTranslation::updateOrCreate(
-        ['product_id' => $product->id, 'language_id' => $language_id],
-        [
-            'name' => $request->name,
-            'slug' => $product->slug,
-            'description' => $request->description,
-        ]
-    );
-    // dd($request->product_category);
-    DB::table('category_products')->where('product_id',$product->id)->delete();
-    foreach($request->product_category as $value){
-        DB::table('category_products')->updateOrInsert([
-            'category_id' => $value,
-            'product_id' => $product->id
-        ]);
-    } 
-    // dd(DB::table('category_products')->get()->toArray());
+        $language_id = Language::where('lang_code', 'en-us')->value('id');
+        ProductTranslation::updateOrCreate(
+            ['product_id' => $product->id, 'language_id' => $language_id],
+            [
+                'name' => $request->name,
+                'slug' => $product->slug,
+                'description' => $request->description,
+            ]
+        );
+         // dd($request->product_category);
+        DB::table('category_products')->where('product_id',$product->id)->delete();
+        foreach($request->product_category as $value){
+            DB::table('category_products')->updateOrInsert([
+                'category_id' => $value,
+                'product_id' => $product->id
+            ]);
+        } 
+         // dd(DB::table('category_products')->get()->toArray());
 
 
-$matched = [];
-$notmatched = [];
+        $matched = [];
+        $notmatched = [];
 
-$procons_id = DB::table('pro_cons')
-    ->where('product_id', $product->id)
-    ->value('id');
+        $procons_id = DB::table('pro_cons')
+            ->where('product_id', $product->id)
+            ->value('id');
 
-if ($procons_id) {
-    $existingTranslations = DB::table('pro_cons_translations')
-        ->where('pro_cons_id', $procons_id)
-       ->pluck('name')
-        ->toArray();
-     $incomingFeatures = $request->key_features;
-     $toDelete = array_diff($existingTranslations, $incomingFeatures);
-     $toInsert = array_diff($incomingFeatures, $existingTranslations);
-    DB::table('pro_cons_translations')
+        if ($procons_id) {
+        $existingTranslations = DB::table('pro_cons_translations')
             ->where('pro_cons_id', $procons_id)
-        ->whereIn('name', $toDelete)
+        ->pluck('name')
+            ->toArray();
+        $incomingFeatures = $request->key_features;
+        if (is_array($request->key_features)) {
+        
+            $toDelete = array_diff($existingTranslations, $request->key_features);
+            $toInsert = array_diff($request->key_features, $existingTranslations);
+        
+        
+            DB::table('pro_cons_translations')
+                ->where('pro_cons_id', $procons_id)
+                ->whereIn('name', $toDelete)
+                ->delete();
+        
+        
+            foreach ($toInsert as $feature) {
+            DB::table('pro_cons_translations')->insert([
+                'pro_cons_id' => $procons_id,
+                'name' => $feature ?? '',
+                'description' => 'null',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            }
+            $matched = array_intersect($existingTranslations, $request->key_features);
+            $notmatched = $toInsert; 
+    } else {
+        DB::table('pro_cons_translations')
+            ->where('pro_cons_id', $procons_id)
             ->delete();
-
-    foreach ($toInsert as $feature) {
-        DB::table('pro_cons_translations')->insert([
-            'pro_cons_id' => $procons_id,
-            'name' => $feature ?? '',
-            'description' => 'null',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
     }
+    
 
-   $matched = array_intersect($existingTranslations, $incomingFeatures); // Matched values
-    $notmatched = $toInsert; 
 }
     return redirect()->route('products')->with('success', 'Product updated successfully');
 }

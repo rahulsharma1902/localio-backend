@@ -49,11 +49,9 @@
                             <input type="hidden" name="lang_code"
                                 value="{{ $productTranslation->language->lang_code ?? '' }}">
                         @else
-                            {{-- {{ dd('hello') }} --}}
                             <input type="hidden" class="form-control" id="language_id" name="lang_code"
                                 value="{{ getCurrentLanguageID() }}" />
                         @endif
-                        {{-- {{ dd('hello') }} --}}
                         <input type="hidden" name="product_tr_id" value="{{ $productTranslation->id ?? '' }}">
 
                         <!-- New Input Fields -->
@@ -64,7 +62,6 @@
                                         <label class="form-label" for="product-category">Product Category</label>
                                         <select class="form-control product-category" name="product_category[]"
                                             multiple="multiple">
-                                            <option value="" disabled>Select Categories</option>
                                             @if ($categories->isNotEmpty())
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}">{{ $category->name ?? '' }}
@@ -85,7 +82,6 @@
                                             <label class="form-label" for="product-category">Product Category</label>
                                             <select class="form-control product-category" name="product_category[]"
                                                 multiple="multiple">
-                                                <option value="" disabled>Select Categories</option>
                                                 @if ($categories->isNotEmpty())
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
@@ -119,7 +115,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="product-price">Product Price</label>
                                     <input type="text" class="form-control" name="product_price" id="product-price"
-                                        min="1" value="{{ isset($product) ? $product->product_price : '' }}"
+                                        min="1" value="{{old('product_price')}}"
                                         placeholder="Product Price">
                                 </div>
                                 @error('product_price')
@@ -173,24 +169,40 @@
                             <div class="form-group">
                                 <label class="form-label" for="product-link">Product Link</label>
                                 <input type="url" class="form-control" name="product_link" id="product-link"
-                                    value="{{ isset($product) ? $product->product_link : '' }}"
+                                    value="{{old('product_link')}}"
                                     placeholder="Product Link">
                             </div>
                             @error('product_link')
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-4">
                             <div class="card border">
-                                <div class="card-header mt-3 d-flex justify-content-between">
+                                <div class="card-header d-flex justify-content-between">
                                     <h4>
-                                        Add Cros Data
+                                        Add Pros Data
                                     </h4>
-                                    <p class="btn btn-success" id="add-option">Add data</button>
+                                    <p class="btn btn-success" id="prose-option">Add data</button>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body prose-body">
 
-                                    {{-- input add --}}
+                                    {{-- prose add --}}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 mt-4">
+                            <div class="card border">
+                                <div class="card-header d-flex justify-content-between">
+                                    <h4>
+                                        Add Cons Data
+                                    </h4>
+                                    <p class="btn btn-success" id="conse-option">Add data</button>
+                                </div>
+                                <div class="card-body conse-data">
+
+                                    {{-- conse add --}}
                                 </div>
                             </div>
                         </div>
@@ -210,25 +222,46 @@
 
         $(document).ready(function() {
             // Add dynamic option fields
-            $('#add-option').click(function() {
-                $('.card-body').append(`
-                <div class="form-group row option-group mt-2">
+            $('#prose-option').click(function() {
+                $('.prose-body').append(`
+                <div class="form-group row prose-option mt-2">
                     <div class="col-lg-10 col-md-10 col-sm-10">
                         <input type="text" name="key_features[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
-                        <button type="button" class="btn btn-danger remove-option"><em class="icon ni ni-trash-fill"></em></button>
+                        <button type="button" class="btn btn-danger prose-option"><em class="icon ni ni-trash-fill"></em></button>
                     </div>
                 </div>
             `);
             });
-
             // Remove option field, ensuring at least one remains
-            $('.card-body').on('click ', '.remove-option ', function() {
-                if ($('.option-group').length > 1) {
-                    $(this).closest('.option-group').remove();
-                }
+
+            $('.prose-body').on('click', '.prose-option', function() {
+                    $(this).parents('.prose-option').remove();
             });
+
+
+
+            // conse
+            $('#conse-option').click(function() {
+                $('.conse-data').append(`
+                <div class="form-group row conse-group mt-2">
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        <input type="text" name="conse_data[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
+                        <button type="button" class="btn btn-danger conse-option"><em class="icon ni ni-trash-fill"></em></button>
+                    </div>
+                </div>
+            `);
+            });
+            // Remove option field, ensuring at least one remains
+            $('.conse-data').on('click ', '.conse-option ', function() {
+                $(this).parents('.conse-group').remove();
+            });
+
+            
+            
         });
     </script>
 @endsection

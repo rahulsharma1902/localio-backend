@@ -50,11 +50,9 @@
                             <input type="hidden" name="lang_code"
                                 value="{{ $productTranslation->language->lang_code ?? '' }}">
                         @else
-                            {{-- {{ dd('hello') }} --}}
                             <input type="hidden" class="form-control" id="language_id" name="lang_code"
                                 value="{{ getCurrentLanguageID() }}" />
                         @endif
-                        {{-- {{ dd('hello') }} --}}
                         <input type="hidden" name="product_tr_id" value="{{ $productTranslation->id ?? '' }}">
 
                         <!-- New Input Fields -->
@@ -65,7 +63,6 @@
                                         <label class="form-label" for="product-category">Product Category</label>
                                         <select class="form-control product-category" name="product_category[]"
                                             multiple="multiple">
-                                            {{ dd($cat_arr) }}
                                             @foreach ($cat_arr as $item)
                                                 <option value="{{ $item['id'] }}">{{ $item['item'] }}</option>
                                             @endforeach
@@ -125,7 +122,7 @@
                         <!-- Product Icon (File Input) -->
 
                         <div class="row mt-3">
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="product-icon">Product Icon</label>
                                     @if (!isset($product) || $lang == 'en-us')
@@ -142,7 +139,7 @@
                             </div>
 
                             <!-- Product Image -->
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="product-image">Product Image</label>
                                     @if (!isset($product) || $lang == 'en-us')
@@ -173,21 +170,13 @@
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        {{-- product prons --}}`
                        
 
-                        <div class="col-md-12 mt-4">
-                      @error('key_features')
-                      <p style="color:red">Reqired Prons Data !</p>
-                      @enderror
-                      @if(session('errorkey'))
-                        <p style="color:red">{{ session('errorkey') }}</p>
-                        @endif
-
+                        <div class="col-md-12 mt-4 mt-5">
                             <div class="card border">
-                                <div class="card-header mt-3 d-flex justify-content-between">
+                                <div class="card-header d-flex justify-content-between">
                                     <h4>
-                                        Add Prons Data
+                                        Add Pros Data
                                     </h4>
                                     <p class="btn btn-success" id="add-option">Add data</button>
                                 </div>
@@ -199,14 +188,12 @@
                                                     placeholder="Enter option" style="border: 1px solid #7c88aa; "
                                                     value="{{ $value->name }}">
                                             </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
+                                            <div class="col-lg-2 col-md-2   col-sm-2 d-flex align-items-center">
                                                 <button type="button" class="btn btn-danger remove-option"><em
                                                         class="icon ni ni-trash-fill"></em></button>
                                             </div>
                                         </div>
                                     @endforeach
-
-                                    {{-- input add --}}
                                 </div>
                             </div>
                         </div>
@@ -222,8 +209,6 @@
         </div>
     </div>
     <script>
-        // add data
-
         $(document).ready(function() {
             // Add dynamic option fields
             $('#add-option').click(function() {
@@ -240,11 +225,10 @@
             });
 
             // Remove option field, ensuring at least one remains
-            $('.card-body').on('click ', '.remove-option ', function() {
-                if ($('.option-group').length > 1) {
-                    $(this).closest('.option-group').remove();
-                }
+            $('.card-body').on('click', '.remove-option', function() {
+                    $(this).parents('.option-group').remove();
             });
+
         });
     </script>
 @endsection
