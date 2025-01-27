@@ -22,6 +22,6 @@ class PageTile extends Model
 
     public function translations()
     {
-        return $this->hasMany(PageTileTranslation::class);
+        return $this->hasMany(PageTileTranslation::class, 'page_tile_id', 'id');
     }
 }

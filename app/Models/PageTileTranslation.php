@@ -10,6 +10,7 @@ class PageTileTranslation extends Model
 {
     use HasFactory;
     protected $table = 'page_tiles_translations';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'page_tile_id',
         'title',
@@ -21,6 +22,6 @@ class PageTileTranslation extends Model
     ];
     public function pageTile()
     {
-        return $this->belongsTo(PageTile::class);
+        return $this->belongsTo(PageTile::class, 'page_tile_id', 'id');
     }
 }

@@ -1,6 +1,16 @@
 @extends('admin_layout.master')
 
 @section('content')
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
         <div class="nk-block-head-content">

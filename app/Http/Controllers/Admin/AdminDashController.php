@@ -258,28 +258,35 @@ protected function handleFileUpload($request, $whoWeAre, $pageTile, $pageTileTra
     if ($request->hasFile('img')) {
         $file = $request->file('img');
         $filename = now()->format('YmdHis') . '_' . uniqid() . '_img.' . $file->getClientOriginalExtension();
-        $file->move(public_path('front/img/'), $filename);
-        $pageTile->img = 'front/img/' . $filename;  // Save the first image to the 'img' field
+        $file->move(public_path('front/img/'), $filenameBig);
+        $pageTile->img = 'front/img/' . $filenameBig;  // Save the first image to the 'img' field
     }
     
     if ($request->hasFile('small_img')) {
         $file = $request->file('small_img');
         $filename = now()->format('YmdHis') . '_' . uniqid() . '_small_img.' . $file->getClientOriginalExtension();
-        $file->move(public_path('front/img/'), $filename);
-        $pageTile->small_img = 'front/img/' . $filename;  // Save the second image to the 'small_img' field
+        $file->move(public_path('front/img/'), $filenameSmall);
+        $pageTile->small_img = 'front/img/' . $filenameSmall;  // Save the second image to the 'small_img' field
     }
     
 }
 public function deletePageTileTranslation($id)
 {
-    
-    // Find the PageTileTranslation by ID
-    $pageTileTranslation = PageTileTranslation::find($id);  
-     
-    $pageTile = PageTile::find($pageTileTranslation->page_tile_id);
-   
 
-    // Delete the images if they exist
+    $pageTileTranslation = PageTileTranslation::where('page_tile_id',$id)->first();
+    //dd($pageTileTranslation); 
+    if (!$pageTileTranslation) {
+        return redirect()->back()->with('error', 'PageTileTranslation not found.');
+    }
+
+    $pageTile = PageTile::find($pageTileTranslation->page_tile_id);
+    // dd($pageTile); 
+    
+    if (!$pageTile) {
+        return redirect()->back()->with('error', 'Associated PageTile not found.');
+    }
+
+
     if ($pageTileTranslation->image && file_exists(public_path($pageTileTranslation->image))) {
         unlink(public_path($pageTileTranslation->image));
     }
@@ -293,14 +300,9 @@ public function deletePageTileTranslation($id)
     }
 
     // Delete the PageTileTranslation record
+  
     $pageTileTranslation->delete();
-
-    // Check if the PageTile has any translations remaining
-    if ($pageTile->translations()->count() === 0) {
-        // Delete the PageTile if no translations are left
-        $pageTile->delete();
-    }
-
+    $pageTile->delete();
     return redirect()->back()->with('success', 'Item and its associated page tile deleted successfully!');
 }
 
