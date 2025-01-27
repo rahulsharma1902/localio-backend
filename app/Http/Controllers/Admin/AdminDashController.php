@@ -114,9 +114,10 @@ public function updateWhoWeAre(Request $request)
             if ($image) {
                 // Decode and save the image if it's in base64 format
                 if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+                    $extension = $type[1];
                     $image = substr($image, strpos($image, ',') + 1);
                     $image = base64_decode($image);
-                    $filename = now()->format('YmdHis') . '_popular_item_' . $index . '.webp';
+                    $filename = now()->format('YmdHis') . '_popular_item_' . $index . '.' . $extension;
                     file_put_contents(public_path('front/img/') . $filename, $image);
                 }
             }
@@ -156,9 +157,10 @@ $popularItem->save();
             if ($img) {
                 // Decode and save the image if it's in base64 format
                 if (preg_match('/^data:image\/(\w+);base64,/', $img, $type)) {
+                    $extension = $type[1];
                     $img = substr($img, strpos($img, ',') + 1);
                     $img = base64_decode($img);
-                    $filenameBig = now()->format('YmdHis') . '_img_' . $index . '.webp';
+                    $filenameBig = now()->format('YmdHis') . '_img_' . $index . '.' . $extension ;
                     file_put_contents(public_path('front/img/') . $filenameBig, $img);
                 }
             }
@@ -166,9 +168,10 @@ $popularItem->save();
             if ($small_img) {
                 // Decode and save the image if it's in base64 format
                 if (preg_match('/^data:image\/(\w+);base64,/', $small_img, $type)) {
+                    $extension = $type[1];
                     $small_img = substr($small_img, strpos($small_img, ',') + 1);
                     $small_img = base64_decode($small_img);
-                    $filenameSmall = now()->format('YmdHis') . '_small_img_' . $index . '.webp';
+                    $filenameSmall = now()->format('YmdHis') . '_small_img_' . $index . '.' . $extension;
                     file_put_contents(public_path('front/img/') . $filenameSmall, $small_img);
                 }
             }
