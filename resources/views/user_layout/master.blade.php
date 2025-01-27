@@ -356,16 +356,7 @@
                             </div>
 
                             <ul class="options">
-                                @foreach ($languages as $language)
-                                    <li class="option {{ 'en-us' == $language->lang_code ? 'selected' : '' }}">
-                                        <span class="option-text">
-                                            <a
-                                                href="{{ route('switch-language', ['lang_code' => $language->lang_code]) }}">
-                                                {{ $language->name }}
-                                            </a>
-                                        </span>
-                                    </li>
-                                @endforeach
+                                
                             </ul>
                         </div>
                     </div>
