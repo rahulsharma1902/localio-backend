@@ -149,29 +149,33 @@
         <div class="container">
             <div class="succes_content">
                 <div class="hd_text" data-aos="zoom-in" data-aos-duration="1000">
-                    <h2>Get to know the specialists behind your success</h2>
+                    <h2>{{ $whoWeAre->specialists_heading }}</h2>
                 </div>
                 <div class="row succes_rw">
+
+                @foreach ($specilistTileTranslation as $index => $item)
                     <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                         <div class="succs_box">
                             <div class="succes_img">
-                                <img src="{{ asset('front/img/ssr.png') }}">
+                                <img src="{{ asset($item->img) }}">
                             </div>
                             <div class="succes_infp">
                                 <div class="succes_text">
-                                    <h6 class="big-bld">{{ $whoWeAre->specialists_heading }}</h6>
-                                    <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                        when an unknown printer took a galley of type and scrambled it to make a type
-                                        specimen book, It has survived not only five centuries, but also the leap into
+                                    <h6 class="big-bld">{{ $item->translations->first()->title ?? 'No title' }}</h6>
+                                    <p>{{ $item->translations->first()->description ?? 'No description available' }}
                                     </p>
                                 </div>
                                 <div class="succs_grp">
-                                    <img src="{{ asset('front/img/grp-rsr.png') }}">
+                                    <img src="{{ asset($item->small_img) }}">
                                 </div>
+                              
                             </div>
+                            
                         </div>
+                        
                     </div>
-                    <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
+                    @endforeach
+                    <!-- <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                         <div class="succs_box">
                             <div class="succes_img">
                                 <img src="{{ asset('front/img/sa.png') }}">
@@ -227,9 +231,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
+            
             </div>
+          
         </div>
     </section>
     <section class="portf_sec p_120">
