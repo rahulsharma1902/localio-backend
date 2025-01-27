@@ -1,3 +1,4 @@
+
 @extends('admin_layout.master')
 @section('content')
     <div class="nk-block nk-block-lg">
@@ -172,8 +173,17 @@
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        {{-- product prons --}}
+                        {{-- product prons --}}`
+                       
+
                         <div class="col-md-12 mt-4">
+                      @error('key_features')
+                      <p style="color:red">Reqired Prons Data !</p>
+                      @enderror
+                      @if(session('errorkey'))
+                        <p style="color:red">{{ session('errorkey') }}</p>
+                        @endif
+
                             <div class="card border">
                                 <div class="card-header mt-3 d-flex justify-content-between">
                                     <h4>
@@ -220,7 +230,7 @@
                 $('.card-body').append(`
                 <div class="form-group row option-group mt-2">
                     <div class="col-lg-10 col-md-10 col-sm-10">
-                        <input type="text" name="key_features[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
+                        <input type="text" name="key_features[]" id="key_feature" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
                         <button type="button" class="btn btn-danger remove-option"><em class="icon ni ni-trash-fill"></em></button>

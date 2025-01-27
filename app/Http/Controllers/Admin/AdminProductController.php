@@ -18,7 +18,8 @@ class AdminProductController extends Controller
     {
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id',$lang_id)->first();
-        $products = Product::with('categories')->get();
+        $products = Product::with('categories')->latest()->get();
+        // dd($products);
        return view('Admin.products.index',compact('products'));
     }
     public function productAdd()
@@ -118,12 +119,10 @@ class AdminProductController extends Controller
             ->get(['id', 'name'])
             ->toArray();
 
-
         return view('Admin.products.update_product',compact('product','categories','cat_arr','pro_cons_translations'));
     }
     public function productUpdateProccess(Request $request)
 {
-    // dd($request->key_features);
     
     $request->validate([
         'id' => 'required|exists:products,id',
@@ -139,11 +138,14 @@ class AdminProductController extends Controller
         'key_features' => 'required|array|min:1',
     ]);
 
-
+    $errors = [];
     foreach($request->key_features as $value){
-        if($value == null ){
-            return redirect()->back()->with('errorkey','filed is required');
+        if (empty($value)) {
+            $errors[] = 'This field is required'; 
         }
+    }
+    if (!empty($errors)) {
+        return redirect()->back()->with('errorkey', implode(', ', $errors));
     }
     $language = Language::find($request->lang_code);
     if (!$language) {
@@ -184,7 +186,15 @@ class AdminProductController extends Controller
             'description' => $request->description,
         ]
     );
-
+    // dd($request->product_category);
+    DB::table('category_products')->where('product_id',$product->id)->delete();
+    foreach($request->product_category as $value){
+        DB::table('category_products')->updateOrInsert([
+            'category_id' => $value,
+            'product_id' => $product->id
+        ]);
+    } 
+    // dd(DB::table('category_products')->get()->toArray());
 
 
 $matched = [];
@@ -195,21 +205,13 @@ $procons_id = DB::table('pro_cons')
     ->value('id');
 
 if ($procons_id) {
-    
     $existingTranslations = DB::table('pro_cons_translations')
         ->where('pro_cons_id', $procons_id)
        ->pluck('name')
         ->toArray();
-
      $incomingFeatures = $request->key_features;
-
-  
      $toDelete = array_diff($existingTranslations, $incomingFeatures);
-
-   
      $toInsert = array_diff($incomingFeatures, $existingTranslations);
-
-
     DB::table('pro_cons_translations')
             ->where('pro_cons_id', $procons_id)
         ->whereIn('name', $toDelete)
@@ -230,8 +232,6 @@ if ($procons_id) {
 }
     return redirect()->route('products')->with('success', 'Product updated successfully');
 }
-
-
     public function removeProduct($id)
     {
         $product = Product::find($id);
