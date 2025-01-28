@@ -303,6 +303,11 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Country</span></a>
                                         </li>
 
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/db-refresh') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">DB-Refresh</span></a>
+                                        </li>
+
                                     </ul>
                                 </li>
                                 <!-- <li class="nk-menu-item has-sub">
