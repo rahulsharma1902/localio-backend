@@ -148,194 +148,220 @@
                     <div id="popular-items-list" class="popular-items-container">
                         <!-- Popular items will be appended here -->
                     </div>
-                    <div class="col-md-12 mt-4">
-                        <div class="card border">
-                            <div class="card-header">
-                                Most Popular Items
-                            </div>
-                            <div class="card-body">
+                    <div id="popular-items" class="popular-items-container">
+                        <div class="col-md-12 mt-4">
+                            <div class="card border">
+                                <div class="card-header">
+                                    Most Popular Items
+                                </div>
+                                <div class="card-body">
 
 
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Image</th>
-                                            <th>Title</th>
-                                            <th>Description</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($pageTileTranslationPopular as $index => $item)
-                                        @foreach ($item->translations as $translation)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>
-                                                @if ($translation->image)
-                                                <img src="{{ asset($translation->image) }}" alt="Item Image"
-                                                    style="width: 100px; height: auto;">
-                                                @else
-                                                N/A
-                                                @endif
-                                            </td>
-                                            <td>{{ $translation->title ?? 'No Title' }}</td>
-                                            <td>{{ $translation->description ?? 'No Description' }}</td>
-                                            <td>
-                                                <a class="btn btn-danger btn-sm"
-                                                    href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
-                                            </td>
-                                            @endforeach
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="5">No popular items available.</td>
-                                        </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Image</th>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($pageTileTranslationPopular as $index => $item)
+                                            @foreach ($item->translations as $translation)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>
+                                                    @if ($translation->image)
+                                                    <img src="{{ asset($translation->image) }}" alt="Item Image"
+                                                        style="width: 100px; height: auto;">
+                                                    @else
+                                                    N/A
+                                                    @endif
+                                                </td>
+                                                <td>{{ $translation->title ?? 'No Title' }}</td>
+                                                <td>{{ $translation->description ?? 'No Description' }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm"
+                                                        href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-success btn-sm update-item">Edit</button>
+                                                </td>
+                                                @endforeach
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="5">No popular items available.</td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+                        </div>
+
+                        <div id="updated-item-details" class="mt-4" style="display: none;">
+                           
+                                <h4>Updated Item</h4>
+                                <p><strong>Title:</strong></p>
+                                <input type="text" class="form-control" id="updated-title" name="title"
+                                value="{{ old('title', $item->title ?? '') }}" />
+                            
+                                <p><strong>Description:</strong></p>
+                                <input type="text" class="form-control" id="updated-description" name="description"
+                                value="{{ old('description', $item->description ?? '') }}" />
+                            
+                              
+                                <p><strong>Image:</strong></p>
+                                    <img id="updated-image" style="width: 100px; height: auto;" />
+                                    <input type="file" id="update-image-input" />
+                                
+                           
                         </div>
                     </div>
 
-                    <!-- Specialists Heading -->
-                    <div class="col-md-12">
-                        <label class="form-label" for="specialists_heading">Specialists Heading</label>
-                        <input type="text" class="form-control" id="specialists_heading" name="specialists_heading"
-                            value="{{ $whoWeAre->specialists_heading ?? '' }}" />
-                    </div>
-                    <div class="card border mt-3">
-                        <div class="card-header">
-                            Specialists Section
-                            <button type="button" class="btn btn-success btn-sm float-end" id="add-specialists-item">Add
-                                Item</button>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group col-lg-12">
-                                <label class="form-label" for="specialists_title">Title</label>
-                                <input type="text" class="form-control" id="specialists_title"
-                                    name="specialists_title[]" placeholder="Enter Title">
-                            </div>
+        </div>
 
-                            <div class="form-group col-lg-12">
-                                <label class="form-label" for="specialists_description">Description</label>
-                                <input type="text" class="form-control" id="specialists_description"
-                                    name="specialists_description[]" placeholder="Enter Description">
-                            </div>
-
-                            <div class="form-group col-lg-12">
-                                <label class="form-label" for="specialists_img">Image</label>
-                                <input type="file" class="form-control" id="specialists_img" name="specialists_img[]">
-                            </div>
-
-                            <div class="form-group col-lg-12">
-                                <label class="form-label" for="specialists_small_img">small Image</label>
-                                <input type="file" class="form-control" id="specialists_small_img"
-                                    name="specialists_small_img[]">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="specialists-items-list">
-                        <!-- Specialists items will be appended here -->
-                    </div>
-                    <div class="col-md-12 mt-4">
-                        <div class="card border">
-                            <div class="card-header">
-                                Specialists Section
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Image</th>
-                                            <th>Small Image</th>
-                                            <th>Title</th>
-                                            <th>Description</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($specilistTileTranslation as $index => $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>
-                                                @if ($item->img)
-                                                <img src="{{ asset($item->img) }}" alt="Item Image"
-                                                    style="width: 100px; height: auto;">
-                                                @else
-                                                N/A
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($item->small_img)
-                                                <img src="{{ asset($item->small_img) }}" alt="Item Image"
-                                                    style="width: 100px; height: auto;">
-                                                @else
-                                                N/A
-                                                @endif
-                                            </td>
-                                            <td>{{ $item->translations->first()->title ?? 'No title' }}</td>
-                                            <td>{{ $item->translations->first()->description ?? 'No Description' }}</td>
-                                            <td>
-                                                <!-- Delete Button -->
-                                                <a class="btn btn-danger btn-sm"
-                                                    href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
-
-
-                                            </td>
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">No popular items found.</td>
-                                        </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Service Software Heading -->
-                    <div class="col-md-12">
-                        <label class="form-label" for="ss_heading">Service Software Heading</label>
-                        <input type="text" class="form-control" id="ss_heading" name="ss_heading"
-                            value="{{ $whoWeAre->ss_heading ?? '' }}" />
-                    </div>
-
-                    <!-- Service Software Description -->
-                    <div class="col-md-12">
-                        <label class="form-label" for="ss_sub_desc">Service Software Description</label>
-                        <textarea class="form-control" id="ss_sub_desc"
-                            name="ss_sub_desc">{{ $whoWeAre->ss_sub_desc ?? '' }}</textarea>
-                    </div>
-
-                    <!-- Portfolio Button Text -->
-                    <div class="col-md-12">
-                        <label class="form-label" for="protfolio_btn">Portfolio Button Text</label>
-                        <input type="text" class="form-control" id="protfolio_btn" name="protfolio_btn"
-                            value="{{ $whoWeAre->protfolio_btn ?? '' }}" />
-                    </div>
-
-                    <!-- Status -->
-                    <div class="col-md-12">
-                        <label class="form-label" for="status">Status</label>
-                        <select class="form-control" id="status" name="status">
-                            <option value="1" {{ $whoWeAre->status == 1 ? 'selected' : '' }}>Active</option>
-                            <option value="0" {{ $whoWeAre->status == 0 ? 'selected' : '' }}>Inactive</option>
-                        </select>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
+        <!-- Specialists Heading -->
+        <div class="col-md-12">
+            <label class="form-label" for="specialists_heading">Specialists Heading</label>
+            <input type="text" class="form-control" id="specialists_heading" name="specialists_heading"
+                value="{{ $whoWeAre->specialists_heading ?? '' }}" />
+        </div>
+        <div class="card border mt-3">
+            <div class="card-header">
+                Specialists Section
+                <button type="button" class="btn btn-success btn-sm float-end" id="add-specialists-item">Add
+                    Item</button>
+            </div>
+            <div class="card-body">
+                <div class="form-group col-lg-12">
+                    <label class="form-label" for="specialists_title">Title</label>
+                    <input type="text" class="form-control" id="specialists_title" name="specialists_title[]"
+                        placeholder="Enter Title">
                 </div>
-            </form>
+
+                <div class="form-group col-lg-12">
+                    <label class="form-label" for="specialists_description">Description</label>
+                    <input type="text" class="form-control" id="specialists_description"
+                        name="specialists_description[]" placeholder="Enter Description">
+                </div>
+
+                <div class="form-group col-lg-12">
+                    <label class="form-label" for="specialists_img">Image</label>
+                    <input type="file" class="form-control" id="specialists_img" name="specialists_img[]">
+                </div>
+
+                <div class="form-group col-lg-12">
+                    <label class="form-label" for="specialists_small_img">small Image</label>
+                    <input type="file" class="form-control" id="specialists_small_img" name="specialists_small_img[]">
+                </div>
+            </div>
+        </div>
+
+        <div id="specialists-items-list">
+            <!-- Specialists items will be appended here -->
+        </div>
+        <div class="col-md-12 mt-4">
+            <div class="card border">
+                <div class="card-header">
+                    Specialists Section
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Small Image</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($specilistTileTranslation as $index => $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if ($item->img)
+                                    <img src="{{ asset($item->img) }}" alt="Item Image"
+                                        style="width: 100px; height: auto;">
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($item->small_img)
+                                    <img src="{{ asset($item->small_img) }}" alt="Item Image"
+                                        style="width: 100px; height: auto;">
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
+                                <td>{{ $item->translations->first()->title ?? 'No title' }}</td>
+                                <td>{{ $item->translations->first()->description ?? 'No Description' }}</td>
+                                <td>
+                                    <!-- Delete Button -->
+                                    <a class="btn btn-danger btn-sm"
+                                        href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
+
+
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center">No popular items found.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Service Software Heading -->
+        <div class="col-md-12">
+            <label class="form-label" for="ss_heading">Service Software Heading</label>
+            <input type="text" class="form-control" id="ss_heading" name="ss_heading"
+                value="{{ $whoWeAre->ss_heading ?? '' }}" />
+        </div>
+
+        <!-- Service Software Description -->
+        <div class="col-md-12">
+            <label class="form-label" for="ss_sub_desc">Service Software Description</label>
+            <textarea class="form-control" id="ss_sub_desc"
+                name="ss_sub_desc">{{ $whoWeAre->ss_sub_desc ?? '' }}</textarea>
+        </div>
+
+        <!-- Portfolio Button Text -->
+        <div class="col-md-12">
+            <label class="form-label" for="protfolio_btn">Portfolio Button Text</label>
+            <input type="text" class="form-control" id="protfolio_btn" name="protfolio_btn"
+                value="{{ $whoWeAre->protfolio_btn ?? '' }}" />
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-12">
+            <label class="form-label" for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+                <option value="1" {{ $whoWeAre->status == 1 ? 'selected' : '' }}>Active</option>
+                <option value="0" {{ $whoWeAre->status == 0 ? 'selected' : '' }}>Inactive</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Update</button>
         </div>
     </div>
+    </form>
+</div>
+</div>
 </div>
 <script>
 let addedItems = [];
@@ -398,7 +424,68 @@ document.getElementById('add-popular-item').addEventListener('click', function()
         alert('Please fill in all fields and select an image.');
     }
 });
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("popular-items").addEventListener("click", function(e) {
+        // Check if the clicked target is an update button
+        if (e.target && e.target.classList.contains("update-item")) {
+            // Get the row (tr) that the button belongs to
+            const itemRow = e.target.closest("tr");
 
+            // Check if the itemRow was found
+            if (itemRow) {
+                // Retrieve current data from the row
+                const titleCell = itemRow.querySelector("td:nth-child(3)");
+                const descriptionCell = itemRow.querySelector("td:nth-child(4)");
+                const imageCell = itemRow.querySelector("td:nth-child(2) img");
+
+                // Get the image source if exists
+                const imageSrc = imageCell ? imageCell.src : '';
+
+                // Set the current values in the input fields
+                document.getElementById("updated-title").value = titleCell.textContent.trim();
+                document.getElementById("updated-description").value = descriptionCell.textContent
+                    .trim();
+
+                // If image exists, display it
+                if (imageCell) {
+                    document.getElementById("updated-image").src = imageSrc;
+                }
+
+                // Show the updated item details form
+                document.getElementById("updated-item-details").style.display = 'block';
+
+                // Handle image selection
+                const imageInput = document.getElementById("update-image-input");
+                imageInput.addEventListener("change", function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function() {
+                            // Update the image in the updated item details section
+                            document.getElementById("updated-image").src = reader.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Update title and description after user makes changes
+                const updatedTitle = document.getElementById("updated-title").value;
+                const updatedDescription = document.getElementById("updated-description").value;
+
+                // Only proceed if title and description are not empty
+                if (updatedTitle && updatedDescription) {
+                    // Update the row with new values
+                    titleCell.textContent = updatedTitle;
+                    descriptionCell.textContent = updatedDescription;
+                } else {
+                    return; // Don't proceed if the title or description is empty
+                }
+            } else {
+                console.log("Item row not found!");
+            }
+        }
+    });
+});
 
 
 // Remove item logic
