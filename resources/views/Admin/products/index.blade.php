@@ -8,6 +8,10 @@
         .nk-add-product.toggle-slide.toggle-slide-right.toggle-screen-any.content-active {
             width: 40%;
         }
+
+       
+
+        
     </style>
     <?php
     $locale = getCurrentLocale();
@@ -117,7 +121,7 @@
                                                 <div class="drodown">
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-end edit">
+                                                    <div class="dropdown-menu dropdown-menu-end edit-btn">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a
                                                                     href="{{ url('admin-dashboard/product-edit') ?? '' }}/{{ $product['id'] ?? '' }}"><em

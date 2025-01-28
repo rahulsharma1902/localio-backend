@@ -34,6 +34,59 @@
             height: 42vh;
             overflow-y: scroll;
         }
+
+        :root {
+            --btn-background: #F9633B;
+            ;
+        }
+
+        .btn-localio {
+            background-color: var(--btn-background);
+            border: none;
+            outline: none;
+        }
+
+        .btn-localio:hover {
+            background-color: var(--btn-background);
+            border: none;
+            outline: none;
+        }
+
+
+
+
+        .edit-btn {
+            --bs-dropdown-min-width: 45px;
+            background-color: #F9633B;
+            color: white;
+            overflow: hidden !important;
+            height: 41px !important;
+        }
+
+        .edit-btn>ul>li>a {
+            padding: 2px 21px !important;
+            color: white !important;
+        }
+
+        .link-list-opt a:hover {
+            background-color: #F9633B !important;
+            color: white !important;
+        }
+
+
+        em.icon.ni.ni-more-h {
+            color: var(--bs-link-color) !important;
+        }
+
+        a.btn.btn-primary.d-none.d-md-inline-flex {
+            background-color: var(--btn-background) !important;
+            border: none;
+        }
+
+        .nk-menu-link:hover,
+        .active>.nk-menu-link {
+            color: var(--btn-background) !important;
+        }
     </style>
 
 </head>
@@ -75,18 +128,18 @@
                                     </a>
                                 </li>
                                 <li class="nk-menu-item has-sub">
-                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                <span class="nk-menu-text">Products</span>
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
+                                        <span class="nk-menu-text">Products</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/products') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Product</span>
                                             </a>
-                                            <ul class="nk-menu-sub">
-                                                <li class="nk-menu-item">
-                                                    <a href="{{ url('/admin-dashboard/products') }}"
-                                                        class="nk-menu-link"><span class="nk-menu-text">Product</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
                                         </li>
+                                    </ul>
+                                </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
@@ -103,10 +156,10 @@
                                     </a>
 
                                 </li>
-                               
 
-                                 <!-- Globals  -->
-                                 <li class="nk-menu-item has-sub">
+
+                                <!-- Globals  -->
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
                                         <span class="nk-menu-text">Global Section</span>
@@ -116,7 +169,7 @@
                                             <a href="{{ url('/admin-dashboard/header-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Header</span></a>
                                         </li>
-            
+
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/footer-page') }}"
@@ -132,7 +185,7 @@
                                         <span class="nk-menu-text">Pages</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                       
+
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/home-page') }}"
@@ -140,8 +193,8 @@
                                         </li>
 
                                         <li class="nk-menu-item ">
-                                            <a href="{{ route('who_we_are_content') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">who we are</span></a>
+                                            <a href="{{ route('who_we_are_content') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">who we are</span></a>
                                         </li>
 
 
@@ -160,7 +213,7 @@
                                     </ul>
                                 </li>
 
-                               
+
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -246,8 +299,8 @@
                                                     Languages</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/country') }}" class="nk-menu-link"><span
-                                                    class="nk-menu-text">Country</span></a>
+                                            <a href="{{ url('/admin-dashboard/country') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Country</span></a>
                                         </li>
 
                                     </ul>
@@ -316,7 +369,7 @@
                                                         <li>
                                                             <a
                                                                 href="{{ url('set-site-active-language/' . $languages->lang_code) }}">
-                                                                <span>{{ $languages->name }} 
+                                                                <span>{{ $languages->name }}
                                                                     <!-- {{ $languages->lang_code }} -->
                                                                 </span>
                                                             </a>
@@ -494,6 +547,8 @@
     <script src="{{ asset('admin-theme/assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/charts/gd-default.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/example-toastr.js?ver=3.1.2') }}"></script>
+    {{-- select 2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
         integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
@@ -588,6 +643,13 @@
                     });
             });
         }
+
+        // select 2 
+        $(document).ready(function() {
+            $('.product-category').select2({
+                placeholder: "Select Product Category"
+            });
+        });
     </script>
 
 </body>

@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-
+        
         $lang_code = getCurrentLocale();
         ?>
         @if (isset($homeContents) && isset($allHomeContents))
@@ -64,444 +64,395 @@
                                                     @endif
                                                 @endforeach
                                             @endif
-                                        @foreach ($allHomeContents as $key => $val)
-                                            @if ($val->meta_key == 'header_title')
-                                                <div class="form-group col-lg-12">
-                                                    <label class="form-label" for="{{ $key }}">Heading</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="{{ $key }}"
-                                                            name="header_title[{{ $val->id }}]"
-                                                            value="{{ $val->meta_value ?? 'not data found' }}" />
+                                            @foreach ($allHomeContents as $key => $val)
+                                                @if ($val->meta_key == 'header_title')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Heading</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="header_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @elseif($val->meta_key === 'header_description')
-                                                <div class="form-group col-lg-12">
-                                                    <label class="form-label" for="{{ $key }}">Description</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="{{ $key }}"
-                                                            name="header_description[{{ $val->id }}]"
-                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                @elseif($val->meta_key === 'header_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="header_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @elseif($val->meta_key === 'placeholder_text')
-                                                <div class="form-group col-lg-12">
-                                                    <label class="form-label" for="{{ $key }}">Home Page Search
-                                                        Placeholder</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="{{ $key }}"
-                                                            name="placeholder_text[{{ $val->id }}]"
-                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                @elseif($val->meta_key === 'placeholder_text')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Home Page
+                                                            Search
+                                                            Placeholder</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="placeholder_text[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
                                                     </div>
-                                                </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Trusted Brands Section
-                                    </div>
-                                    <div class="card-body">
-                                        @if ($lang_code == 'en-us')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'trusted_brands_img')
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="image">Trusted brand
-                                                            images</label>
-                                                        <div class="dz-message">
-                                                            <!-- Allow multiple file uploads -->
-                                                            <input type="file" class="form-control"
-                                                                name="brand_image[{{ $content->id }}][]" id="metaValue"
-                                                                value="{{ $content->meta_value ?? '' }}" multiple>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Trusted Brands Section
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'trusted_brands_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Trusted brand
+                                                                images</label>
+                                                            <div class="dz-message">
+                                                                <!-- Allow multiple file uploads -->
+                                                                <input type="file" class="form-control"
+                                                                    name="brand_image[{{ $content->id }}][]"
+                                                                    id="metaValue" value="{{ $content->meta_value ?? '' }}"
+                                                                    multiple>
+                                                            </div>
+                                                            @error('brand_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_value) && !empty($content->meta_value))
+                                                                @php
+                                                                    $imageIds = json_decode($content->meta_value);
+                                                                @endphp
+                                                                @if (is_array($imageIds))
+                                                                    @foreach ($imageIds as $imageId)
+                                                                        @php
+                                                                            $media = \App\Models\HomeContentMedia::find(
+                                                                                $imageId,
+                                                                            ); // Retrieve image by ID
+                                                                        @endphp
+                                                                        @if ($media)
+                                                                            <img src="{{ asset($media->file_path) }}"
+                                                                                alt="{{ $content->meta_key }}"
+                                                                                style="width: 100px; height: auto;">
+                                                                        @endif
+                                                                    @endforeach
+                                                                @else
+                                                                    <img src="{{ asset($content->meta_value) }}"
+                                                                        alt="{{ $content->meta_key }}"
+                                                                        style="width: 100px; height: auto;">
+                                                                @endif
+                                                            @endif
+
                                                         </div>
-                                                        @error('brand_image')
-                                                            <div class="error text-danger">{{ $message }}</div>
-                                                        @enderror
-                                                        @if (isset($content->meta_value) && !empty($content->meta_value))
-                                                            @php
-                                                                $imageIds = json_decode($content->meta_value);
-                                                            @endphp
-                                                            @if (is_array($imageIds))
-                                                                @foreach ($imageIds as $imageId)
-                                                                    @php
-                                                                        $media = \App\Models\HomeContentMedia::find(
-                                                                            $imageId,
-                                                                        ); // Retrieve image by ID
-                                                                    @endphp
-                                                                    @if ($media)
-                                                                        <img src="{{ asset($media->file_path) }}"
-                                                                            alt="{{ $content->meta_key }}"
-                                                                            style="width: 100px; height: auto;">
-                                                                    @endif
-                                                                @endforeach
-                                                            @else
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        @elseif($val->meta_key === 'trusted_brands_text')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Trusted Brands
+                                                    Text</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control " id="{{ $key }}"
+                                                        name="trusted_brand[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif($val->meta_key === 'most_popular')
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Most Popular Section
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Most Popular</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="{{ $key }}"
+                                                        name="most_popular[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'campare_business')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Compare Software
+                                                    Button
+                                                    Lable</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="{{ $key }}"
+                                                        name="campare_business[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'visit_website')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Visit Website
+                                                    Text</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="visit_website[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Exclusive deals
+                                            Section
+                                        </div>
+                                    @elseif($val->meta_key === 'exclusive_deals')
+                                        <div class="card-body">
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Exclusive Deals
+                                                    Text</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="exclusive_deals[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'all_exclusive')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">All Exclusive
+                                                    Lable</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="all_exclusive[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'get_this_deal')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Get Deal
+                                                    Lable</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="get_this_deal[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            AI Search Section
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'ai_section_left_img')
+                                                        <div class="form-group">
+
+                                                            <label class="form-label" for="image">Ai Section Left
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="ai_left_image[{{ $content->id }}]"
+                                                                    id="metaValue"
+                                                                    value="{{ $content->meta->value ?? '' }}">
+                                                            </div>
+                                                            @error('ai_left_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+
+                                                            @if (isset($content->meta_key))
                                                                 <img src="{{ asset($content->meta_value) }}"
                                                                     alt="{{ $content->meta_key }}"
                                                                     style="width: 100px; height: auto;">
                                                             @endif
-                                                        @endif
-
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    @elseif($val->meta_key === 'trusted_brands_text')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Trusted Brands Text</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control " id="{{ $key }}"
-                                                    name="trusted_brand[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        @elseif($val->meta_key === 'most_popular')
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Most Popular Section
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Most Popular</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="{{ $key }}"
-                                                    name="most_popular[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-
-                                            </div>
-                                        </div>
-                                    @elseif($val->meta_key === 'campare_business')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Compare Software Button
-                                                Lable</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="{{ $key }}"
-                                                    name="campare_business[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
-                                        </div>
-                                    @elseif($val->meta_key === 'visit_website')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Visit Website
-                                                Text</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}" name="visit_website[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Exclusive deals
-                                        Section
-                                    </div>
-                                @elseif($val->meta_key === 'exclusive_deals')
-                                    <div class="card-body">
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Exclusive Deals
-                                                Text</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}" name="exclusive_deals[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-
-                                            </div>
-                                        </div>
-                                    @elseif($val->meta_key === 'all_exclusive')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">All Exclusive
-                                                Lable</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}" name="all_exclusive[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-
-                                            </div>
-                                        </div>
-                                    @elseif($val->meta_key === 'get_this_deal')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Get Deal Lable</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}" name="get_this_deal[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        AI Search Section
-                                    </div>
-                                    <div class="card-body">
-                                        @if ($lang_code == 'en-us')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'ai_section_left_img')
-                                                    <div class="form-group">
-
-                                                        <label class="form-label" for="image">Ai Section Left
-                                                            Image</label>
-                                                        <div class="dz-message">
-                                                            <input type="file" class="form-control"
-                                                                name="ai_left_image[{{ $content->id }}]" id="metaValue"
-                                                                value="{{ $content->meta->value ?? '' }}">
                                                         </div>
-                                                        @error('ai_left_image')
-                                                            <div class="error text-danger">{{ $message }}</div>
-                                                        @enderror
+                                                    @elseif($content->meta_key == 'ai_section_right_img')
+                                                        <div class="form-group">
 
-                                                        @if (isset($content->meta_key))
-                                                            <img src="{{ asset($content->meta_value) }}"
-                                                                alt="{{ $content->meta_key }}"
-                                                                style="width: 100px; height: auto;">
-                                                        @endif
-                                                    </div>
-                                                @elseif($content->meta_key == 'ai_section_right_img')
-                                                    <div class="form-group">
+                                                            <label class="form-label" for="image">Ai Section Right
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="ai_right_image[{{ $content->id }}]"
+                                                                    id="metaValue"
+                                                                    value="{{ $content->meta_value ?? '' }}">
+                                                            </div>
+                                                            @error('ai_right_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
 
-                                                        <label class="form-label" for="image">Ai Section Right
-                                                            Image</label>
-                                                        <div class="dz-message">
-                                                            <input type="file" class="form-control"
-                                                                name="ai_right_image[{{ $content->id }}]" id="metaValue"
-                                                                value="{{ $content->meta_value ?? '' }}">
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
                                                         </div>
-                                                        @error('ai_right_image')
-                                                            <div class="error text-danger">{{ $message }}</div>
-                                                        @enderror
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        @elseif($val->meta_key === 'ai_title')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">AI Search
+                                                    Text</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="{{ $key }}"
+                                                        name="ai_title[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
 
-                                                        @if (isset($content->meta_key))
-                                                            <img src="{{ asset($content->meta_value) }}"
-                                                                alt="{{ $content->meta_key }}"
-                                                                style="width: 100px; height: auto;">
-                                                        @endif
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    @elseif($val->meta_key === 'ai_title')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">AI Search Text</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="{{ $key }}"
-                                                    name="ai_title[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'ai_description')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">AI Search
+                                                    Description</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="{{ $key }}"
+                                                        name="ai_description[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'ai_placeholder')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">AI
+                                                    Placeholder</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="{{ $key }}"
+                                                        name="ai_placeholder[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
+                                            </div>
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'ai_send_img')
+                                                        <div class="form-group">
 
-                                            </div>
-                                        </div>
-                                    @elseif($val->meta_key === 'ai_description')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">AI Search
-                                                Description</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="{{ $key }}"
-                                                    name="ai_description[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
-                                        </div>
-                                    @elseif($val->meta_key === 'ai_placeholder')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">AI Placeholder</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="{{ $key }}"
-                                                    name="ai_placeholder[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
-                                        </div>
-                                        @if ($lang_code == 'en-us')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'ai_send_img')
-                                                    <div class="form-group">
+                                                            <label class="form-label" for="image">AI Send Message
+                                                                Button
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="ai_send_img[{{ $content->id }}]"
+                                                                    id="metaValue"
+                                                                    value="{{ $content->meta->value ?? '' }}">
+                                                            </div>
+                                                            @error('ai_send_img')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
 
-                                                        <label class="form-label" for="image">AI Send Message Button
-                                                            Image</label>
-                                                        <div class="dz-message">
-                                                            <input type="file" class="form-control"
-                                                                name="ai_send_img[{{ $content->id }}]" id="metaValue"
-                                                                value="{{ $content->meta->value ?? '' }}">
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 30px; height: 50px;">
+                                                            @endif
                                                         </div>
-                                                        @error('ai_send_img')
-                                                            <div class="error text-danger">{{ $message }}</div>
-                                                        @enderror
-
-                                                        @if (isset($content->meta_key))
-                                                            <img src="{{ asset($content->meta_value) }}"
-                                                                alt="{{ $content->meta_key }}"
-                                                                style="width: 30px; height: 50px;">
-                                                        @endif
-                                                    </div>
-                                                    <!-- add here ai image -->
-                                                @endif
-                                            @endforeach
-                                        @endif
+                                                        <!-- add here ai image -->
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Top Product Section
-                                    </div>
-                                    <div class="card-body">
-                                    @elseif($val->meta_key === 'top_product')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Top Product Text</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="{{ $key }}"
-                                                    name="top_product[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-
-                                            </div>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Top Product Section
                                         </div>
-                                    @elseif($val->meta_key === 'all_top_product')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">All Product Lable</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="{{ $key }}"
-                                                    name="all_top_product[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
+                                        <div class="card-body">
+                                        @elseif($val->meta_key === 'top_product')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Top Product
+                                                    Text</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="{{ $key }}"
+                                                        name="top_product[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
 
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'all_top_product')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">All Product
+                                                    Lable</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="{{ $key }}"
+                                                        name="all_top_product[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Latest Review Section
-                                    </div>
-                                    <div class="card-body">
-                                    @elseif($val->meta_key === 'latest_reviews')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Latest Reviews
-                                                Text</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}" name="latest_reviews[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-
-                                            </div>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Latest Review Section
                                         </div>
-                                    @elseif($val->meta_key === 'write_review')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Write Review
-                                                Lable</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}" name="write_review[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
+                                        <div class="card-body">
+                                        @elseif($val->meta_key === 'latest_reviews')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Latest Reviews
+                                                    Text</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="latest_reviews[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+
+                                                </div>
+                                            </div>
+                                        @elseif($val->meta_key === 'write_review')
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="{{ $key }}">Write Review
+                                                    Lable</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="write_review[{{ $val->id }}]"
+                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Read Article Section
-                                    </div>
-                                    <div class="card-body">
-                                        @if ($lang_code == 'en')
-                                            @foreach ($homeContents as $content)
-                                                @if ($content->meta_key == 'review_section_right_img')
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="image">Review Section Right
-                                                            Image</label>
-                                                        <div class="dz-message">
-                                                            <input type="file" class="form-control"
-                                                                name="review_section_right_img[{{ $content->id }}]"
-                                                                id="metaValue" value="{{ $content->value ?? '' }}">
-                                                        </div>
-                                                        @error('review_section_right_img')
-                                                            <div class="error text-danger">{{ $message }}</div>
-                                                        @enderror
-                                                        @if (isset($content->meta_key))
-                                                            <img src="{{ asset($content->meta_value) }}"
-                                                                alt="{{ $content->meta_key }}"
-                                                                style="width: 100px; height: auto;">
-                                                        @endif
-                                                    </div>
-                                                @elseif($content->meta_key == 'review_section_left_img')
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="image">Review Section Left
-                                                            Image</label>
-                                                        <div class="dz-message">
-                                                            <input type="file" class="form-control"
-                                                                name="review_section_left_img[{{ $content->id }}]"
-                                                                id="metaValue" value="{{ $content->value ?? '' }}">
-                                                        </div>
-                                                        @error('review_section_left_img')
-                                                            <div class="error text-danger">{{ $message }}</div>
-                                                        @enderror
-                                                        @if (isset($content->meta_key))
-                                                            <img src="{{ asset($content->meta_value) }}"
-                                                                alt="{{ $content->meta_key }}"
-                                                                style="width: 50px; height: 50px;">
-                                                        @endif
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    @elseif($val->meta_key === 'read_article')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">Read Article
-                                                Text</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}" name="read_article[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Read Article Section
                                         </div>
-                                    @elseif($val->meta_key === 'view_all_article')
-                                        <div class="form-group col-lg-12">
-                                            <label class="form-label" for="{{ $key }}">View Article
-                                                Lable</label>
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control site_text_input"
-                                                    id="{{ $key }}"
-                                                    name="view_all_article[{{ $val->id }}]"
-                                                    value="{{ $val->meta_value ?? '' }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="card border">
-                                    <div class="card-header mt-3">
-                                        Find Right Tool Section
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="col-md-12">
+                                        <div class="card-body">
                                             @if ($lang_code == 'en')
                                                 @foreach ($homeContents as $content)
-                                                    @if ($content->meta_key == 'find_tool_left_img')
+                                                    @if ($content->meta_key == 'review_section_right_img')
                                                         <div class="form-group">
-                                                            <label class="form-label" for="image">Find Tool Section
-                                                                Left Image</label>
+                                                            <label class="form-label" for="image">Review Section Right
+                                                                Image</label>
                                                             <div class="dz-message">
                                                                 <input type="file" class="form-control"
-                                                                    name="find_tool_left_image[{{ $content->id }}]"
+                                                                    name="review_section_right_img[{{ $content->id }}]"
                                                                     id="metaValue" value="{{ $content->value ?? '' }}">
                                                             </div>
-                                                            @error('find_tool_left_image')
+                                                            @error('review_section_right_img')
                                                                 <div class="error text-danger">{{ $message }}</div>
                                                             @enderror
                                                             @if (isset($content->meta_key))
@@ -510,165 +461,254 @@
                                                                     style="width: 100px; height: auto;">
                                                             @endif
                                                         </div>
-                                                    @elseif($content->meta_key == 'find_tool_right_img')
+                                                    @elseif($content->meta_key == 'review_section_left_img')
                                                         <div class="form-group">
-                                                            <label class="form-label" for="image">Find Tool Section
-                                                                Right Image</label>
+                                                            <label class="form-label" for="image">Review Section Left
+                                                                Image</label>
                                                             <div class="dz-message">
                                                                 <input type="file" class="form-control"
-                                                                    name="find_tool_right_image[{{ $content->id }}]"
+                                                                    name="review_section_left_img[{{ $content->id }}]"
                                                                     id="metaValue" value="{{ $content->value ?? '' }}">
                                                             </div>
-                                                            @error('find_tool_right_image')
+                                                            @error('review_section_left_img')
                                                                 <div class="error text-danger">{{ $message }}</div>
                                                             @enderror
                                                             @if (isset($content->meta_key))
                                                                 <img src="{{ asset($content->meta_value) }}"
                                                                     alt="{{ $content->meta_key }}"
-                                                                    style="width: 50px; height: 50px;">
-                                                            @endif
-                                                        </div>
-
-                                                        <!-- new -->
-                                                    @elseif($content->meta_key == 'user_reviews_img')
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="image">Verified Reviews
-                                                                Image</label>
-                                                            <div class="dz-message">
-                                                                <input type="file" class="form-control"
-                                                                    name="verified_reviews_image[{{ $content->id }}]"
-                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
-                                                            </div>
-                                                            @error('verified_reviews_image')
-                                                                <div class="error text-danger">{{ $message }}</div>
-                                                            @enderror
-                                                            @if (isset($content->meta_key))
-                                                                <img src="{{ asset($content->meta_value) }}"
-                                                                    class="himg mt-2" alt="{{ $content->meta_key }}"
-                                                                    style="width: 50px; height: 50px;">
-                                                            @endif
-                                                        </div>
-                                                    @elseif($content->meta_key == 'price_compare_img')
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="image">Feature Price
-                                                                Image</label>
-                                                            <div class="dz-message">
-                                                                <input type="file" class="form-control"
-                                                                    name="feature_price_image[{{ $content->id }}]"
-                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
-                                                            </div>
-                                                            @error('feature_price_image')
-                                                                <div class="error text-danger">{{ $message }}</div>
-                                                            @enderror
-                                                            @if (isset($content->meta_key))
-                                                                <img src="{{ asset($content->meta_value) }}"
-                                                                    class="himg mt-2" alt="{{ $content->meta_key }}"
-                                                                    style="width: 50px; height: 50px;">
-                                                            @endif
-                                                        </div>
-                                                    @elseif($content->meta_key == 'independent_img')
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="image">Independent
-                                                                Image</label>
-                                                            <div class="dz-message">
-                                                                <input type="file" class="form-control"
-                                                                    name="independ_image[{{ $content->id }}]"
-                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
-                                                            </div>
-                                                            @error('independ_image')
-                                                                <div class="error text-danger">{{ $message }}</div>
-                                                            @enderror
-                                                            @if (isset($content->meta_key))
-                                                                <img src="{{ asset($content->meta_value) }}"
-                                                                    class="himg mt-2" alt="{{ $content->meta_key }}"
                                                                     style="width: 50px; height: 50px;">
                                                             @endif
                                                         </div>
                                                     @endif
                                                 @endforeach
                                             @endif
-                                        @elseif($val->meta_key === 'find_tool')
+                                        @elseif($val->meta_key === 'read_article')
                                             <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Find Tool
+                                                <label class="form-label" for="{{ $key }}">Read Article
                                                     Text</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="find_tool[{{ $val->id }}]"
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="read_article[{{ $val->id }}]"
                                                         value="{{ $val->meta_value ?? '' }}" />
                                                 </div>
                                             </div>
-                                        @elseif($val->meta_key === 'verify_user_review')
+                                        @elseif($val->meta_key === 'view_all_article')
                                             <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Verified User
-                                                    Reviews Text</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="verify_user_review[{{ $val->id }}]"
-                                                        value="{{ $val->meta_value ?? '' }}" />
-
-                                                </div>
-                                            </div>
-                                        @elseif($val->meta_key === 'verify_review_description')
-                                            <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Read Real feedback
-                                                    Text</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="verify_review_description[{{ $val->id }}]"
-                                                        value="{{ $val->meta_value ?? '' }}" />
-                                                </div>
-                                            </div>
-                                        @elseif($val->meta_key === 'feature_price')
-                                            <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Feature And Price
-                                                    Comparision
-                                                    Text</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="feature_price[{{ $val->id }}]"
-                                                        value="{{ $val->meta_value ?? '' }}" />
-                                                </div>
-                                            </div>
-                                        @elseif($val->meta_key === 'feature_price_description')
-                                            <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Easily Compare
-                                                    Software Text</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="feature_price_description[{{ $val->id }}]"
-                                                        value="{{ $val->meta_value ?? '' }}" />
-                                                </div>
-                                            </div>
-                                        @elseif($val->meta_key === 'independent')
-                                            <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Independent
-                                                    Insights</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="independent[{{ $val->id }}]"
-                                                        value="{{ $val->meta_value ?? '' }}" />
-                                                </div>
-                                            </div>
-                                        @elseif($val->meta_key === 'independent_description')
-                                            <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Access Unbiased Data
-                                                    Text</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="independent_description[{{ $val->id }}]"
-                                                        value="{{ $val->meta_value ?? '' }}" />
-                                                </div>
-                                            </div>
-                                        @elseif($val->meta_key === 'get_button_lable')
-                                            <div class="form-group col-lg-12">
-                                                <label class="form-label" for="{{ $key }}">Get Button
+                                                <label class="form-label" for="{{ $key }}">View Article
                                                     Lable</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="{{ $key }}"
-                                                        name="get_button_lable[{{ $val->id }}]"
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="{{ $key }}"
+                                                        name="view_all_article[{{ $val->id }}]"
                                                         value="{{ $val->meta_value ?? '' }}" />
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Find Right Tool Section
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="col-md-12">
+                                                @if ($lang_code == 'en')
+                                                    @foreach ($homeContents as $content)
+                                                        @if ($content->meta_key == 'find_tool_left_img')
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="image">Find Tool Section
+                                                                    Left Image</label>
+                                                                <div class="dz-message">
+                                                                    <input type="file" class="form-control"
+                                                                        name="find_tool_left_image[{{ $content->id }}]"
+                                                                        id="metaValue"
+                                                                        value="{{ $content->value ?? '' }}">
+                                                                </div>
+                                                                @error('find_tool_left_image')
+                                                                    <div class="error text-danger">{{ $message }}</div>
+                                                                @enderror
+                                                                @if (isset($content->meta_key))
+                                                                    <img src="{{ asset($content->meta_value) }}"
+                                                                        alt="{{ $content->meta_key }}"
+                                                                        style="width: 100px; height: auto;">
+                                                                @endif
+                                                            </div>
+                                                        @elseif($content->meta_key == 'find_tool_right_img')
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="image">Find Tool Section
+                                                                    Right Image</label>
+                                                                <div class="dz-message">
+                                                                    <input type="file" class="form-control"
+                                                                        name="find_tool_right_image[{{ $content->id }}]"
+                                                                        id="metaValue"
+                                                                        value="{{ $content->value ?? '' }}">
+                                                                </div>
+                                                                @error('find_tool_right_image')
+                                                                    <div class="error text-danger">{{ $message }}</div>
+                                                                @enderror
+                                                                @if (isset($content->meta_key))
+                                                                    <img src="{{ asset($content->meta_value) }}"
+                                                                        alt="{{ $content->meta_key }}"
+                                                                        style="width: 50px; height: 50px;">
+                                                                @endif
+                                                            </div>
+
+                                                            <!-- new -->
+                                                        @elseif($content->meta_key == 'user_reviews_img')
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="image">Verified Reviews
+                                                                    Image</label>
+                                                                <div class="dz-message">
+                                                                    <input type="file" class="form-control"
+                                                                        name="verified_reviews_image[{{ $content->id }}]"
+                                                                        id="metaValue"
+                                                                        value="{{ $content->value ?? '' }}">
+                                                                </div>
+                                                                @error('verified_reviews_image')
+                                                                    <div class="error text-danger">{{ $message }}</div>
+                                                                @enderror
+                                                                @if (isset($content->meta_key))
+                                                                    <img src="{{ asset($content->meta_value) }}"
+                                                                        class="himg mt-2" alt="{{ $content->meta_key }}"
+                                                                        style="width: 50px; height: 50px;">
+                                                                @endif
+                                                            </div>
+                                                        @elseif($content->meta_key == 'price_compare_img')
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="image">Feature Price
+                                                                    Image</label>
+                                                                <div class="dz-message">
+                                                                    <input type="file" class="form-control"
+                                                                        name="feature_price_image[{{ $content->id }}]"
+                                                                        id="metaValue"
+                                                                        value="{{ $content->value ?? '' }}">
+                                                                </div>
+                                                                @error('feature_price_image')
+                                                                    <div class="error text-danger">{{ $message }}</div>
+                                                                @enderror
+                                                                @if (isset($content->meta_key))
+                                                                    <img src="{{ asset($content->meta_value) }}"
+                                                                        class="himg mt-2" alt="{{ $content->meta_key }}"
+                                                                        style="width: 50px; height: 50px;">
+                                                                @endif
+                                                            </div>
+                                                        @elseif($content->meta_key == 'independent_img')
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="image">Independent
+                                                                    Image</label>
+                                                                <div class="dz-message">
+                                                                    <input type="file" class="form-control"
+                                                                        name="independ_image[{{ $content->id }}]"
+                                                                        id="metaValue"
+                                                                        value="{{ $content->value ?? '' }}">
+                                                                </div>
+                                                                @error('independ_image')
+                                                                    <div class="error text-danger">{{ $message }}</div>
+                                                                @enderror
+                                                                @if (isset($content->meta_key))
+                                                                    <img src="{{ asset($content->meta_value) }}"
+                                                                        class="himg mt-2" alt="{{ $content->meta_key }}"
+                                                                        style="width: 50px; height: 50px;">
+                                                                @endif
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            @elseif($val->meta_key === 'find_tool')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Find Tool
+                                                        Text</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="find_tool[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                    </div>
+                                                </div>
+                                            @elseif($val->meta_key === 'verify_user_review')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Verified User
+                                                        Reviews Text</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="verify_user_review[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+
+                                                    </div>
+                                                </div>
+                                            @elseif($val->meta_key === 'verify_review_description')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Read Real
+                                                        feedback
+                                                        Text</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="verify_review_description[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                    </div>
+                                                </div>
+                                            @elseif($val->meta_key === 'feature_price')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Feature And
+                                                        Price
+                                                        Comparision
+                                                        Text</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="feature_price[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                    </div>
+                                                </div>
+                                            @elseif($val->meta_key === 'feature_price_description')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Easily Compare
+                                                        Software Text</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="feature_price_description[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                    </div>
+                                                </div>
+                                            @elseif($val->meta_key === 'independent')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Independent
+                                                        Insights</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="independent[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                    </div>
+                                                </div>
+                                            @elseif($val->meta_key === 'independent_description')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Access Unbiased
+                                                        Data
+                                                        Text</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="independent_description[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                    </div>
+                                                </div>
+                                            @elseif($val->meta_key === 'get_button_lable')
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label" for="{{ $key }}">Get Button
+                                                        Lable</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control"
+                                                            id="{{ $key }}"
+                                                            name="get_button_lable[{{ $val->id }}]"
+                                                            value="{{ $val->meta_value ?? '' }}" />
+                                                    </div>
+                                                </div>
         @endif
         @endforeach
     </div>
@@ -676,7 +716,8 @@
     </div>
     <div class="col-md-12 mt-4">
         <div class="form-group">
-            <button class="addCategory btn btn-primary  text-center"><em class="icon ni ni-plus"></em><span>Update
+            <button class="addCategory btn btn-primary btn-localio text-center"><em
+                    class="icon ni ni-plus"></em><span>Update
                     Content</span></button>
         </div>
     </div>

@@ -26,7 +26,7 @@
                                     <a href="{{ url('admin-dashboard/site-languages/add') ?? '' }}"
                                         class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ url('admin-dashboard/site-languages/add') ?? '' }}"
-                                        class=" btn btn-primary d-none d-md-inline-flex"><em
+                                        class=" btn btn-primary d-none d-md-inline-flex btn-localio"><em
                                             class="icon ni ni-plus"></em><span>Add Site Languages</span></a>
                                     <!-- <a href="{{ url('site-languages/add') ?? '' }}" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Site Languages</span></a> -->
                                 </li>
@@ -75,15 +75,15 @@
 
                                 </td>
                                 <!-- <td class="nk-tb-col tb-col-md">
-                                                                        <span class="tb-amount">{{ $siteLanguage->status ?? '' }}</span>
-                                                                    </td> -->
+                                                                                                    <span class="tb-amount">{{ $siteLanguage->status ?? '' }}</span>
+                                                                                                </td> -->
                                 <td class="nk-tb-col nk-tb-col-tools">
                                     <ul class="nk-tb-actions gx-1">
                                         <li>
                                             <div class="drodown">
                                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                     data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
+                                                <div class="dropdown-menu dropdown-menu-end edit-btn">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li>
                                                             <a
@@ -94,8 +94,8 @@
                                                         </li>
                                                         @if ($siteLanguage->primary !== 1)
                                                             <!-- <li class="removeConfermation" data-url="{{ url('admin-dashboard/remove-site-language') ?? '' }}/{{ $siteLanguage->id ?? '' }}" >
-                                                                                                <a class="removeConfermation delete" href="{{ url('admin-dashboard/remove-site-language') ?? '' }}/{{ $siteLanguage->id ?? '' }}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                                                            </li> -->
+                                                                                                                            <a class="removeConfermation delete" href="{{ url('admin-dashboard/remove-site-language') ?? '' }}/{{ $siteLanguage->id ?? '' }}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
+                                                                                                                        </li> -->
                                                         @endif
                                                     </ul>
                                                 </div>
@@ -149,7 +149,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary form-control text-center"><em
+                        <button class="btn btn-primary form-control text-center btn-localio"><em
                                 class="icon ni ni-plus"></em><span>Add New Category</span></button>
                     </div>
                 </div>

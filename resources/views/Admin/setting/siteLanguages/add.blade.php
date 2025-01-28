@@ -32,19 +32,19 @@
 
                         <!-- Slug Field -->
                         <!-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="slug">Slug</label>
-                                    <sup>
-                                        @error('slug')
+                                        <div class="form-group">
+                                            <label class="form-label" for="slug">Slug</label>
+                                            <sup>
+                                                @error('slug')
         <div class="error text-danger">{{ $message }}</div>
     @enderror
-                                    </sup>
-                                    <div class="form-control-wrap"> -->
+                                            </sup>
+                                            <div class="form-control-wrap"> -->
                         <input type="hidden" class="form-control" id="slug" name="slug"
                             value="{{ old('slug') }}" />
                         <!-- </div>
-                                </div>
-                            </div> -->
+                                        </div>
+                                    </div> -->
 
                         <!-- handle Field -->
                         <div class="col-md-6">
@@ -89,7 +89,7 @@
                         <!-- Submit Button -->
                         <div class="col-md-12">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-primary">Save</button>
+                                <button type="submit" class="btn btn-lg btn-primary btn-localio">Save</button>
                             </div>
                         </div>
                     </div>

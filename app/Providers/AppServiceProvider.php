@@ -14,12 +14,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
     }
 
     public function boot(Request $request )
     {
-        $languages = getLanguages();
-        View::share('languages', $languages);
+        // $languages = getLanguages();
+        // View::share('languages', $languages);
     }
 }
