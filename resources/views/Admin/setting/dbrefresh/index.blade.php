@@ -9,7 +9,7 @@
         </div>
         <div class="card card-bordered">
             <div class="card-inner">
-                <form action="{{ route('country.addProcc') }}" class="form-validate" novalidate="novalidate" method="post">
+                <form action="{{ route('dbrefresh.refresh') }}" class="form-validate" method="post">
                     @csrf
                     <div class="row g-gs">
                         <!-- Name Field -->
@@ -17,13 +17,13 @@
                             <div class="form-group">
                                 <label class="form-label" for="name">Enter Password</label>
                                 <sup>
-                                    @error('name')
-                                        <div class="error text-danger">{{ $message }}</div>
+                                    @error('password')
+                                        <div class="error text-danger" style="margin-top: 7px !important;margin-bottom: 9px !important;">{{ $message }}</div>
                                     @enderror
                                 </sup>
                                 <div class="form-control-wrap">
-                                    <input type="password" class="form-control" id="name" name="name"
-                                        value="{{ old('name') }}" />
+                                    <input type="password" class="form-control" id="name" name="password"
+                                        placeholder="Enter Password Here" />
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                 <button type="submit" class="btn btn-lg btn-primary btn-localio">Refresh Database</button>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </form>
             </div>
         </div>

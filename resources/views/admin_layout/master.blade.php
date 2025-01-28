@@ -648,13 +648,6 @@
                     });
             });
         }
-
-        // select 2 
-        $(document).ready(function() {
-            $('.product-category').select2({
-                placeholder: "Select Product Category"
-            });
-        });
     </script>
 
 </body>

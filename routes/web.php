@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\SiteContent\SiteContentController;
-use App\Http\Controllers\Admin\{AdminDashController, CategoriesController, SiteLanguagesController, FilterController, ArticleController, SitePagesController, AdminProductController, DBrefreshController, HomeContentController, ReviewController};
+use App\Http\Controllers\Admin\{AdminDashController, CategoriesController, SiteLanguagesController, FilterController, ArticleController, SitePagesController, AdminProductController, AdminSettingsController, DBrefreshController, HomeContentController, ReviewController};
 
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\CountryController;
@@ -67,7 +67,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // DB-Refresh
-    Route::get('/admin-dashboard/db-refresh', [DBrefreshController::class, 'index'])->name('dbrefresh.index');
+    Route::get('/admin-dashboard/db-refresh', [AdminSettingsController::class, 'index'])->name('dbrefresh.index');
+    Route::post('/admin-dashboard/db-refresh', [AdminSettingsController::class, 'refersh_database'])->name('dbrefresh.refresh');
 
     // FilterController :
     Route::get('/admin-dashboard/filters', [FilterController::class, 'index'])->name('filters');
