@@ -115,8 +115,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="product-price">Product Price</label>
                                     <input type="text" class="form-control" name="product_price" id="product-price"
-                                        min="1" value="{{old('product_price')}}"
-                                        placeholder="Product Price">
+                                        min="1" value="{{ old('product_price') }}" placeholder="Product Price">
                                 </div>
                                 @error('product_price')
                                     <div class="error text-danger">{{ $message }}</div>
@@ -169,8 +168,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="product-link">Product Link</label>
                                 <input type="url" class="form-control" name="product_link" id="product-link"
-                                    value="{{old('product_link')}}"
-                                    placeholder="Product Link">
+                                    value="{{ old('product_link') }}" placeholder="Product Link">
                             </div>
                             @error('product_link')
                                 <div class="error text-danger">{{ $message }}</div>
@@ -226,7 +224,7 @@
                 $('.prose-body').append(`
                 <div class="form-group row prose-option mt-2">
                     <div class="col-lg-10 col-md-10 col-sm-10">
-                        <input type="text" name="key_features[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
+                        <input type="text" name="pros_data[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
                         <button type="button" class="btn btn-danger prose-option"><em class="icon ni ni-trash-fill"></em></button>
@@ -237,7 +235,7 @@
             // Remove option field, ensuring at least one remains
 
             $('.prose-body').on('click', '.prose-option', function() {
-                    $(this).parents('.prose-option').remove();
+                $(this).parents('.prose-option').remove();
             });
 
 
@@ -259,9 +257,6 @@
             $('.conse-data').on('click ', '.conse-option ', function() {
                 $(this).parents('.conse-group').remove();
             });
-
-            
-            
         });
     </script>
 @endsection

@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\CategoryProduct;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use App\Models\Language;
+use App\Models\ProCons;
+use App\Models\ProConsTranslation;
 use App\Models\ProductTranslation;
 use Illuminate\Support\Facades\DB;
 
@@ -37,7 +40,7 @@ class AdminProductController extends Controller
             'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            'key_features' => 'array',
+            'pros_data' => 'array',
             'conse_data' =>  'array',
         ]);
 
@@ -76,22 +79,24 @@ class AdminProductController extends Controller
 
 
             foreach ($request->product_category as $value) {
-                DB::table('category_products')->insert([
+                CategoryProduct::create([
                     'category_id' => $value,
                     'product_id' => $product->id
                 ]);
             }
 
-            if (is_array($request->key_features)) {
-                $procons_id =   DB::table('pro_cons')->insertGetId([
+            if (is_array($request->pros_data)) {
+                $procons_id = ProCons::create([
                     'product_id' => $product->id,
                     'lang_id' => $language_id,
                     'type' => 'pross',
                     'created_at' => now(),
                     'updated_at' => now(),
-                ]);
-                foreach ($request->key_features as $value) {
-                    DB::table('pro_cons_translations')->insert([
+                ])->id;
+
+
+                foreach ($request->pros_data as $value) {
+                    ProConsTranslation::create([
                         'pro_cons_id' => $procons_id,
                         'name' => $value,
                         'description' => 'null',
@@ -102,16 +107,17 @@ class AdminProductController extends Controller
             }
 
             if (is_array($request->conse_data)) {
-                $procons_id =   DB::table('pro_cons')->insertGetId([
+                $conse_id = ProCons::create([
                     'product_id' => $product->id,
                     'lang_id' => $language_id,
-                    'type' => 'conse',
+                    'type' => 'cons',
                     'created_at' => now(),
                     'updated_at' => now(),
-                ]);
+                ])->id;
+
                 foreach ($request->conse_data as $value) {
-                    DB::table('pro_cons_translations')->insert([
-                        'pro_cons_id' => $procons_id,
+                    ProConsTranslation::create([
+                        'pro_cons_id' => $conse_id,
                         'name' => $value,
                         'description' => 'null',
                         'created_at' => now(),
@@ -127,20 +133,26 @@ class AdminProductController extends Controller
     }
     public function productEdit($id)
     {
-        $proconseid = DB::table('pro_cons')->where('product_id', $id)->where('type', 'pross')->value('id');
-        $conseid = DB::table('pro_cons')->where('product_id', $id)->where('type', 'conse')->value('id');
-        // dd($conseid);
-        $proconse_data =  DB::table('pro_cons_translations')->where('pro_cons_id', $proconseid)->get()->toArray();
-        $cronse_data = DB::table('pro_cons_translations')->where('pro_cons_id', $conseid)->get()->toArray();
+        $proconseid = ProCons::where('product_id', $id)->where('type', 'pross')->value('id');
+        $conseid = ProCons::where('product_id', $id)->where('type', 'cons')->value('id');
+
+        $proconse_data = $proconseid
+            ? ProConsTranslation::where('pro_cons_id', $proconseid)->get()->toArray()
+            : [];
+        $cronse_data = $conseid
+            ? ProConsTranslation::where('pro_cons_id', $conseid)->get()->toArray()
+            : [];
+
         $categories = Category::all();
+
         $product = Product::with('keyFeatures', 'categories.translations')->find($id);
-        $category_products = DB::table('category_products')
-            ->where('product_id', $id)
-            ->pluck('category_id')
-            ->toArray();
-        $cat_arr = Category::whereIn('id', $category_products)
-            ->get(['id', 'name'])
-            ->toArray();
+
+        $category_products = CategoryProduct::where('product_id', $id)->pluck('category_id')->toArray();
+
+        $cat_arr = !empty($category_products)
+            ? Category::whereIn('id', $category_products)->get(['id', 'name'])->toArray()
+            : [];
+
         return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data'));
     }
     public function productUpdateProccess(Request $request)
@@ -157,7 +169,7 @@ class AdminProductController extends Controller
             'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            'key_features' => 'array',
+            'pross_data' => 'array',
             'conse_data' =>  'array',
         ]);
 
@@ -200,30 +212,26 @@ class AdminProductController extends Controller
                 'description' => $request->description,
             ]
         );
-        DB::table('category_products')->where('product_id', $product->id)->delete();
+        CategoryProduct::where('product_id', $product->id)->delete();
         foreach ($request->product_category as $value) {
-            DB::table('category_products')->updateOrInsert([
-                'category_id' => $value,
-                'product_id' => $product->id
-            ]);
+            CategoryProduct::updateOrCreate(
+                [
+                    'category_id' => $value,
+                    'product_id' => $product->id,
+                ]
+            );
         }
 
 
         $matched = [];
         $notmatched = [];
-        $pross_id = DB::table('pro_cons')
-            ->where('product_id', $product->id)->where('type', 'pross')
-            ->value('id');
-
+        $pross_id = ProCons::where('product_id', $product->id)->where('type', 'pross')->value('id');
         if ($pross_id) {
-            $existingTranslations = DB::table('pro_cons_translations')
-                ->where('pro_cons_id', $pross_id)
-                ->pluck('name')
-                ->toArray();
-            $incomingFeatures = $request->key_features;
-            if (is_array($request->key_features)) {
-                $toDelete = array_diff($existingTranslations, $request->key_features);
-                $toInsert = array_diff($request->key_features, $existingTranslations);
+            $existingTranslations = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
+            $incomingFeatures = $request->pross_data;
+            if (is_array($request->pross_data)) {
+                $toDelete = array_diff($existingTranslations, $request->pross_data);
+                $toInsert = array_diff($request->pross_data, $existingTranslations);
                 DB::table('pro_cons_translations')
                     ->where('pro_cons_id', $pross_id)
                     ->whereIn('name', $toDelete)
@@ -237,7 +245,7 @@ class AdminProductController extends Controller
                         'updated_at' => now()
                     ]);
                 }
-                $matched = array_intersect($existingTranslations, $request->key_features);
+                $matched = array_intersect($existingTranslations, $request->pross_data);
                 $notmatched = $toInsert;
             } else {
                 DB::table('pro_cons_translations')
@@ -249,26 +257,17 @@ class AdminProductController extends Controller
 
         $matched1 = [];
         $notmatched2 = [];
-        $cross_id = DB::table('pro_cons')
-            ->where('product_id', $product->id)->where('type', 'conse')
-            ->value('id');
-        // dd($cross_id);
+        $cross_id = ProCons::where('product_id', $product->id)->where('type', 'cons')->value('id');
 
         if ($cross_id) {
-            $existingTranslations = DB::table('pro_cons_translations')
-                ->where('pro_cons_id', $cross_id)
-                ->pluck('name')
-                ->toArray();
+            $existingTranslations = ProConsTranslation::where('pro_cons_id', $cross_id)->pluck('name')->toArray();
             $incomingFeatures = $request->conse_data;
             if (is_array($request->conse_data)) {
                 $toDelete = array_diff($existingTranslations, $request->conse_data);
                 $toInsert = array_diff($request->conse_data, $existingTranslations);
-                DB::table('pro_cons_translations')
-                    ->where('pro_cons_id', $cross_id)
-                    ->whereIn('name', $toDelete)
-                    ->delete();
+                ProConsTranslation::where('pro_cons_id', $cross_id)->whereIn('name', $toDelete)->delete();
                 foreach ($toInsert as $feature) {
-                    DB::table('pro_cons_translations')->insert([
+                    ProConsTranslation::create([
                         'pro_cons_id' => $cross_id,
                         'name' => $feature ?? '',
                         'description' => 'null',
