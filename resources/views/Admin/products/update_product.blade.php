@@ -1,4 +1,3 @@
-
 @extends('admin_layout.master')
 @section('content')
     <div class="nk-block nk-block-lg">
@@ -170,7 +169,7 @@
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                       
+
 
                         <div class="col-md-12 mt-4 mt-5">
                             <div class="card border">
@@ -178,10 +177,10 @@
                                     <h4>
                                         Add Pros Data
                                     </h4>
-                                    <p class="btn btn-success" id="add-option">Add data</button>
+                                    <p class="btn btn-success" id="prose-option">Add data</button>
                                 </div>
-                                <div class="card-body">product_pron
-                                    @foreach ($pro_cons_translations as $value)
+                                <div class="card-body prose-body">
+                                    @foreach ($proconse_data as $value)
                                         <div class="form-group row option-group mt-2">
                                             <div class="col-lg-10 col-md-10 col-sm-10">
                                                 <input type="text" name="key_features[]" class="form-control"
@@ -190,6 +189,33 @@
                                             </div>
                                             <div class="col-lg-2 col-md-2   col-sm-2 d-flex align-items-center">
                                                 <button type="button" class="btn btn-danger remove-option"><em
+                                                        class="icon ni ni-trash-fill"></em></button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 mt-4 mt-5">
+                            <div class="card border">
+                                <div class="card-header d-flex justify-content-between">
+                                    <h4>
+                                        Add Cons Data
+                                    </h4>
+                                    <p class="btn btn-success" id="conse-option">Add data</button>
+                                </div>
+                                <div class="card-body conse-data">
+                                    @foreach ($cronse_data as $value)
+                                        <div class="form-group row conse-group mt-2">
+                                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                                <input type="text" name="conse_data[]" class="form-control"
+                                                    placeholder="Enter option"
+                                                    style="border: 1px solid #7c88aa; "value="{{ $value->name }}">
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
+                                                <button type="button" class="btn btn-danger conse-option"><em
                                                         class="icon ni ni-trash-fill"></em></button>
                                             </div>
                                         </div>
@@ -211,24 +237,43 @@
     <script>
         $(document).ready(function() {
             // Add dynamic option fields
-            $('#add-option').click(function() {
-                $('.card-body').append(`
-                <div class="form-group row option-group mt-2">
+            $('#prose-option').click(function() {
+                $('.prose-body').append(`
+                <div class="form-group row prose-option mt-2">
                     <div class="col-lg-10 col-md-10 col-sm-10">
-                        <input type="text" name="key_features[]" id="key_feature" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
+                        <input type="text" name="key_features[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
-                        <button type="button" class="btn btn-danger remove-option"><em class="icon ni ni-trash-fill"></em></button>
+                        <button type="button" class="btn btn-danger prose-option"><em class="icon ni ni-trash-fill"></em></button>
                     </div>
                 </div>
             `);
             });
-
             // Remove option field, ensuring at least one remains
-            $('.card-body').on('click', '.remove-option', function() {
-                    $(this).parents('.option-group').remove();
+
+            $('.prose-body').on('click', '.prose-option', function() {
+                $(this).parents('.prose-option').remove();
             });
 
+
+
+            // conse
+            $('#conse-option').click(function() {
+                $('.conse-data').append(`
+                <div class="form-group row conse-group mt-2">
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        <input type="text" name="conse_data[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
+                        <button type="button" class="btn btn-danger conse-option"><em class="icon ni ni-trash-fill"></em></button>
+                    </div>
+                </div>
+            `);
+            });
+            // Remove option field, ensuring at least one remains
+            $('.conse-data').on('click ', '.conse-option ', function() {
+                $(this).parents('.conse-group').remove();
+            });
         });
     </script>
 @endsection
