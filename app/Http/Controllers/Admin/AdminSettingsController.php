@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryProduct;
 use App\Models\ProCons;
+use App\Models\ProConsTranslation;
 use App\Models\Product;
 use App\Models\ProductTranslation;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class AdminSettingsController extends Controller
         if ($pass_check) {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             if (Product::count() == 0 && CategoryProduct::count() == 0 && ProductTranslation::count() == 0 && ProCons::count() == 0) {
-                return redirect()->route('admin_dashboard')->with('error', 'No data available');
+                return redirect()->route('dbrefresh.index')->with('error', 'Allready Refreshed Data');
             }
             $product_image = Product::pluck('product_image');
             $product_icon = Product::pluck('product_icon');
@@ -38,19 +39,22 @@ class AdminSettingsController extends Controller
             foreach ($allImages as $image) {
                 if (!empty($image)) {
                     $imagePath = public_path('ProductImage/' . $image);
-                    if (File::exists($imagePath)) {
+                    $iconPath = public_path('ProductIcon/' . $image);
+                    if (File::exists($imagePath) || File::exists($iconPath)) {
                         File::delete($imagePath);
+                        File::delete($iconPath);
                     }
                 }
             }
             Product::truncate();
             CategoryProduct::truncate();
             ProductTranslation::truncate();
+            ProConsTranslation::truncate();
             ProCons::truncate();
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             return redirect()->route('dbrefresh.index')->with('success', 'Refresh the product table Successfully');
         } else {
-            return redirect()->route('dbrefresh.index')->with('error', 'Please Enter Correct Password !');
+            return redirect()->route('dbrefresh.index')->with('error    ', 'Please Enter Correct Password !');
         }
     }
 }
