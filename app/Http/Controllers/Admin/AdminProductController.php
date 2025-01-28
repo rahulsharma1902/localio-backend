@@ -222,50 +222,59 @@ class AdminProductController extends Controller
             );
         }
 
-
+        // Prose  data manage
         $matched = [];
         $notmatched = [];
         $pross_id = ProCons::where('product_id', $product->id)->where('type', 'pross')->value('id');
+
         if ($pross_id) {
             $existingTranslations = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
             $incomingFeatures = $request->pross_data;
-            if (is_array($request->pross_data)) {
-                $toDelete = array_diff($existingTranslations, $request->pross_data);
-                $toInsert = array_diff($request->pross_data, $existingTranslations);
-                DB::table('pro_cons_translations')
-                    ->where('pro_cons_id', $pross_id)
-                    ->whereIn('name', $toDelete)
-                    ->delete();
+
+            if (is_array($incomingFeatures)) {
+                $toDelete = array_diff($existingTranslations, $incomingFeatures);
+                $toInsert = array_diff($incomingFeatures, $existingTranslations);
+                if (!empty($toDelete)) {
+                    ProConsTranslation::where('pro_cons_id', $pross_id)
+                        ->whereIn('name', $toDelete)
+                        ->delete();
+                }
+
                 foreach ($toInsert as $feature) {
-                    DB::table('pro_cons_translations')->insert([
+                    ProConsTranslation::create([
                         'pro_cons_id' => $pross_id,
                         'name' => $feature ?? '',
                         'description' => 'null',
                         'created_at' => now(),
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]);
                 }
-                $matched = array_intersect($existingTranslations, $request->pross_data);
+
+                $matched = array_intersect($existingTranslations, $incomingFeatures);
                 $notmatched = $toInsert;
             } else {
-                DB::table('pro_cons_translations')
-                    ->where('pro_cons_id', $pross_id)
-                    ->delete();
+                ProConsTranslation::where('pro_cons_id', $pross_id)->delete();
             }
         }
 
 
+        // conse data manage
         $matched1 = [];
         $notmatched2 = [];
         $cross_id = ProCons::where('product_id', $product->id)->where('type', 'cons')->value('id');
 
         if ($cross_id) {
             $existingTranslations = ProConsTranslation::where('pro_cons_id', $cross_id)->pluck('name')->toArray();
+
             $incomingFeatures = $request->conse_data;
             if (is_array($request->conse_data)) {
                 $toDelete = array_diff($existingTranslations, $request->conse_data);
                 $toInsert = array_diff($request->conse_data, $existingTranslations);
-                ProConsTranslation::where('pro_cons_id', $cross_id)->whereIn('name', $toDelete)->delete();
+                if (!empty($toDelete)) {
+                    ProConsTranslation::where('pro_cons_id', $cross_id)
+                        ->whereIn('name', $toDelete)
+                        ->delete();
+                }
                 foreach ($toInsert as $feature) {
                     ProConsTranslation::create([
                         'pro_cons_id' => $cross_id,
@@ -275,12 +284,10 @@ class AdminProductController extends Controller
                         'updated_at' => now()
                     ]);
                 }
-                $matched1 = array_intersect($existingTranslations, $request->conse_data);
+                $matched1 = array_intersect($existingTranslations, $incomingFeatures);
                 $notmatched2 = $toInsert;
             } else {
-                DB::table('pro_cons_translations')
-                    ->where('pro_cons_id', $cross_id)
-                    ->delete();
+                ProConsTranslation::where('pro_cons_id', $cross_id)->delete();
             }
         }
 
