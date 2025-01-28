@@ -38,13 +38,13 @@ class MetaPagesController extends Controller
     public function whoWeAre()
     {
         $whoWeAre = WhoWeAre::first();
-        // $pageTileTranslationPopular = PageTile::where('source', 'popularItem')
-        // ->with('translations')  // Eager load translations
-        // ->get();
+        $pageTileTranslationPopular = PageTile::where('source', 'popularItem')
+        ->with('translations')  // Eager load translations
+        ->get();
         // dd($pageTileTranslationPopular);
     $specilistTileTranslation = PageTile::where('source', 'specialists')
         ->with('translations')  // Eager load translations
         ->get();
-        return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre','specilistTileTranslation'));
+        return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre','pageTileTranslationPopular','specilistTileTranslation'));
     }
 }

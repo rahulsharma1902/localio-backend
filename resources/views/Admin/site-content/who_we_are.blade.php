@@ -2,14 +2,14 @@
 
 @section('content')
 @if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
 @endif
 @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
 @endif
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
@@ -154,7 +154,7 @@
                                 Most Popular Items
                             </div>
                             <div class="card-body">
-                           
+
 
                                 <table class="table table-striped">
                                     <thead>
@@ -168,32 +168,31 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($pageTileTranslationPopular as $index => $item)
+                                        @foreach ($item->translations as $translation)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
-                                                @if ($item->translations->first() &&
-                                                $item->translations->first()->image)
-                                                <img src="{{ asset($item->translations->first()->image) }}"
-                                                    alt="Item Image" style="width: 100px; height: auto;">
+                                                @if ($translation->image)
+                                                <img src="{{ asset($translation->image) }}" alt="Item Image"
+                                                    style="width: 100px; height: auto;">
                                                 @else
                                                 N/A
                                                 @endif
                                             </td>
-                                            <td>{{ $item->translations->first()->title ?? 'No Title' }}</td>
-                                            <td>{{ $item->translations->first()->description ?? 'No Description' }}</td>
+                                            <td>{{ $translation->title ?? 'No Title' }}</td>
+                                            <td>{{ $translation->description ?? 'No Description' }}</td>
                                             <td>
                                                 <a class="btn btn-danger btn-sm"
                                                     href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
                                             </td>
+                                            @endforeach
                                         </tr>
                                         @empty
                                         <tr>
                                             <td colspan="5">No popular items available.</td>
                                         </tr>
                                         @endforelse
-
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
