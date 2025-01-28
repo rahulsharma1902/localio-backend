@@ -54,6 +54,7 @@ class AdminProductController extends Controller
             $product->slug = Str::slug($request->name);
             $product->description = $request->description;
             $product->product_price = $request->product_price;
+            $product->overview = $request->overview;
             if ($request->hasFile('product_icon')) {
                 $productIcon = $request->file('product_icon');
                 $iconName = $product->slug . '-' . rand(0, 1000) . time() . '.' . $productIcon->getClientOriginalExtension();
@@ -76,8 +77,6 @@ class AdminProductController extends Controller
             $productTranslation->product_id  = $product->id;
             $productTranslation->language_id  = $language_id;
             $productTranslation->save();
-
-
             foreach ($request->product_category as $value) {
                 CategoryProduct::create([
                     'category_id' => $value,
@@ -125,7 +124,6 @@ class AdminProductController extends Controller
                     ]);
                 }
             }
-
             return redirect()->route('products')->with('success', 'Product  added successfully');
         } else {
             return redirect()->route('products')->with('error', 'something went wrong !');
@@ -146,7 +144,6 @@ class AdminProductController extends Controller
         $categories = Category::all();
 
         $product = Product::with('keyFeatures', 'categories.translations')->find($id);
-
         $category_products = CategoryProduct::where('product_id', $id)->pluck('category_id')->toArray();
 
         $cat_arr = !empty($category_products)
@@ -187,6 +184,7 @@ class AdminProductController extends Controller
         $product->slug = Str::slug($request->name);
         $product->description = $request->description;
         $product->product_price = $request->product_price;
+        $product->overview = $request->overview;
 
         if ($request->hasFile('product_icon')) {
             $iconName = $product->slug . '-' . uniqid() . '.' . $request->file('product_icon')->getClientOriginalExtension();
