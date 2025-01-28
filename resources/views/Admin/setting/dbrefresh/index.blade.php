@@ -18,7 +18,9 @@
                                 <label class="form-label" for="name">Enter Password</label>
                                 <sup>
                                     @error('password')
-                                        <div class="error text-danger" style="margin-top: 7px !important;margin-bottom: 9px !important;">{{ $message }}</div>
+                                        <div class="error text-danger"
+                                            style="margin-top: 7px !important;margin-bottom: 9px !important;">
+                                            {{ $message }}</div>
                                     @enderror
                                 </sup>
                                 <div class="form-control-wrap">

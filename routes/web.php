@@ -11,7 +11,6 @@ use App\Http\Controllers\User\MetaPages\MetaPagesController;
 use App\Http\Controllers\User\{ViewController, CategoryController, ProductController, UserController, TermAndConditionController};
 use App\Http\Controllers\Vendor\HomeController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 
 Route::get('auth/google', [AuthenticationController::class, 'redirectToGoogle'])->name('google.login');
