@@ -143,7 +143,7 @@ class AdminProductController extends Controller
 
         $categories = Category::all();
 
-        $product = Product::with('keyFeatures', 'categories.translations')->find($id);
+        $product = Product::with('categories.translations')->find($id);
         $category_products = CategoryProduct::where('product_id', $id)->pluck('category_id')->toArray();
 
         $cat_arr = !empty($category_products)

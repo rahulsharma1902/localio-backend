@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\SiteContent\SiteContentController;
-use App\Http\Controllers\Admin\{AdminDashController, CategoriesController, SiteLanguagesController, FilterController, ArticleController, SitePagesController, AdminProductController, AdminSettingsController, DBrefreshController, HomeContentController, ReviewController};
+use App\Http\Controllers\Admin\{AdminDashController, CategoriesController, SiteLanguagesController, FilterController, ArticleController, SitePagesController, AdminProductController, AdminSettingsController, DBrefreshController, HomeContentController, ProductFetureController, ReviewController};
 
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\CountryController;
@@ -10,6 +10,7 @@ use App\Http\Controllers\User\MetaPages\MetaPagesController;
 
 use App\Http\Controllers\User\{ViewController, CategoryController, ProductController, UserController, TermAndConditionController};
 use App\Http\Controllers\Vendor\HomeController;
+use App\Models\ProductFeature;
 use Illuminate\Support\Facades\Route;
 
 
@@ -132,6 +133,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin-dashboard/product-edit/{id}', [AdminProductController::class, 'productEdit'])->name('product-edit');
     Route::post('/admin-dashboard/product-update-procc', [AdminProductController::class, 'productUpdateProccess'])->name('product-update-procc');
     Route::get('/admin-dashboard/remove-product/{id}', [AdminProductController::class, 'removeProduct'])->name('product-remove');
+
+
+    // product feture Route
+    Route::get('/admin-dashboard/product-feature', [ProductFetureController::class, 'index'])->name('productfeature.index');
+    Route::get('/admin-dashboard/product-feture-add', [ProductFetureController::class, 'add'])->name('productfeature.add');
+    Route::post('/admin-dashboard/product-feture-add-process', [ProductFetureController::class, 'add_process'])->name('productfeature.add-process');
+    Route::get('/admin-dashboard/product-feture-update-process/{id}', [ProductFetureController::class, 'update'])->name('productfeature.update');
+    Route::post('/admin-dashboard/product-feture-update-process', [ProductFetureController::class, 'update_process'])->name('productfeature.update-process');
+    Route::get('/admin-dashboard/product-feture-remove-process/{id}', [ProductFetureController::class, 'remove'])->name('productfeature.remove-process');
+
+
 
     // SiteContent Route
 
