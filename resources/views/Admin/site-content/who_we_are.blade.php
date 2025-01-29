@@ -203,9 +203,7 @@
                             </div>
                         </div>
 
-                        <div id="updated-item-details" class="mt-4" style="display: none;">
-
-                            <h4>Updated Item</h4>
+                            <div id="updated-item-details" class="mt-4" style="display: none;">
                             <p><strong>Title:</strong></p>
                             <input type="text" class="form-control" id="updated-title" name="title"
                                 value="{{ old('title', $item->title ?? '') }}" />
@@ -365,282 +363,172 @@
 </div>
 </div>
 <script>
-let addedItems = [];
+$(document).ready(function() {
+    let addedItems = [];
 
-// When you add an item to the list
-document.getElementById('add-popular-item').addEventListener('click', function() {
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const imageInput = document.getElementById('image');
-    const imageFile = imageInput.files[0];
+    $('#add-popular-item').on('click', function() {
+        const title = $('#title').val();
+        const description = $('#description').val();
+        const imageInput = $('#image')[0];
+        const imageFile = imageInput.files[0];
 
-    if (title && description && imageFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            // Create an item card
-            const itemCard = document.createElement('div');
-            itemCard.className = 'item-card mt-2 p-2 border';
-            itemCard.innerHTML = `
-                <h5>${title}</h5>
-                <p>${description}</p>
-                <img src="${e.target.result}" alt="Image" style="width: 100px; height: auto;">
-                <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
-            `;
-            document.getElementById('popular-items-list').appendChild(itemCard);
-
-            // Create hidden inputs for the item
-            const hiddenTitleInput = document.createElement('input');
-            hiddenTitleInput.type = 'hidden';
-            hiddenTitleInput.name = 'popular_items[title][]';
-            hiddenTitleInput.value = title;
-
-            const hiddenDescriptionInput = document.createElement('input');
-            hiddenDescriptionInput.type = 'hidden';
-            hiddenDescriptionInput.name = 'popular_items[description][]';
-            hiddenDescriptionInput.value = description;
-
-            const hiddenImageInput = document.createElement('input');
-            hiddenImageInput.type = 'hidden';
-            hiddenImageInput.name = 'popular_items[image][]';
-            hiddenImageInput.value = e.target.result;
-
-            // Append hidden inputs to the form
-            document.getElementById('popular-items-list').appendChild(hiddenTitleInput);
-            document.getElementById('popular-items-list').appendChild(hiddenDescriptionInput);
-            document.getElementById('popular-items-list').appendChild(hiddenImageInput);
-
-            // Add the item to the tracking array
-            addedItems.push({
-                title: title,
-                description: description,
-                image: e.target.result,
-                card: itemCard,
-                hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput]
-            });
-
-            clearForm();
-        };
-        reader.readAsDataURL(imageFile);
-    } else {
-        alert('Please fill in all fields and select an image.');
-    }
-});
-
-document.getElementById("popular-items").addEventListener("click", function(e) {
-    // Check if the clicked target is an update button
-    if (e.target && e.target.classList.contains("update-item")) {
-        // Get the row (tr) that the button belongs to
-        const itemRow = e.target.closest("tr");
-
-        // Check if the itemRow was found
-        if (itemRow) {
-            // Retrieve current data from the row
-            const title = itemRow.querySelector("td:nth-child(3)");
-            const description = itemRow.querySelector("td:nth-child(4)");
-            const image = itemRow.querySelector("td:nth-child(2) img");
-
-            // Get the image source if exists
-            const imageSrc = image ? image.src : '';
-
-            // Set the current values in the input fields
-            document.getElementById("title").value = title.textContent.trim();
-            document.getElementById("description").value = description.textContent
-                .trim();
-
-            // If image exists, display it
-            if (image) {
-                document.getElementById("image").src = imageSrc;
-            }
-
-            // Show the updated item details form
-            document.getElementById("updated-item-details").style.display = 'block';
-
-            // Handle image selection
-            const imageInput = document.getElementById("update-image-input");
-            imageInput.addEventListener("change", function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function() {
-                        // Update the image in the updated item details section
-                        document.getElementById("image").src = reader.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            // Update title and description after user makes changes
-            const updatedTitle = document.getElementById("title").value;
-            const updatedDescription = document.getElementById("description").value;
-
-            // Only proceed if title and description are not empty
-            if (updatedTitle && updatedDescription) {
-                // Update the row with new values
-                titleCell.textContent = updatedTitle;
-                descriptionCell.textContent = updatedDescription;
-            } else {
-                return; // Don't proceed if the title or description is empty
-            }
-        } else {
-            console.log("Item row not found!");
-        }
-    }
-});
-
-
-
-// Remove item logic
-document.getElementById('popular-items-list').addEventListener('click', function(e) {
-    if (e.target.classList.contains('remove-item')) {
-        const itemCard = e.target.closest('.item-card');
-        // Find the index of the removed item
-        const itemIndex = addedItems.findIndex(item => item.card === itemCard);
-
-        if (itemIndex > -1) {
-            // Mark the item as removed
-            addedItems[itemIndex].removed = true;
-
-            // Remove the item card and hidden inputs from the DOM
-            itemCard.remove();
-            addedItems[itemIndex].hiddenInputs.forEach(input => input.remove());
-        }
-    }
-});
-
-// Function to clear form inputs after adding an item
-function clearForm() {
-    document.getElementById('title').value = '';
-    document.getElementById('description').value = '';
-    document.getElementById('image').value = '';
-}
-
-// Before submitting the form, remove the hidden inputs of removed items
-document.getElementById('popular-items-list').addEventListener('submit', function(e) {
-    // e.preventDefault(); // Prevent form submission for testing purposes (remove this line in production)
-
-    // Exclude removed items' hidden inputs from the form submission
-    addedItems = addedItems.filter(item => !item.removed);
-
-    // Clear the form of removed hidden inputs
-    const allHiddenInputs = document.querySelectorAll('input[type="hidden"]');
-    allHiddenInputs.forEach(input => input.remove());
-
-    // Re-add only the valid (non-removed) hidden inputs
-    addedItems.forEach(item => {
-        document.getElementById('popular-items-list').appendChild(item.hiddenInputs[0]);
-        document.getElementById('popular-items-list').appendChild(item.hiddenInputs[1]);
-        document.getElementById('popular-items-list').appendChild(item.hiddenInputs[2]);
-    });
-
-    // Now, submit the form after updating the hidden inputs
-    // Uncomment the following line when you're ready to submit the form
-    // this.submit();
-});
-</script>
-
-
-<script>
-let addedSpecialistsItems = [];
-
-document.getElementById('add-specialists-item').addEventListener('click', function() {
-    const title = document.getElementById('specialists_title').value;
-    const description = document.getElementById('specialists_description').value;
-    const imgFile = document.getElementById('specialists_img').files[0];
-    const smallImgFile = document.getElementById('specialists_small_img').files[0];
-
-    if (title && description && imgFile && smallImgFile) {
-        const reader1 = new FileReader();
-        const reader2 = new FileReader();
-
-        reader1.onload = function(e) {
-            const imgFileData = e.target.result;
-
-            reader2.onload = function(e) {
-                const smallImgFileData = e.target.result;
-
-                const itemCard = document.createElement('div');
-                itemCard.className = 'item-card mt-2 p-2 border';
-                itemCard.innerHTML = `
+        if (title && description && imageFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const itemCard = $('<div class="item-card mt-2 p-2 border">');
+                itemCard.html(`
                     <h5>${title}</h5>
                     <p>${description}</p>
-                    <img src="${imgFileData}" alt="Image 1" style="width: 100px; height: auto;">
-                    <img src="${smallImgFileData}" alt="Image 2" style="width: 100px; height: auto;">
+                    <img src="${e.target.result}" alt="Image" style="width: 100px; height: auto;">
                     <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
-                `;
+                `);
+                $('#popular-items-list').append(itemCard);
 
-                document.getElementById('specialists-items-list').appendChild(itemCard);
+                const hiddenTitleInput = $('<input type="hidden" name="popular_items[title][]" value="' + title + '">');
+                const hiddenDescriptionInput = $('<input type="hidden" name="popular_items[description][]" value="' + description + '">');
+                const hiddenImageInput = $('<input type="hidden" name="popular_items[image][]" value="' + e.target.result + '">');
 
-                // Create hidden inputs for the item
-                const hiddenTitleInput = document.createElement('input');
-                hiddenTitleInput.type = 'hidden';
-                hiddenTitleInput.name = 'specialists_items[title][]';
-                hiddenTitleInput.value = title;
+                $('#popular-items-list').append(hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput);
 
-                const hiddenDescriptionInput = document.createElement('input');
-                hiddenDescriptionInput.type = 'hidden';
-                hiddenDescriptionInput.name = 'specialists_items[description][]';
-                hiddenDescriptionInput.value = description;
-
-                const hiddenImageInput1 = document.createElement('input');
-                hiddenImageInput1.type = 'hidden';
-                hiddenImageInput1.name = 'specialists_items[img][]';
-                hiddenImageInput1.value = imgFileData;
-
-                const hiddenImageInput2 = document.createElement('input');
-                hiddenImageInput2.type = 'hidden';
-                hiddenImageInput2.name = 'specialists_items[small_img][]';
-                hiddenImageInput2.value = smallImgFileData;
-
-                // Append hidden inputs to the list
-                document.getElementById('specialists-items-list').appendChild(hiddenTitleInput);
-                document.getElementById('specialists-items-list').appendChild(hiddenDescriptionInput);
-                document.getElementById('specialists-items-list').appendChild(hiddenImageInput1);
-                document.getElementById('specialists-items-list').appendChild(hiddenImageInput2);
-
-                addedSpecialistsItems.push({
+                addedItems.push({
                     title: title,
                     description: description,
-                    image1: imgFileData,
-                    image2: smallImgFileData,
+                    image: e.target.result,
                     card: itemCard,
-                    hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1,
-                        hiddenImageInput2
-                    ]
+                    hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput]
                 });
 
                 clearForm();
             };
+            reader.readAsDataURL(imageFile);
+        } else {
+            alert('Please fill in all fields and select an image.');
+        }
+    });
+ 
 
-            reader2.readAsDataURL(smallImgFile);
-        };
+    $('#popular-items').on('click', '.update-item', function() {
+      
+        const itemRow = $(this).closest('tr');
+        if (itemRow.length) {
+            const titleCell = itemRow.find('td:nth-child(3)');
+            const descriptionCell = itemRow.find('td:nth-child(4)');
+            const imageCell = itemRow.find('td:nth-child(2) img');
 
-        reader1.readAsDataURL(imgFile);
-    } else {
-        alert('Please fill in all fields and select both images.');
+            const imageSrc = imageCell.length ? imageCell.attr('src') : '';
+
+            $('#updated-title').val(titleCell.text().trim());
+            $('#updated-description').val(descriptionCell.text().trim());
+            if (imageCell.length) {
+                $('#updated-image').attr('src', imageSrc);
+            }
+            $('#updated-item-details').show();
+
+            $('#update-image-input').off('change').on('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        $('#updated-image').attr('src', reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        } else {
+            console.log('Item row not found!');
+        }
+    });
+
+    $('#popular-items-list').on('click', '.remove-item', function() {
+        const itemCard = $(this).closest('.item-card');
+        const itemIndex = addedItems.findIndex(item => item.card[0] === itemCard[0]);
+
+        if (itemIndex > -1) {
+            addedItems[itemIndex].removed = true;
+            itemCard.remove();
+            addedItems[itemIndex].hiddenInputs.forEach(input => input.remove());
+        }
+    });
+
+    function clearForm() {
+        $('#title, #description, #image').val('');
     }
-});
 
-// Remove specialists item
-document.getElementById('specialists-items-list').addEventListener('click', function(e) {
-    if (e.target.classList.contains('remove-item')) {
-        const itemCard = e.target.closest('.item-card');
-        const itemIndex = addedSpecialistsItems.findIndex(item => item.card === itemCard);
+    $('#popular-items-list').on('submit', function(e) {
+        addedItems = addedItems.filter(item => !item.removed);
+        $('input[type="hidden"]').remove();
+        addedItems.forEach(item => {
+            $('#popular-items-list').append(item.hiddenInputs);
+        });
+    });
+
+    let addedSpecialistsItems = [];
+
+    $('#add-specialists-item').on('click', function() {
+        const title = $('#specialists_title').val();
+        const description = $('#specialists_description').val();
+        const imgFile = $('#specialists_img')[0].files[0];
+        const smallImgFile = $('#specialists_small_img')[0].files[0];
+
+        if (title && description && imgFile && smallImgFile) {
+            const reader1 = new FileReader();
+            const reader2 = new FileReader();
+
+            reader1.onload = function(e) {
+                const imgFileData = e.target.result;
+                reader2.onload = function(e) {
+                    const smallImgFileData = e.target.result;
+                    const itemCard = $('<div class="item-card mt-2 p-2 border">');
+                    itemCard.html(`
+                        <h5>${title}</h5>
+                        <p>${description}</p>
+                        <img src="${imgFileData}" alt="Image 1" style="width: 100px; height: auto;">
+                        <img src="${smallImgFileData}" alt="Image 2" style="width: 100px; height: auto;">
+                        <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+                    `);
+                    $('#specialists-items-list').append(itemCard);
+
+                    const hiddenTitleInput = $('<input type="hidden" name="specialists_items[title][]" value="' + title + '">');
+                    const hiddenDescriptionInput = $('<input type="hidden" name="specialists_items[description][]" value="' + description + '">');
+                    const hiddenImageInput1 = $('<input type="hidden" name="specialists_items[img][]" value="' + imgFileData + '">');
+                    const hiddenImageInput2 = $('<input type="hidden" name="specialists_items[small_img][]" value="' + smallImgFileData + '">');
+
+                    $('#specialists-items-list').append(hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1, hiddenImageInput2);
+
+                    addedSpecialistsItems.push({
+                        title: title,
+                        description: description,
+                        image1: imgFileData,
+                        image2: smallImgFileData,
+                        card: itemCard,
+                        hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1, hiddenImageInput2]
+                    });
+
+                    clearForm();
+                };
+                reader2.readAsDataURL(smallImgFile);
+            };
+            reader1.readAsDataURL(imgFile);
+        } else {
+            alert('Please fill in all fields and select both images.');
+        }
+    });
+
+    $('#specialists-items-list').on('click', '.remove-item', function() {
+        const itemCard = $(this).closest('.item-card');
+        const itemIndex = addedSpecialistsItems.findIndex(item => item.card[0] === itemCard[0]);
 
         if (itemIndex > -1) {
             addedSpecialistsItems[itemIndex].removed = true;
             itemCard.remove();
             addedSpecialistsItems[itemIndex].hiddenInputs.forEach(input => input.remove());
         }
+    });
+
+    function clearForm() {
+        $('#specialists_title, #specialists_description, #specialists_img, #specialists_small_img').val('');
     }
 });
-
-// Clear form fields after adding item
-function clearForm() {
-    document.getElementById('specialists_title').value = '';
-    document.getElementById('specialists_description').value = '';
-    document.getElementById('specialists_img').value = '';
-    document.getElementById('specialists_small_img').value = '';
-}
 </script>
 
 @endsection

@@ -99,51 +99,54 @@ class AdminDashController extends Controller
         $whoWeAre = WhoWeAre::first() ?? new WhoWeAre();
     
         // Handle popular items
-        $popularItems = $request->input('popular_items', []);
-        if (isset($popularItems['title']) && is_array($popularItems['title'])) {
-            foreach ($popularItems['title'] as $index => $title) {
-                $description = $popularItems['description'][$index] ?? null;
-                $image = $popularItems['image'][$index] ?? null;
+        // $popularItems = $request->input('popular_items', []);
+        // if (isset($popularItems['title']) && is_array($popularItems['title'])) {
+        //     foreach ($popularItems['title'] as $index => $title) {
+        //         $description = $popularItems['description'][$index] ?? null;
+        //         $image = $popularItems['image'][$index] ?? null;
                 
-                $filename = null;
-                if ($image) {
-                    if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
-                        $extension = $type[1];
-                        $image = substr($image, strpos($image, ',') + 1);
-                        $image = base64_decode($image);
-                        $filename = now()->format('YmdHis') . '_popular_item_' . $index . '.' . $extension;
-                        file_put_contents(public_path('front/img/') . $filename, $image);
+                $popularItems = $request->input('popular_items', []);
+                if (isset($popularItems['title']) && is_array($popularItems['title'])) {
+                    foreach ($popularItems['title'] as $index => $title) {
+                        $description = $popularItems['description'][$index] ?? null;
+                        $image = $popularItems['image'][$index] ?? null;
+                        $pageTileId = $request->input('page_tile_id')[$index] ?? null; // Fix: Get correct ID per item
+            
+                        // Find or create a PageTile
+                        $pageTile = PageTile::find($pageTileId) ?? new PageTile();
+                        $pageTile->lang_id = $request->input('lang_id', 1);
+                        $pageTile->type = 'popularItem';
+                        $pageTile->source = 'popularItem';
+            
+                        // Handle Image Upload
+                        if ($image) {
+                            if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+                                $extension = $type[1];
+                                $image = substr($image, strpos($image, ',') + 1);
+                                $image = base64_decode($image);
+                                $filename = now()->format('YmdHis') . '_popular_item_' . $index . '.' . $extension;
+                                file_put_contents(public_path('front/img/') . $filename, $image);
+                                $pageTile->image = 'front/img/' . $filename; // Update only if new image exists
+                            }
+                        }
+            
+                        $pageTile->save();
+            
+                        // Find or create a PageTileTranslation
+                        $pageTileTranslation = PageTileTranslation::where('page_tile_id', $pageTile->id)->first() ?? new PageTileTranslation();
+                        $pageTileTranslation->page_tile_id = $pageTile->id;
+                        $pageTileTranslation->title = $title;
+                        $pageTileTranslation->description = $description;
+                        
+                        // Preserve old image if no new one is uploaded
+                        if ($image) {
+                            $pageTileTranslation->image = 'front/img/' . $filename;
+                        }
+                        
+                        $pageTileTranslation->status = $request->input('status', 1);
+                        $pageTileTranslation->save();
                     }
                 }
-    
-                // Create a new PageTile if needed
-                $pageTile = PageTile::find($request->input('page_tile_id'));
-                if (!$pageTile) {
-                    $pageTile = new PageTile();
-                }
-    
-                // Update PageTile properties
-                $pageTile->lang_id = $request->input('lang_id', 1);
-                $pageTile->image = $image ? 'front/img/' . $filename : null;
-                $pageTile->type = 'popularItem';
-                $pageTile->source = 'popularItem';
-                $pageTile->save();
-    
-                // Create or update PageTileTranslation
-                $pageTileTranslation = PageTileTranslation::where('page_tile_id', $pageTile->id)->first();
-                if (!$pageTileTranslation) {
-                    $pageTileTranslation = new PageTileTranslation();
-                }
-    
-                $pageTileTranslation->page_tile_id = $pageTile->id;
-                $pageTileTranslation->title = $title;
-                $pageTileTranslation->description = $description;
-                $pageTileTranslation->image = $image ? 'front/img/' . $filename : $pageTileTranslation->image;
-                $pageTileTranslation->status = $request->input('status', 1);
-                $pageTileTranslation->save();
-            }
-        }
-    
         // Handle specialists items
         $specialistsItems = $request->input('specialists_items', []);
         if (isset($specialistsItems['title']) && is_array($specialistsItems['title'])) {
