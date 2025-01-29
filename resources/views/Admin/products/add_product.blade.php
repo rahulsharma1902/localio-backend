@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="description">Product Description</label>
                                     <div class="form-control-wrap">
-                                        <textarea class="description" name="description" id="description" rows="100" cols="50">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                        <textarea class="description" name="description" id="description" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                         @error('description')
                                             <div class="error text-danger">{{ $message }}</div>
                                         @enderror
@@ -180,7 +180,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="description">Product Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea class="description" name="overview" id="description" rows="100" cols="50">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                    <textarea class="description" name="overview" id="description" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                     @error('overview')
                                         <div class="error text-danger">{{ $message }}</div>
                                     @enderror

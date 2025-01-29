@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Cookie;
 use App;
-use App\Models\{Category,SiteLanguages,CategoryTranslation};
+use App\Models\{Category,SiteLanguages,CategoryTranslation, Product};
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use App\Models\Country;
@@ -20,8 +20,8 @@ class ViewController extends Controller
     public function home()
     {
         $langCode = getCurrentLocale(); 
+        $products = Product::latest()->take(2)->get();
         $lang_id = getCurrentLanguageID();
-       
         $homeContents = HomeContent::where('lang_id', $lang_id)->pluck('meta_value', 'meta_key');
         if($homeContents->isEmpty())
         {
@@ -29,8 +29,6 @@ class ViewController extends Controller
         }
         $language_id = Language::where('lang_code',$langCode )->value('id');
         $translated_data =  CategoryTranslation::where('language_id',$lang_id)->get()->toArray();
-
-
         $homeContantImages = HomeContent::where('lang_id',1)
             ->whereIn('meta_key', ['header_background_img', 'header_img', 'trusted_brands_img', 'ai_section_left_img', 'ai_section_right_img', 'ai_send_img', 'review_section_right_img', 'review_section_left_img', 'find_tool_left_img', 'find_tool_right_img', 'user_reviews_img', 'price_compare_img', 'independent_img'])
             ->get()
@@ -42,7 +40,6 @@ class ViewController extends Controller
 
     public function changeLanguage(Request $request, $lang_code)
     {
-
         $cacheKey="userDetails";
         $languages = getLanguages();
         $languageRecord = $languages->firstWhere('lang_code', $lang_code); 

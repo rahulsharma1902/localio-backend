@@ -16,48 +16,8 @@ class ProductController extends Controller
     }
     public function topRatedProduct()
     {
-        $locale = getCurrentLocale();
         $lang_id = getCurrentLanguageID();
-
         $productMaxPrice = Product::max('product_price');
-        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
-        // $products = Product::with([
-        //                         'translations' => function($query) use($siteLanguage) {
-        //                             $query->where('language_id', $siteLanguage->id);
-        //                         },
-        //                         'keyFeatures.translations' => function($query) use ($siteLanguage) {
-        //                             $query->where('language_id', $siteLanguage->id);
-        //                         },
-        //                         'categories.translations'=> function($query) use ($siteLanguage) {
-        //                             $query->where('language_id', $siteLanguage->id);
-        //                         },
-        //                     ])
-        //                     ->orderBy('product_price', 'desc')
-        //                     ->paginate(2);
-        $products = Product::with([
-                            'translations' => function($query) use($siteLanguage) {
-                                $query->where('language_id', $siteLanguage->id);
-                            },
-                            'keyFeatures.translations' => function($query) use ($siteLanguage) {
-                                $query->where('language_id', $siteLanguage->id);
-                            },
-                            'categories.translations'=> function($query) use ($siteLanguage) {
-                                $query->where('language_id', $siteLanguage->id);
-                            },'reviews'
-                        ])
-                        ->orderBy('product_price', 'desc')
-                        ->paginate(2);
-        foreach ($products as $product) {
-            $product->average_rating = $product->reviews->avg('rating') ?: 0;
-            $product->reviews_count = $product->reviews->count();
-        }
-
-        $topProductContents = TopProductContent::where([['lang_id',$lang_id],['type','text']])->pluck('meta_value','meta_key');
-        if($topProductContents->isEmpty())
-        {
-            $topProductContents = TopProductContent::where([['lang_id',1],['type','text']])->pluck('meta_value','meta_key');
-        }
-        $files = TopProductContent::where([['lang_id',1],['type','file']])->pluck('meta_value','meta_key');
         return view('User.product.top_rated_product',compact('products','topProductContents','productMaxPrice','files'));
     }
     public function productComparison()
@@ -70,46 +30,45 @@ class ProductController extends Controller
         try {
         
             $locale = getCurrentLocale();
-            $siteLanguage = SiteLanguages::where('handle', $locale)->first();
             $searchQuery = $request->searchQuery;
             $min = $request->min;
             $max = $request->max;
             $topProductContents = $this->getTopProductContents($locale);
             $files = $this->getFiles();
 
-            $productPriceFilter = $this->getProductPriceFilter($min, $max, $siteLanguage);
+            // $productPriceFilter = $this->getProductPriceFilter($min, $max);
             
-            foreach ($productPriceFilter as $product) {
-                $product->average_rating = $product->reviews->avg('rating') ?: 0;
-                $product->reviews_count = $product->reviews->count();
-            }
+            // foreach ($productPriceFilter as $product) {
+            //     $product->average_rating = $product->reviews->avg('rating') ?: 0;
+            //     $product->reviews_count = $product->reviews->count();
+            // }
 
 
-            $formattedProductRelations = $this->mapProductRelations($productPriceFilter);
+            // $formattedProductRelations = $this->mapProductRelations($productPriceFilter);
 
             if ($searchQuery) {
-                $searchResults = $this->getSearchResults($searchQuery, $siteLanguage);
+                // $searchResults = $this->getSearchResults($searchQuery, $siteLanguage);
             
-                foreach ($searchResults as $product) {
-                    $product->average_rating = $product->reviews->avg('rating') ?: 0;
-                    $product->reviews_count = $product->reviews->count();
-                }
+                // foreach ($searchResults as $product) {
+                //     $product->average_rating = $product->reviews->avg('rating') ?: 0;
+                //     $product->reviews_count = $product->reviews->count();
+                // }
   
-                $formattedProductRelations = $this->mapProductRelations($searchResults);
-                return response()->json([
-                    'products' => $searchResults,
-                    'topProductContents' => $topProductContents,
-                    'files' => $files,
-                    'formattedProductRelations' => $formattedProductRelations
-                ]);
+                // $formattedProductRelations = $this->mapProductRelations($searchResults);
+                // return response()->json([
+                //     'products' => $searchResults,
+                //     'topProductContents' => $topProductContents,
+                //     'files' => $files,
+                //     'formattedProductRelations' => $formattedProductRelations
+                // ]);
             }
 
-            return response()->json([
-                'products' => $productPriceFilter,
-                'topProductContents' => $topProductContents,
-                'files' => $files,
-                'formattedProductRelations' => $formattedProductRelations
-            ]);
+            // return response()->json([
+            //     'products' => $productPriceFilter,
+            //     'topProductContents' => $topProductContents,
+            //     'files' => $files,
+            //     'formattedProductRelations' => $formattedProductRelations
+            // ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -210,5 +169,4 @@ class ProductController extends Controller
     
         return response()->json(['success' => 'Wishlist added successfully'], 200);
     }
-
 }

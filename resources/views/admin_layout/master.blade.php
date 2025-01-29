@@ -619,7 +619,7 @@
             toastr.clear();
             NioApp.Toast(
                 '{{ Session::get('
-                                                                                                                                                                error ') }}',
+                                                                                                                                                                                                                                error ') }}',
                 'error', {
                     position: 'top-right'
                 });
@@ -631,7 +631,7 @@
             toastr.clear();
             NioApp.Toast(
                 '{{ Session::get('
-                                                                                                                                                                success ') }}',
+                                                                                                                                                                                                                                success ') }}',
                 'success', {
                     position: 'top-right'
                 });
