@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\SiteContent\SiteContentController;
-use App\Http\Controllers\Admin\{AdminDashController, CategoriesController, SiteLanguagesController, FilterController, ArticleController, SitePagesController, AdminProductController, HomeContentController, ReviewController};
+use App\Http\Controllers\Admin\{AdminDashController, CategoriesController, SiteLanguagesController, FilterController, ArticleController, SitePagesController, AdminProductController, AdminSettingsController, DBrefreshController, HomeContentController, ReviewController};
 
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\CountryController;
@@ -11,7 +11,6 @@ use App\Http\Controllers\User\MetaPages\MetaPagesController;
 use App\Http\Controllers\User\{ViewController, CategoryController, ProductController, UserController, TermAndConditionController};
 use App\Http\Controllers\Vendor\HomeController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 
 Route::get('auth/google', [AuthenticationController::class, 'redirectToGoogle'])->name('google.login');
@@ -29,7 +28,7 @@ Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout
 Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
 
 // Admin Routes 
-Route::group(['middleware'=>['auth']], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin-dashboard', [AdminDashController::class, 'index'])->name('admin_dashboard');
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
@@ -40,7 +39,7 @@ Route::group(['middleware'=>['auth']], function () {
 
 
 
-   
+
     //  CategoriesController  categories
     Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
     Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
@@ -66,6 +65,12 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('/admin-dashboard/country/add', [CountryController::class, 'add'])->name('country.add');
     Route::post('/admin-dashboard/country/addProcc', [CountryController::class, 'addProcc'])->name('country.addProcc');
     Route::get('/admin-dashboard/country/delete/{id}', [CountryController::class, 'delete'])->name('country.delete');
+
+
+
+    // DB-Refresh
+    Route::get('/admin-dashboard/db-refresh', [AdminSettingsController::class, 'index'])->name('dbrefresh.index');
+    Route::post('/admin-dashboard/db-refresh', [AdminSettingsController::class, 'refersh_database'])->name('dbrefresh.refresh');
 
     // FilterController :
     Route::get('/admin-dashboard/filters', [FilterController::class, 'index'])->name('filters');
@@ -134,7 +139,7 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('/admin-dashboard/home-page', [SiteContentController::class, 'homeContent'])->name('home-content');
     Route::post('/admin-dashboard/home-page-update', [SiteContentController::class, 'homeContentUpdate'])->name('home-content-update');
     Route::post('/admin-dashboard/update-lang-file', [SiteContentController::class, 'updateLangFile'])->name('update-lang-file');
-  
+
 
     // Header Page Route
     Route::get('/admin-dashboard/header-page', [SiteContentController::class, 'headerPage'])->name('header-page');
@@ -174,8 +179,8 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
     Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
     Route::post('/register-process', [AuthenticationController::class, 'registerProcc'])->name('register-process');
-    
-    
+
+
     // Vendor Register Route
     Route::get('/vendor-register', [AuthenticationController::class, 'vendorRegisterForm'])->name('vendor-register');
     Route::post('/vendor-register-process', [AuthenticationController::class, 'vendorRegisterProcess'])->name('vendor-register-process');
@@ -187,7 +192,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('opt-procc', [AuthenticationController::class, 'optProcc'])->name('opt-procc');
     Route::get('new-password', [AuthenticationController::class, 'newPassword'])->name('new-passwod');
     Route::post('new-password-procc', [AuthenticationController::class, 'newPasswordProcc'])->name('new-password-procc');
-    
+
     // Category Controller
     Route::get('/category', [CategoryController::class, 'index'])->name('category');
 
@@ -213,8 +218,6 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically'
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('withlist');
-
-   
 });
 
 Route::group(['middleware' => ['vendor']], function () {

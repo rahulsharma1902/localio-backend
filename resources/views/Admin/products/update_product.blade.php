@@ -34,7 +34,7 @@
                             <!-- Product Description -->
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="description">Product Description</label>
+                                    <label class="form-label" for="description">Description</label>
                                     <div class="form-control-wrap">
                                         <textarea class="description" name="description" id="description" rows="100" cols="50">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                         @error('description')
@@ -59,7 +59,7 @@
                             @if (!isset($product))
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="product-category">Product Category</label>
+                                        <label class="form-label" for="product-category">Category</label>
                                         <select class="form-control product-category" name="product_category[]"
                                             multiple="multiple">
                                             @foreach ($cat_arr as $item)
@@ -85,7 +85,7 @@
                                 <div class="col-md-6">
                                     @if ($lang == 'en-us')
                                         <div class="form-group">
-                                            <label class="form-label" for="product-category">Product Category</label>
+                                            <label class="form-label" for="product-category">Category</label>
                                             <select class="form-control product-category" name="product_category[]"
                                                 multiple="multiple">
                                                 @if ($categories->isNotEmpty())
@@ -106,7 +106,7 @@
                             @endif
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-price">Product Price</label>
+                                    <label class="form-label" for="product-price">Price</label>
                                     <input type="text" class="form-control" name="product_price" id="product-price"
                                         min="1" value="{{ isset($product) ? $product->product_price : '' }}"
                                         placeholder="Product Price">
@@ -123,7 +123,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-icon">Product Icon</label>
+                                    <label class="form-label" for="product-icon">Icon</label>
                                     @if (!isset($product) || $lang == 'en-us')
                                         <input type="file" class="form-control" name="product_icon" id="product-icon">
                                     @endif
@@ -140,7 +140,7 @@
                             <!-- Product Image -->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-image">Product Image</label>
+                                    <label class="form-label" for="product-image">Image</label>
                                     @if (!isset($product) || $lang == 'en-us')
                                         <input type="file" class="form-control" name="product_image"
                                             id="product-image">
@@ -160,7 +160,7 @@
                         <!-- Product Link -->
                         <div class="col-md-12 mt-3">
                             <div class="form-group">
-                                <label class="form-label" for="product-link">Product Link</label>
+                                <label class="form-label" for="product-link">Link</label>
                                 <input type="url" class="form-control" name="product_link" id="product-link"
                                     value="{{ isset($product) ? $product->product_link : '' }}"
                                     placeholder="Product Link">
@@ -170,6 +170,19 @@
                             @enderror
                         </div>
 
+                        {{-- Product Overview --}}
+
+                        <div class="col-md-12 mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="description">Overview</label>
+                                <div class="form-control-wrap">
+                                    <textarea class="description" name="overview" id="description" rows="100" cols="50">{{ old('overview', isset($productTranslation) ? $productTranslation->description : $product->overview ?? '') }}</textarea>
+                                    @error('overview')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-md-12 mt-4 mt-5">
                             <div class="card border">
@@ -177,7 +190,7 @@
                                     <h4>
                                         Add Pros Data
                                     </h4>
-                                    <p class="btn btn-success" id="prose-option">Add data</button>
+                                    <p class="btn btn-success btn-localio" id="prose-option">Add data</button>
                                 </div>
                                 <div class="card-body prose-body">
                                     @foreach ($proconse_data as $value)
@@ -188,7 +201,7 @@
                                                     value="{{ $value['name'] }}">
                                             </div>
                                             <div class="col-lg-2 col-md-2   col-sm-2 d-flex align-items-center">
-                                                <button type="button" class="btn btn-danger prose-option"><em
+                                                <button type="button" class="btn btn-danger prose-option btn-localio"><em
                                                         class="icon ni ni-trash-fill"></em></button>
                                             </div>
                                         </div>
@@ -204,7 +217,7 @@
                                     <h4>
                                         Add Cons Data
                                     </h4>
-                                    <p class="btn btn-success" id="conse-option">Add data</button>
+                                    <p class="btn btn-success btn-localio" id="conse-option">Add data</button>
                                 </div>
                                 <div class="card-body conse-data">
                                     @foreach ($cronse_data as $value)
@@ -215,7 +228,7 @@
                                                     style="border: 1px solid #7c88aa; "value="{{ $value['name'] }}">
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
-                                                <button type="button" class="btn btn-danger conse-option"><em
+                                                <button type="button" class="btn btn-danger conse-option btn-localio"><em
                                                         class="icon ni ni-trash-fill"></em></button>
                                             </div>
                                         </div>
@@ -273,6 +286,13 @@
             // Remove option field, ensuring at least one remains
             $('.conse-data').on('click ', '.conse-option ', function() {
                 $(this).parents('.conse-group').remove();
+            });
+        });
+
+        // select 2 
+        $(document).ready(function() {
+            $('.product-category').select2({
+                placeholder: "Select Product Category"
             });
         });
     </script>

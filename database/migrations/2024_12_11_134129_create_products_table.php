@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('product_image');
             $table->string('product_link');
             $table->string('status')->default('active');
-            
+            $table->text('overview')->nullable();
             $table->timestamps();
         });
     }

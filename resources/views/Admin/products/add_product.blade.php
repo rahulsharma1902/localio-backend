@@ -174,6 +174,22 @@
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        {{-- overview data --}}
+                        <div class="col-md-12 mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="description">Product Description</label>
+                                <div class="form-control-wrap">
+                                    <textarea class="description" name="overview" id="description" rows="100" cols="50">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                    @error('overview')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{-- add cons and pross --}}
                         <div class="col-md-12 mt-4">
                             <div class="card border">
                                 <div class="card-header d-flex justify-content-between">
@@ -256,6 +272,14 @@
             // Remove option field, ensuring at least one remains
             $('.conse-data').on('click ', '.conse-option ', function() {
                 $(this).parents('.conse-group').remove();
+            });
+        });
+
+
+        // select 2 
+        $(document).ready(function() {
+            $('.product-category').select2({
+                placeholder: "Select Product Category"
             });
         });
     </script>
