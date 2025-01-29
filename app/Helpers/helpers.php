@@ -176,7 +176,7 @@ use Illuminate\Support\Facades\Session;
     }
 
 
-    function detectLocation($ip = null,Request $request)
+    function detectLocation($request, $ip = null)         //($ip = null,Request $request)
     {
         if (!$ip) {
             $ip = $request->ip();
