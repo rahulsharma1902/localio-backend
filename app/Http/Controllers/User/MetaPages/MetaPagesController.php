@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\SiteLanguages;
 use App\Models\Faq;
 use App\Models\WhoWeAre;
+use App\Models\PageTile;
 class MetaPagesController extends Controller
 {
     public function expertGuide()
@@ -37,6 +38,13 @@ class MetaPagesController extends Controller
     public function whoWeAre()
     {
         $whoWeAre = WhoWeAre::first();
-        return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre'));
+        $pageTileTranslationPopular = PageTile::where('source', 'popularItem')
+        ->with('translations')  // Eager load translations
+        ->get();
+        // dd($pageTileTranslationPopular);
+    $specilistTileTranslation = PageTile::where('source', 'specialists')
+        ->with('translations')  // Eager load translations
+        ->get();
+        return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre','pageTileTranslationPopular','specilistTileTranslation'));
     }
 }

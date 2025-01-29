@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('admin-dashboard/change-password-procc', [AdminDashController::class, 'updatePasswordProcc']);
     Route::get('admin-dashboard/who-we-are', [AdminDashController::class, 'whoWeAreContent'])->name('who_we_are_content');
     Route::post('admin-dashboard/who-we-are', [AdminDashController::class, 'updateWhoWeAre'])->name('admin.who_we_are.update');
+    Route::get('admin/page-tile-translation/{id}', [AdminDashController::class, 'deletePageTileTranslation'])->name('admin.page_tile_translation.delete');
+
+
 
 
     //  CategoriesController  categories

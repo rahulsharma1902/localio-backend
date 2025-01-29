@@ -29,4 +29,5 @@ class WhoWeAre extends Model
         'protfolio_btn',
         'status',
     ];
+    
 }
