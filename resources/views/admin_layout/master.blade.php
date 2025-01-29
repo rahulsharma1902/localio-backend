@@ -30,9 +30,65 @@
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/42.0.0/classic/ckeditor.js"></script> --}}
 
     <style>
+    HEAD .dropdown-menu.dropdown-menu-end.show {
+        height: 42vh;
+        overflow-y: scroll;
+    }
+
     .dropdown-menu.dropdown-menu-end.show {
         height: 42vh;
         overflow-y: scroll;
+    }
+
+    :root {
+        --btn-background: #F9633B;
+        ;
+    }
+
+    .btn-localio {
+        background-color: var(--btn-background);
+        border: none;
+        outline: none;
+    }
+
+    .btn-localio:hover {
+        background-color: var(--btn-background);
+        border: none;
+        outline: none;
+    }
+
+
+    .edit-btn {
+        --bs-dropdown-min-width: 45px;
+        background-color: #F9633B;
+        color: white;
+        overflow: hidden !important;
+        height: 41px !important;
+    }
+
+    .edit-btn>ul>li>a {
+        padding: 2px 21px !important;
+        color: white !important;
+    }
+
+    .link-list-opt a:hover {
+        background-color: #F9633B !important;
+        color: white !important;
+    }
+
+
+    em.icon.ni.ni-more-h {
+        color: var(--bs-link-color) !important;
+    }
+
+    a.btn.btn-primary.d-none.d-md-inline-flex {
+        background-color: var(--btn-background) !important;
+        border: none;
+    }
+
+    .nk-menu-link:hover,
+    .active>.nk-menu-link {
+        color: var(--btn-background) !important;
     }
     </style>
 
@@ -142,6 +198,7 @@
                                         <li class="nk-menu-item ">
                                             <a href="{{ route('who_we_are_content') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Who we are</span></a>
+
                                         </li>
 
 
@@ -312,17 +369,16 @@
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
                                                     @php
-                                                        $languages = \App\Models\Language::where('status', 1)->get();
+                                                    $languages = \App\Models\Language::where('status', 1)->get();
                                                     @endphp
                                                     @foreach($languages as $language)
-                                                        <li>
-                                                            <a
-                                                                href="{{ url('set-site-active-language/' . $language->lang_code) }}">
-                                                                <span>{{ $language->name }}
-                                                                   
-                                                                </span>
-                                                            </a>
-                                                        </li>
+                                                    <li>
+                                                        <a
+                                                            href="{{ url('set-site-active-language/' . $language->lang_code) }}">
+                                                            <span>{{ $language->name }}
+                                                            </span>
+                                                        </a>
+                                                    </li>
                                                     @endforeach
                                                 </ul>
                                             </div>
@@ -496,6 +552,8 @@
     <script src="{{ asset('admin-theme/assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/charts/gd-default.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/example-toastr.js?ver=3.1.2') }}"></script>
+    {{-- select 2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
         integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
@@ -567,7 +625,10 @@
             .create(element)
             .catch(error => {
                 console.error(error);
-            });
+            }); <<
+        <<
+        <<
+        < HEAD
     });
     var vareditorElements = document.querySelectorAll('.variation_description');
     vareditorElements.forEach(function(element) {

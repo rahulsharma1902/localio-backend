@@ -27,7 +27,7 @@
                                     <a href="{{ url('admin-dashboard/site-languages/add') ?? '' }}"
                                         class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ route('country.add') }}"
-                                        class=" btn btn-primary d-none d-md-inline-flex"><em
+                                        class=" btn btn-primary d-none d-md-inline-flex btn-localio"><em
                                             class="icon ni ni-plus"></em><span>Add Country</span></a>
 
                                 </li>
@@ -37,9 +37,11 @@
                 </div>
             </div>
         </div>
+
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                <table class="datatable-init nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false" id="CountryDataTable">
+                <table class="datatable-init nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false"
+                    id="CountryDataTable">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">CountryName</span></th>
@@ -66,7 +68,8 @@
                                             <div class="drodown">
                                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                     data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
+                                                <div class="dropdown-menu dropdown-menu-end edit-btn"
+                                                    style="height: 69px !important">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li>
                                                             <a
@@ -133,64 +136,12 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary form-control text-center"><em class="icon ni ni-plus"></em><span>Add
+                        <button class="btn btn-primary form-control text-center btn-localio"><em
+                                class="icon ni ni-plus"></em><span>Add
                                 New Category</span></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        // $(document).ready(function() {
-        //     $('#CountryDataTable').DataTable({
-        //         processing: true, 
-        //         serverSide: true,
-        //         ajax: {
-        //             url: "{{ route('country.index') }}", 
-        //             type: "GET"
-        //         },
-        //         columns: [
-        //             { 
-        //                 data: 'name', 
-        //                 name: 'name' 
-        //             },
-        //             {
-        //                 data: 'id', 
-        //                 name: 'id',
-        //                 render: function(data, type, row) {
-        //                     return `
-        //                         <ul class="nk-tb-actions gx-1">
-        //                             <li>
-        //                                 <div class="drodown">
-        //                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
-        //                                         data-bs-toggle="dropdown">
-        //                                         <em class="icon ni ni-more-h"></em>
-        //                                     </a>
-        //                                     <div class="dropdown-menu dropdown-menu-end">
-        //                                         <ul class="link-list-opt no-bdr">
-        //                                             <li>
-        //                                                 <a href="/admin-dashboard/country/update/${data}">
-        //                                                     <em class="icon ni ni-edit-fill"></em>
-        //                                                     <span>Edit</span>
-        //                                                 </a>
-        //                                             </li>
-        //                                             <li>
-        //                                                 <a href="/country/delete/${data}">
-        //                                                     <em class="icon ni ni-trash-fill"></em>
-        //                                                     <span>Delete</span>
-        //                                                 </a>
-        //                                             </li>
-        //                                         </ul>
-        //                                     </div>
-        //                                 </div>
-        //                             </li>
-        //                         </ul>
-        //                     `;
-        //                 }
-        //             }
-        //         ]
-        //     });
-        // });
-
-    </script>
 @endsection
