@@ -76,9 +76,6 @@
     </div>
     <div class="container">
     <div class="lcl_text">
-        <!-- <div class="bg-orng-img">
-            <img src="./img/orng_smil.png">
-            </div> -->
         <p class="sml_text">Localio provides independent research and reviews. We may earn affiliate
             commissions. <a href="#" class="big-bld">Learn more</a>
         </p>
