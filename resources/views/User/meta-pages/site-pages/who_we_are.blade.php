@@ -163,7 +163,7 @@
                 <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                     <div class="succs_box">
                         <div class="succes_img">
-                            <img src="{{ asset($item->img) }}">
+                            <img src="{{ asset($item->translations->first()->img) }}">
                         </div>
                         <div class="succes_infp">
                             <div class="succes_text">
@@ -172,7 +172,7 @@
                                 </p>
                             </div>
                             <div class="succs_grp">
-                                <img src="{{ asset($item->small_img) }}">
+                                <img src="{{ asset($item->translations->first()->small_img) }}">
                             </div>
 
                         </div>

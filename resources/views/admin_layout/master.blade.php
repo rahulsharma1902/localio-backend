@@ -10,7 +10,7 @@
         content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fav Icon  -->
-    <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+    <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
     <!-- Page Title  -->
     <title>Localio || Admin Dashboard</title>
     <!-- StyleSheets  -->
@@ -630,10 +630,7 @@
             .create(element)
             .catch(error => {
                 console.error(error);
-            }); <<
-        <<
-        <<
-        < HEAD
+            }); 
     });
     var vareditorElements = document.querySelectorAll('.variation_description');
     vareditorElements.forEach(function(element) {
