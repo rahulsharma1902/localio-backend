@@ -1,5 +1,4 @@
 @extends('admin_layout.master')
-
 @section('content')
 
 @if(session('error'))
@@ -12,6 +11,8 @@
     {{ session('success') }}
 </div>
 @endif
+<div id="update-message" style="display: none; color: green; font-weight: bold;"></div>
+
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
         <div class="nk-block-head-content">
@@ -187,8 +188,11 @@
                                                         href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
                                                 </td>
                                                 <td>
-                                                    <button type="button"
-                                                        class="btn btn-success btn-sm update-item">Edit</button>
+                                                    <button type="button" class="btn btn-success btn-sm update-item"
+                                                        data-id="{{ $translation->id }}"
+                                                        data-title="{{ $translation->title }}"
+                                                        data-des="{{ $translation->description }}"
+                                                        data-image="{{ $translation->image }}">Edit</button>
                                                 </td>
                                                 @endforeach
                                             </tr>
@@ -203,21 +207,23 @@
                             </div>
                         </div>
 
-                            <div id="updated-item-details" class="mt-4" style="display: none;">
+                        <div id="updated-item-details" class="mt-4" style="display: none;">
                             <p><strong>Title:</strong></p>
-                            <input type="text" class="form-control" id="updated-title" name="title"
+                            <input type="hidden" class="form-control" id="updated-id" name="MPS[id]"
+                                value="{{ old('title', $item->title ?? '') }}" />
+                            <input type="text" class="form-control" id="updated-title" name="MPS[title]"
                                 value="{{ old('title', $item->title ?? '') }}" />
 
                             <p><strong>Description:</strong></p>
-                            <input type="text" class="form-control" id="updated-description" name="description"
+                            <input type="text" class="form-control" id="updated-description" name="MPS[description]"
                                 value="{{ old('description', $item->description ?? '') }}" />
 
 
                             <p><strong>Image:</strong></p>
                             <img id="updated-image" style="width: 100px; height: auto;" />
-                            <input type="file" id="update-image-input" />
+                            <input type="file" id="update-image-input" name="MPS[image]" />
 
-
+                            <button type="button" id="save-mps-button" style="display: none;">Save</button>
                         </div>
                     </div>
 
@@ -264,6 +270,8 @@
                 <div id="specialists-items-list">
                     <!-- Specialists items will be appended here -->
                 </div>
+                <div id="specialist-items" class="specialist-items-container">
+                
                 <div class="col-md-12 mt-4">
                     <div class="card border">
                         <div class="card-header">
@@ -286,16 +294,16 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            @if ($item->img)
-                                            <img src="{{ asset($item->img) }}" alt="Item Image"
+                                            @if ($item->translations->first()->img)
+                                            <img src="{{ asset($item->translations->first()->img) }}" alt="Item Image"
                                                 style="width: 100px; height: auto;">
                                             @else
                                             N/A
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($item->small_img)
-                                            <img src="{{ asset($item->small_img) }}" alt="Item Image"
+                                            @if ($item->translations->first()->small_img)
+                                            <img src="{{ asset($item->translations->first()->small_img) }}" alt="Item Image"
                                                 style="width: 100px; height: auto;">
                                             @else
                                             N/A
@@ -307,8 +315,14 @@
                                             <!-- Delete Button -->
                                             <a class="btn btn-danger btn-sm"
                                                 href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
-
-
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-sm update-specialist-item"
+                                                data-id="{{ $item->translations->first()->id }}"
+                                                data-title="{{ $item->translations->first()->title }}"
+                                                data-desc="{{ $item->translations->first()->description }}"
+                                                data-img="{{ asset( $item->translations->first()->img ) }}" 
+                                                data-small_img="{{ asset($item->translations->first()->small_img) }}">Edit</button>
                                         </td>
                                     </tr>
                                     @empty
@@ -321,7 +335,32 @@
                         </div>
                     </div>
                 </div>
+              
+                    <div id="updated-special-details" class="mt-4" style="display: none;">
+                        <p><strong>Title:</strong></p>
+                        <input type="hidden" class="form-control" id="updated-s-id" name="SS[id]"
+                            value="{{ old('title', $item->translations->first()->title ?? '') }}" />
+                        <input type="text" class="form-control" id="updated-s-title" name="SS[title]"
+                            value="{{ old('title', $item->translations->first()->title ?? '') }}" />
 
+                        <p><strong>Description:</strong></p>
+                        <input type="text" class="form-control" id="updated-s-description" name="MPS[description]"
+                            value="{{ old('description', $item->translations->first()->description ?? '') }}" />
+
+
+                        <p><strong>Image:</strong></p>
+                        <img id="updated-s-image" style="width: 100px; height: auto;" />
+                        <input type="file" id="update-special-image-input" name="SS[img]" />
+
+                        <p><strong>small Image:</strong></p>
+                        <img id="updated-small-image" style="width: 100px; height: auto;" />
+                        <input type="file" id="update-small-image-input" name="SS[small_img]" />
+
+                        <button type="button" id="save-ss-button" style="display: none;">Save</button>
+                    </div>
+                </div>
+                </div>
+                 </br>
 
                 <!-- Service Software Heading -->
                 <div class="col-md-12">
@@ -382,20 +421,29 @@ $(document).ready(function() {
                     <img src="${e.target.result}" alt="Image" style="width: 100px; height: auto;">
                     <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
                 `);
+                const itemId = Date.now();
                 $('#popular-items-list').append(itemCard);
 
-                const hiddenTitleInput = $('<input type="hidden" name="popular_items[title][]" value="' + title + '">');
-                const hiddenDescriptionInput = $('<input type="hidden" name="popular_items[description][]" value="' + description + '">');
-                const hiddenImageInput = $('<input type="hidden" name="popular_items[image][]" value="' + e.target.result + '">');
+                const hiddenTitleInput = $(
+                    '<input type="hidden" name="popular_items[title][]" value="' + title + '">');
+                const hiddenDescriptionInput = $(
+                    '<input type="hidden" name="popular_items[description][]" value="' +
+                    description + '">');
+                const hiddenImageInput = $(
+                    '<input type="hidden" name="popular_items[image][]" value="' + e.target
+                    .result + '">');
 
-                $('#popular-items-list').append(hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput);
+                $('#popular-items-list').append(hiddenTitleInput, hiddenDescriptionInput,
+                    hiddenImageInput);
 
                 addedItems.push({
                     title: title,
                     description: description,
                     image: e.target.result,
                     card: itemCard,
-                    hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput]
+                    hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput,
+                        hiddenImageInput
+                    ]
                 });
 
                 clearForm();
@@ -405,38 +453,79 @@ $(document).ready(function() {
             alert('Please fill in all fields and select an image.');
         }
     });
- 
 
     $('#popular-items').on('click', '.update-item', function() {
-      
-        const itemRow = $(this).closest('tr');
-        if (itemRow.length) {
-            const titleCell = itemRow.find('td:nth-child(3)');
-            const descriptionCell = itemRow.find('td:nth-child(4)');
-            const imageCell = itemRow.find('td:nth-child(2) img');
+        let itemId = $(this).data('id'); // Assuming each item-card has a data-id attribute
 
-            const imageSrc = imageCell.length ? imageCell.attr('src') : '';
+        let title = $(this).data('title');
+        let description = $(this).data('des');
+        let imageSrc = $(this).data('image');
 
-            $('#updated-title').val(titleCell.text().trim());
-            $('#updated-description').val(descriptionCell.text().trim());
-            if (imageCell.length) {
-                $('#updated-image').attr('src', imageSrc);
-            }
-            $('#updated-item-details').show();
+        console.log(title, description);
 
-            $('#update-image-input').off('change').on('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function() {
-                        $('#updated-image').attr('src', reader.result);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        } else {
-            console.log('Item row not found!');
+        // Populate the form fields with current data
+        $('#updated-id').val(itemId);
+        $('#updated-title').val(title);
+        $('#updated-description').val(description);
+        $('#updated-image').attr('src', imageSrc);
+
+        // Show the update form
+        $('#updated-item-details').show();
+        $('#save-mps-button').show();
+    });
+
+    $('#save-mps-button').on('click', function() {
+        let itemId = $('#updated-id').val(); // Assuming you're saving the item ID in the form
+        let title = $('#updated-title').val(); // Get updated title
+        let description = $('#updated-description').val(); // Get updated description
+        let imageFile = $('#update-image-input')[0].files[0]; // Get updated image source (base64 or URL)
+        let formData = new FormData();
+        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+        formData.append('id', itemId);
+        formData.append('title', title);
+        formData.append('des', description);
+
+        if (imageFile) {
+            formData.append('image', imageFile); // Append the image file
         }
+
+        $.ajax({
+            url: '{{ route("admin.page_tile_translation.update") }}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert(response.success);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                console.log(xhr.responseText); // Log the full error response
+                alert('There was an error updating the popular item.');
+            }
+        });
+
+        // Handle file input change for image preview
+        $('#update-image-input').on('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    $('#updated-image').attr('src', reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Update item in the array
+        $('#save-button').on('click', function() {
+            const updatedTitle = $('#updated-title').val().trim();
+            const updatedDescription = $('#updated-description').val().trim();
+            const updatedImage = $('#updated-image').attr('src');
+
+            // Find the item in the array by ID and update it
+        });
+
     });
 
     $('#popular-items-list').on('click', '.remove-item', function() {
@@ -454,14 +543,7 @@ $(document).ready(function() {
         $('#title, #description, #image').val('');
     }
 
-    $('#popular-items-list').on('submit', function(e) {
-        addedItems = addedItems.filter(item => !item.removed);
-        $('input[type="hidden"]').remove();
-        addedItems.forEach(item => {
-            $('#popular-items-list').append(item.hiddenInputs);
-        });
-    });
-
+    // Add specialists item logic
     let addedSpecialistsItems = [];
 
     $('#add-specialists-item').on('click', function() {
@@ -488,12 +570,22 @@ $(document).ready(function() {
                     `);
                     $('#specialists-items-list').append(itemCard);
 
-                    const hiddenTitleInput = $('<input type="hidden" name="specialists_items[title][]" value="' + title + '">');
-                    const hiddenDescriptionInput = $('<input type="hidden" name="specialists_items[description][]" value="' + description + '">');
-                    const hiddenImageInput1 = $('<input type="hidden" name="specialists_items[img][]" value="' + imgFileData + '">');
-                    const hiddenImageInput2 = $('<input type="hidden" name="specialists_items[small_img][]" value="' + smallImgFileData + '">');
+                    const hiddenTitleInput = $(
+                        '<input type="hidden" name="specialists_items[title][]" value="' +
+                        title + '">');
+                    const hiddenDescriptionInput = $(
+                        '<input type="hidden" name="specialists_items[description][]" value="' +
+                        description + '">');
+                    const hiddenImageInput1 = $(
+                        '<input type="hidden" name="specialists_items[img][]" value="' +
+                        imgFileData + '">');
+                    const hiddenImageInput2 = $(
+                        '<input type="hidden" name="specialists_items[small_img][]" value="' +
+                        smallImgFileData + '">');
 
-                    $('#specialists-items-list').append(hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1, hiddenImageInput2);
+                    $('#specialists-items-list').append(hiddenTitleInput,
+                        hiddenDescriptionInput, hiddenImageInput1,
+                        hiddenImageInput2);
 
                     addedSpecialistsItems.push({
                         title: title,
@@ -501,7 +593,10 @@ $(document).ready(function() {
                         image1: imgFileData,
                         image2: smallImgFileData,
                         card: itemCard,
-                        hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput, hiddenImageInput1, hiddenImageInput2]
+                        hiddenInputs: [hiddenTitleInput,
+                            hiddenDescriptionInput, hiddenImageInput1,
+                            hiddenImageInput2
+                        ]
                     });
 
                     clearForm();
@@ -514,9 +609,113 @@ $(document).ready(function() {
         }
     });
 
+    $('#specialist-items').on('click', '.update-specialist-item', function() {
+        let itemId = $(this).data('id'); // Assuming each item-card has a data-id attribute
+        console.log(itemId); 
+        let title = $(this).data('title');
+        let description = $(this).data('desc');
+        let imageSrc1 = $(this).data('img');
+        let imageSrc2 = $(this).data('small_img');
+
+        console.log(title, description);
+
+        // Populate the form fields with current data
+        $('#updated-s-id').val(itemId);
+        $('#updated-s-title').val(title);
+        $('#updated-s-description').val(description);
+        console.log(imageSrc1);
+        console.log(imageSrc2); 
+        $('#updated-s-image').attr('src', imageSrc1);
+        $('#updated-small-image').attr('src', imageSrc2);
+
+        // Show the update form
+        $('#updated-special-details').show();
+        $('#save-ss-button').show();
+    });
+
+    $('#save-ss-button').on('click', function() {
+        let itemId = $('#updated-s-id').val(); // Assuming you're saving the item ID in the form
+        
+        let title = $('#updated-s-title').val(); // Get updated title
+        let description = $('#updated-s-description').val(); // Get updated description
+        let imageFile1 = $('#update-special-image-input')[0].files[0]; // Get updated image source (base64 or URL)
+        let imageFile2 = $('#update-small-image-input')[0].files[0]; // Get updated image source (base64 or URL)
+        let formData1 = new FormData();
+        formData1.append('_token', $('meta[name="csrf-token"]').attr('content'));
+        formData1.append('id', itemId);
+        formData1.append('title', title);
+        formData1.append('desc', description);
+
+        if (imageFile1) {
+            formData1.append('img', imageFile1); // Append the image file
+        }
+        if (imageFile2) {
+            formData1.append('small_img', imageFile2); // Append the image file
+        }
+
+        $.ajax({
+            url: '{{ route("admin.page_tile_specialist_translation.update") }}',
+            type: 'POST',
+            data: formData1,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.success) {
+            $('#update-message').text(response.msg).css('color', 'green').show();
+
+            // Hide the message after 3 seconds
+            setTimeout(function() {
+                $('#update-message').fadeOut();
+            }, 3000);
+        } else {
+            $('#update-message').text(response.msg).css('color', 'red').show();
+        }
+    },
+    error: function(xhr, status, error) {
+        $('#update-message').text('There was an error updating the item.').css('color', 'red').show();
+    }
+        });
+
+        // Handle file input change for image preview
+        $('#update-special-image-input').on('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            $('#updated-s-image').attr('src', reader.result);
+        };
+        reader.readAsDataURL(file);
+    }
+  });
+
+            $('#update-small-image-input').on('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+            $('#updated-small-image').attr('src', reader.result);
+             };
+             reader.readAsDataURL(file);
+              }
+             });
+
+
+        // Update item in the array
+        $('#save-button').on('click', function() {
+            const updatedTitle = $('#updated-s-title').val().trim();
+            const updatedDescription = $('#updated-s-description').val().trim();
+            const updatedImg = $('#updated-s-img').attr('src');
+            const updatedSmallImg = $('#updated-small-image').attr('src');
+
+            // Find the item in the array by ID and update it
+        });
+
+    });
+
     $('#specialists-items-list').on('click', '.remove-item', function() {
         const itemCard = $(this).closest('.item-card');
-        const itemIndex = addedSpecialistsItems.findIndex(item => item.card[0] === itemCard[0]);
+        const itemIndex = addedSpecialistsItems.findIndex(item => item.card[0] === itemCard[
+            0]);
 
         if (itemIndex > -1) {
             addedSpecialistsItems[itemIndex].removed = true;
@@ -526,9 +725,11 @@ $(document).ready(function() {
     });
 
     function clearForm() {
-        $('#specialists_title, #specialists_description, #specialists_img, #specialists_small_img').val('');
+        $('#specialists_title, #specialists_description, #specialists_img, #specialists_small_img')
+            .val('');
     }
 });
+
 </script>
 
 @endsection

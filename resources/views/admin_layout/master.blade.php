@@ -630,10 +630,7 @@
             .create(element)
             .catch(error => {
                 console.error(error);
-            }); <<
-        <<
-        <<
-        < HEAD
+            }); 
     });
     var vareditorElements = document.querySelectorAll('.variation_description');
     vareditorElements.forEach(function(element) {

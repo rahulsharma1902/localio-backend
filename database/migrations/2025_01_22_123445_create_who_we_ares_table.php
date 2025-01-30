@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id(); // Primary key
             $table->unsignedBigInteger('lang_id')->default(1);
             $table->string('main_heading')->nullable(); // Main heading
-            $table->string('sub_heading')->nullable(); // Sub heading
+            $table->string('sub_heading',600)->nullable(); // Sub heading
             $table->string('bg_top_img')->nullable(); // Background top image
             $table->string('top_left_section_img')->nullable(); 
             $table->string('top_right_section_img')->nullable(); // Top right section image
-            $table->string('mp_heading')->nullable(); // Middle page heading
+            $table->string('mp_heading',600)->nullable(); // Middle page heading
             $table->string('mp_sub_heading')->nullable(); // Middle page sub-heading
             $table->string('top_card_title')->nullable(); // Top card title
             $table->string('top_card_image')->nullable(); // Top card image
