@@ -47,10 +47,10 @@
     <?php
     $lang = getCurrentLocale();
     $lang_id = getCurrentLanguageID();
-    
+
     $headerLogo = \App\Models\HeaderContent::where([['lang_id', 1], ['meta_key', 'header_logo']])->first();
     $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang_id], ['type', 'text']])->pluck('meta_value', 'meta_key');
-    
+
     if ($headerContent->isEmpty()) {
         $headerContent = \App\Models\HeaderContent::where([['lang_id', 1], ['type', 'text']])->pluck('meta_value', 'meta_key');
     }
@@ -58,18 +58,18 @@
     $icons = \App\Models\FooterContent::where('lang_id', 1)
         ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
         ->get();
-    
+
     $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
     $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
     $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
-    
+
     $footerContents = \App\Models\FooterContent::where('lang_id', $lang_id)->where('type', 'text')->pluck('meta_value', 'meta_key');
     $footerMediaUrls = \App\Models\FooterContent::where('type', 'url')->where('lang_id', 1)->pluck('meta_value', 'meta_key');
-    
+
     if ($footerContents->isEmpty()) {
         $footerContents = \App\Models\FooterContent::where('lang_id', 1)->where('type', 'text')->pluck('meta_value', 'meta_key');
     }
-    
+
     ?>
     <header>
         <section class="sec_head">
@@ -151,7 +151,7 @@
                                     <?php
                                     use App\Models\Product;
                                     $products = Product::all();
-                                    
+
                                     ?>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
                                         <a href="#">{{ $headerContent['top_rated_product'] ?? '' }}</a>
@@ -356,7 +356,7 @@
                             </div>
 
                             <ul class="options">
-                                
+
                             </ul>
                         </div>
                     </div>

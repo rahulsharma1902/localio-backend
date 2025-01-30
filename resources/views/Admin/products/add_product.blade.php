@@ -164,16 +164,37 @@
 
 
                         <!-- Product Link -->
-                        <div class="col-md-12 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="product-link">Product Link</label>
-                                <input type="url" class="form-control" name="product_link" id="product-link"
-                                    value="{{ old('product_link') }}" placeholder="Product Link">
+                        <div class="row mt-3">
+
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-link">Product Link</label>
+                                    <input type="url" class="form-control" name="product_link" id="product-link"
+                                        value="{{ old('product_link') }}" placeholder="Product Link">
+                                </div>
+                                @error('product_link')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('product_link')
-                                <div class="error text-danger">{{ $message }}</div>
-                            @enderror
+
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product_feature">Product Feature</label>
+                                    <select class="form-control product_feature" name="product_feature[]"
+                                        multiple="multiple">
+                                            @foreach ($product_feature as $key => $value)
+                                                <option value="{{$key}}">{{ $value }}
+                                                </option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                                @error('product_feature')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                         </div>
+
 
                         {{-- overview data --}}
                         <div class="col-md-12 mt-3">
@@ -276,10 +297,14 @@
         });
 
 
-        // select 2 
+        // select 2
         $(document).ready(function() {
             $('.product-category').select2({
                 placeholder: "Select Product Category"
+            });
+
+            $('.product_feature').select2({
+                placeholder: "Select Product Feature"
             });
         });
     </script>

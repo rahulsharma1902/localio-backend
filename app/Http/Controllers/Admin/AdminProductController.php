@@ -12,6 +12,9 @@ use App\Models\Language;
 use App\Models\ProCons;
 use App\Models\ProConsTranslation;
 use App\Models\ProductTranslation;
+use App\Models\Keyfeature;
+use App\Models\ProductFeatureTranslate;
+use App\Models\ProductFeature;
 use Illuminate\Support\Facades\DB;
 
 class AdminProductController extends Controller
@@ -21,16 +24,18 @@ class AdminProductController extends Controller
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id', $lang_id)->first();
         $products = Product::with('categories')->latest()->get();
-        // dd($products);
+        //typical_custmor,platform_supported,support_options,tranning_options
         return view('Admin.products.index', compact('products'));
     }
     public function productAdd()
     {
         $categories = Category::all();
-        return view('Admin.products.add_product', compact('categories'));
+        $product_feature = ProductFeatureTranslate::pluck('name','id')->toArray();
+        return view('Admin.products.add_product', compact('categories','product_feature'));
     }
     public function productAddProccess(Request $request)
     {
+        //
         $language = Language::where('id', $request->lang_code)->first();
         $request->validate([
             'name' => 'required|string',
@@ -42,6 +47,7 @@ class AdminProductController extends Controller
             'product_link' => 'required|url',
             'pros_data' => 'array',
             'conse_data' =>  'array',
+            'product_feature' => 'required|array'
         ]);
 
         if (!$language) {
@@ -123,6 +129,16 @@ class AdminProductController extends Controller
                         'updated_at' => now(),
                     ]);
                 }
+            }
+
+            foreach ($request->product_feature as $key => $product_feture_translate_id) {
+                $product_feture_id = ProductFeatureTranslate::where('id',$product_feture_translate_id)->value('product_feture_id');
+                $product_feture_type = ProductFeature::where('id',$product_feture_id)->value('type');
+                $data =   Keyfeature::create([
+                    'product_id' => $product->id,
+                    'feature_id' => intval($product_feture_id),
+                    'type' => $product_feture_type
+                ]);
             }
             return redirect()->route('products')->with('success', 'Product  added successfully');
         } else {
@@ -301,4 +317,4 @@ class AdminProductController extends Controller
         return redirect()->back()->with('success', 'product remove successfully');
     }
 }
-// main branch code 
+// main branch code
