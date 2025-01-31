@@ -111,7 +111,7 @@
                             data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                     </div>
                     <div class="nk-sidebar-brand">
-                        <a href="{{ url('admin-dashboard') ?? '' }}" class="logo-link nk-sidebar-logo">
+                        <a href="{{ url('admin-dashboard/products') ?? '' }}" class="logo-link nk-sidebar-logo">
                             <img class="logo-light logo-img" src="{{ asset('front/img/logo.svg') }}"
                                 srcset="{{ asset('front/img/logo.svg') }}" alt="logo">
                             <img class="logo-dark logo-img" src="{{ asset('front/img/logo-dark.svg') }}"
@@ -126,7 +126,7 @@
                             <ul class="nk-menu">
                                 <!-- Dashboard -->
                                 <li class="nk-menu-heading">
-                                    <a href="{{ url('admin-dashboard') ?? '' }}">
+                                    <a href="{{ url('admin-dashboard/products') ?? '' }}">
                                         <h6 class="overline-title text-primary-alt">Dashboard</h6>
                                     </a>
                                 </li>
