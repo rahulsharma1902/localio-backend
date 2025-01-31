@@ -10,7 +10,7 @@
         content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fav Icon  -->
-    <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+    <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
     <!-- Page Title  -->
     <title>Localio || Admin Dashboard</title>
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2') }}">
@@ -635,14 +635,33 @@
                 .create(element)
                 .catch(error => {
                     console.error(error);
-                }); <<
-            <<
-            <<
-            <
-            HEAD
+                }); 
         });
         var vareditorElements = document.querySelectorAll('.variation_description');
         vareditorElements.forEach(function(element) {
+
+    var editorElements = document.querySelectorAll('.description');
+    editorElements.forEach(function(element) {
+        ClassicEditor
+            .create(element)
+            .catch(error => {
+                console.error(error);
+            }); 
+    });
+    var vareditorElements = document.querySelectorAll('.variation_description');
+    vareditorElements.forEach(function(element) {
+        ClassicEditor
+            .create(element)
+            .catch(error => {
+                console.error(error);
+            });
+    });
+
+    function initializeEditors(container) {
+        var var_editorElements = container.querySelectorAll('.variation_description');
+
+        var_editorElements.forEach(function(element) {
+
             ClassicEditor
                 .create(element)
                 .catch(error => {

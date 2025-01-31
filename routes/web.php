@@ -29,7 +29,7 @@ Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout
 Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
 
 // Admin Routes 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('/admin-dashboard', [AdminDashController::class, 'index'])->name('admin_dashboard');
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
@@ -37,9 +37,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('admin-dashboard/who-we-are', [AdminDashController::class, 'whoWeAreContent'])->name('who_we_are_content');
     Route::post('admin-dashboard/who-we-are', [AdminDashController::class, 'updateWhoWeAre'])->name('admin.who_we_are.update');
     Route::get('admin/page-tile-translation/{id}', [AdminDashController::class, 'deletePageTileTranslation'])->name('admin.page_tile_translation.delete');
+    Route::post('/admin/page-tile-translation/update', [AdminDashController::class, 'MPSsectionUpdate'])->name('admin.page_tile_translation.update');
+    Route::post('/admin/page-tile-specialist-translation/update', [AdminDashController::class, 'SpecialistUpdate'])->name('admin.page_tile_specialist_translation.update');
 
 
-
+ 
 
     //  CategoriesController  categories
     Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
@@ -186,7 +188,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 // Add Locale 
-Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
+Route::group(['prefix' => '{locale?}', 'middleware' => ['guest','AddLocaleAutomatically']], function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
     Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
     Route::get('/register', [AuthenticationController::class, 'register'])->name('register');

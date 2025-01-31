@@ -93,18 +93,130 @@ class AdminDashController extends Controller
         return view('Admin.site-content.who_we_are', compact('whoWeAre', 'pageTileTranslationPopular', 'specilistTileTranslation'));
     }
 
+    public function MPSsectionUpdate(Request $request)
+    {
+        try {
+            $pageTileTranslation = PageTileTranslation::find($request->id);
+
+            if (!$pageTileTranslation) {
+                return response()->json(['error' => false, 'msg' => 'Item not found.'], 404);
+            }
+
+            $pageTileTranslation->title = $request->title;
+            $pageTileTranslation->description = $request->des;
+            $pageTileTranslation->status = $request->input('status', 1);
+
+            // Handle Image Upload (Only if a new image is provided)
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '_popular_item.' . $image->getClientOriginalExtension();
+                $image->move(public_path('front/img/'), $filename);
+                $pageTileTranslation->image = 'front/img/' . $filename;
+            }
+
+            $pageTileTranslation->save();
+
+            return response()->json(['success' => true, 'msg' => 'Popular item updated successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => false, 'msg' => 'Error updating item: ' . $e->getMessage()], 500);
+        }
+    }
+    public function SpecialistUpdate(Request $request)
+    {
+        //    return response()->json($request->all());
+        try {
+            $pageTileTranslation = PageTileTranslation::find($request->id);
+
+            if (!$pageTileTranslation) {
+                return response()->json(['success' => false, 'msg' => 'Item not found.'], 404);
+            }
+
+            $pageTileTranslation->title = $request->title;
+            $pageTileTranslation->description = $request->desc;
+            // $pageTileTranslation->type = $request->input('specialists');
+            // $pageTileTranslation->source = $request->input('specialists');
+            $pageTileTranslation->status = $request->input('status', 1);
+
+            // Handle Image Upload (Only if a new image is provided)
+            if ($request->hasFile('img')) {
+                $image = $request->file('img');
+                $filename = time() . '_img_.' . $image->getClientOriginalExtension();
+                $image->move(public_path('front/img/'), $filename);
+                $pageTileTranslation->img = 'front/img/' . $filename;
+            }
+
+            if ($request->hasFile('small_img')) {
+                $image = $request->file('small_img');
+                $filename = time() . '_small_img_.' . $image->getClientOriginalExtension();
+                $image->move(public_path('front/img/'), $filename);
+                $pageTileTranslation->small_img = 'front/img/' . $filename;
+            }
+
+            $pageTileTranslation->save();
+
+            return response()->json([
+                'success' => true,
+                'msg' => 'Specialist item updated successfully!',
+                'image_path' => asset($pageTileTranslation->img), // Return new image URL
+                'small_image_path' => asset($pageTileTranslation->small_img),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'msg' => 'Error updating item: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function updateWhoWeAre(Request $request)
     {
+        // dd($request->all());
         // Get the first instance of WhoWeAre, PageTile, and PageTileTranslation
         $whoWeAre = WhoWeAre::first() ?? new WhoWeAre();
-    
+        $pageTile = PageTile::first() ?? new PageTile();
+        $pageTileTranslation = PageTileTranslation::first() ?? new PageTileTranslation();
+
+        // Handle text updates for `whoWeAre`
+        $whoWeAre->fill($request->except(['bg_top_img', 'top_left_section_img', 'top_right_section_img', 'top_card_image']));
+
+        // ✅ Handle bg_top_img upload
+        if ($request->hasFile('bg_top_img')) {
+            $file = $request->file('bg_top_img');
+            $filename = now()->format('YmdHis') . '_bg_top_img.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $whoWeAre->bg_top_img = 'front/img/' . $filename;
+        }
+
+        // ✅ Handle top_left_section_img upload
+        if ($request->hasFile('top_left_section_img')) {
+            $file = $request->file('top_left_section_img');
+            $filename = now()->format('YmdHis') . '_top_left_section_img.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $whoWeAre->top_left_section_img = 'front/img/' . $filename;
+        }
+
+        // ✅ Handle top_right_section_img upload
+        if ($request->hasFile('top_right_section_img')) {
+            $file = $request->file('top_right_section_img');
+            $filename = now()->format('YmdHis') . '_top_right_section_img.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $whoWeAre->top_right_section_img = 'front/img/' . $filename;
+        }
+
+        // ✅ Handle top_card_image upload
+        if ($request->hasFile('top_card_image')) {
+            $file = $request->file('top_card_image');
+            $filename = now()->format('YmdHis') . '_top_card_image.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $whoWeAre->top_card_image = 'front/img/' . $filename;
+        }
+
+        // ✅ Save the updated `whoWeAre` record
+
         // Handle popular items
         $popularItems = $request->input('popular_items', []);
         if (isset($popularItems['title']) && is_array($popularItems['title'])) {
             foreach ($popularItems['title'] as $index => $title) {
                 $description = $popularItems['description'][$index] ?? null;
                 $image = $popularItems['image'][$index] ?? null;
-                
+
                 $filename = null;
                 if ($image) {
                     if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
@@ -115,26 +227,19 @@ class AdminDashController extends Controller
                         file_put_contents(public_path('front/img/') . $filename, $image);
                     }
                 }
-    
+
                 // Create a new PageTile if needed
-                $pageTile = PageTile::find($request->input('page_tile_id'));
-                if (!$pageTile) {
-                    $pageTile = new PageTile();
-                }
-    
-                // Update PageTile properties
+
+                $pageTile = new PageTile();
                 $pageTile->lang_id = $request->input('lang_id', 1);
                 $pageTile->image = $image ? 'front/img/' . $filename : null;
                 $pageTile->type = 'popularItem';
                 $pageTile->source = 'popularItem';
                 $pageTile->save();
-    
+
                 // Create or update PageTileTranslation
-                $pageTileTranslation = PageTileTranslation::where('page_tile_id', $pageTile->id)->first();
-                if (!$pageTileTranslation) {
-                    $pageTileTranslation = new PageTileTranslation();
-                }
-    
+
+                $pageTileTranslation = new PageTileTranslation();
                 $pageTileTranslation->page_tile_id = $pageTile->id;
                 $pageTileTranslation->title = $title;
                 $pageTileTranslation->description = $description;
@@ -143,7 +248,7 @@ class AdminDashController extends Controller
                 $pageTileTranslation->save();
             }
         }
-    
+
         // Handle specialists items
         $specialistsItems = $request->input('specialists_items', []);
         if (isset($specialistsItems['title']) && is_array($specialistsItems['title'])) {
@@ -151,7 +256,7 @@ class AdminDashController extends Controller
                 $description = $specialistsItems['description'][$index] ?? null;
                 $img = $specialistsItems['img'][$index] ?? null;
                 $smallImg = $specialistsItems['small_img'][$index] ?? null;
-    
+
                 $filenameBig = null;
                 if ($img) {
                     if (preg_match('/^data:image\/(\w+);base64,/', $img, $type)) {
@@ -162,7 +267,7 @@ class AdminDashController extends Controller
                         file_put_contents(public_path('front/img/') . $filenameBig, $img);
                     }
                 }
-    
+
                 $filenameSmall = null;
                 if ($smallImg) {
                     if (preg_match('/^data:image\/(\w+);base64,/', $smallImg, $type)) {
@@ -173,7 +278,7 @@ class AdminDashController extends Controller
                         file_put_contents(public_path('front/img/') . $filenameSmall, $smallImg);
                     }
                 }
-    
+
                 // Create a new PageTile for specialists
                 $pageTile = new PageTile();
                 $pageTile->lang_id = $request->input('lang_id', 1);
@@ -182,7 +287,7 @@ class AdminDashController extends Controller
                 $pageTile->type = 'specialists';
                 $pageTile->source = 'specialists';
                 $pageTile->save();
-    
+
                 // Create a new PageTileTranslation for specialists
                 $pageTileTranslation = new PageTileTranslation();
                 $pageTileTranslation->page_tile_id = $pageTile->id;
@@ -194,50 +299,22 @@ class AdminDashController extends Controller
                 $pageTileTranslation->save();
             }
         }
-    
+
         // Update the `whoWeAre` record
-        $whoWeAre->update($request->except(['bg_top_img', 'top_left_section_img', 'top_right_section_img', 'top_card_image']));
-    
+        $pageTile->update($request->except(['image', 'img', 'small_img']));
+
         // Handle file uploads if necessary
-        $this->handleFileUpload($request, $whoWeAre);
-    
+        $this->handleFileUpload($request, $pageTile);
+        $whoWeAre->save();
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Updated successfully!');
+        return redirect()
+            ->back()
+            ->with('success', 'Updated successfully!');
     }
 
-    protected function handleFileUpload(Request $request, WhoWeAre $whoWeAre)
+    protected function handleFileUpload(Request $request, $pageTile)
     {
         // Handle bg_top_img upload
-        if ($request->hasFile('bg_top_img')) {
-            $file = $request->file('bg_top_img');
-            $filename = now()->format('YmdHis') . '_bg_top_img.' . $file->getClientOriginalExtension();
-            $file->move(public_path('front/img/'), $filename);
-            $whoWeAre->bg_top_img = 'front/img/' . $filename;
-        }
-
-        // Handle top_left_section_img upload
-        if ($request->hasFile('top_left_section_img')) {
-            $file = $request->file('top_left_section_img');
-            $filename = now()->format('YmdHis') . '_top_left_section_img.' . $file->getClientOriginalExtension();
-            $file->move(public_path('front/img/'), $filename);
-            $whoWeAre->top_left_section_img = 'front/img/' . $filename;
-        }
-
-        // Handle top_right_section_img upload
-        if ($request->hasFile('top_right_section_img')) {
-            $file = $request->file('top_right_section_img');
-            $filename = now()->format('YmdHis') . '_top_right_section_img.' . $file->getClientOriginalExtension();
-            $file->move(public_path('front/img/'), $filename);
-            $whoWeAre->top_right_section_img = 'front/img/' . $filename;
-        }
-
-        // Handle top_card_image upload
-        if ($request->hasFile('top_card_image')) {
-            $file = $request->file('top_card_image');
-            $filename = now()->format('YmdHis') . '_top_card_image.' . $file->getClientOriginalExtension();
-            $file->move(public_path('front/img/'), $filename);
-            $whoWeAre->top_card_image = 'front/img/' . $filename;
-        }
 
         // Handle page tile image upload
         if ($request->hasFile('image')) {

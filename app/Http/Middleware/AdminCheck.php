@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Auth ;
 
 class AdminCheck
 {
@@ -20,7 +21,7 @@ class AdminCheck
             if( $user->user_type=='admin'){
                 return $next($request); 
             }else {
-                // return redirect('/')->with('error','kindly login to open dashboard');
+                return redirect('/')->with('error','kindly login to open dashboard');
             }
 
         }else{
