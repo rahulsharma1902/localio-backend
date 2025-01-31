@@ -220,13 +220,18 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Home</span></a>
                                         </li>
 
+                                      
                                         <li class="nk-menu-item ">
                                             <a href="{{ route('who_we_are_content') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Who we are</span></a>
 
                                         </li>
 
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ route('admin.page-expert-guide.update') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Expert Guide</span></a>
 
+                                        </li>
 
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/categories-page') }}"
