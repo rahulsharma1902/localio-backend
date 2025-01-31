@@ -1,3 +1,4 @@
+{{-- {{dd($prss_data)}} --}}
 @extends('user_layout.master')
 @section('content')
 <section class="product_sec">
@@ -9,7 +10,7 @@
                     <li class="breadcrumb-item">
                         <a href="#">Automotive</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Asana</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
                 </ol>
             </nav>
         </div>
@@ -24,11 +25,11 @@
                 <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                 <div class="ans_lft">
                     <div class="asn-img">
-                        <img src="{{asset('front/img/lyt-rd.svg') }}">
+                        <img src="{{asset("ProductIcon/$product->product_icon")}}">
                     </div>
                     <div class="asn-rating">
                         <div class="an_lkd">
-                            <h6 style="color: #000;">Asana</h6>
+                            <h6 style="color: #000;">{{ $product->name }}</h6>
                             <p class="wishlist">
                             <a href=""><i class="fa-regular fa-heart" style="color: #06498B ;"></i></a>
                             </p>
@@ -58,7 +59,7 @@
                             </li>
                         </ul>
                         <div class="top-pro-btn tp_visit">
-                            <a href="" class="cta cta_orange d-flex align-items-center" tabindex="0">
+                            <a href="{{$product->product_link}}" class="cta cta_orange d-flex align-items-center" tabindex="0">
                             Visit
                             Website
                             <div class="right-arw">
@@ -75,9 +76,6 @@
     </div>
     <div class="container">
     <div class="lcl_text">
-        <!-- <div class="bg-orng-img">
-            <img src="./img/orng_smil.png">
-            </div> -->
         <p class="sml_text">Localio provides independent research and reviews. We may earn affiliate
             commissions. <a href="#" class="big-bld">Learn more</a>
         </p>
@@ -164,7 +162,7 @@
                 <div class="feture_box str_prc_box">
                 <div class="src_box">
                     <p class="big_text">Starting Price</p>
-                    <h3 class="blue-text">$9<span class="big_text">/ Month</span></h3>
+                    <h3 class="blue-text">${{ $product->product_price }}<span class="big_text">/ Month</span></h3>
                 </div>
                 </div>
             </div>
@@ -193,17 +191,9 @@
         <div class="row">
             <div class="col-lg-7">
                 <div class="is-asana-lft">
-                <h3>What is Asana</h3>
+                <h3>What is {{ $product->name }}</h3>
                 <div class="is_text">
-                    <p data-aos="fade-up" data-aos-duration="1000">Lorem Ipsum is simply dummy text of the
-                        printing and typesetting industry. Lorem
-                        Ipsum
-                        has been the industry's standard dummy text ever since the 1500s, when an unknown
-                        printer took a galley of type and scrambled it to make a type specimen book. It has
-                        survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the 1960s with the release of
-                        Letraset sheets containing.
-                    </p>
+                    {!! $product->description !!}
                 </div>
                 <div class="read-more-txt" data-aos="fade-up" data-aos-duration="1000">
                     <a href="" class="">Read More</a>
@@ -412,26 +402,14 @@
                 <div class="tp_box">
                 <h6 class="big-bld">Typical Customers</h6>
                 <ul class="list-unstyled">
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>
-                        Freelancers
-                        </span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Small businesses</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>
-                        Mid size businesses</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>
-                        Large enterprises</span>
-                    </li>
+                    @if (!empty($featured_all_data['typically_custmor']))
+                        @foreach ($featured_all_data['typically_custmor'] as $value)
+                            <li class="d-flex align-items-center">
+                                <span><img src="{{ asset('front/img/tik-mrk.svg') }}" alt="tick mark"></span>
+                                <span>{{ $value }}</span>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
                 </div>
             </div>
@@ -439,19 +417,14 @@
                 <div class="tp_box">
                 <h6 class="big-bld">Platforms Supported</h6>
                 <ul class="list-unstyled">
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Web
-                        </span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Android</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span> iPhone/iPad</span>
-                    </li>
+                    @if (!empty($featured_all_data['platform_supported']))
+                        @foreach ($featured_all_data['platform_supported'] as $value)
+                            <li class="d-flex align-items-center">
+                                <span><img src="{{ asset('front/img/tik-mrk.svg') }}" alt="tick mark"></span>
+                                <span>{{ $value }}</span>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
                 </div>
             </div>
@@ -459,32 +432,14 @@
                 <div class="tp_box">
                 <h6 class="big-bld">Support Options</h6>
                 <ul class="list-unstyled">
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>
-                        Phone Support
-                        </span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Email/Help Desk</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Chat</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>24/7 (Live rep)</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>FAQs/Forum</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Knowledge Base</span>
-                    </li>
+                    @if (!empty($featured_all_data['support_options']))
+                    @foreach ($featured_all_data['support_options'] as $value)
+                        <li class="d-flex align-items-center">
+                            <span><img src="{{ asset('front/img/tik-mrk.svg') }}" alt="tick mark"></span>
+                            <span>{{ $value }}</span>
+                        </li>
+                    @endforeach
+                @endif
                 </ul>
                 </div>
             </div>
@@ -492,19 +447,14 @@
                 <div class="tp_box">
                 <h6 class="big-bld">Training Options</h6>
                 <ul class="list-unstyled">
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Videos
-                        </span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>Webinars</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span><img src="{{asset('front/img/tik-mrk.svg') }}"></span>
-                        <span>In Person</span>
-                    </li>
+                    @if (!empty($featured_all_data['tranning_options']))
+                    @foreach ($featured_all_data['tranning_options'] as $value)
+                        <li class="d-flex align-items-center">
+                            <span><img src="{{ asset('front/img/tik-mrk.svg') }}" alt="tick mark"></span>
+                            <span>{{ $value }}</span>
+                        </li>
+                    @endforeach
+                @endif
                 </ul>
                 </div>
             </div>
@@ -550,26 +500,13 @@
                 </div>
                 <h6 class="big-bld">Pros</h6>
                 <ul class="list-unstyled">
+                    @foreach ($prss_data as $value)
                     <li class="d-flex align-items-center">
                         <span> <img src="{{asset('front/img/pros-tick.svg') }}" alt=""></span>
                         <span class="lyt-text">
-                        Modern user interface
-                        </span>
+                        {{$value}}</span>
                     </li>
-                    <li class="d-flex align-items-center">
-                        <span> <img src="{{asset('front/img/pros-tick.svg') }}" alt=""></span>
-                        <span class="lyt-text">Customizable</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span> <img src="{{asset('front/img/pros-tick.svg') }}" alt=""></span>
-                        <span class="lyt-text">
-                        Offers in-app automations</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span> <img src="{{asset('front/img/pros-tick.svg') }}" alt=""></span>
-                        <span class="lyt-text">
-                        Includes templates</span>
-                    </li>
+                    @endforeach
                 </ul>
                 </div>
             </div>
@@ -580,18 +517,12 @@
                 </div>
                 <h6 class="big-bld">Cons</h6>
                 <ul class="list-unstyled">
+                    @foreach ($cons_data as $value)
                     <li class="d-flex align-items-center">
                         <span> <img src="{{asset('front/img/cons-cross.svg') }}" alt=""></span>
-                        <span class="lyt-text">Confusing pricing and plans</span>
+                        <span class="lyt-text">{{$value}}</span>
                     </li>
-                    <li class="d-flex align-items-center">
-                        <span> <img src="{{asset('front/img/cons-cross.svg') }}" alt=""></span>
-                        <span class="lyt-text">Inconsistent and Byzantine navigation options</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <span> <img src="{{asset('front/img/cons-cross.svg') }}" alt=""></span>
-                        <span class="lyt-text">Free plan isn't designed for serious business use</span>
-                    </li>
+                    @endforeach
                 </ul>
                 </div>
             </div>
@@ -815,38 +746,7 @@
     <div class="container">
     <div class="about_asn_content">
         <div class="hd_content asan-text-para">
-            <h2 data-aos="fade-up" data-aos-duration="1000">Overview of Asana</h2>
-            <p data-aos="fade-up" data-aos-duration="1000">Asana is a widely recognized project management
-                platform created to help teams organize,
-                manage, and track their tasks and workflows efficiently. Launched in 2008, Asana has become
-                a staple for businesses of various sizes, offering a solution that helps teams focus on
-                their work rather than managing the coordination of it. It provides a structured way to
-                break projects into individual tasks, assign them to team members, and set deadlines, with
-                real-time tracking features to monitor progress. The platform supports a wide range of
-                industries and project types, making it adaptable for different business environments.
-                .
-            </p>
-            <p data-aos="fade-up" data-aos-duration="1000">Asana acts as a central hub for project-related
-                communication and task management, which
-                helps minimize scattered email chains and disorganized file storage. Whether teams are
-                working from an office or remotely, Asana facilitates collaboration by ensuring that all
-                work and project details remain in one place. Its scalability ensures that it fits both
-                small teams managing simple workflows and large organizations handling complex projects. 
-            </p>
-        </div>
-        <div class="asan-text-para" data-aos="fade-up" data-aos-duration="1000">
-            <h6 class="h6_26 fw_700">Asana Integrations</h6>
-            <p>Asana is equipped with a wide range of features designed to streamline project management. At its
-                core, it allows users to create tasks within projects, assign them to individuals, and set due
-                dates. Each task can include detailed descriptions, attachments, and links to related tasks,
-                ensuring all relevant information is centralized. The ability to create subtasks further helps
-                break down larger tasks into manageable components.
-            </p>
-            
-            <p>For managers, workload tracking is a valuable tool. Asana allows users to see how tasks are
-                distributed among team members, helping them identify imbalances and adjust workloads to prevent
-                burnout or delays in project completion.
-            </p>
+            {{ $product->overview }}
         </div>
         <div class="asn_dv asv_orng asv_blue" data-aos="fade-up" data-aos-duration="1000">
             <div class="asn_dv_contnt">
@@ -880,7 +780,7 @@
                             <a href="javascript:void(0)"
                                 class="cta cta_orange d-flex align-items-center" tabindex="0">
                                 Visit
-                                Website 
+                                Website
                                 <div class="right-arw">
                                     <img src="{{asset('front/img/right-arrw.svg') }}" alt="">
                                 </div>

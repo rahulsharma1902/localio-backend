@@ -34,9 +34,9 @@
                             <!-- Product Description -->
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="description">Product Description</label>
+                                    <label class="form-label" for="description">Product Overview</label>
                                     <div class="form-control-wrap">
-                                        <textarea class="description" name="description" id="description" rows="100" cols="50">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                        <textarea class="description" name="description" id="editor1" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                         @error('description')
                                             <div class="error text-danger">{{ $message }}</div>
                                         @enderror
@@ -164,23 +164,44 @@
 
 
                         <!-- Product Link -->
-                        <div class="col-md-12 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="product-link">Product Link</label>
-                                <input type="url" class="form-control" name="product_link" id="product-link"
-                                    value="{{ old('product_link') }}" placeholder="Product Link">
+                        <div class="row mt-3">
+
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-link">Product Link</label>
+                                    <input type="url" class="form-control" name="product_link" id="product-link"
+                                        value="{{ old('product_link') }}" placeholder="Product Link">
+                                </div>
+                                @error('product_link')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('product_link')
-                                <div class="error text-danger">{{ $message }}</div>
-                            @enderror
+
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product_feature">Product Feature</label>
+                                    <select class="form-control product_feature" name="product_feature[]"
+                                        multiple="multiple">
+                                            @foreach ($product_feature as $key => $value)
+                                                <option value="{{$key}}">{{ $value }}
+                                                </option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                                @error('product_feature')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                         </div>
+
 
                         {{-- overview data --}}
                         <div class="col-md-12 mt-3">
                             <div class="form-group">
                                 <label class="form-label" for="description">Product Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea class="description" name="overview" id="description" rows="100" cols="50">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                    <textarea class="description" name="overview" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                     @error('overview')
                                         <div class="error text-danger">{{ $message }}</div>
                                     @enderror
@@ -232,6 +253,41 @@
         </div>
     </div>
     <script>
+
+        // add ck editor
+
+        ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: [
+                'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'insertTable',
+                'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+            ],
+            image: {
+                toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+            },
+            language: 'en'
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    ClassicEditor
+        .create(document.querySelector('#editor1'), {
+            toolbar: [
+                'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'insertTable',
+                'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+            ],
+            image: {
+                toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+            },
+            language: 'en'
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+
+
         // add data
 
         $(document).ready(function() {
@@ -276,10 +332,14 @@
         });
 
 
-        // select 2 
+        // select 2
         $(document).ready(function() {
             $('.product-category').select2({
                 placeholder: "Select Product Category"
+            });
+
+            $('.product_feature').select2({
+                placeholder: "Select Product Feature"
             });
         });
     </script>
