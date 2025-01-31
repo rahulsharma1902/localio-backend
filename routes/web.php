@@ -38,6 +38,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('admin/page-tile-translation/{id}', [AdminDashController::class, 'deletePageTileTranslation'])->name('admin.page_tile_translation.delete');
     Route::post('/admin/page-tile-translation/update', [AdminDashController::class, 'MPSsectionUpdate'])->name('admin.page_tile_translation.update');
     Route::post('/admin/page-tile-specialist-translation/update', [AdminDashController::class, 'SpecialistUpdate'])->name('admin.page_tile_specialist_translation.update');
+    Route::get('/admin/page-expert-guide/update', [AdminDashController::class, 'ExperGuide'])->name('admin.page-expert-guide.update');
+    Route::post('/admin/expert-guide/update', [AdminDashController::class, 'ExperGuideUpdate'])->name('expertGuide.update');
+    Route::post('/admin/page-education-translation/update', [AdminDashController::class, 'ESsectionUpdate'])->name('admin.page_education_translation.update');
+
 
 
  

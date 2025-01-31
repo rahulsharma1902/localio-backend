@@ -192,7 +192,7 @@
                                                         data-id="{{ $translation->id }}"
                                                         data-title="{{ $translation->title }}"
                                                         data-des="{{ $translation->description }}"
-                                                        data-image="{{ $translation->image }}">Edit</button>
+                                                        data-image="{{ asset($translation->image) }}">Edit</button>
                                                 </td>
                                                 @endforeach
                                             </tr>
@@ -359,7 +359,7 @@
                         <button type="button" id="save-ss-button" style="display: none;">Save</button>
                     </div>
                 </div>
-                </div>
+               
                  </br>
 
                 <!-- Service Software Heading -->
@@ -395,6 +395,7 @@
                 <!-- Submit Button -->
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary">Update</button>
+                </div>
                 </div>
         </div>
         </form>
@@ -635,7 +636,7 @@ $(document).ready(function() {
 
     $('#save-ss-button').on('click', function() {
         let itemId = $('#updated-s-id').val(); // Assuming you're saving the item ID in the form
-        
+        console.log(itemId)
         let title = $('#updated-s-title').val(); // Get updated title
         let description = $('#updated-s-description').val(); // Get updated description
         let imageFile1 = $('#update-special-image-input')[0].files[0]; // Get updated image source (base64 or URL)
@@ -645,7 +646,7 @@ $(document).ready(function() {
         formData1.append('id', itemId);
         formData1.append('title', title);
         formData1.append('desc', description);
-
+console.log(imageFile1)
         if (imageFile1) {
             formData1.append('img', imageFile1); // Append the image file
         }
