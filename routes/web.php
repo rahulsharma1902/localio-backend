@@ -28,7 +28,7 @@ Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout
 Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
 
 // Admin Routes 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('/admin-dashboard', [AdminDashController::class, 'index'])->name('admin_dashboard');
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
@@ -176,7 +176,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 // Add Locale 
-Route::group(['prefix' => '{locale?}', 'middleware' => ['AddLocaleAutomatically']], function () {
+Route::group(['prefix' => '{locale?}', 'middleware' => ['guest','AddLocaleAutomatically']], function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
     Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
     Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
