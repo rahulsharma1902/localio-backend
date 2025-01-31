@@ -160,17 +160,13 @@
             <h4 data-aos="zoom-in" data-aos-duration="1000">{{ $expertGuide->how_to_check_email ?? '' }}</h4>
             <div class="mail_ovr size18" data-aos="fade-up" data-aos-duration="1000">
                 <h6>{{ $expertGuide->overview ?? '' }}</h6>
-                <p>Email is one of the most widely used forms of communication, so having a professional email
-                    address @ your domain is crucial. If you're still using silly name + randomnumbers@yahoo.com,
-                    you may be giving the impression that your company is inexperienced or—even worse—raising doubts
-                    about whether you're a legitimate company.
-                </p>
+                <p>{!! $expertGuide->email_description ?? '' !!}</p>
                 <div class="metl-stp">
                     <p>Take control of your reputation and check out<a href="#" class="blu_lnk"> Email Account
                             Setup </a>to learn how to create an email account at your domain.
                     </p>
                 </div>
-                <div class="mail_acknd size20">
+                <!-- <div class="mail_acknd size20">
                     <p class="size18">Once you've created your professional email address, how're you supposed to
                         check your email?
                         You're going to need an email client for that. And what is an email client? Email clients
@@ -181,16 +177,13 @@
                         <li><a href="#">Email Applications</a></li>
                         <li><a href="#">IMAP and POP</a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <div class="mail_ovr" data-aos="fade-up" data-aos-duration="1000">
-                <h6>Webmail</h6>
-                <p>Webmail, or web-based email, is portable and accessible anywhere that has an internet connection
-                    because the application that sends and reads your mail is accessed on a website from your
-                    browser. Examples of webmail we offer is Roundcube and can be accessed at Logomax webmail.
-                </p>
+                <h6>{{ $expertGuide->webmail ?? '' }}</h6>
+                <p>{!! $expertGuide->webmail_description ?? '' !!}</p>
                 <div class="mail_acknd">
-                    <div class="big_text ">
+                    <!-- <div class="big_text ">
                         <p class="big-bld">A few advantages of using webmail to access your email are:</p>
                     </div>
                     <ul>
@@ -198,7 +191,7 @@
                         <li>Portable and accessible anywhere.</li>
                         <li>Great if you can't install software on your work or school computer.</li>
                         <li>Save space on your computer; email is stored online.</li>
-                    </ul>
+                    </ul> -->
                     <div class="rnd_text size18">
                         <p>Roundcube is the option for webmail that is built into your cPanel.</p>
                         <ul>
@@ -221,16 +214,10 @@
                 </div>
             </div>
             <div class="mail_ovr" data-aos="fade-up" data-aos-duration="1000">
-                <h6>Email Applications</h6>
-                <p class="size18">An email application is a software installed on your computer or mobile device
-                    that is used to
-                    read and send an email. Your email is stored on your computer, including deleted and sent mail,
-                    giving you the ability to manage your email offline. Not everyone needs offline access to their
-                    email, but if you do, being able to work from a train or on a long flight without Wi-Fi is
-                    definitely an advantage to using an email application. Some common email applications are
-                    Outlook, Thunderbird, and Apple Mail.
+                <h6>{{ $expertGuide->email_application ?? '' }}</h6>
+                <p class="size18">{!! $expertGuide->email_app_description ?? '' !!}
                 </p>
-                <div class="mail_acknd size18">
+                <!-- <div class="mail_acknd size18">
                     <p class="big_text">A few advantages of using an email application are:</p>
                     <ul>
                         <li>Accessible offline.</li>
@@ -241,14 +228,11 @@
                             subjects, headers, etc.
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <div class="mail_ovr size18" data-aos="fade-up" data-aos-duration="1000">
-                <h6>IMAP and POP</h6>
-                <p>When an email is sent, the message is stored on an email server where it waits to be retrieved.
-                    Your email application can be set up to retrieve email from the email server using one of two
-                    different protocols: IMAP or POP3. The protocol you'll use mostly depends on the number of
-                    devices you'll use to access your email.
+                <h6>{{ $expertGuide->imap ?? '' }}</h6>
+                <p>{!! $expertGuide->imap_pop ?? '' !!}
                 </p>
                 <div class="metl-stp size18">
                     <p>Note: For information on configuring your email, please see <a href="#" class="blu_lnk"> Setting
@@ -256,7 +240,7 @@
                             IMAP. </a>
                     </p>
                 </div>
-                <div class="mail_acknd">
+                <!-- <div class="mail_acknd">
                     <div class="rnd_text size18">
                         <ul>
                             <li class="mlt_sp"><span class="big-bld">IMAP -</span> This is the setting you'll use if
@@ -276,7 +260,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="metl-stp mtp_gry size18" data-aos="fade-up" data-aos-duration="1000">
                 <div class="mlt_sp">

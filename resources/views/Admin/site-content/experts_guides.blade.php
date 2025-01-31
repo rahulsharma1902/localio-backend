@@ -18,44 +18,43 @@
     </div>
     <div class="card card-bordered">
         <div class="card-inner">
-
-
             <form action="{{ route('expertGuide.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <!-- Title Field -->
                 <div>
                     <div>
-                        <label for="title">Title</label>
+                        <label for="title"><strong>Title</strong></label>
 
                         <input type="text" name="title" id="title" class="form-control"
                             value="{{ $expertGuide->title ?? '' }}" required>
 
                     </div>
-
+                    <br>
                     <!-- Description Field -->
                     <div>
-                        <label for="description">Description</label>
+                        <label for="description"><strong>Description</strong></label>
                         <textarea name="description" id="description" class="form-control" value=""
                             required>{{ $expertGuide->description ?? '' }}</textarea>
                     </div>
-
+                    <br>
                     <!-- Education Title Field -->
                     <div>
-                        <label for="education_title">Education Title</label>
+                        <label for="education_title"><strong>Education Title</strong></label>
                         <input type="text" name="education_title" id="education_title" class="form-control"
                             value="{{ $expertGuide->education_title ?? '' }}" required>
                     </div>
-
+                    <br>
                     <!-- Education Description Field -->
                     <div>
-                        <label for="education_description">Education Description</label>
+                        <label for="education_description"><strong>Education Description</strong></label>
                         <textarea name="education_description" id="education_description" value="" class="form-control"
                             required>{{ $expertGuide->education_description ?? '' }}</textarea>
                     </div>
+                    <br>
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
-                                Education
+                            <strong> Education </strong>
                                 <button type="button" class="btn btn-success btn-sm float-end"
                                     id="add-education-item">Add
                                     Item</button>
@@ -92,9 +91,11 @@
 
                         </div>
                     </div>
+                    <br>
                     <div id="education-items-list" class="popular-items-container">
                         <!-- Popular items will be appended here -->
                     </div>
+                    
                     <div id="education-items" class="popular-items-container">
                         <div class="col-md-12 mt-4">
                             <div class="card border">
@@ -176,84 +177,86 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <!-- Smart Search Title -->
                         <div>
-                            <label for="smart_search">Smart Search Title</label>
+                            <label for="smart_search"><strong>Smart Search Title</strong></label>
                             <input type="text" name="smart_search" id="smart_search" class="form-control"
                                 value="{{ $expertGuide->smart_search ?? '' }}" required>
                         </div>
-
+                        <br>
                         <!-- Smart Search Description -->
                         <div>
-                            <label for="smart_search_description">Smart Search Description</label>
+                            <label for="smart_search_description"><strong>Smart Search Description</strong></label>
                             <textarea name="smart_search_description" id="smart_search_description" value=""
                                 class="form-control"
                                 required>{{ $expertGuide->smart_search_description ?? '' }}</textarea>
                         </div>
-
+                        <br>
                         <!-- How To Check Email (CKEditor) -->
                         <div>
-                            <label for="how_to_check_email">How To Check Email</label>
+                            <label for="how_to_check_email"><strong>How To Check Email</strong></label>
                             <input type="text" name="how_to_check_email" id="how_to_check_email" class="form-control"
                                 value="{{ $expertGuide->how_to_check_email ?? '' }}" required>
                         </div>
-
+                        <br>
                         <!-- Overview -->
                         <div>
-                            <label for="overview">Overview Heading</label>
+                            <label for="overview"><strong>Overview Heading</strong></label>
                             <input type="text" name="overview" id="overview" class="form-control"
                                 value="{{ $expertGuide->overview ?? '' }}" required>
                         </div>
-
+                        <br>
                         <div>
-                            <label for="email_description">Email Description</label>
+                            <label for="email_description"><strong>Email Description</strong></label>
                             <textarea name="email_description" id="email_description" class="description form-control"
                                 value="" required>{{ $expertGuide->email_description ?? '' }}</textarea>
                         </div>
-                      
+                        <br>
                         <!-- Webmail -->
                         <div>
-                            <label for="webmail">Webmail</label>
+                            <label for="webmail"><strong>Webmail</strong></label>
                             <input type="text" name="webmail" id="webmail" class="form-control"
                                 value="{{ $expertGuide->webmail ?? '' }}" required>
                         </div>
+                        <br>
                         <div>
-                            <label for="webmail_description">webmail Description</label>
+                            <label for="webmail_description"><strong>webmail Description</strong></label>
                             <textarea name="webmail_description" id="webmail_description"
                                 class="description form-control"
                                 value="">{{ $expertGuide->webmail_description ?? '' }}</textarea>
                         </div>
-                    
+                        <br>
                         <!-- Email Application -->
                         <div>
-                            <label for="email_application">Email Application</label>
+                            <label for="email_application"><strong>Email Application</strong></label>
                             <input type="text" name="email_application" id="email_application" class="form-control"
                                 value="{{ $expertGuide->email_application ?? '' }}" required>
                         </div>
-
+                        <br>
                         <div>
-                            <label for="email_app_description">Email Application Description</label>
+                            <label for="email_app_description"><strong>Email Application Description</strong></label>
                             <textarea name="email_app_description" id="email_app_description"
                                 class="description form-control"
                                 value="">{{ $expertGuide->email_app_description ?? '' }}</textarea>
                         </div>
-                     
+                        <br>
                         <!-- IMAP and POP -->
                         <div>
-                            <label for="imap">IMAP and POP</label>
+                            <label for="imap"><strong>IMAP and POP</strong></label>
                             <input type="text" name="imap" id="imap" class="form-control"
                                 value="{{ $expertGuide->imap ?? '' }}" required>
                         </div>
-
+                        <br>
                         <div>
-                            <label for="imap_pop">IMAP & POP Description</label>
+                            <label for="imap_pop"><strong>IMAP & POP Description</strong></label>
                             <textarea name="imap_pop" id="imap_pop"
                                 class="description form-control">{{ $expertGuide->imap_pop ?? '' }}</textarea>
                         </div>
-                        </br>
+                        <br>
                         <!-- Submit Button -->
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary"><strong>Update</strong></button>
                         </div>
                     </div>
                 </div>
