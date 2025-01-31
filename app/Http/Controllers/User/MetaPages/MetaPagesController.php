@@ -7,12 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\SiteLanguages;
 use App\Models\Faq;
 use App\Models\WhoWeAre;
+use App\Models\ExpertGuides;
 use App\Models\PageTile;
 class MetaPagesController extends Controller
 {
     public function expertGuide()
     {
-        return view('User.meta-pages.support.expert_guide');
+        $expertGuide = ExpertGuides::first();
+        $pageTileTranslationEducation = PageTile::where('source', 'educationItem')
+        ->with('translations') // Eager load translations
+        ->get();
+        return view('User.meta-pages.support.expert_guide',compact('expertGuide','pageTileTranslationEducation'));
     }
     public function helpCenter()
     {
@@ -38,6 +43,7 @@ class MetaPagesController extends Controller
     public function whoWeAre()
     {
         $whoWeAre = WhoWeAre::first();
+      
         $pageTileTranslationPopular = PageTile::where('source', 'popularItem')
         ->with('translations')  // Eager load translations
         ->get();
@@ -45,6 +51,8 @@ class MetaPagesController extends Controller
     $specilistTileTranslation = PageTile::where('source', 'specialists')
         ->with('translations')  // Eager load translations
         ->get();
+      
         return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre','pageTileTranslationPopular','specilistTileTranslation'));
     }
+ 
 }

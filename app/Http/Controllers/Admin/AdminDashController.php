@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\WhoWeAre;
+use App\Models\ExpertGuides;
 use App\Models\PageTile;
 use App\Models\PageTileTranslation;
 use Illuminate\Support\Facades\Hash;
@@ -376,5 +377,154 @@ class AdminDashController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Item and its associated page tile deleted successfully!');
+    }
+    public function ExperGuide()
+    {
+        $expertGuide = ExpertGuides::first();
+        $pageTileTranslationEducation = PageTile::where('source', 'educationItem')
+            ->with('translations') // Eager load translations
+            ->get();
+
+        return view('Admin.site-content.experts_guides', compact('expertGuide', 'pageTileTranslationEducation'));
+    }
+    public function ESsectionUpdate(Request $request)
+    {
+        //return response()->json($request->all());
+        try {
+            $pageTileTranslation = PageTileTranslation::find($request->id);
+
+            // return response()->json($pageTileTranslation);
+
+            if (!$pageTileTranslation) {
+                return response()->json(['error' => false, 'msg' => 'Item not found.']);
+            }
+
+            $pageTileTranslation->title = $request->title;
+            $pageTileTranslation->description = $request->des;
+            $pageTileTranslation->status = $request->input('status', 1);
+            // Handle image upload
+
+            // Handle Image Upload (Only if a new image is provided)
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '_education_item_.' . $image->getClientOriginalExtension();
+                $image->move(public_path('front/img/'), $filename);
+                $pageTileTranslation->image = 'front/img/' . $filename;
+            }
+
+            $pageTileTranslation->save();
+
+            return response()->json(['success' => true, 'msg' => 'Popular item updated successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => false, 'msg' => 'Error updating item: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function ExperGuideUpdate(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'education_title' => 'required|string|max:255',
+            'education_description' => 'required|string',
+            'smart_search' => 'required|string|max:255',
+            'smart_search_description' => 'required|string',
+            'how_to_check_email' => 'required|string',
+            'overview' => 'required|string|max:255',
+            'email_description' => 'required|string',
+            'webmail' => 'required|string|max:255',
+            'webmail_description' => 'nullable|string',
+            'email_application' => 'required|string|max:255',
+            'email_app_description' => 'nullable|string',
+            'imap' => 'required|string|max:255',
+            'imap_pop' => 'nullable|string',
+        ]);
+
+        $expertGuide = ExpertGuides::first();
+        $pageTile = PageTile::first() ?? new PageTile();
+        $pageTileTranslation = PageTileTranslation::first() ?? new PageTileTranslation();
+
+        if (!$expertGuide) {
+            return redirect()
+                ->back()
+                ->with('error', 'Expert Guide not found.');
+        }
+
+        $expertGuide->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'education_title' => $request->education_title,
+            'education_description' => $request->education_description,
+            'smart_search' => $request->smart_search,
+            'smart_search_description' => $request->smart_search_description,
+            'how_to_check_email' => $request->how_to_check_email,
+            'overview' => $request->overview,
+            'email_description' => $request->email_description,
+            'webmail' => $request->webmail,
+            'webmail_description' => $request->webmail_description,
+            'email_application' => $request->email_application,
+            'email_app_description' => $request->email_app_description,
+            'imap' => $request->imap,
+            'imap_pop' => $request->imap_pop,
+        ]);
+
+        $popularItems = $request->input('education_items', []);
+        if (isset($popularItems['title']) && is_array($popularItems['title'])) {
+            foreach ($popularItems['title'] as $index => $title) {
+                $description = $popularItems['description'][$index] ?? null;
+                $image = $popularItems['image'][$index] ?? null;
+
+                $filename = null;
+                if ($image) {
+                    if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+                        $extension = $type[1];
+                        $image = substr($image, strpos($image, ',') + 1);
+                        $image = base64_decode($image);
+                        $filename = now()->format('YmdHis') . '_education_item_' . $index . '.' . $extension;
+                        file_put_contents(public_path('front/img/') . $filename, $image);
+                    }
+                }
+
+                // Create a new PageTile if needed
+
+                $pageTile = new PageTile();
+                $pageTile->lang_id = $request->input('lang_id', 1);
+                $pageTile->image = $image ? 'front/img/' . $filename : null;
+                $pageTile->type = 'educationItem';
+                $pageTile->source = 'educationItem';
+                $pageTile->save();
+
+                // Create or update PageTileTranslation
+
+                $pageTileTranslation = new PageTileTranslation();
+                $pageTileTranslation->page_tile_id = $pageTile->id;
+                $pageTileTranslation->title = $title;
+                $pageTileTranslation->description = $description;
+                $pageTileTranslation->image = $image ? 'front/img/' . $filename : $pageTileTranslation->image;
+                $pageTileTranslation->status = $request->input('status', 1);
+                $pageTileTranslation->save();
+            }
+        }
+        $pageTile->update($request->except(['image']));
+
+        // Handle file uploads if necessary
+        $this->handleEducationFileUpload($request, $pageTile);
+        $expertGuide->save();
+        return redirect()
+            ->back()
+            ->with('success', 'Updated successfully!');
+    }
+
+    protected function handleEducationFileUpload(Request $request, $pageTile)
+    {
+        // Handle bg_top_img upload
+
+        // Handle page tile image upload
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = now()->format('YmdHis') . '_education_item_.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $pageTile->image = 'front/img/' . $filename;
+        }
     }
 }
