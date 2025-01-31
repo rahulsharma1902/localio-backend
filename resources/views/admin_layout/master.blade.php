@@ -135,6 +135,10 @@
                                         <span class="nk-menu-text">Products</span>
                                     </a>
                                     <ul class="nk-menu-sub">
+                                        
+                                    </ul>
+
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/products') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Product</span>
@@ -168,11 +172,10 @@
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
-                                        <!-- <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span> -->
                                         <span class="nk-menu-text">categories</span>
                                     </a>
-
                                 </li>
+
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/filters') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><em class="icon ni ni-filter-fill"></em></span>
@@ -181,7 +184,6 @@
                                     </a>
 
                                 </li>
-
 
                                 <!-- Globals  -->
                                 <li class="nk-menu-item has-sub">
@@ -238,8 +240,6 @@
                                         </li>
                                     </ul>
                                 </li>
-
-
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -337,30 +337,6 @@
 
                                     </ul>
                                 </li>
-                                <!-- <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
-                                        <span class="nk-menu-text">User Manage</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/users-list') }}" class="nk-menu-link"><span class="nk-menu-text">User List - Designer</span></a>
-                                        </li>
-
-                                    </ul>
-                                </li> -->
-                                <!-- <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><i class="fas fa-network-wired"></i></span>
-                                        <span class="nk-menu-text">Genre</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/genre') }}" class="nk-menu-link"><span class="nk-menu-text">Genre List</span></a>
-                                        </li>
-
-                                    </ul>
-                                </li> -->
                             </ul>
                         </div>
                     </div>

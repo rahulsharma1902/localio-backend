@@ -10,7 +10,7 @@
         }
     </style>
     <?php
-    $locale = getCurrentLocale();
+         $locale = getCurrentLocale();
     ?>
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head nk-block-head-sm">
