@@ -141,28 +141,23 @@
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('productfeature.index') }}" class="nk-menu-link"><span
-                                                    class="nk-menu-text">Product Feature</span>
-                                            </a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ route('productfeature.add') }}?tab=typical_custmor"
+                                            <a href="{{ route('productfeature.index') }}?tab=typical_custmor"
                                                 class="nk-menu-link"><span class="nk-menu-text">Typical Customers</span>
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('productfeature.add') }}?tab=platform_supported"
+                                            <a href="{{ route('productfeature.index') }}?tab=platform_supported"
                                                 class="nk-menu-link"><span class="nk-menu-text">Platforms
                                                     Supported</span>
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('productfeature.add') }}?tab=support_options"
+                                            <a href="{{ route('productfeature.index') }}?tab=support_options"
                                                 class="nk-menu-link"><span class="nk-menu-text">Support Options</span>
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('productfeature.add') }}?tab=tranning_options"
+                                            <a href="{{ route('productfeature.index') }}?tab=tranning_options"
                                                 class="nk-menu-link"><span class="nk-menu-text">Training Options</span>
                                             </a>
                                         </li>

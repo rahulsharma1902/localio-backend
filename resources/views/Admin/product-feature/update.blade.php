@@ -20,6 +20,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <input type="hidden" name="feture_translate_id" value="{{$producttranslation['id']}}">
+                                            <input type="hidden" name="tab" value="{{request('tab')}}">
                                             <input type="text" class="form-control" name="name" id="name"
                                                 placeholder="Product Feature" value="{{$producttranslation['name']}}">
                                         </div>

@@ -16,7 +16,7 @@
         <div class="nk-block-head nk-block-head-sm">
             <div class="nk-block-between">
                 <div class="nk-block-head-content">
-                    <h3 class="nk-block-title page-title">Product Feature</h3>
+                    <h3 class="nk-block-title page-title">Product Feature  {{request('tab')}}</h3>
                 </div>
                 <div class="nk-block-head-content">
                     <div class="toggle-wrap nk-block-tools-toggle">
@@ -25,9 +25,9 @@
                         <div class="toggle-expand-content" data-content="pageMenu">
                             <ul class="nk-block-tools g-3">
                                 <li class="nk-block-tools-opt">
-                                    <a href="{{ route('productfeature.add') }}"
+                                    <a href="{{ route('productfeature.add',['tab' => request('tab')]) }}"
                                         class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                    <a href="{{ route('productfeature.add') }}"
+                                    <a href="{{ route('productfeature.add',['tab' => request('tab')]) }}"
                                         class=" btn btn-primary d-none d-md-inline-flex"><em
                                             class="icon ni ni-plus"></em><span>Add Feature</span></a>
                                 </li>
@@ -51,13 +51,13 @@
                     </thead>
                     @if (isset($products_feature))
                         <tbody>
-                            @foreach ($products_feature as $product)
+                            @foreach ($products_feature as $key => $feature)
                                 <tr class="nk-tb-item">
                                     <td class="nk-tb-col">
                                         <div class="user-card">
                                             <div class="user-info">
                                                 <span class="tb-lead">
-                                                    {{ $product['name'] }}
+                                                    {{$feature['featuer_name']}}
                                                 </span>
                                             </div>
                                         </div>
@@ -66,7 +66,7 @@
                                         <div class="user-card">
                                             <div class="user-info">
                                                 <span class="tb-lead">
-                                                    {{ $product['status'] }}
+                                                    {{$feature['feature_status']}}
                                                 </span>
                                             </div>
                                         </div>
@@ -79,11 +79,11 @@
                                                 style="height: 68px !important">
                                                 <ul class="link-list-opt no-bdr">
                                                     <li><a
-                                                            href="{{ route('productfeature.update', ['id' => $product['id']]) }}"><em
+                                                            href="{{ route('productfeature.update', ['id' =>  $feature['fetaure_id'],'tab' => request('tab')]) }}"><em
                                                                 class="icon ni ni-edit-fill"></em><span>Edit</span></a>
                                                     </li>
                                                     <li><a
-                                                            href="{{ route('productfeature.remove-process', ['id' => $product['id']]) }}"><em
+                                                            href="{{ route('productfeature.remove-process', ['id' =>  $feature['fetaure_id'],'tab' => request('tab')]) }}"><em
                                                                 class="icon ni ni-trash-fill"></em><span>Remove</span></a>
                                                     </li>
                                                 </ul>

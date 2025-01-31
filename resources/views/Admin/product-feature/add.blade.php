@@ -3,7 +3,7 @@
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
-                <h4 class="title nk-block-title">Add Product Feature</h4>
+                <h4 class="title nk-block-title">Add Product {{ request('tab') }}</h4>
             </div>
         </div>
         <?php $lang = getCurrentLocale(); ?>
@@ -19,7 +19,7 @@
                                     <label class="form-label" for="name">Product Feature</label>
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <input type="hidden" name="tab" value="{{ request('tab', 'customer') }}">
+                                            <input type="hidden" name="tab" value="{{ request('tab') }}">
                                             <input type="text" class="form-control" name="name" id="name"
                                                 placeholder="Product Feature" value="">
                                         </div>

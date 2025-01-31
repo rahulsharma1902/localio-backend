@@ -15,9 +15,22 @@ class ProductFetureController extends Controller
 {
     public function index()
     {
+        $custmor = request('tab');
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id', '1')->first();
-        $products_feature = ProductFeatureTranslate::all()->toArray();
+        $product_feature_ids =   ProductFeature::where('type',$custmor)->pluck('id')->toArray();
+        $products_feature = [];
+        foreach ($product_feature_ids as $key => $value) {
+            $products_feature_name = ProductFeatureTranslate::where('product_feture_id',$value)->value('name');
+            $product_feature_id = ProductFeatureTranslate::where('product_feture_id',$value)->value('id');
+            $product_feature_status = ProductFeatureTranslate::where('product_feture_id',$value)->value('status');
+            $arr = [
+                'fetaure_id' => $product_feature_id ,
+                'featuer_name' => $products_feature_name ,
+                'feature_status' => $product_feature_status
+            ];
+            $products_feature[] = $arr;
+        }
         return view('Admin.product-feature.index', compact('products_feature'));
     }
 
@@ -31,7 +44,7 @@ class ProductFetureController extends Controller
             'name' => 'required|unique:product_features_translation',
         ]);
 
-        $productfeatureid =   ProductFeature::create([
+        $productfeatureid = ProductFeature::create([
             'lang_id' => 1,
             'type' => $request->tab,
             'status' => 'active'
@@ -44,7 +57,7 @@ class ProductFetureController extends Controller
         ]);
 
         if ($product_translate_feture) {
-            return redirect()->back()->with('success', 'successfull created Prodcut Feature');
+            return redirect()->back()->with('success', 'successfull created product Feature');
         } else {
             return redirect()->back()->with('error', 'Some thing Went Wrong !');
         }
@@ -65,7 +78,7 @@ class ProductFetureController extends Controller
             'name' => $request->name
         ]);
         if ($name) {
-            return redirect()->route('productfeature.index')->with('success', 'Successfull updated');
+            return redirect()->route('productfeature.index',['tab' => request('tab')])->with('success', 'Successfull updated');
         } else {
             return redirect()->back()->with('error', 'Some thing went wrong');
         }
