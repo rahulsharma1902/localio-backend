@@ -12,8 +12,6 @@ use App\Models\Basket;
 use  Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\OtpVerification;
-// use App\Mail\UserRegisterMail;
-// use App\Mail\ForgottenPassword;
 use App\Mail\ForgetPasswordMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -22,6 +20,9 @@ use App\Models\Country;
 use App;
 use App\Models\MetaVendor;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
+
+
 class AuthenticationController extends Controller
 {
     public function index(){
@@ -88,12 +89,16 @@ class AuthenticationController extends Controller
     }
 
 
-    public function logout(){
-     
+    public function logout() {
         Auth::logout();
-        return redirect()->back()->with('success',"You have logged out succesfully");
+        Session::flush();
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+        Artisan::call('view:clear');
+    
+        return redirect()->route('home')->with('success', "You have logged out successfully");
     }
-
 
 
 
