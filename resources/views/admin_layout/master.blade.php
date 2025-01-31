@@ -140,6 +140,7 @@
                                                     class="nk-menu-text">Product</span>
                                             </a>
                                         </li>
+    
                                         <li class="nk-menu-item">
                                             <a href="{{ route('productfeature.index') }}?tab=typical_custmor"
                                                 class="nk-menu-link"><span class="nk-menu-text">Typical Customers</span>
@@ -189,7 +190,7 @@
                                         <span class="nk-menu-text">Global Section</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item ">
+                                        <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/header-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Header</span></a>
                                         </li>
