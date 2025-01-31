@@ -18,7 +18,8 @@ class AdminCheck
     {
         if(Auth::check()){
             $user = Auth::user();
-            if( $user->user_type=='admin'){
+            if($user->user_type=='admin'){
+                session(['lang_id' => 1]);
                 return $next($request); 
             }else {
                 return redirect('/')->with('error','kindly login to open dashboard');
