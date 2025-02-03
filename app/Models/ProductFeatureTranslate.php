@@ -11,6 +11,7 @@ class ProductFeatureTranslate extends Model
 
     protected $fillable = [
         'name',
+        'product_id',
         'product_feture_id',
         'status'
     ];

@@ -162,7 +162,6 @@
                             </div>
                         </div>
 
-
                         <!-- Product Link -->
                         <div class="row mt-3">
 
@@ -241,12 +240,29 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="row mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="product-category">Product Feature</label>
+                                <select class="form-control product-feature" name="product_feature[]"
+                                    multiple="multiple">
+                                   <option value="1">1</option>
+                                   <option value="2">2</option>
+                                   <option value="3">3</option>
+                                   <option value="4">4</option>
+                                   <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center btn-localio"><em
                                         class="icon ni ni-plus"></em><span>{{ isset($product) ? 'Update Product' : 'Add Product' }}</span></button>
                             </div>
                         </div>
+
+                        
                     </form>
                 </div>
             </div>
@@ -255,7 +271,6 @@
     <script>
 
         // add ck editor
-
         ClassicEditor
         .create(document.querySelector('#editor'), {
             toolbar: [
@@ -338,7 +353,7 @@
                 placeholder: "Select Product Category"
             });
 
-            $('.product_feature').select2({
+            $('.product-feature').select2({
                 placeholder: "Select Product Feature"
             });
         });
