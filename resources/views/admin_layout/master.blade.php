@@ -371,6 +371,7 @@
                                                 class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                                 data-bs-toggle="dropdown">
                                                 {{ Cookie::get('lang_code', config('app.locale')) }}
+                                                {{-- {{config('app.locale')}} --}}
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
