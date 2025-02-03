@@ -193,7 +193,7 @@
                         <li>Save space on your computer; email is stored online.</li>
                     </ul> -->
                     <div class="rnd_text size18">
-                        <p>Roundcube is the option for webmail that is built into your cPanel.</p>
+                        <!-- <p>Roundcube is the option for webmail that is built into your cPanel.</p>
                         <ul>
                             <li><span class="big-bld">Roundcube</span> - As our most popular webmail client, it has
                                 a look and feel you'd expect from an email application but is available inside a
@@ -201,7 +201,7 @@
                                 drag-and-drop organization. When composing emails, you can set up preset responses
                                 to save time and write with spell check in a rich text HTML composer.
                             </li>
-                        </ul>
+                        </ul> -->
                         <div class="round_img">
                             <img src="{{asset('front/img/round..svg') }}">
                         </div>
@@ -264,9 +264,9 @@
             </div>
             <div class="metl-stp mtp_gry size18" data-aos="fade-up" data-aos-duration="1000">
                 <div class="mlt_sp">
-                    <p>If you need further assistance, feel free to contact us via Chat or Phone:</p>
+                    <p>{!! $expertGuide->assistant ?? '' !!}</p>
                 </div>
-                <ul>
+                <!-- <ul>
                     <li class="mlt_sp"><span class="big-bld" style="color: #000;">Chat Support</span> While on our
                         <a href="#" class="blu_lnk">website</a>, you should see a CHAT bubble in the bottom
                         right-hand
@@ -287,7 +287,7 @@
                 </ul>
                 <p>You may also refer to our <a href="#" class="blu_lnk">Knowledge Base</a> articles to help answer
                     common questions and guide you through various setup, configuration, and troubleshooting steps.
-                </p>
+                </p> -->
             </div>
             <div class="mail_ovr" data-aos="fade-up" data-aos-duration="1000">
                 <div class="metl-stp mtl-btm size18">

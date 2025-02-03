@@ -54,7 +54,7 @@
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
-                            <strong> Education </strong>
+                                <strong> Education </strong>
                                 <button type="button" class="btn btn-success btn-sm float-end"
                                     id="add-education-item">Add
                                     Item</button>
@@ -95,7 +95,7 @@
                     <div id="education-items-list" class="popular-items-container">
                         <!-- Popular items will be appended here -->
                     </div>
-                    
+
                     <div id="education-items" class="popular-items-container">
                         <div class="col-md-12 mt-4">
                             <div class="card border">
@@ -116,7 +116,7 @@
                                             </tr>
                                         <tbody>
                                             @forelse ($pageTileTranslationEducation as $index => $pageTile)
-                                            
+
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>
@@ -224,7 +224,6 @@
                             <label for="webmail_description"><strong>webmail Description</strong></label>
                             <textarea name="webmail_description" id="webmail_description"
                                 class="description form-control"
-
                                 value="">{{ $expertGuide->webmail_description ?? '' }}</textarea>
                         </div>
                         <br>
@@ -254,173 +253,181 @@
                             <textarea name="imap_pop" id="imap_pop"
                                 class="description form-control">{{ $expertGuide->imap_pop ?? '' }}</textarea>
 
-                                @error('description')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                        </div>
-                        
-  <br>
+                            @error('description')
+                            <div class="error text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                     
-                        <!-- Submit Button -->
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary"><strong>Update</strong></button>
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                        <label for="assistant"><strong>Assistance</strong></label>
+                        <textarea name="assistant" id="assistant" class="description form-control"
+                            value="">{{ $expertGuide->assistant ?? '' }}</textarea>
+                    </div>
+                    <br>
+                    <!-- Submit Button -->
+                    <div class="col-md-12 mt-4">
+                        <div class="form-group">
+                            <button type="submit" class="addCategory btn btn-primary btn-localio text-center"><em
+                                    class="icon ni ni-plus"></em><span>Update
+                                    Content</span></button>
                         </div>
                     </div>
                 </div>
         </div>
-    </div>
-    </form>
+        </form>
 
-   
-    <script>
-    $(document).ready(function() {
-        let educationItems = [];
 
-        $('#add-education-item').on('click', function() {
-            const title = $('#edu_title').val();
-            const description = $('#edu_desc').val();
-            const imageInput = $('#edu_image')[0];
-            const imageFile = imageInput.files[0];
+        <script>
+        $(document).ready(function() {
+            let educationItems = [];
 
-            if (title && description && imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const itemCard = $('<div class="item-card mt-2 p-2 border">');
-                    itemCard.html(`
+            $('#add-education-item').on('click', function() {
+                const title = $('#edu_title').val();
+                const description = $('#edu_desc').val();
+                const imageInput = $('#edu_image')[0];
+                const imageFile = imageInput.files[0];
+
+                if (title && description && imageFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const itemCard = $('<div class="item-card mt-2 p-2 border">');
+                        itemCard.html(`
                     <h5>${title}</h5>
                     <p>${description}</p>
                     <img src="${e.target.result}" alt="Image" style="width: 100px; height: auto;">
                     <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
                 `);
-                    const itemId = Date.now();
-                    $('#education-items-list').append(itemCard);
+                        const itemId = Date.now();
+                        $('#education-items-list').append(itemCard);
 
-                    const hiddenTitleInput = $(
-                        '<input type="hidden" name="education_items[title][]" value="' + title +
-                        '">');
-                    const hiddenDescriptionInput = $(
-                        '<input type="hidden" name="education_items[description][]" value="' +
-                        description + '">');
-                    const hiddenImageInput = $(
-                        '<input type="hidden" name="education_items[image][]" value="' + e
-                        .target
-                        .result + '">');
+                        const hiddenTitleInput = $(
+                            '<input type="hidden" name="education_items[title][]" value="' +
+                            title +
+                            '">');
+                        const hiddenDescriptionInput = $(
+                            '<input type="hidden" name="education_items[description][]" value="' +
+                            description + '">');
+                        const hiddenImageInput = $(
+                            '<input type="hidden" name="education_items[image][]" value="' + e
+                            .target
+                            .result + '">');
 
-                    $('#education-items-list').append(hiddenTitleInput, hiddenDescriptionInput,
-                        hiddenImageInput);
+                        $('#education-items-list').append(hiddenTitleInput, hiddenDescriptionInput,
+                            hiddenImageInput);
 
-                    educationItems.push({
-                        title: title,
-                        description: description,
-                        image: e.target.result,
-                        card: itemCard,
-                        hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput,
-                            hiddenImageInput
-                        ]
-                    });
+                        educationItems.push({
+                            title: title,
+                            description: description,
+                            image: e.target.result,
+                            card: itemCard,
+                            hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput,
+                                hiddenImageInput
+                            ]
+                        });
 
-                    clearForm();
-                };
-                reader.readAsDataURL(imageFile);
-            } else {
-                alert('Please fill in all fields and select an image.');
-            }
-
-        });
-
-        $('#education-items').on('click', '.update-education-item', function() {
-            let itemId = $(this).data('id'); // Assuming each item-card has a data-id attribute
-            console.log(itemId);
-            let title = $(this).data('title');
-            let description = $(this).data('des');
-            let imageSrc = $(this).data('image');
-
-            console.log(title, description);
-
-            // Populate the form fields with current data
-            $('#updated-es-id').val(itemId);
-            $('#updated-es-title').val(title);
-            $('#updated-es-description').val(description);
-            console.log(imageSrc);
-
-            $('#updated-es-image').attr('src', imageSrc);
-
-            // Show the update form
-            $('#updated-item-details').show();
-            $('#save-es-button').show();
-        });
-
-        $('#save-es-button').on('click', function() {
-            let itemId = $('#updated-es-id').val(); // Assuming you're saving the item ID in the form
-
-            let title = $('#updated-es-title').val(); // Get updated title
-            let description = $('#updated-es-description').val(); // Get updated description
-            let imageFile = $('#update-es-image-input')[0].files[
-            0]; // Get updated image source (base64 or URL)
-            let formData = new FormData();
-            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-            formData.append('id', itemId);
-            formData.append('title', title);
-            formData.append('des', description);
-
-            if (imageFile) {
-                formData.append('image', imageFile); // Append the image file
-            }
-
-            $.ajax({
-                url: '{{ url("/admin/page-education-translation/update") }}',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    alert(response.success);
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
-                    console.log(xhr.responseText); // Log the full error response
-                    alert('There was an error updating the popular item.');
-                }
-            });
-
-            // Handle file input change for image preview
-            $('#update-es-image-input').on('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function() {
-                        $('#updated-es-image').attr('src', reader.result);
+                        clearForm();
                     };
-                    reader.readAsDataURL(file);
+                    reader.readAsDataURL(imageFile);
+                } else {
+                    alert('Please fill in all fields and select an image.');
+                }
+
+            });
+
+            $('#education-items').on('click', '.update-education-item', function() {
+                let itemId = $(this).data('id'); // Assuming each item-card has a data-id attribute
+                console.log(itemId);
+                let title = $(this).data('title');
+                let description = $(this).data('des');
+                let imageSrc = $(this).data('image');
+
+                console.log(title, description);
+
+                // Populate the form fields with current data
+                $('#updated-es-id').val(itemId);
+                $('#updated-es-title').val(title);
+                $('#updated-es-description').val(description);
+                console.log(imageSrc);
+
+                $('#updated-es-image').attr('src', imageSrc);
+
+                // Show the update form
+                $('#updated-item-details').show();
+                $('#save-es-button').show();
+            });
+
+            $('#save-es-button').on('click', function() {
+                let itemId = $('#updated-es-id')
+            .val(); // Assuming you're saving the item ID in the form
+
+                let title = $('#updated-es-title').val(); // Get updated title
+                let description = $('#updated-es-description').val(); // Get updated description
+                let imageFile = $('#update-es-image-input')[0].files[
+                    0]; // Get updated image source (base64 or URL)
+                let formData = new FormData();
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                formData.append('id', itemId);
+                formData.append('title', title);
+                formData.append('des', description);
+
+                if (imageFile) {
+                    formData.append('image', imageFile); // Append the image file
+                }
+
+                $.ajax({
+                    url: '{{ url("/admin/page-education-translation/update") }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert(response.success);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        console.log(xhr.responseText); // Log the full error response
+                        alert('There was an error updating the popular item.');
+                    }
+                });
+
+                // Handle file input change for image preview
+                $('#update-es-image-input').on('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function() {
+                            $('#updated-es-image').attr('src', reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Update item in the array
+                $('#save-es-button').on('click', function() {
+                    const updatedTitle = $('#updated-es-title').val().trim();
+                    const updatedDescription = $('#updated-es-description').val().trim();
+                    const updatedImage = $('#updated-es-image').attr('src');
+
+                    // Find the item in the array by ID and update it
+                });
+
+            });
+            $('#education-items-list').on('click', '.remove-item', function() {
+                const itemCard = $(this).closest('.item-card');
+                const itemIndex = educationItems.findIndex(item => item.card[0] === itemCard[0]);
+
+                if (itemIndex > -1) {
+                    educationItems[itemIndex].removed = true;
+                    itemCard.remove();
+                    educationItems[itemIndex].hiddenInputs.forEach(input => input.remove());
                 }
             });
 
-            // Update item in the array
-            $('#save-es-button').on('click', function() {
-                const updatedTitle = $('#updated-es-title').val().trim();
-                const updatedDescription = $('#updated-es-description').val().trim();
-                const updatedImage = $('#updated-es-image').attr('src');
-
-                // Find the item in the array by ID and update it
-            });
-
-        });
-        $('#education-items-list').on('click', '.remove-item', function() {
-            const itemCard = $(this).closest('.item-card');
-            const itemIndex = educationItems.findIndex(item => item.card[0] === itemCard[0]);
-
-            if (itemIndex > -1) {
-                educationItems[itemIndex].removed = true;
-                itemCard.remove();
-                educationItems[itemIndex].hiddenInputs.forEach(input => input.remove());
+            function clearForm() {
+                $('#edu_title, #edu_desc, #edu_image').val('');
             }
         });
-
-        function clearForm() {
-            $('#edu_title, #edu_desc, #edu_image').val('');
-        }
-    });
-    </script>
-    @endsection
+        </script>
+        @endsection

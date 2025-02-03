@@ -394,9 +394,13 @@
                 </div>
                 </br>
                 <!-- Submit Button -->
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
+                <div class="col-md-12 mt-4">
+                        <div class="form-group">
+                            <button type="submit" class="addCategory btn btn-primary btn-localio text-center"><em
+                                    class="icon ni ni-plus"></em><span>Update
+                                    Content</span></button>
+                        </div>
+                    </div>
                 </div>
         </div>
         </form>

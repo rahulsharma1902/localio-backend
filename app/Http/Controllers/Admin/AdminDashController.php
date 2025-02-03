@@ -438,6 +438,7 @@ class AdminDashController extends Controller
             'email_app_description' => 'nullable|string',
             'imap' => 'required|string|max:255',
             'imap_pop' => 'nullable|string',
+            'assistant' => 'nullable|string',
         ]);
 
         $expertGuide = ExpertGuides::first();
@@ -466,6 +467,7 @@ class AdminDashController extends Controller
             'email_app_description' => $request->email_app_description,
             'imap' => $request->imap,
             'imap_pop' => $request->imap_pop,
+            'assistant' => $request->assistant,
         ]);
 
         $popularItems = $request->input('education_items', []);
