@@ -145,7 +145,13 @@
                                                     class="nk-menu-text">Product</span>
                                             </a>
                                         </li>
-    
+                                        
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('productfeature.index') }}?tab=top_features"
+                                                class="nk-menu-link"><span class="nk-menu-text">Top Product Feature</span>
+                                            </a>
+                                        </li>
+
                                         <li class="nk-menu-item">
                                             <a href="{{ route('productfeature.index') }}?tab=typical_custmor"
                                                 class="nk-menu-link"><span class="nk-menu-text">Typical Customers</span>

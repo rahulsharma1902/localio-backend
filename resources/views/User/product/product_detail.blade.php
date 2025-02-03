@@ -1,4 +1,4 @@
-{{-- {{dd($prss_data)}} --}}
+{{-- {{dd($featured_all_data)}} --}}
 @extends('user_layout.master')
 @section('content')
 <section class="product_sec">
@@ -85,30 +85,18 @@
             <div class="main_feature_lg">
                 <div class="feture_box lft_check_box size18">
                 <ul class="list-unstyled">
-                    <li class="d-flex align-items-center size18">
-                        <div class="grn_chk">
-                            <img src="{{asset('front/img/tick-img.png') }}">
-                        </div>
-                        <p class="m-0">Free domain & SSL certificate</p>
-                    </li>
-                    <li class="d-flex align-items-center size18">
-                        <div class="grn_chk">
-                            <img src="{{asset('front/img/tick-img.png') }}">
-                        </div>
-                        <p class="m-0">Customizable automatic updates</p>
-                    </li>
-                    <li class="d-flex align-items-center size18">
-                        <div class="grn_chk">
-                            <img src="{{asset('front/img/tick-img.png') }}">
-                        </div>
-                        <p class="m-0">Scalable performance management</p>
-                    </li>
-                    <li class="d-flex align-items-center size18">
-                        <div class="grn_chk">
-                            <img src="{{asset('front/img/tick-img.png') }}">
-                        </div>
-                        <p class="m-0">DDoS & malware protection</p>
-                    </li>
+                    @if (!empty($featured_all_data['top_features']))
+                        @foreach ($featured_all_data['top_features'] as $value)
+                            <li class="d-flex align-items-center">
+                                <span><img src="{{ asset('front/img/tik-mrk.svg') }}" alt="tick mark"></span>
+                                <span>{{ $value }}</span>
+                            </li>
+                        @endforeach
+                        @else
+                        <li class="d-flFex align-items-center">
+                            <span>Not Found</span>
+                        </li>
+                    @endif
                 </ul>
                 </div>
             </div>
