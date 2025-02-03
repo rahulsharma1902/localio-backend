@@ -17,7 +17,10 @@ class MetaPagesController extends Controller
         $pageTileTranslationEducation = PageTile::where('source', 'educationItem')
         ->with('translations') // Eager load translations
         ->get();
-        return view('User.meta-pages.support.expert_guide',compact('expertGuide','pageTileTranslationEducation'));
+        $pageTileTranslationRightTools = PageTile::where('source', 'righttools')
+            ->with('translations') // Eager load translations
+            ->get();
+        return view('User.meta-pages.support.expert_guide',compact('expertGuide','pageTileTranslationEducation','pageTileTranslationRightTools'));
     }
     public function helpCenter()
     {

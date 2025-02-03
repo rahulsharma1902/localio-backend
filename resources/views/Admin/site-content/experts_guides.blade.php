@@ -100,7 +100,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="card border">
                                 <div class="card-header">
-                                    Most Popular Items
+                                  Education items
                                 </div>
                                 <div class="card-body">
 
@@ -261,9 +261,141 @@
                     </div>
                     <br>
                     <div class="col-md-12">
+                        <label for="assistant"><strong>Right Tool Heading</strong></label>
+                        <input type="text" name="right_tool_heading" id="right_tool_heading" class="form-control"
+                        value="{{ $expertGuide->right_tool_heading ?? '' }}" required>
+                            
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                        <label for="assistant"><strong>Get Start Button</strong></label>
+                        <input type="text" name="get_start_button" id="get_start_button" class="form-control"
+                                value="{{ $expertGuide->get_start_button ?? '' }}" required>
+                         
+                    </div>
+                    <br>
+                    <div class="col-md-12">
                         <label for="assistant"><strong>Assistance</strong></label>
                         <textarea name="assistant" id="assistant" class="description form-control"
                             value="">{{ $expertGuide->assistant ?? '' }}</textarea>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="card border">
+                            <div class="card-header mt-3">
+                               Right Tools
+                                <button type="button" class="btn btn-success btn-sm float-end" id="add-Right-item">Add
+                                    Item</button>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="image">Image</label>
+                                    <div class="form-control-wrap">
+                                        <input type="file" class="form-control" id="tool_image" />
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="title">Title</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control" id="tool_title"
+                                            placeholder="Enter Here Title.." />
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-12">
+                                    <label class="form-label" for="description">Description</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" class="form-control site_text_input" id="tool_description"
+                                            placeholder="Enter Here Description..." />
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="right_tools_list" class="right-tools-container">
+                        <!-- Popular items will be appended here -->
+                    </div>
+                    <div id="right_tools" class="right-tools-container">
+                        <div class="col-md-12 mt-4">
+                            <div class="card border">
+                                <div class="card-header">
+                                   Right Tools
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Image</th>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($pageTileTranslationRightTools as $index => $item)
+                                            @foreach ($item->translations as $translation)
+                                            <tr>
+                                                <td>{{ $loop->parent->iteration}}</td>
+                                                <td>
+                                                    @if ($translation->image)
+                                                    <img src="{{ asset($translation->image) }}" alt="Item Image"
+                                                        style="width: 100px; height: auto;">
+                                                    @else
+                                                    N/A
+                                                    @endif
+                                                </td>
+                                                <td>{{ $translation->title ?? 'No Title' }}</td>
+                                                <td>{{ $translation->description ?? 'No Description' }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm"
+                                                        href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn-sm update-rt-item"
+                                                        data-id="{{ $translation->id }}"
+                                                        data-title="{{ $translation->title }}"
+                                                        data-desc="{{ $translation->description }}"
+                                                        data-image="{{ asset($translation->image) }}">Edit</button>
+                                                </td>
+                                                @endforeach
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="5">No popular items available.</td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="updated-rt-item-details" class="mt-4" style="display: none;">
+                            <p><strong>Title:</strong></p>
+                            <input type="hidden" class="form-control" id="updated-rt-id" name="RT[id]"
+                                value="{{ old('title', $item->title ?? '') }}" />
+                            <input type="text" class="form-control" id="updated-rt-title" name="RT[title]"
+                                value="{{ old('title', $item->title ?? '') }}" />
+
+                            <p><strong>Description:</strong></p>
+                            <input type="text" class="form-control" id="updated-rt-description" name="RT[description]"
+                                value="{{ old('description', $item->description ?? '') }}" />
+
+
+                            <p><strong>Image:</strong></p>
+                            <img id="updated-rt-image" style="width: 100px; height: auto;" />
+                            <input type="file" id="update-rt-image-input" name="RT[image]" />
+
+                            <button type="button" id="save-rt-button" style="display: none;">Save</button>
+                        </div>
                     </div>
                     <br>
                     <!-- Submit Button -->
@@ -430,4 +562,155 @@
             }
         });
         </script>
+        <script>
+               $(document).ready(function() {
+            let educationItems = [];
+
+            $('#add-Right-item').on('click', function() {
+                const title = $('#tool_title').val();
+                const description = $('#tool_description').val();
+                const imageInput = $('#tool_image')[0];
+                const imageFile = imageInput.files[0];
+
+                if (title && description && imageFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const itemCard = $('<div class="item-card mt-2 p-2 border">');
+                        itemCard.html(`
+                    <h5>${title}</h5>
+                    <p>${description}</p>
+                    <img src="${e.target.result}" alt="Image" style="width: 100px; height: auto;">
+                    <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+                `);
+                        const itemId = Date.now();
+                        $('#right_tools_list').append(itemCard);
+
+                        const hiddenTitleInput = $(
+                            '<input type="hidden" name="right_tools[title][]" value="' +
+                            title +
+                            '">');
+                        const hiddenDescriptionInput = $(
+                            '<input type="hidden" name="right_tools[description][]" value="' +
+                            description + '">');
+                        const hiddenImageInput = $(
+                            '<input type="hidden" name="right_tools[image][]" value="' + e
+                            .target
+                            .result + '">');
+
+                        $('#right_tools_list').append(hiddenTitleInput, hiddenDescriptionInput,
+                            hiddenImageInput);
+
+                        educationItems.push({
+                            title: title,
+                            description: description,
+                            image: e.target.result,
+                            card: itemCard,
+                            hiddenInputs: [hiddenTitleInput, hiddenDescriptionInput,
+                                hiddenImageInput
+                            ]
+                        });
+
+                        clearForm();
+                    };
+                    reader.readAsDataURL(imageFile);
+                } else {
+                    alert('Please fill in all fields and select an image.');
+                }
+
+            });
+
+            $('#right_tools').on('click', '.update-rt-item', function() {
+                let itemId = $(this).data('id'); // Assuming each item-card has a data-id attribute
+                console.log(itemId);
+                let title = $(this).data('title');
+                let description = $(this).data('desc');
+                let imageSrc = $(this).data('image');
+
+                console.log(title, description);
+
+                // Populate the form fields with current data
+                $('#updated-rt-id').val(itemId);
+                $('#updated-rt-title').val(title);
+                $('#updated-rt-description').val(description);
+                console.log(imageSrc);
+
+                $('#updated-rt-image').attr('src', imageSrc);
+
+                // Show the update form
+                $('#updated-rt-item-details').show();
+                $('#save-rt-button').show();
+            });
+
+            $('#save-rt-button').on('click', function() {
+                let itemId = $('#updated-rt-id')
+            .val(); // Assuming you're saving the item ID in the form
+
+                let title = $('#updated-rt-title').val(); // Get updated title
+                let description = $('#updated-rt-description').val(); // Get updated description
+                let imageFile = $('#update-rt-image-input')[0].files[
+                    0]; // Get updated image source (base64 or URL)
+                let formData = new FormData();
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                formData.append('id', itemId);
+                formData.append('title', title);
+                formData.append('desc', description);
+
+                if (imageFile) {
+                    formData.append('image', imageFile); // Append the image file
+                }
+
+                $.ajax({
+                    url: '{{ url("/admin/page-right-tool-translation/update") }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert(response.success);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        console.log(xhr.responseText); // Log the full error response
+                        alert('There was an error updating the popular item.');
+                    }
+                });
+
+                // Handle file input change for image preview
+                $('#update-rt-image-input').on('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function() {
+                            $('#updated-rt-image').attr('src', reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Update item in the array
+                $('#save-rt-button').on('click', function() {
+                    const updatedTitle = $('#updated-rt-title').val().trim();
+                    const updatedDescription = $('#updated-rt-description').val().trim();
+                    const updatedImage = $('#updated-rt-image').attr('src');
+
+                    // Find the item in the array by ID and update it
+                });
+
+            });
+            $('#right_tools_list').on('click', '.remove-item', function() {
+                const itemCard = $(this).closest('.item-card');
+                const itemIndex = educationItems.findIndex(item => item.card[0] === itemCard[0]);
+
+                if (itemIndex > -1) {
+                    educationItems[itemIndex].removed = true;
+                    itemCard.remove();
+                    educationItems[itemIndex].hiddenInputs.forEach(input => input.remove());
+                }
+            });
+
+            function clearForm() {
+                $('#tool_title, #tool_description, #tool_image').val('');
+            }
+        });
+            </script>
         @endsection

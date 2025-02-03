@@ -651,7 +651,7 @@ $(document).ready(function() {
         formData1.append('id', itemId);
         formData1.append('title', title);
         formData1.append('desc', description);
-console.log(imageFile1)
+        console.log(imageFile1)
         if (imageFile1) {
             formData1.append('img', imageFile1); // Append the image file
         }

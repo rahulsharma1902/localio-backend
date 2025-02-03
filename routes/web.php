@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('/admin/page-expert-guide/update', [AdminDashController::class, 'ExperGuide'])->name('admin.page-expert-guide.update');
     Route::post('/admin/expert-guide/update', [AdminDashController::class, 'ExperGuideUpdate'])->name('expertGuide.update');
     Route::post('/admin/page-education-translation/update', [AdminDashController::class, 'ESsectionUpdate'])->name('admin.page_education_translation.update');
-
+    Route::post('/admin/page-right-tool-translation/update', [AdminDashController::class, 'RTsectionUpdate'])->name('admin.page_Right_tool_translation.update');
 
 
  

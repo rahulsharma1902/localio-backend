@@ -132,7 +132,8 @@
                 <div class="smart_search_inner">
                     <div class="smart_srch_content text-center size18">
                         <h2 data-aos="zoom-in" data-aos-duration="1000">{{ $expertGuide->smart_search ?? '' }}</h2>
-                        <p data-aos="zoom-in" data-aos-duration="1000" class="smart-p">{{ $expertGuide->smart_search_description ?? '' }}
+                        <p data-aos="zoom-in" data-aos-duration="1000" class="smart-p">
+                            {{ $expertGuide->smart_search_description ?? '' }}
                         </p>
                         <div class="smrt-srch-inpt" data-aos="zoom-in" data-aos-duration="1000">
                             <textarea rows="3"
@@ -330,23 +331,28 @@
 <section class="right_tool_sec dark p_80">
     <div class="container">
         <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
-            <h3>Find the Right Tool</h3>
+            <h3>{{ $expertGuide->right_tool_heading ?? '' }}</h3>
             <div class="right-tool-pack">
+
                 <div class="row">
+                @forelse($pageTileTranslationRightTools as $index => $item)
+                @foreach ($item->translations as $translation)
                     <div class="col-lg-4">
+                      
                         <div class="tool-card">
                             <div class="tool-card-img">
-                                <img src="{{asset('front/img/right-tool-img1.png') }}" alt="">
+                                <img src="{{ asset($translation->image) }}" alt="">
                             </div>
                             <div class="tool-crd-bdy">
-                                <h6 class="h6_26">Verified User Reviews</h6>
-                                <p class="size18">Read real feedback from verified users to help you make the right
-                                    choice.
+                                <h6 class="h6_26">{{ $translation->title ?? 'No Title' }}</h6>
+                                <p class="size18">{{ $translation->description ?? 'No Description' }}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    @endforeach
+                  
+                    <!-- <div class="col-lg-4">
                         <div class="tool-card">
                             <div class="tool-card-img">
                                 <img src="{{asset('front/img/right-tool-img2.png') }}" alt="">
@@ -371,11 +377,16 @@
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+                    @empty
+                    <p></p>
+
+                    @endforelse
                 </div>
+
             </div>
             <div class="right-tool-btn  text-center">
-                <a href="" class="cta">Get Started</a>
+                <a href="" class="cta">{{ $expertGuide->get_start_button ?? '' }}</a>
             </div>
         </div>
     </div>

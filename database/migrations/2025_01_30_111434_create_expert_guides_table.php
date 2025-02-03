@@ -29,6 +29,8 @@ return new class extends Migration
             $table->LongText('email_app_description')->nullable();
             $table->string('imap');
             $table->LongText('imap_pop')->nullable();
+            $table->string('right_tool_heading')->nullable();
+            $table->string('get_start_button')->nullable();
             $table->timestamps();
         });
     }
