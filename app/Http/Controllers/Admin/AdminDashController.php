@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\WhoWeAre;
 use App\Models\ExpertGuides;
+use App\Models\ContactContent;
 use App\Models\PageTile;
 use App\Models\PageTileTranslation;
 use Illuminate\Support\Facades\Hash;
@@ -585,7 +586,6 @@ class AdminDashController extends Controller
         }
         $pageTile->update($request->except(['image']));
 
-        // Handle file uploads if necessary
         $this->handleEducationFileUpload($request, $pageTile);
         $expertGuide->save();
         return redirect()
@@ -595,9 +595,7 @@ class AdminDashController extends Controller
 
     protected function handleEducationFileUpload(Request $request, $pageTile)
     {
-        // Handle bg_top_img upload
-
-        // Handle page tile image upload
+      
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = now()->format('YmdHis') . '_education_item_.' . $file->getClientOriginalExtension();
@@ -605,4 +603,50 @@ class AdminDashController extends Controller
             $pageTile->image = 'front/img/' . $filename;
         }
     }
+    public function Contact(){
+        $contact = ContactContent::first();
+        return view('Admin.site-content.contact2',compact('contact'));
+    }
+    public function ContactUpdate(Request $request)
+    {
+        $request->validate([
+            'contact_heading' => 'nullable|string|max:255',
+            'image_first' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_second' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'footer_heading' => 'nullable|string|max:255',
+            'g_button' => 'nullable|string|max:255',
+        ]);
+    
+        $contact = ContactContent::first();
+        if (!$contact) {
+            return redirect()->back()->with('error', 'Contact content not found.');
+        }
+    
+        // Update fields except images
+        $contact->update([
+            'contact_heading' => $request->contact_heading,
+            'footer_heading' => $request->footer_heading,
+            'g_button' => $request->g_button,
+        ]);
+    
+        // Handle image uploads
+        if ($request->hasFile('image_first')) {
+            $file = $request->file('image_first');
+            $filename = now()->format('YmdHis') . '_image_first.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $contact->image_first = 'front/img/' . $filename;
+        }
+    
+        if ($request->hasFile('image_second')) {
+            $file = $request->file('image_second');
+            $filename = now()->format('YmdHis') . '_image_second.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $contact->image_second = 'front/img/' . $filename;
+        }
+    
+        $contact->save();
+    
+        return redirect()->back()->with('success', 'Contact content updated successfully.');
+    }
+    
 }

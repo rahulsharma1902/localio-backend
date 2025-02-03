@@ -43,8 +43,8 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::post('/admin/expert-guide/update', [AdminDashController::class, 'ExperGuideUpdate'])->name('expertGuide.update');
     Route::post('/admin/page-education-translation/update', [AdminDashController::class, 'ESsectionUpdate'])->name('admin.page_education_translation.update');
     Route::post('/admin/page-right-tool-translation/update', [AdminDashController::class, 'RTsectionUpdate'])->name('admin.page_Right_tool_translation.update');
-
-
+    Route::get('/admin/page-contact/update', [AdminDashController::class, 'Contact'])->name('admin.page-contact.update');
+    Route::post('/admin/page-contact-content/update', [AdminDashController::class, 'ContactUpdate'])->name('admin.page-contact-content.update');
  
 
     //  CategoriesController  categories
