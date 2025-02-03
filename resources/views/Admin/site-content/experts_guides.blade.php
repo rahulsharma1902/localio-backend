@@ -222,8 +222,8 @@
                         <br>
                         <div>
                             <label for="webmail_description"><strong>webmail Description</strong></label>
-                            <textarea name="webmail_description" id="webmail_description"
-                                class="description form-control"
+                            <textarea class="description form-control" name="webmail_description" id="webmail_description"
+                                
                                 value="">{{ $expertGuide->webmail_description ?? '' }}</textarea>
                         </div>
                         <br>
@@ -252,7 +252,11 @@
                             <label for="imap_pop"><strong>IMAP & POP Description</strong></label>
                             <textarea name="imap_pop" id="imap_pop"
                                 class="description form-control">{{ $expertGuide->imap_pop ?? '' }}</textarea>
+                                @error('description')
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
                         </div>
+                        
                         <br>
                         <!-- Submit Button -->
                         <div class="col-md-12">
