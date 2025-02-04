@@ -12,8 +12,8 @@ use App\Models\Language;
 use App\Models\ProCons;
 use App\Models\ProConsTranslation;
 use App\Models\ProductTranslation;
-use App\Models\Keyfeature;
-use App\Models\ProductFeatureTranslate;
+use App\Models\FeatureTransalte;
+use App\Models\Feature;
 use App\Models\ProductFeature;
 use Illuminate\Support\Facades\DB;
 
@@ -24,23 +24,35 @@ class AdminProductController extends Controller
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id', $lang_id)->first();
         $products = Product::with('categories')->latest()->get();
-        //typical_custmor,platform_supported,support_options,tranning_options
         return view('Admin.products.index', compact('products'));
     }
     public function productAdd()
     {
         $categories = Category::all();
-        $product_feature = ProductFeatureTranslate::pluck('name','id')->toArray();
-        return view('Admin.products.add_product', compact('categories','product_feature'));
+        $product_feature = Feature::with(['feature_translation' => function ($query) {
+            $query->select('feature_id', 'name');
+        }])
+            ->select('id')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => optional($item->feature_translation)->name,
+                ];
+            })
+            ->toArray();
+        // i send the name and id of product fature and name send on the table product feature translate table  and id send on the product fateure table 
+        return view('Admin.products.add_product', compact('categories', 'product_feature'));
     }
+
+
     public function productAddProccess(Request $request)
     {
-        //
         $language = Language::where('id', $request->lang_code)->first();
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'product_category' => 'required',  // Ensures category is selected and exists in categories table
+            'product_category' => 'required',
             'product_price' => 'required|numeric',
             'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
@@ -81,7 +93,7 @@ class AdminProductController extends Controller
             $productTranslation->slug = Str::slug($request->name);
             $productTranslation->description = $request->description;
             $productTranslation->product_id  = $product->id;
-            $productTranslation->language_id  = $language_id;
+            $productTranslation->language_id  = 1;
             $productTranslation->save();
             foreach ($request->product_category as $value) {
                 CategoryProduct::create([
@@ -131,15 +143,15 @@ class AdminProductController extends Controller
                 }
             }
 
-            foreach ($request->product_feature as $key => $product_feture_translate_id) {
-                $product_feture_id = ProductFeatureTranslate::where('id',$product_feture_translate_id)->value('product_feture_id');
-                $product_feture_type = ProductFeature::where('id',$product_feture_id)->value('type');
-                $data =   Keyfeature::create([
+            foreach ($request->product_feature as $key => $id) {
+                $type = Feature::where('id', $id)->value('type');
+                ProductFeature::create([
                     'product_id' => $product->id,
-                    'feature_id' => intval($product_feture_id),
-                    'type' => $product_feture_type
+                    'feature_id' => $id,
+                    'feature_type' => $type
                 ]);
             }
+
             return redirect()->route('products')->with('success', 'Product  added successfully');
         } else {
             return redirect()->route('products')->with('error', 'something went wrong !');
@@ -166,7 +178,32 @@ class AdminProductController extends Controller
             ? Category::whereIn('id', $category_products)->get(['id', 'name'])->toArray()
             : [];
 
-        return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data'));
+        // $product_feature = Feature::with(['feature_translation' => function ($query) {
+        //     $query->select('feature_id', 'name');
+        // }])
+        //     ->select('id')
+        //     ->get()
+        //     ->map(function ($item) {
+        //         return [
+        //             'id' => $item->id,
+        //             'name' => optional($item->feature_translation)->name,
+        //         ];
+        //     })
+        //     ->toArray();
+
+
+        $features = Product::with('product_features.featureTranslate')
+            ->where('id', $id)
+            ->first()
+            ->product_features
+            ->map(function ($feature) {
+                return [
+                    'feature_id' => $feature['id'],
+                    'translations' => $feature->featureTranslate['name'],
+                ];
+            })
+            ->toArray();
+        return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data', 'features'));
     }
     public function productUpdateProccess(Request $request)
     {

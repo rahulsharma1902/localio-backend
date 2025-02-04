@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_products','product_id');
+        return $this->belongsToMany(Category::class, 'category_products', 'product_id');
     }
     public function translations()
     {
@@ -24,5 +24,9 @@ class Product extends Model
     {
         return $this->hasMany(Wishlist::class);
     }
-    
+
+    public function product_features()
+    {
+        return $this->hasMany(ProductFeature::class, 'product_id');
+    }
 }

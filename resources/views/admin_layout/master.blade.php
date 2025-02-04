@@ -607,8 +607,7 @@
         <script>
             toastr.clear();
             NioApp.Toast(
-                '{{ Session::get('
-                                                                                                                                                                                                                                success ') }}',
+                '{{ Session::get('                                                                                                                                                                                                          success ') }}',
                 'success', {
                     position: 'top-right'
                 });

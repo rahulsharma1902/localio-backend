@@ -45,7 +45,8 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
     //  CategoriesController  categories
     Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
-    Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
+    Route::get('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
+    Route::post('/admin-dashboard/categories/add-process', [CategoriesController::class, 'add_process'])->name('add-category-process');
     Route::get('/admin-dashboard/remove-category/{id}', [CategoriesController::class, 'remove']);
     Route::get('/admin-dashboard/categories-get', [CategoriesController::class, 'getCategories']);
     Route::get('/admin-dashboard/update-category/{categoryId}', [CategoriesController::class, 'updateCategory'])->name('update-category');
@@ -162,11 +163,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
     // Footer Page Route
     Route::get('/admin-dashboard/footer-page', [SiteContentController::class, 'footerPage'])->name('footer-page');
     Route::post('/admin-dashboard/footer-page-update', [SiteContentController::class, 'footerPageUpdate'])->name('footer-page-update');
-
-    // Categories Page Content Route
-
-    Route::get('/admin-dashboard/categories-page', [SiteContentController::class, 'categoriesPage'])->name('categories-page');
-    Route::post('/admin-dashboard/category-page-update', [SiteContentController::class, 'categoryPageContentUpdate'])->name('category-page-content-update');
 
     // Top Product Page Content Route
 

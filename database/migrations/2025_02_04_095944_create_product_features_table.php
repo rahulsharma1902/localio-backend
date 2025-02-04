@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keyfeatures', function (Blueprint $table) {
+        Schema::create('product_features', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('feature_id');
-            $table->string('type')->comment('feature_type');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('feature_id')->references('id')->on('product_features')->onDelete('cascade');
+            $table->unsignedBigInteger('feature_id');
+            $table->foreign('feature_id')->references('id')->on('features')->onDelete('cascade');
+            $table->string('feature_type');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keyfeatures');
+        Schema::dropIfExists('product_features');
     }
 };
