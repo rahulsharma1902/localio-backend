@@ -132,7 +132,8 @@
                 <div class="smart_search_inner">
                     <div class="smart_srch_content text-center size18">
                         <h2 data-aos="zoom-in" data-aos-duration="1000">{{ $expertGuide->smart_search ?? '' }}</h2>
-                        <p data-aos="zoom-in" data-aos-duration="1000" class="smart-p">{{ $expertGuide->smart_search_description ?? '' }}
+                        <p data-aos="zoom-in" data-aos-duration="1000" class="smart-p">
+                            {{ $expertGuide->smart_search_description ?? '' }}
                         </p>
                         <div class="smrt-srch-inpt" data-aos="zoom-in" data-aos-duration="1000">
                             <textarea rows="3"
@@ -193,7 +194,7 @@
                         <li>Save space on your computer; email is stored online.</li>
                     </ul> -->
                     <div class="rnd_text size18">
-                        <p>Roundcube is the option for webmail that is built into your cPanel.</p>
+                        <!-- <p>Roundcube is the option for webmail that is built into your cPanel.</p>
                         <ul>
                             <li><span class="big-bld">Roundcube</span> - As our most popular webmail client, it has
                                 a look and feel you'd expect from an email application but is available inside a
@@ -201,7 +202,7 @@
                                 drag-and-drop organization. When composing emails, you can set up preset responses
                                 to save time and write with spell check in a rich text HTML composer.
                             </li>
-                        </ul>
+                        </ul> -->
                         <div class="round_img">
                             <img src="{{asset('front/img/round..svg') }}">
                         </div>
@@ -264,9 +265,9 @@
             </div>
             <div class="metl-stp mtp_gry size18" data-aos="fade-up" data-aos-duration="1000">
                 <div class="mlt_sp">
-                    <p>If you need further assistance, feel free to contact us via Chat or Phone:</p>
+                    <p>{!! $expertGuide->assistant ?? '' !!}</p>
                 </div>
-                <ul>
+                <!-- <ul>
                     <li class="mlt_sp"><span class="big-bld" style="color: #000;">Chat Support</span> While on our
                         <a href="#" class="blu_lnk">website</a>, you should see a CHAT bubble in the bottom
                         right-hand
@@ -287,7 +288,7 @@
                 </ul>
                 <p>You may also refer to our <a href="#" class="blu_lnk">Knowledge Base</a> articles to help answer
                     common questions and guide you through various setup, configuration, and troubleshooting steps.
-                </p>
+                </p> -->
             </div>
             <div class="mail_ovr" data-aos="fade-up" data-aos-duration="1000">
                 <div class="metl-stp mtl-btm size18">
@@ -330,23 +331,28 @@
 <section class="right_tool_sec dark p_80">
     <div class="container">
         <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
-            <h3>Find the Right Tool</h3>
+            <h3>{{ $expertGuide->right_tool_heading ?? '' }}</h3>
             <div class="right-tool-pack">
+
                 <div class="row">
+                @forelse($pageTileTranslationRightTools as $index => $item)
+                @foreach ($item->translations as $translation)
                     <div class="col-lg-4">
+                      
                         <div class="tool-card">
                             <div class="tool-card-img">
-                                <img src="{{asset('front/img/right-tool-img1.png') }}" alt="">
+                                <img src="{{ asset($translation->image) }}" alt="">
                             </div>
                             <div class="tool-crd-bdy">
-                                <h6 class="h6_26">Verified User Reviews</h6>
-                                <p class="size18">Read real feedback from verified users to help you make the right
-                                    choice.
+                                <h6 class="h6_26">{{ $translation->title ?? 'No Title' }}</h6>
+                                <p class="size18">{{ $translation->description ?? 'No Description' }}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    @endforeach
+                  
+                    <!-- <div class="col-lg-4">
                         <div class="tool-card">
                             <div class="tool-card-img">
                                 <img src="{{asset('front/img/right-tool-img2.png') }}" alt="">
@@ -371,11 +377,16 @@
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+                    @empty
+                    <p></p>
+
+                    @endforelse
                 </div>
+
             </div>
             <div class="right-tool-btn  text-center">
-                <a href="" class="cta">Get Started</a>
+                <a href="" class="cta">{{ $expertGuide->get_start_button ?? '' }}</a>
             </div>
         </div>
     </div>

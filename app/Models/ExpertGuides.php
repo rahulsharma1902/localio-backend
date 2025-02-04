@@ -15,7 +15,7 @@ class ExpertGuides extends Model
         'lang_id', 'title', 'description', 'education_title', 'education_description',
         'smart_search', 'smart_search_description', 'how_to_check_email',
         'overview', 'email_description', 'webmail', 'webmail_description',
-        'email_application', 'email_app_description', 'imap', 'imap_pop'
+        'email_application', 'email_app_description', 'imap', 'imap_pop','right_tool_heading','get_start_button','assistant'
     ];
 
    

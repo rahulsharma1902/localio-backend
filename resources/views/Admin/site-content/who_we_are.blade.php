@@ -394,9 +394,13 @@
                 </div>
                 </br>
                 <!-- Submit Button -->
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
+                <div class="col-md-12 mt-4">
+                        <div class="form-group">
+                            <button type="submit" class="addCategory btn btn-primary btn-localio text-center"><em
+                                    class="icon ni ni-plus"></em><span>Update
+                                    Content</span></button>
+                        </div>
+                    </div>
                 </div>
         </div>
         </form>
@@ -647,7 +651,7 @@ $(document).ready(function() {
         formData1.append('id', itemId);
         formData1.append('title', title);
         formData1.append('desc', description);
-console.log(imageFile1)
+        console.log(imageFile1)
         if (imageFile1) {
             formData1.append('img', imageFile1); // Append the image file
         }

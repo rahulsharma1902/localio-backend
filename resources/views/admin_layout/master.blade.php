@@ -238,7 +238,12 @@
                                                     class="nk-menu-text">Expert Guide</span></a>
 
                                         </li>
+                                       
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ route('admin.page-contact.update') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Contact</span></a>
 
+                                        </li>
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/categories-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Categories
@@ -709,6 +714,8 @@
             }
 
         }
+    }
+});
     </script>
 
 </body>

@@ -3,19 +3,19 @@
 
 <section class="banner_sec help-cntr-bnr inr-bnr dark" style="background-color: #003F7D;">
     <div class="bubble-wrp">
-        <img src="{{asset('front/img/small-bnnr-bg.png') }}" alt="">
+        <img src="{{asset($contact->image_second) }}" alt="">
     </div>
     <div class="banner_content">
         <div class="container">
             <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                 <div class="banner_text_col">
                     <div class="banner_content_inner">
-                    <h1>Contact Us</h1>
+                    <h1>{{ $contact->contact_heading ?? '' }}</h1>
                     </div>
                 </div>
                 <div class="banner_image_col">
                     <div class="banner_image">
-                    <img src="{{asset('front/img/contc_bnr_ryt.png') }}" class="banner_top_image">
+                    <img src="{{asset($contact->image_first) }}" class="banner_top_image">
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
    <div class="container">
       <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
          <div class="otr_rgtool">
-            <h2>Find the Right Tool</h2>
+            <h2>{{ $contact->contact_heading ?? '' }}</h2>
          </div>
          <div class="right-tool-pack">
             <div class="row">
@@ -107,7 +107,7 @@
             </div>
          </div>
          <div class="right-tool-btn text-center">
-            <a href="" class="cta">Get Started</a>
+            <a href="" class="cta">{{ $contact->g_button ?? '' }}</a>
          </div>
       </div>
    </div>

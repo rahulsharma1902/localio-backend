@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\WhoWeAre;
 use App\Models\ExpertGuides;
+use App\Models\ContactContent;
 use App\Models\PageTile;
 use App\Models\PageTileTranslation;
 use Illuminate\Support\Facades\Hash;
@@ -384,8 +385,10 @@ class AdminDashController extends Controller
         $pageTileTranslationEducation = PageTile::where('source', 'educationItem')
             ->with('translations') // Eager load translations
             ->get();
-
-        return view('Admin.site-content.experts_guides', compact('expertGuide', 'pageTileTranslationEducation'));
+            $pageTileTranslationRightTools = PageTile::where('source', 'righttools')
+            ->with('translations') // Eager load translations
+            ->get();
+        return view('Admin.site-content.experts_guides', compact('expertGuide', 'pageTileTranslationEducation','pageTileTranslationRightTools'));
     }
     public function ESsectionUpdate(Request $request)
     {
@@ -419,6 +422,38 @@ class AdminDashController extends Controller
             return response()->json(['error' => false, 'msg' => 'Error updating item: ' . $e->getMessage()], 500);
         }
     }
+    public function RTsectionUpdate(Request $request)
+    {
+        //return response()->json($request->all());
+        try {
+            $pageTileTranslation = PageTileTranslation::find($request->id);
+
+            // return response()->json($pageTileTranslation);
+
+            if (!$pageTileTranslation) {
+                return response()->json(['error' => false, 'msg' => 'Item not found.']);
+            }
+
+            $pageTileTranslation->title = $request->title;
+            $pageTileTranslation->description = $request->desc;
+            $pageTileTranslation->status = $request->input('status', 1);
+            // Handle image upload
+
+            // Handle Image Upload (Only if a new image is provided)
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '_right_tools_.' . $image->getClientOriginalExtension();
+                $image->move(public_path('front/img/'), $filename);
+                $pageTileTranslation->image = 'front/img/' . $filename;
+            }
+
+            $pageTileTranslation->save();
+
+            return response()->json(['success' => true, 'msg' => 'Popular item updated successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => false, 'msg' => 'Error updating item: ' . $e->getMessage()], 500);
+        }
+    }
 
     public function ExperGuideUpdate(Request $request)
     {
@@ -438,6 +473,9 @@ class AdminDashController extends Controller
             'email_app_description' => 'nullable|string',
             'imap' => 'required|string|max:255',
             'imap_pop' => 'nullable|string',
+            'right_tool_heading' => 'nullable|string',
+            'get_start_button' => 'nullable|string',
+            'assistant' => 'nullable|string',
         ]);
 
         $expertGuide = ExpertGuides::first();
@@ -466,6 +504,9 @@ class AdminDashController extends Controller
             'email_app_description' => $request->email_app_description,
             'imap' => $request->imap,
             'imap_pop' => $request->imap_pop,
+            'right_tool_heading' => $request->right_tool_heading,
+            'get_start_button' => $request->get_start_button,
+            'assistant' => $request->assistant,
         ]);
 
         $popularItems = $request->input('education_items', []);
@@ -505,9 +546,46 @@ class AdminDashController extends Controller
                 $pageTileTranslation->save();
             }
         }
+
+        $popularItems = $request->input('right_tools', []);
+        if (isset($popularItems['title']) && is_array($popularItems['title'])) {
+            foreach ($popularItems['title'] as $index => $title) {
+                $description = $popularItems['description'][$index] ?? null;
+                $image = $popularItems['image'][$index] ?? null;
+
+                $filename = null;
+                if ($image) {
+                    if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+                        $extension = $type[1];
+                        $image = substr($image, strpos($image, ',') + 1);
+                        $image = base64_decode($image);
+                        $filename = now()->format('YmdHis') . '_right_tools_' . $index . '.' . $extension;
+                        file_put_contents(public_path('front/img/') . $filename, $image);
+                    }
+                }
+
+                // Create a new PageTile if needed
+
+                $pageTile = new PageTile();
+                $pageTile->lang_id = $request->input('lang_id', 1);
+                $pageTile->image = $image ? 'front/img/' . $filename : null;
+                $pageTile->type = 'righttools';
+                $pageTile->source = 'righttools';
+                $pageTile->save();
+
+                // Create or update PageTileTranslation
+
+                $pageTileTranslation = new PageTileTranslation();
+                $pageTileTranslation->page_tile_id = $pageTile->id;
+                $pageTileTranslation->title = $title;
+                $pageTileTranslation->description = $description;
+                $pageTileTranslation->image = $image ? 'front/img/' . $filename : $pageTileTranslation->image;
+                $pageTileTranslation->status = $request->input('status', 1);
+                $pageTileTranslation->save();
+            }
+        }
         $pageTile->update($request->except(['image']));
 
-        // Handle file uploads if necessary
         $this->handleEducationFileUpload($request, $pageTile);
         $expertGuide->save();
         return redirect()
@@ -517,9 +595,7 @@ class AdminDashController extends Controller
 
     protected function handleEducationFileUpload(Request $request, $pageTile)
     {
-        // Handle bg_top_img upload
-
-        // Handle page tile image upload
+      
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = now()->format('YmdHis') . '_education_item_.' . $file->getClientOriginalExtension();
@@ -527,4 +603,50 @@ class AdminDashController extends Controller
             $pageTile->image = 'front/img/' . $filename;
         }
     }
+    public function Contact(){
+        $contact = ContactContent::first();
+        return view('Admin.site-content.contact2',compact('contact'));
+    }
+    public function ContactUpdate(Request $request)
+    {
+        $request->validate([
+            'contact_heading' => 'nullable|string|max:255',
+            'image_first' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_second' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'footer_heading' => 'nullable|string|max:255',
+            'g_button' => 'nullable|string|max:255',
+        ]);
+    
+        $contact = ContactContent::first();
+        if (!$contact) {
+            return redirect()->back()->with('error', 'Contact content not found.');
+        }
+    
+        // Update fields except images
+        $contact->update([
+            'contact_heading' => $request->contact_heading,
+            'footer_heading' => $request->footer_heading,
+            'g_button' => $request->g_button,
+        ]);
+    
+        // Handle image uploads
+        if ($request->hasFile('image_first')) {
+            $file = $request->file('image_first');
+            $filename = now()->format('YmdHis') . '_image_first.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $contact->image_first = 'front/img/' . $filename;
+        }
+    
+        if ($request->hasFile('image_second')) {
+            $file = $request->file('image_second');
+            $filename = now()->format('YmdHis') . '_image_second.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $contact->image_second = 'front/img/' . $filename;
+        }
+    
+        $contact->save();
+    
+        return redirect()->back()->with('success', 'Contact content updated successfully.');
+    }
+    
 }
