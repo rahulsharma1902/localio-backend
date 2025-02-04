@@ -14,21 +14,20 @@ use App\Models\ProductFeatureTranslate;
 use App\Models\ProCons;
 
 use App\Models\Wishlist;
+
 class ProductController extends Controller
 {
     //
-    public function productDetail(){
+    public function productDetail()
+    {
         $product = Product::find(1);
         if (!$product) {
             return redirect()->route('product')->with('error', 'Product not found!');
         }
-
         $pross_id = ProCons::where('product_id', 1)->where('type', 'pross')->value('id');
         $prss_data = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
-
         $cons_id = ProCons::where('product_id', 1)->where('type', 'cons')->value('id');
         $cons_data = ProConsTranslation::where('pro_cons_id', $cons_id)->pluck('name')->toArray();
-
         $fetured_id_typical_custmor = Keyfeature::where('product_id', 26)->where('type', 'typical_custmor')->pluck('feature_id');
         $typical_custmor = [];
         foreach ($fetured_id_typical_custmor as $value) {
@@ -57,16 +56,24 @@ class ProductController extends Controller
             $tranning_options[] = $featured_name_tranning_options;
         }
 
+        $fetured_id_top_features = Keyfeature::where('product_id', 1)->where('type', 'top_features')->pluck('feature_id');
+        $top_features = [];
+        foreach ($fetured_id_top_features as $value) {
+            $featured_name_top_features = ProductFeatureTranslate::where('product_feture_id', $value)->value('name');
+            $top_features[] = $featured_name_top_features;
+        }
+
         $featured_all_data = [
             'typically_custmor' => $typical_custmor,
             'platform_supported' => $platform_supported,
             'support_options' => $support_options,
-            'tranning_options' => $tranning_options
+            'tranning_options' => $tranning_options,
+            'top_features' => $top_features
         ];
 
-        // dd($featured_all_data);
+        // dd($featured_all_data['top_features']);
 
-        return view('User.product.product_detail', compact('product', 'prss_data', 'cons_data','featured_all_data'));
+        return view('User.product.product_detail', compact('product', 'prss_data', 'cons_data', 'featured_all_data'));
     }
 
 
@@ -74,7 +81,7 @@ class ProductController extends Controller
     {
         $lang_id = getCurrentLanguageID();
         $productMaxPrice = Product::max('product_price');
-        return view('User.product.top_rated_product',compact('products','topProductContents','productMaxPrice','files'));
+        return view('User.product.top_rated_product', compact('products', 'topProductContents', 'productMaxPrice', 'files'));
     }
     public function productComparison()
     {
@@ -156,9 +163,11 @@ class ProductController extends Controller
     {
         if ($min || $max) {
             return Product::whereBetween('product_price', [$min, $max])
-                ->with(['translations' => function ($query) use ($siteLanguage) {
-                    $query->where('language_id', $siteLanguage->id);
-                },'reviews'
+                ->with([
+                    'translations' => function ($query) use ($siteLanguage) {
+                        $query->where('language_id', $siteLanguage->id);
+                    },
+                    'reviews'
                 ])
                 ->orderBy('product_price', 'desc')
                 ->get();
@@ -176,7 +185,8 @@ class ProductController extends Controller
                 },
                 'keyFeatures.translations' => function ($query) use ($siteLanguage) {
                     $query->where('language_id', $siteLanguage->id);
-                },'reviews'
+                },
+                'reviews'
             ])
             ->orderBy('name', 'desc')
             ->get();

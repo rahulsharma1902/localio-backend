@@ -845,7 +845,7 @@
             },
             "time": "2024-12-11T02:10:48+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Google\\Auth\\": "src"
@@ -922,7 +922,7 @@
                     "target": "googleapis/google-cloud-php-core.git"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Google\\Cloud\\Core\\": "src"
@@ -980,7 +980,7 @@
                     "target": "googleapis/google-cloud-php-translate.git"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Google\\Cloud\\Translate\\": "src",
@@ -1029,7 +1029,7 @@
                     "target": "googleapis/common-protos-php.git"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Google\\Api\\": "src/Api",
@@ -1097,7 +1097,7 @@
             },
             "time": "2024-12-11T02:47:43+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Google\\ApiCore\\": "src",
@@ -1147,7 +1147,7 @@
             },
             "time": "2024-04-03T16:37:55+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Grpc\\Gcp\\": "src/"
@@ -1196,7 +1196,7 @@
                     "target": "googleapis/php-longrunning"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Google\\LongRunning\\": "src/LongRunning",
@@ -1240,7 +1240,7 @@
             },
             "time": "2025-01-08T21:00:13+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Google\\Protobuf\\": "src/Google/Protobuf",
@@ -1353,7 +1353,7 @@
             },
             "time": "2023-08-14T23:57:54+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Grpc\\": "src/lib/"
@@ -4843,7 +4843,7 @@
                     "dev-master": "1.0.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Psr\\Cache\\": "src/"
@@ -5647,7 +5647,7 @@
             },
             "time": "2024-11-27T12:13:42+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Rize\\": "src/Rize"

@@ -14,7 +14,7 @@ class CategoriesController extends Controller
 
     public function index(Request $request) {
         $locale = session()->get('lang_code');
-
+        
         $siteLanguage = Language::where('lang_code', $locale)->first();
         $categories = collect();
         if ($siteLanguage) {
