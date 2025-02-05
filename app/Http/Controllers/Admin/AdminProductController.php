@@ -48,6 +48,7 @@ class AdminProductController extends Controller
 
     public function productAddProccess(Request $request)
     {
+        // dd($request->all());
         $language = Language::where('id', $request->lang_code)->first();
         $request->validate([
             'name' => 'required|string',
@@ -178,36 +179,17 @@ class AdminProductController extends Controller
             ? Category::whereIn('id', $category_products)->get(['id', 'name'])->toArray()
             : [];
 
-        // $product_feature = Feature::with(['feature_translation' => function ($query) {
-        //     $query->select('feature_id', 'name');
-        // }])
-        //     ->select('id')
-        //     ->get()
-        //     ->map(function ($item) {
-        //         return [
-        //             'id' => $item->id,
-        //             'name' => optional($item->feature_translation)->name,
-        //         ];
-        //     })
-        //     ->toArray();
-
-
-        $features = Product::with('product_features.featureTranslate')
-            ->where('id', $id)
-            ->first()
-            ->product_features
-            ->map(function ($feature) {
-                return [
-                    'feature_id' => $feature['id'],
-                    'translations' => $feature->featureTranslate['name'],
-                ];
-            })
-            ->toArray();
-        return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data', 'features'));
+        $features = FeatureTransalte::all();
+        $feature_product1 = ProductFeature::where('product_id', $id)->pluck('feature_id')->toArray();
+        $feature_arr = !empty($feature_product1)
+            ? FeatureTransalte::whereIn('feature_id', $feature_product1)->get(['id', 'name'])->toArray()
+            : [];
+        // dd($feature_arr);
+        return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data', 'feature_arr', 'features'));
     }
     public function productUpdateProccess(Request $request)
     {
-
+        // dd($request->all());
         $request->validate([
             'id' => 'required|exists:products,id',
             'lang_code' => 'required|exists:languages,id',
@@ -341,6 +323,52 @@ class AdminProductController extends Controller
                 ProConsTranslation::where('pro_cons_id', $cross_id)->delete();
             }
         }
+        //     ProductFeature::where('product_id', $request->id)
+        //     ->whereNotIn('feature_id', $request->product_feature)
+        //     ->delete();
+
+        // foreach ($request->product_feature as $feature_id) {
+        //     // Check if the feature_id exists in the features table
+        //     $feature = Feature::find($feature_id);
+
+        //     // If feature exists, insert or update the product features
+        //     if ($feature) {
+        //         $feature_type = $feature->type; // Assuming the 'type' column is available
+        //         ProductFeature::updateOrCreate(
+        //             ['product_id' => $request->id, 'feature_id' => $feature_id],
+        //             ['feature_type' => $feature_type]
+        //         );
+        //     } else {
+        //         // Optionally handle cases where feature_id does not exist in the 'features' table
+        //         return redirect()->route('products')->with('error', 'Feature ID does not exist.');
+        // }
+        // }
+        // Get the valid feature IDs
+        ProductFeature::where('product_id', $request->id)->delete();
+
+        // Filter out the invalid feature IDs from the request
+        $feature_ids = FeatureTransalte::whereIn('id',$request->product_feature)->pluck('feature_id')->toArray();
+
+        // Prepare data for insertion
+        $data = [];
+        foreach ($feature_ids as $feature_id) {
+            $feature_type = Feature::where('id', $feature_id)->value('type');
+            $data[] = [
+                'product_id' => $request->id,
+                'feature_id' => $feature_id,
+                'feature_type' => $feature_type
+            ];
+        }
+        // dd($data);
+
+        // Insert the records into the product_features table
+        if (!empty($data)) {
+            ProductFeature::insert($data);
+        } else {
+            return redirect()->route('products')->with('error', 'No valid features to insert.');
+        }
+
+        return redirect()->route('products')->with('success', 'Product features updated successfully.');
 
         return redirect()->route('products')->with('success', 'Product updated successfully');
     }

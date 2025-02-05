@@ -175,13 +175,22 @@
 
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-category">Product Feature</label>
-                                    <select class="form-control product-feature" name="product_feature[]"
-                                        multiple="multiple">
-                                        @foreach ($features as $key => $item)
-                                            <option value="{{ $item['feature_id'] }}">{{ $item['translations'] }}</option>
-                                        @endforeach
+                                    <label class="form-label" for="product-feature">Product Feature</label>
+                                    <select class="form-control product-feature" name="product_feature[]" multiple="multiple">
+                                        @if ($features->isNotEmpty())
+                                            @foreach ($features as $feature)
+                                                <option value="{{ $feature->id }}" 
+                                                    @if (in_array($feature->id, array_column($feature_arr, 'id'))) selected="selected" @endif>
+                                                    {{ $feature->name }}
+                                                </option>
+                                            @endforeach
+                                        @endif
                                     </select>
+
+
+
+
+                                    
                                 </div>
                             </div>
                         </div>

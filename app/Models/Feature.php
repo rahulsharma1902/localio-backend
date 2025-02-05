@@ -17,6 +17,8 @@ class Feature extends Model
     {
         return  $this->hasOne(FeatureTransalte::class,'feature_id');
     }
-
-   
+    public function features()
+{
+    return $this->belongsToMany(Feature::class, 'product_features', 'product_id', 'feature_id');
+}
 }

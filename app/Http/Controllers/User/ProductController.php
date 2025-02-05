@@ -44,7 +44,6 @@ class ProductController extends Controller
                 ];
             })->toArray(),
         ];
-        // dd($result);
         $pross_id = ProCons::where('product_id', 1)->where('type', 'pross')->value('id');
         $prss_data = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
         $cons_id = ProCons::where('product_id', 1)->where('type', 'cons')->value('id');

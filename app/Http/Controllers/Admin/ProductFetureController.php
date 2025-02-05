@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feature;
+use App\Models\FeatureTransalte;
 use App\Models\Language;
 use App\Models\Product;
 use App\Models\ProductFeature;
@@ -18,20 +20,17 @@ class ProductFetureController extends Controller
         $custmor = request('tab');
         $lang_id = getCurrentLanguageID();
         $siteLanguage = Language::where('id', '1')->first();
-        $product_feature_ids =   ProductFeature::where('type',$custmor)->pluck('id')->toArray();
-        $products_feature = [];
-        foreach ($product_feature_ids as $key => $value) {
-            $products_feature_name = ProductFeatureTranslate::where('product_feture_id',$value)->value('name');
-            $product_feature_id = ProductFeatureTranslate::where('product_feture_id',$value)->value('id');
-            $product_feature_status = ProductFeatureTranslate::where('product_feture_id',$value)->value('status');
-            $arr = [
-                'fetaure_id' => $product_feature_id ,
-                'featuer_name' => $products_feature_name ,
-                'feature_status' => $product_feature_status
+        $features = Feature::with('feature_translation')
+        ->where('type', $custmor)
+        ->get()
+        ->flatMap(function ($feature) {
+            return [
+                'feature_name' => optional($feature->feature_translation)->name, // Avoid null errors
+                'feature_id' => $feature->id,
+                'status' => $feature->status
             ];
-            $products_feature[] = $arr;
-        }
-        return view('Admin.product-feature.index', compact('products_feature'));
+        })->toArray();
+        return view('Admin.product-feature.index', compact('features'));
     }
 
     public function add()
@@ -41,18 +40,18 @@ class ProductFetureController extends Controller
     public function add_process(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:product_features_translation',
+            'name' => 'required|unique:feature_translation',
         ]);
 
-        $productfeatureid = ProductFeature::create([
+        $featureid = Feature::create([
             'lang_id' => 1,
             'type' => $request->tab,
             'status' => 'active'
         ])->id;
 
-        $product_translate_feture =  DB::table('product_features_translation')->insert([
+        $product_translate_feture =  DB::table('feature_translation')->insert([
             'name' => $request->name,
-            'product_feture_id' => $productfeatureid,
+            'feature_id' => $featureid,
             'status' => 'active'
         ]);
 
@@ -65,8 +64,9 @@ class ProductFetureController extends Controller
 
     public function update($id)
     {
-        $producttranslation = ProductFeatureTranslate::where('id', $id)->first()->toArray();
-        return view('Admin.product-feature.update', compact('producttranslation'));
+        $productFeature = Feature::with('feature_translation')->where('id', $id)->first();
+        $productFeatureTranslate = optional($productFeature->feature_translation)->toArray() ?? [];
+         return view('Admin.product-feature.update', compact('productFeatureTranslate'));
     }
 
     public function update_process(Request $request)
@@ -74,11 +74,11 @@ class ProductFetureController extends Controller
         $request->validate([
             'name' => 'required'
         ]);
-        $name = ProductFeatureTranslate::where('id', $request->feture_translate_id)->update([
+        $name = FeatureTransalte::where('id', $request->feture_translate_id)->update([
             'name' => $request->name
         ]);
         if ($name) {
-            return redirect()->route('productfeature.index',['tab' => request('tab')])->with('success', 'Successfull updated');
+            return redirect()->route('productfeature.index', ['tab' => request('tab')])->with('success', 'Successfull updated');
         } else {
             return redirect()->back()->with('error', 'Some thing went wrong');
         }
@@ -86,21 +86,13 @@ class ProductFetureController extends Controller
 
     public function remove($id)
     {
-        $producttranslate = ProductFeatureTranslate::where('id', $id)->first();
-        if (!$producttranslate) {
-            return redirect()->back()->with('error', 'Translation record not found.');
+        $productFeature = Feature::with('feature_translation')->where('id', $id)->first();
+        if ($productFeature) {
+            FeatureTransalte::where('feature_id', $id)->delete();
+            ProductFeature::where('feature_id', $id)->delete();
+            $productFeature->delete();
+            return redirect()->route('productfeature.index', ['tab' => request('tab')])->with('success', 'Successfull updated');
         }
-        $product_feture_id = $producttranslate->product_feture_id;
-        $productFeature = ProductFeature::where('id', $product_feture_id)->first();
-        if (!$productFeature) {
-            return redirect()->back()->with('error', 'Product feature not found.');
-        }
-        $productFeature->delete();
-        $data = ProductFeatureTranslate::where('id', $id)->delete();
-        if ($data) {
-            return redirect()->back()->with('success', 'Translation and associated product feature deleted successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Error occurred while deleting the translation.');
-        }
+        return redirect()->route('productfeature.index', ['tab' => request('tab')])->with('error', 'No remove data');
     }
 }
