@@ -23,13 +23,14 @@ class ProductFetureController extends Controller
         $features = Feature::with('feature_translation')
         ->where('type', $custmor)
         ->get()
-        ->flatMap(function ($feature) {
+        ->map(function ($feature) {
             return [
                 'feature_name' => optional($feature->feature_translation)->name, // Avoid null errors
                 'feature_id' => $feature->id,
                 'status' => $feature->status
             ];
         })->toArray();
+        // dd($features);
         return view('Admin.product-feature.index', compact('features'));
     }
 

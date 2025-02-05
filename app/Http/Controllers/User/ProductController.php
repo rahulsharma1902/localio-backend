@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         $product = Product::with(['product_features.featureTranslate' => function ($query) {
             $query->select('feature_id', 'name');
-        }])->where('id', 8)->first(); 
+        }])->where('id', 1)->first(); 
         if (!$product) {
             return redirect()->route('product')->with('error', 'Product not found!');
         }
@@ -50,9 +50,6 @@ class ProductController extends Controller
         $cons_data = ProConsTranslation::where('pro_cons_id', $cons_id)->pluck('name')->toArray();
         return view('User.product.product_detail', compact('result', 'prss_data', 'cons_data'));
     }
-
-
-
 
     public function topRatedProduct()
     {

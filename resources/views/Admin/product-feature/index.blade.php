@@ -49,14 +49,15 @@
                             </th>
                         </tr>
                     </thead>
-                    @if (!empty($features))
-                        <tbody>
+                    <tbody>
+                        @if (!empty($features))
+                            @foreach ($features as $value)
                             <tr class="nk-tb-item">
                                 <td class="nk-tb-col">
                                     <div class="user-card">
                                         <div class="user-info">
                                             <span class="tb-lead">
-                                                {{ $features['feature_name'] }}
+                                                {{ $value['feature_name'] }}
                                             </span>
                                         </div>
                                     </div>
@@ -65,7 +66,7 @@
                                     <div class="user-card">
                                         <div class="user-info">
                                             <span class="tb-lead">
-                                                {{ $features['status'] }}
+                                                {{ $value['status'] }}
                                             </span>
                                         </div>
                                     </div>
@@ -78,11 +79,11 @@
                                             style="height: 68px !important">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a
-                                                        href="{{ route('productfeature.update', ['id' => $features['feature_id'], 'tab' => request('tab')]) }}"><em
+                                                        href="{{ route('productfeature.update', ['id' => $value['feature_id'], 'tab' => request('tab')]) }}"><em
                                                             class="icon ni ni-edit-fill"></em><span>Edit</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="{{ route('productfeature.remove-process', ['id' => $features['feature_id'], 'tab' => request('tab')]) }}"><em
+                                                        href="{{ route('productfeature.remove-process', ['id' => $value['feature_id'], 'tab' => request('tab')]) }}"><em
                                                             class="icon ni ni-trash-fill"></em><span>Remove</span></a>
                                                 </li>
                                             </ul>
@@ -90,8 +91,10 @@
                                     </div>
                                 </td>
                             </tr>
+                            @endforeach
+                            @endif
                         </tbody>
-                    @endif
+                        
                 </table>
             </div>
         </div>

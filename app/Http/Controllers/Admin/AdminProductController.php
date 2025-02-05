@@ -347,7 +347,7 @@ class AdminProductController extends Controller
         ProductFeature::where('product_id', $request->id)->delete();
 
         // Filter out the invalid feature IDs from the request
-        $feature_ids = FeatureTransalte::whereIn('id',$request->product_feature)->pluck('feature_id')->toArray();
+        $feature_ids = FeatureTransalte::whereIn('id', $request->product_feature)->pluck('feature_id')->toArray();
 
         // Prepare data for insertion
         $data = [];
