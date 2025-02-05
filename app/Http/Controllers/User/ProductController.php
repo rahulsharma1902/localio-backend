@@ -36,18 +36,13 @@ class ProductController extends Controller
             'product_image' => $product->product_image,
             'product_link' => $product->product_link,
             'overview' => $product->overview,
-            'product_features' => $product->product_features->map(function ($feature) {
-                return [
-                    'id' => $feature->id,
-                    'feature_type' => $feature->feature_type,
-                    'name' => $feature->featureTranslate->name,
-                ];
-            })->toArray(),
+            'product_features' => $product->product_features->toArray(),
         ];
         $pross_id = ProCons::where('product_id', 1)->where('type', 'pross')->value('id');
         $prss_data = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
         $cons_id = ProCons::where('product_id', 1)->where('type', 'cons')->value('id');
         $cons_data = ProConsTranslation::where('pro_cons_id', $cons_id)->pluck('name')->toArray();
+        // dd($result);
         return view('User.product.product_detail', compact('result', 'prss_data', 'cons_data'));
     }
 
@@ -72,13 +67,6 @@ class ProductController extends Controller
             $max = $request->max;
             $topProductContents = $this->getTopProductContents($locale);
             $files = $this->getFiles();
-
-            // $productPriceFilter = $this->getProductPriceFilter($min, $max);
-
-            // foreach ($productPriceFilter as $product) {
-            //     $product->average_rating = $product->reviews->avg('rating') ?: 0;
-            //     $product->reviews_count = $product->reviews->count();
-            // }
 
 
             // $formattedProductRelations = $this->mapProductRelations($productPriceFilter);

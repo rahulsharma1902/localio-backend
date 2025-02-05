@@ -92,10 +92,11 @@
                                 @if (!empty($result['product_features']))
                                     @foreach ($result['product_features'] as $value)
                                         @if ($value['feature_type'] == 'top_features')
+                                        {{-- {{dd($value)}} --}}
                                             <li class="d-flex align-items-center">
                                                 <span><img src="{{ asset('front/img/tik-mrk.svg') }}"
                                                         alt="tick mark"></span>
-                                                <span>{{ $value['name'] }}</span>
+                                                <span>{{ $value['feature_translate']['name'] }}</span>
                                             </li>
                                         @endif
                                     @endforeach
@@ -410,11 +411,11 @@
                             <ul class="list-unstyled">
                                 @if (!empty($result['product_features']))
                                     @foreach ($result['product_features'] as $value)
-                                        @if ($value['feature_type'] == 'typically_custmor')
+                                        @if ($value['feature_type'] == 'typical_custmor')
                                             <li class="d-flex align-items-center">
                                                 <span><img src="{{ asset('front/img/tik-mrk.svg') }}"
                                                         alt="tick mark"></span>
-                                                <span>{{ $value['name'] }}</span>
+                                                <span>{{$value['feature_translate']['name'] }}</span>
                                             </li>
                                         @endif
                                     @endforeach
@@ -436,7 +437,7 @@
                                             <li class="d-flex align-items-center">
                                                 <span><img src="{{ asset('front/img/tik-mrk.svg') }}"
                                                         alt="tick mark"></span>
-                                                <span>{{ $value['name'] }}</span>
+                                                <span>{{ $value['feature_translate']['name'] }}</span>
                                             </li>
                                         @endif
                                     @endforeach
@@ -458,7 +459,7 @@
                                             <li class="d-flex align-items-center">
                                                 <span><img src="{{ asset('front/img/tik-mrk.svg') }}"
                                                         alt="tick mark"></span>
-                                                <span>{{ $value['name'] }}</span>
+                                                <span>{{ $value['feature_translate']['name'] }}</span>
                                             </li>
                                         @endif
                                     @endforeach
@@ -480,7 +481,7 @@
                                             <li class="d-flex align-items-center">
                                                 <span><img src="{{ asset('front/img/tik-mrk.svg') }}"
                                                         alt="tick mark"></span>
-                                                <span>{{ $value['name'] }}</span>
+                                                <span>{{$value['feature_translate']['name']  }}</span>
                                             </li>
                                         @endif
                                     @endforeach
