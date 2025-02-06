@@ -50,7 +50,7 @@ class ProductController extends Controller
     {
         $lang_id = getCurrentLanguageID();
         $productMaxPrice = Product::max('product_price');
-        return view('User.product.top_rated_product', compact('products', 'topProductContents', 'productMaxPrice', 'files'));
+        return view('User.product.top_rated_product', compact( 'productMaxPrice'));
     }
     public function productComparison()
     {

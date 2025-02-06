@@ -1685,6 +1685,4 @@
             </div>
         </div>
     </section>
-
-
 @endsection

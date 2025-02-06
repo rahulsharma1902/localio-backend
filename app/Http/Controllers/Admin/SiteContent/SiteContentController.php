@@ -13,13 +13,14 @@ use App\Models\CategoryPageContent;
 use App\Models\TopProductContent;
 use App\Models\SiteLanguages;
 use Session;
+
 class SiteContentController extends Controller
 {
     public function homeContent()
     {
-        $lang = getCurrentLocale();  
-        $lang_id = getCurrentLanguageID();  
-        if(session()->has('lang_code')){
+        $lang = getCurrentLocale();
+        $lang_id = getCurrentLanguageID();
+        if (session()->has('lang_code')) {
             $lang = session()->get('lang_code');
         }
         $allHomeContents = homeContent::where('lang_id', $lang_id)->get();
@@ -29,14 +30,14 @@ class SiteContentController extends Controller
                 $newHomeContent = new homeContent;
                 $newHomeContent->meta_key = $content->meta_key;
                 $newHomeContent->meta_value = $content->meta_value;
-                $newHomeContent->lang_id = $lang_id;  
-                $newHomeContent->type = $content->type;  
+                $newHomeContent->lang_id = $lang_id;
+                $newHomeContent->type = $content->type;
                 $newHomeContent->save();
             }
             $allHomeContents = homeContent::where('lang_id', $lang_id)->get();
         }
         $homeContents = HomeContent::where('type', 'file')->Where('lang_id', 1)->get();
-        return view('Admin.site-content.home_page', compact('allHomeContents','homeContents'));
+        return view('Admin.site-content.home_page', compact('allHomeContents', 'homeContents'));
     }
     public function updateLangFile(Request $request)
     {
@@ -52,9 +53,9 @@ class SiteContentController extends Controller
 
         $content = File::get($filepath);
 
-        $pattern = "/'$textID'\s*=>\s*'(.*?)'/"; 
-        $replacement = "'$textID' => '" . addslashes($textVal) . "'"; 
-    
+        $pattern = "/'$textID'\s*=>\s*'(.*?)'/";
+        $replacement = "'$textID' => '" . addslashes($textVal) . "'";
+
 
         if (!preg_match($pattern, $content)) {
 
@@ -63,11 +64,10 @@ class SiteContentController extends Controller
 
             $content = preg_replace($pattern, $replacement, $content);
         }
- 
+
         File::put($filepath, $content);
 
         return response()->json(['success' => 'Localization updated successfully.'], 200);
-
     }
 
     public function homeContentUpdate(Request $request)
@@ -114,7 +114,7 @@ class SiteContentController extends Controller
             'independent_description',
             'get_button_lable'
         ];
-    
+
         foreach ($textFields as $field) {
             if ($request->has($field) && is_array($request->get($field))) {
                 $data = $request->get($field);  // The data array for each text field
@@ -182,33 +182,32 @@ class SiteContentController extends Controller
     {
         // $headerContents = HeaderContent::all();
         $lang = getCurrentLocale();
-        if(session()->has('lang_code')){
+        if (session()->has('lang_code')) {
             $lang = session()->get('lang_code');
         }
         $lang_id = getCurrentLanguageID();
-        $headerContents = HeaderContent::where('lang_id',$lang_id)->get();
+        $headerContents = HeaderContent::where('lang_id', $lang_id)->get();
 
         if ($headerContents->isEmpty()) {
-            $englishHeaderContents = HeaderContent::where('lang_id',1)->get();
-            if($englishHeaderContents)
-            {
+            $englishHeaderContents = HeaderContent::where('lang_id', 1)->get();
+            if ($englishHeaderContents) {
                 foreach ($englishHeaderContents as $content) {
                     $HeaderContent = new HeaderContent;
                     $HeaderContent->meta_key = $content->meta_key;
                     $HeaderContent->meta_value = $content->meta_value;
-                    $HeaderContent->lang_id = $lang_id;  
-                    $HeaderContent->type = $content->type;  
+                    $HeaderContent->lang_id = $lang_id;
+                    $HeaderContent->type = $content->type;
                     $HeaderContent->save();
                 }
             }
-            $headerContents = HeaderContent::where('lang_id',$lang_id)->get();
+            $headerContents = HeaderContent::where('lang_id', $lang_id)->get();
         }
         $headerLogo = HeaderContent::Where('lang_id', 1)->first();
-        return view('Admin.site-content.header_page',compact('headerContents','headerLogo'));
+        return view('Admin.site-content.header_page', compact('headerContents', 'headerLogo'));
     }
     public function headerContentUpdate(Request $request)
     {
-        
+
         $this->updateHeaderMetaValues($request, 'header_logo');
         $textFields = [
             'header_search_placeholder',
@@ -223,12 +222,11 @@ class SiteContentController extends Controller
             'header_logo',
         ];
 
-        foreach($textFields as $field)
-        {
-            if($request->has($field) && is_array($request->get($field))) {
-               $data = $request->get($field);
-               foreach($data as $id => $val){
-                $headerContent = HeaderContent::find($id);
+        foreach ($textFields as $field) {
+            if ($request->has($field) && is_array($request->get($field))) {
+                $data = $request->get($field);
+                foreach ($data as $id => $val) {
+                    $headerContent = HeaderContent::find($id);
                     if ($headerContent) {
                         $headerContent->update([
                             'meta_value' => $val,  // Update the meta_value for the respective content
@@ -242,7 +240,7 @@ class SiteContentController extends Controller
     private function updateHeaderMetaValues(Request $request, $imageField)
     {
         if ($request->hasFile($imageField) && is_array($request->file($imageField))) {
-            
+
             foreach ($request->file($imageField) as $id => $file) {
                 $fileName = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path($imageField), $fileName);
@@ -256,25 +254,24 @@ class SiteContentController extends Controller
             }
         }
     }
-  
+
     public function footerPage()
     {
         $lang = getCurrentLocale();
         $lang_id = getCurrentLanguageID();
-        if(session()->has('lang_code')){
+        if (session()->has('lang_code')) {
             $lang = session()->get('lang_code');
         }
-        $footerContents = FooterContent::where('lang_id',$lang_id)->get();
+        $footerContents = FooterContent::where('lang_id', $lang_id)->get();
         if ($footerContents->isEmpty()) {
             $englishFooterContents = FooterContent::where('lang_id', 1)->get();
-            if($englishFooterContents)
-            {
+            if ($englishFooterContents) {
                 foreach ($englishFooterContents as $content) {
                     $footerContents = new FooterContent;
                     $footerContents->meta_key = $content->meta_key;
                     $footerContents->meta_value = $content->meta_value;
-                    $footerContents->lang_id = $lang_id;  
-                    $footerContents->type = $content->type;  
+                    $footerContents->lang_id = $lang_id;
+                    $footerContents->type = $content->type;
                     $footerContents->save();
                 }
             }
@@ -283,16 +280,16 @@ class SiteContentController extends Controller
         $footerFiles = FooterContent::where('type', 'file')->Where('lang_id', 1)->get();
         $footerLogo = FooterContent::where('meta_key', 'footer_logo')->Where('lang_id', 1)->first();
 
-        return view('Admin.site-content.footer_page',compact('footerContents','footerFiles','footerLogo'));
+        return view('Admin.site-content.footer_page', compact('footerContents', 'footerFiles', 'footerLogo'));
     }
     public function footerPageUpdate(Request $request)
-    {   
-  
-            $this->uploadImagesFooter($request, 'footer_logo');
-            $this->uploadImagesFooter($request, 'facebook_icon');
-            $this->uploadImagesFooter($request, 'instagram_icon');
-            $this->uploadImagesFooter($request, 'twitter_icon');
-            $textFields = 
+    {
+
+        $this->uploadImagesFooter($request, 'footer_logo');
+        $this->uploadImagesFooter($request, 'facebook_icon');
+        $this->uploadImagesFooter($request, 'instagram_icon');
+        $this->uploadImagesFooter($request, 'twitter_icon');
+        $textFields =
             [
                 'discover',
                 'categories',
@@ -317,21 +314,20 @@ class SiteContentController extends Controller
                 'instagram',
                 'twitter',
             ];
-            foreach($textFields as $field)
-            {   
-                if($request->has($field)){
-                    $data = $request->get($field);
-                    foreach($data as $key=>$val){
-                        $footerContent = FooterContent::find($key);
-                        if($footerContent){
-                            $footerContent->update([
-                                'meta_value'  =>$val,
-                            ]);
-                        }
+        foreach ($textFields as $field) {
+            if ($request->has($field)) {
+                $data = $request->get($field);
+                foreach ($data as $key => $val) {
+                    $footerContent = FooterContent::find($key);
+                    if ($footerContent) {
+                        $footerContent->update([
+                            'meta_value'  => $val,
+                        ]);
                     }
                 }
             }
-            return redirect()->back()->with('success', 'Footer content updated successfully.');
+        }
+        return redirect()->back()->with('success', 'Footer content updated successfully.');
     }
     private function uploadImagesFooter(Request $request, $imageField)
     {
@@ -354,26 +350,25 @@ class SiteContentController extends Controller
     {
         $lang = getCurrentLocale();
         $lang_id = getCurrentLanguageID();
-        if(session()->has('lang_code')){
+        if (session()->has('lang_code')) {
             $lang = session()->get('lang_code');
         }
-        $categoryPageContents = CategoryPageContent::where('lang_id',$lang_id)->get();
+        $categoryPageContents = CategoryPageContent::where('lang_id', $lang_id)->get();
         if ($categoryPageContents->isEmpty()) {
             $englishCategoryPageContents = CategoryPageContent::where('lang_id', 1)->get();
-            if($englishCategoryPageContents)
-            {
+            if ($englishCategoryPageContents) {
                 foreach ($englishCategoryPageContents as $content) {
                     $categoryContents = new CategoryPageContent;
                     $categoryContents->meta_key = $content->meta_key;
                     $categoryContents->meta_value = $content->meta_value;
-                    $categoryContents->lang_id = $lang_id;  
-                    $categoryContents->type = $content->type;  
+                    $categoryContents->lang_id = $lang_id;
+                    $categoryContents->type = $content->type;
                     $categoryContents->save();
                 }
             }
             $categoryPageContents = CategoryPageContent::where('lang_id', $lang_id)->get();
         }
-        return view('Admin.site-content.categories_page',compact('categoryPageContents'));
+        return view('Admin.site-content.categories_page', compact('categoryPageContents'));
     }
     public function categoryPageContentUpdate(Request $request)
     {
@@ -387,19 +382,17 @@ class SiteContentController extends Controller
             'main_heading',
         ];
 
-        foreach($textFields as $field){
-            if($request->has($field)){
+        foreach ($textFields as $field) {
+            if ($request->has($field)) {
                 $datas = $request->get($field);
-                foreach($datas as $id=> $val){
+                foreach ($datas as $id => $val) {
                     $categoryContent = CategoryPageContent::find($id);
-                    if($categoryContent)
-                    {
+                    if ($categoryContent) {
                         $categoryContent->update([
                             'meta_value' => $val,
                         ]);
                     }
                 }
-              
             }
         }
         return redirect()->back()->with('success', 'Category content updated successfully.');
@@ -425,29 +418,26 @@ class SiteContentController extends Controller
     {
         $lang = getCurrentLocale();
         $lang_id = getCurrentLanguageID();
-        if(session()->has('lang_code')){
+        if (session()->has('lang_code')) {
             $lang = session()->get('lang_code');
         }
-        $topProductContents = TopProductContent::where('lang_id',$lang_id)->get();
-        // $currentLanguage = SiteLanguages::where('handle', $lang)->first(); 
+        $topProductContents = TopProductContent::where('lang_id', $lang_id)->get();
         if ($topProductContents->isEmpty()) {
-            $englishTopProductContents= TopProductContent::where('lang_id', 1)->get();
-            if($englishTopProductContents)
-            {
+            $englishTopProductContents = TopProductContent::where('lang_id', 1)->get();
+            if ($englishTopProductContents) {
                 foreach ($englishTopProductContents as $content) {
                     $topProductContents = new TopProductContent;
                     $topProductContents->meta_key = $content->meta_key;
                     $topProductContents->meta_value = $content->meta_value;
-                    $topProductContents->lang_id = $lang_id;  
-                    $topProductContents->type = $content->type;  
+                    $topProductContents->lang_id = $lang_id;
+                    $topProductContents->type = $content->type;
                     $topProductContents->save();
                 }
             }
             $topProductContents = TopProductContent::where('lang_id', $lang_id)->get();
         }
         $productFiles = TopProductContent::where('type', 'file')->Where('lang_id', 1)->get();
-
-        return view('Admin.site-content.top_product_page',compact('topProductContents','productFiles'));
+        return view('Admin.site-content.top_product_page', compact('topProductContents', 'productFiles'));
     }
     public function topProductPageUpdate(Request $request)
     {
@@ -459,7 +449,7 @@ class SiteContentController extends Controller
         $this->uploadImagesTopProductPage($request, 'top_pro_copylink_icon');
         $this->uploadImagesTopProductPage($request, 'top_pro_more_icon');
         $this->uploadImagesTopProductPage($request, 'top_pro_mail_image');
-         $this->uploadImagesTopProductPage($request, 'top_pro_green_tick_img');
+        $this->uploadImagesTopProductPage($request, 'top_pro_green_tick_img');
         $textFields = [
             'header_title',
             'header_sub_title',
@@ -490,19 +480,17 @@ class SiteContentController extends Controller
             'privacy_policy',
             'and'
         ];
-        foreach($textFields as $field){
-            if($request->has($field)){
+        foreach ($textFields as $field) {
+            if ($request->has($field)) {
                 $datas = $request->get($field);
-                foreach($datas as $id=> $val){
+                foreach ($datas as $id => $val) {
                     $categoryContent = TopProductContent::find($id);
-                    if($categoryContent)
-                    {
+                    if ($categoryContent) {
                         $categoryContent->update([
                             'meta_value' => $val,
                         ]);
                     }
                 }
-              
             }
         }
         return redirect()->back()->with('success', 'Top Product content updated successfully.');
