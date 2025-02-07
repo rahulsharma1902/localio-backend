@@ -20,5 +20,9 @@ class ProductFeature extends Model
     {
         return $this->belongsTo(FeatureTransalte::class, 'feature_id', 'feature_id');
     }
+
+    public function feature_translation(){
+        return $this->belongsTo(FeatureTransalte::class, 'feature_id', 'feature_id');
+    }
     use HasFactory;
 }

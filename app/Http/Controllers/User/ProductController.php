@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoryProduct;
+use App\Models\CategoryTranslation;
 use App\Models\FeatureTransalte;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -11,7 +13,7 @@ use App\Models\ProConsTranslation;
 use App\Models\ProductFeature;
 use App\Models\ProductFeatureTranslate;
 use App\Models\ProCons;
-
+use App\Models\ProductTranslation;
 use App\Models\Wishlist;
 
 use function Laravel\Prompts\select;
@@ -23,7 +25,7 @@ class ProductController extends Controller
     {
         $product = Product::with(['product_features.featureTranslate' => function ($query) {
             $query->select('feature_id', 'name');
-        }])->where('id', 1)->first(); 
+        }])->where('id', 1)->first();
         if (!$product) {
             return redirect()->route('product')->with('error', 'Product not found!');
         }
@@ -46,11 +48,28 @@ class ProductController extends Controller
         return view('User.product.product_detail', compact('result', 'prss_data', 'cons_data'));
     }
 
-    public function topRatedProduct()
+    public function topRatedProduct($lang, $category_slug = null)
     {
         $lang_id = getCurrentLanguageID();
+        if ($category_slug != '') {
+            $category_id  = CategoryTranslation::where('slug', $category_slug)->value('category_id');
+            $category_product_ids = CategoryProduct::where('category_id', $category_id)->pluck('product_id');
+            $products = Product::with(['product_features' => function ($query) {
+                $query->with('feature_translation')->where('feature_type', 'top_features');
+            }])
+                ->whereIn('id', $category_product_ids)
+                ->get()
+                ->toArray();
+        } else {
+            $products = Product::with(['product_features' => function ($query) {
+                $query->with('feature_translation')->where('feature_type', 'top_features');
+            }])
+                ->get()
+                ->toArray();
+        }
         $productMaxPrice = Product::max('product_price');
-        return view('User.product.top_rated_product', compact( 'productMaxPrice'));
+        // dd($products);
+        return view('User.product.top_rated_product', compact('productMaxPrice', 'products'));
     }
     public function productComparison()
     {

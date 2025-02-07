@@ -379,6 +379,7 @@ class AdminProductController extends Controller
             return redirect()->back()->with('error', 'product not found');
         }
         $product->delete();
+        CategoryProduct::where('product_id',$id)->delete();
         return redirect()->back()->with('success', 'product remove successfully');
     }
 }

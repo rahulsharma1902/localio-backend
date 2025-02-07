@@ -3,31 +3,31 @@
 <section class="pvc_sec ">
    <div class="container">
       <div class="pvc_content">
-         @if(isset($policies) && $policies->isNotEmpty())
-            @foreach($policies as $policy )
-               <h2 data-aos="zoom-in" data-aos-duration="1000">{{$policy->translations->isNotEmpty() ? $policy->translations->first()->title : $policy->title }}</h2>
+         {{-- @if(isset($policies) && $policies->isNotEmpty()) --}}
+            {{-- @foreach($policies as $policy ) --}}
+               <h2 data-aos="zoom-in" data-aos-duration="1000"></h2>
                <div class="pvc_textbx" data-aos="fade-up" data-aos-duration="1000">
                   <div class="pvc_text size18">
                      <p>
-                        {{ strip_tags($policy->translations->isNotEmpty() ? $policy->translations->first()->description : $policy->description  ) }}
+                        {{-- {{ strip_tags($policy->translations->isNotEmpty() ? $policy->translations->first()->description : $policy->description  ) }} --}}
                      </p>
                   </div>
                </div>
-            @endforeach
-         @endif
+            {{-- @endforeach --}}
+         {{-- @endif --}}
          <div class="pvc_mn">
-            @if(isset($rules) && $rules->isNotEmpty())
-               @foreach($rules as $rule)
+            {{-- @if(isset($rules) && $rules->isNotEmpty()) --}}
+               {{-- @foreach($rules as $rule) --}}
                   <div class="pvc_textbx">
-                     <h6 data-aos="fade-up" data-aos-duration="1000">{{$rule->translations->isNotEmpty() ? $rule->translations->first()->title : $rule->title }}</h6>
+                     {{-- <h6 data-aos="fade-up" data-aos-duration="1000">{{$rule->translations->isNotEmpty() ? $rule->translations->first()->title : $rule->title }}</h6> --}}
                      <div class="pvc_text size18">
                         <p data-aos="fade-up" data-aos-duration="1000">
-                           {{ strip_tags($rule->translations->isNotEmpty() ? $rule->translations->first()->description : $rule->description) }}
+                           {{-- {{ strip_tags($rule->translations->isNotEmpty() ? $rule->translations->first()->description : $rule->description) }} --}}
                         </p>
                      </div>
                   </div>
-               @endforeach   
-            @endif      
+               {{-- @endforeach    --}}
+            {{-- @endif       --}}
          </div>
       </div>
    </div>

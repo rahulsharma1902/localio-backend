@@ -13,10 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"
         integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -47,10 +43,10 @@
     <?php
     $lang = getCurrentLocale();
     $lang_id = getCurrentLanguageID();
-
+    
     $headerLogo = \App\Models\HeaderContent::where([['lang_id', 1], ['meta_key', 'header_logo']])->first();
     $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang_id], ['type', 'text']])->pluck('meta_value', 'meta_key');
-
+    
     if ($headerContent->isEmpty()) {
         $headerContent = \App\Models\HeaderContent::where([['lang_id', 1], ['type', 'text']])->pluck('meta_value', 'meta_key');
     }
@@ -58,18 +54,18 @@
     $icons = \App\Models\FooterContent::where('lang_id', 1)
         ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
         ->get();
-
+    
     $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
     $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
     $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
-
+    
     $footerContents = \App\Models\FooterContent::where('lang_id', $lang_id)->where('type', 'text')->pluck('meta_value', 'meta_key');
     $footerMediaUrls = \App\Models\FooterContent::where('type', 'url')->where('lang_id', 1)->pluck('meta_value', 'meta_key');
-
+    
     if ($footerContents->isEmpty()) {
         $footerContents = \App\Models\FooterContent::where('lang_id', 1)->where('type', 'text')->pluck('meta_value', 'meta_key');
     }
-
+    
     ?>
     <header>
         <section class="sec_head">
@@ -128,22 +124,22 @@
                         } else {
                             $lang_id = 1;
                         }
-                        // dd($lang_code);
                         $categories = CategoryTranslation::where('language_id', $lang_id)->get()->toArray();
                         ?>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="left_menu">
                                 <ul class="menu">
                                     <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                                        <a href="jasfhaks"
-                                            class="cat_menu">{{ $headerContent['categories'] ?? '' }}</a>
+                                        <a href="#" class="cat_menu">{{ $headerContent['categories'] ?? '' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
                                             @foreach ($categories as $category)
                                                 <li class="dropdown_item-1">
-                                                    <a
-                                                        href="#">{{ $category['name'] ?? 'not category found' }}</a>
+                                                    <a href="javascript:void(0);"
+                                                        onclick="changeCategory('{{ $category['slug'] }}')">
+                                                        {{ $category['name'] }}
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -151,7 +147,6 @@
                                     <?php
                                     use App\Models\Product;
                                     $products = Product::all();
-
                                     ?>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
                                         <a href="#">{{ $headerContent['top_rated_product'] ?? '' }}</a>
@@ -167,7 +162,6 @@
                                                     </li>
                                                 @endforeach
                                             @endif
-
                                         </ul>
                                     </li>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
@@ -212,8 +206,6 @@
             </div>
         </section>
     </header>
-    <!-- header section end -->
-    <!-- content section start -->
     @yield('content')
     <!-- content section end -->
     <!-- footer  -->
@@ -379,15 +371,20 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     <script src="{{ asset('front/js/script.js') }}"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
         $(function() {
             AOS.init();
         });
+
+        function changeCategory(categoryId) {
+            let url = new URL(window.location.href);
+            url.pathname = `/en-us/top-rated-product/${categoryId}`;
+            window.location.href = url.href;
+        }
     </script>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const selectBtn = document.querySelector('.select-btn');
             const options = document.querySelectorAll('.option');
             const sBtnText = document.querySelector('.sBtn-text');
@@ -438,7 +435,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
                 position: 'top-right',
                 toast: true,
                 showConfirmButton: false,
