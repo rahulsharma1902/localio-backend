@@ -13,18 +13,14 @@ class AddLocaleAutomatically
 {
     public function handle(Request $request, Closure $next)
     {
-        // $languages = getLanguages(true);
-        $currentRoute = $request->route();
-        $locale = $request->route('locale');
-        if (!$locale) {
+        $validLocales = ['en-us']; 
+        $firstSegment = $request->segment(1);
+        if (!in_array($firstSegment, $validLocales)) {
             $defaultLocale = 'en-us';
             return redirect()->to("/$defaultLocale" . $request->getRequestUri());
         }
-        
-        // else{
-            app()->setLocale($locale);
-            return $next($request);
-        // // }
+        App::setLocale($firstSegment);
+        return $next($request);
     
     }
 }
