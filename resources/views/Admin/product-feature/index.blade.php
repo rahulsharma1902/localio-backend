@@ -10,7 +10,7 @@
         }
     </style>
     <?php
-         $locale = getCurrentLocale();
+    $locale = getCurrentLocale();
     ?>
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head nk-block-head-sm">
@@ -25,9 +25,9 @@
                         <div class="toggle-expand-content" data-content="pageMenu">
                             <ul class="nk-block-tools g-3">
                                 <li class="nk-block-tools-opt">
-                                    <a href="{{ route('productfeature.add',['tab' => request('tab')]) }}"
+                                    <a href="{{ route('productfeature.add', ['tab' => request('tab')]) }}"
                                         class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                    <a href="{{ route('productfeature.add',['tab' => request('tab')]) }}"
+                                    <a href="{{ route('productfeature.add', ['tab' => request('tab')]) }}"
                                         class=" btn btn-primary d-none d-md-inline-flex"><em
                                             class="icon ni ni-plus"></em><span>Add Feature</span></a>
                                 </li>
@@ -49,51 +49,52 @@
                             </th>
                         </tr>
                     </thead>
-                    @if (isset($products_feature))
-                        <tbody>
-                            @foreach ($products_feature as $key => $feature)
-                                <tr class="nk-tb-item">
-                                    <td class="nk-tb-col">
-                                        <div class="user-card">
-                                            <div class="user-info">
-                                                <span class="tb-lead">
-                                                    {{$feature['featuer_name']}}
-                                                </span>
-                                            </div>
+                    <tbody>
+                        @if (!empty($features))
+                            @foreach ($features as $value)
+                            <tr class="nk-tb-item">
+                                <td class="nk-tb-col">
+                                    <div class="user-card">
+                                        <div class="user-info">
+                                            <span class="tb-lead">
+                                                {{ $value['feature_name'] }}
+                                            </span>
                                         </div>
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="user-card">
-                                            <div class="user-info">
-                                                <span class="tb-lead">
-                                                    {{$feature['feature_status']}}
-                                                </span>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td class="nk-tb-col">
+                                    <div class="user-card">
+                                        <div class="user-info">
+                                            <span class="tb-lead">
+                                                {{ $value['status'] }}
+                                            </span>
                                         </div>
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
-                                                data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end edit-btn"
-                                                style="height: 68px !important">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a
-                                                            href="{{ route('productfeature.update', ['id' =>  $feature['fetaure_id'],'tab' => request('tab')]) }}"><em
-                                                                class="icon ni ni-edit-fill"></em><span>Edit</span></a>
-                                                    </li>
-                                                    <li><a
-                                                            href="{{ route('productfeature.remove-process', ['id' =>  $feature['fetaure_id'],'tab' => request('tab')]) }}"><em
-                                                                class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td class="nk-tb-col">
+                                    <div class="drodown">
+                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
+                                            data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-end edit-btn"
+                                            style="height: 68px !important">
+                                            <ul class="link-list-opt no-bdr">
+                                                <li><a
+                                                        href="{{ route('productfeature.update', ['id' => $value['feature_id'], 'tab' => request('tab')]) }}"><em
+                                                            class="icon ni ni-edit-fill"></em><span>Edit</span></a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ route('productfeature.remove-process', ['id' => $value['feature_id'], 'tab' => request('tab')]) }}"><em
+                                                            class="icon ni ni-trash-fill"></em><span>Remove</span></a>
+                                                </li>
+                                            </ul>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                            </tr>
                             @endforeach
+                            @endif
                         </tbody>
-                    @endif
+                        
                 </table>
             </div>
         </div>

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_features', function (Blueprint $table) {
+        Schema::create('features', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lang_id');
             $table->string('type')->comment('feture_type');
@@ -20,12 +20,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('product_features_translation', function (Blueprint $table) {
+        Schema::create('feature_translation', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('product_feture_id');
+            $table->unsignedBigInteger('feature_id');
             $table->string('status')->default('active');
-            $table->foreign('product_feture_id')->references('id')->on('product_features')->onDelete('cascade');
+            $table->foreign('feature_id')->references('id')->on('features')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -35,7 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_features');
-        Schema::dropIfExists('product_features_translation');
+        Schema::dropIfExists('features');
+        Schema::dropIfExists('feature_translation');
     }
 };

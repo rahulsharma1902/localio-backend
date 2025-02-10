@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,10 +12,6 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"
         integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
@@ -47,10 +43,10 @@
     <?php
     $lang = getCurrentLocale();
     $lang_id = getCurrentLanguageID();
-
+    
     $headerLogo = \App\Models\HeaderContent::where([['lang_id', 1], ['meta_key', 'header_logo']])->first();
     $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang_id], ['type', 'text']])->pluck('meta_value', 'meta_key');
-
+    
     if ($headerContent->isEmpty()) {
         $headerContent = \App\Models\HeaderContent::where([['lang_id', 1], ['type', 'text']])->pluck('meta_value', 'meta_key');
     }
@@ -58,18 +54,18 @@
     $icons = \App\Models\FooterContent::where('lang_id', 1)
         ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
         ->get();
-
+    
     $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
     $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
     $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
-
+    
     $footerContents = \App\Models\FooterContent::where('lang_id', $lang_id)->where('type', 'text')->pluck('meta_value', 'meta_key');
     $footerMediaUrls = \App\Models\FooterContent::where('type', 'url')->where('lang_id', 1)->pluck('meta_value', 'meta_key');
-
+    
     if ($footerContents->isEmpty()) {
         $footerContents = \App\Models\FooterContent::where('lang_id', 1)->where('type', 'text')->pluck('meta_value', 'meta_key');
     }
-
+    
     ?>
     <header>
         <section class="sec_head">
@@ -98,12 +94,12 @@
                             <div class="Header_buttons">
                                 @if (!auth()->user())
                                     <a href="{{ route('login', ['locale' => session('locale', 'en-us')]) }}"
-                                        class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? '' }}</a>
+                                        class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? 'Login' }}</a>
                                     <a href="{{ route('register', ['locale' => session('locale', 'en-us')]) }}"
-                                        class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? '' }}</a>
+                                        class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? 'Sign Up' }}</a>
                                 @else
                                     <a href="{{ url('/logout') }}"
-                                        class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? '' }}</a>
+                                        class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? 'Sign out' }}</a>
                                 @endif
                             </div>
                         </div>
@@ -128,22 +124,22 @@
                         } else {
                             $lang_id = 1;
                         }
-                        // dd($lang_code);
                         $categories = CategoryTranslation::where('language_id', $lang_id)->get()->toArray();
                         ?>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="left_menu">
                                 <ul class="menu">
                                     <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                                        <a href="jasfhaks"
-                                            class="cat_menu">{{ $headerContent['categories'] ?? '' }}</a>
+                                        <a href="#" class="cat_menu">{{ $headerContent['categories'] ?? 'Categories' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
                                             @foreach ($categories as $category)
                                                 <li class="dropdown_item-1">
-                                                    <a
-                                                        href="#">{{ $category['name'] ?? 'not category found' }}</a>
+                                                    <a href="javascript:void(0);"
+                                                        onclick="changeCategory('{{ $category['slug'] }}')">
+                                                        {{ $category['name'] }}
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -151,10 +147,9 @@
                                     <?php
                                     use App\Models\Product;
                                     $products = Product::all();
-
                                     ?>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{ $headerContent['top_rated_product'] ?? '' }}</a>
+                                        <a href="#">{{ $headerContent['top_rated_product'] ?? 'Top Rated Products' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -167,11 +162,10 @@
                                                     </li>
                                                 @endforeach
                                             @endif
-
                                         </ul>
                                     </li>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{ $headerContent['exclusive'] ?? '' }}</a>
+                                        <a href="#">{{ $headerContent['exclusive'] ?? 'Exclusive Deals' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -198,11 +192,11 @@
                                 <ul>
                                     <li>
                                         <a
-                                            href="{{ route('expert-guide') }}">{{ $headerContent['expert_guide'] ?? '' }}</a>
+                                            href="{{ route('expert-guide') }}">{{ $headerContent['expert_guide'] ?? 'Expert Guides' }}</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="{{ route('help-center') }}">{{ $headerContent['help_center'] ?? '' }}</a>
+                                            href="{{ route('help-center') }}">{{ $headerContent['help_center'] ?? 'Help Center' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -212,8 +206,6 @@
             </div>
         </section>
     </header>
-    <!-- header section end -->
-    <!-- content section start -->
     @yield('content')
     <!-- content section end -->
     <!-- footer  -->
@@ -235,60 +227,64 @@
                                 @endif
                             </div>
                             <div class="foot-col">
-                                <h6> {{ $footerContents['discover'] ?? '' }}</h6>
+                                <h6> {{ $footerContents['discover'] ?? 'Discover' }}</h6>
                                 <ul class="foot-col-list">
                                     <li>
                                         <a
                                             href="{{ route('category', ['locale' => session('lang_code', 'en-us')]) }}">
-                                            {{ $footerContents['categories'] ?? '' }}
+                                            {{ $footerContents['categories'] ?? 'Categories'}}
                                         </a>
                                     </li>
                                     <li><a
-                                            href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ?? '' }}
+                                            href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ?? 'Top-Rated Products
+                                                ' }}
                                         </a>
                                     </li>
-                                    <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? '' }}</a>
+                                    <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? 'Exclusive Deals' }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{ $footerContents['company'] ?? '' }}</h6>
+                                <h6>{{ $footerContents['company'] ?? 'Company' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ?? '' }}</a>
+                                            href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ?? 'Who We Are
+                                                ' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ?? '' }}</a>
+                                            href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ?? 'Privacy Policy
+                                                ' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? '' }}</a>
+                                            href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? 'Terms & Conditions' }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{ $footerContents['vendors'] ?? '' }}</h6>
+                                <h6>{{ $footerContents['vendors'] ?? 'Vendors' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ?? '' }}</a>
+                                            href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ?? 'Get Listed
+                                                ' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? '' }}</a>
+                                            href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? 'Vendor Login' }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{ $footerContents['help'] ?? '' }}</h6>
+                                <h6>{{ $footerContents['help'] ?? 'Help' }}</h6>
                                 <ul class="foot-col-list">
                                     <li>
                                         <a
-                                            href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['expert_guides'] ?? '' }}</a>
+                                            href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['expert_guides'] ?? 'Expert Guides' }}</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? '' }}</a>
+                                            href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? 'Help Center' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? '' }}</a>
+                                            href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? 'Contact' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -309,7 +305,8 @@
                                             <i class="fa-brands fa-facebook-f" style="color: #ffffff;">
                                             </i>
                                         @endif
-                                        {{ $footerContents['facebook'] ?? '' }}
+                                        {{ $footerContents['facebook'] ?? 'Facebook
+                                            ' }}
                                     </a>
                                 </li>
                                 <li>
@@ -323,7 +320,7 @@
                                             <i class="fa-brands fa-instagram" style="color: #ffffff;">
                                             </i>
                                         @endif
-                                        {{ $footerContents['instagram'] ?? '' }}
+                                        {{ $footerContents['instagram'] ?? 'Instagram' }}
                                     </a>
                                 </li>
                                 <li>
@@ -337,7 +334,7 @@
                                             <i class="fa-brands fa-twitter" style="color: #ffffff;">
                                             </i>
                                         @endif
-                                        {{ $footerContents['twitter'] ?? '' }}
+                                        {{ $footerContents['twitter'] ?? 'Twitter' }}
                                     </a>
                                 </li>
                             </ul>
@@ -379,15 +376,20 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     <script src="{{ asset('front/js/script.js') }}"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
         $(function() {
             AOS.init();
         });
+
+        function changeCategory(categoryId) {
+            let url = new URL(window.location.href);
+            url.pathname = `/en-us/top-rated-product/${categoryId}`;
+            window.location.href = url.href;
+        }
     </script>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const selectBtn = document.querySelector('.select-btn');
             const options = document.querySelectorAll('.option');
             const sBtnText = document.querySelector('.sBtn-text');
@@ -438,7 +440,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
                 position: 'top-right',
                 toast: true,
                 showConfirmButton: false,

@@ -28,8 +28,8 @@ Route::get('/switch-language/{lang_code}', [ViewController::class, 'changeLangua
 Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
 
-// Admin Routes 
-Route::group(['middleware' => ['auth','admin']], function () {
+// --------------- ADMIN ROUTES ----------------------
+Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin-dashboard', [AdminDashController::class, 'index'])->name('admin_dashboard');
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
     Route::post('admin-dashboard/update-profile-procc', [AdminDashController::class, 'ProfileUpdateProcc']);
@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('admin/page-tile-translation/{id}', [AdminDashController::class, 'deletePageTileTranslation'])->name('admin.page_tile_translation.delete');
     Route::post('/admin/page-tile-translation/update', [AdminDashController::class, 'MPSsectionUpdate'])->name('admin.page_tile_translation.update');
     Route::post('/admin/page-tile-specialist-translation/update', [AdminDashController::class, 'SpecialistUpdate'])->name('admin.page_tile_specialist_translation.update');
+
     Route::get('/admin/page-expert-guide/update', [AdminDashController::class, 'ExperGuide'])->name('admin.page-expert-guide.update');
     Route::post('/admin/expert-guide/update', [AdminDashController::class, 'ExperGuideUpdate'])->name('expertGuide.update');
     Route::post('/admin/page-education-translation/update', [AdminDashController::class, 'ESsectionUpdate'])->name('admin.page_education_translation.update');
@@ -47,9 +48,11 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::post('/admin/page-contact-content/update', [AdminDashController::class, 'ContactUpdate'])->name('admin.page-contact-content.update');
  
 
+
     //  CategoriesController  categories
     Route::get('/admin-dashboard/categories', [CategoriesController::class, 'index'])->name('categories');
-    Route::post('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
+    Route::get('/admin-dashboard/categories/add', [CategoriesController::class, 'add'])->name('add-category');
+    Route::post('/admin-dashboard/categories/add-process', [CategoriesController::class, 'add_process'])->name('add-category-process');
     Route::get('/admin-dashboard/remove-category/{id}', [CategoriesController::class, 'remove']);
     Route::get('/admin-dashboard/categories-get', [CategoriesController::class, 'getCategories']);
     Route::get('/admin-dashboard/update-category/{categoryId}', [CategoriesController::class, 'updateCategory'])->name('update-category');
@@ -114,7 +117,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::post('/admin-dashboard/policy-add', [SitePagesController::class, 'policyAddProcc'])->name('policy-add-process');
 
     // Remove policy
-
     Route::get('/admin-dashboard/policy-remove/{id?}', [SitePagesController::class, 'pulicyRemove'])->name('policy-remove');
 
     // Rules Route
@@ -167,43 +169,34 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('/admin-dashboard/footer-page', [SiteContentController::class, 'footerPage'])->name('footer-page');
     Route::post('/admin-dashboard/footer-page-update', [SiteContentController::class, 'footerPageUpdate'])->name('footer-page-update');
 
-    // Categories Page Content Route
-
-    Route::get('/admin-dashboard/categories-page', [SiteContentController::class, 'categoriesPage'])->name('categories-page');
-    Route::post('/admin-dashboard/category-page-update', [SiteContentController::class, 'categoryPageContentUpdate'])->name('category-page-content-update');
-
     // Top Product Page Content Route
 
     Route::get('/admin-dashboard/top-product-page', [SiteContentController::class, 'topProductPageContent'])->name('top-product-page-content');
     Route::post('/admin-dashboard/product-page-update', [SiteContentController::class, 'topProductPageUpdate'])->name('product-page-update');
 
     // Reviews Section Route
-
     Route::get('/admin-dashboard/reviews', [ReviewController::class, 'reviews'])->name('reviews');
     Route::get('/admin-dashboard/review/add', [ReviewController::class, 'reviewAdd'])->name('review-add');
     Route::post('/admin-dashboard/review-add-procc', [ReviewController::class, 'reviewAddProc'])->name('review-add-procc');
-
     Route::get('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewStatusUpdate'])->name('review-status-update');
-
     Route::get('/admin-dashboard/review-status-edit/{id}', [ReviewController::class, 'reviewEdit'])->name('review-edit');
     Route::post('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewUpdate'])->name('review-update');
     Route::get('/admin-dashboard/review-status-update/{id}', [ReviewController::class, 'reviewStatusUpdate'])->name('review-status-update');
     Route::get('/admin-dashboard/review-delete/{id}', [ReviewController::class, 'reviewDelete'])->name('review-delete');
 });
 
-// Add Locale 
-Route::group(['prefix' => '{locale?}', 'middleware' => ['guest','AddLocaleAutomatically']], function () {
+// --------------- USER ROUTES ----------------------
+Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutomatically']], function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
     Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
     Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
     Route::post('/register-process', [AuthenticationController::class, 'registerProcc'])->name('register-process');
 
-
     // Vendor Register Route
     Route::get('/vendor-register', [AuthenticationController::class, 'vendorRegisterForm'])->name('vendor-register');
     Route::post('/vendor-register-process', [AuthenticationController::class, 'vendorRegisterProcess'])->name('vendor-register-process');
     // End Vendor Register Route
-
+    
     Route::get('/recover-password', [AuthenticationController::class, 'forgotPassword'])->name('recover-password');
     Route::post('/password-procc', [AuthenticationController::class, 'forgotProcc'])->name('password-procc');
     Route::get('/otp-confirm', [AuthenticationController::class, 'otpConfirm'])->name('get-otp');
@@ -216,7 +209,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest','AddLocaleAutoma
 
     // Product Controller
     Route::get('/product', [ProductController::class, 'productDetail'])->name('product');
-    Route::get('/top-rated-product', [ProductController::class, 'topRatedProduct'])->name('top-rated-product');
+    Route::get('/top-rated-product/{category?}', [ProductController::class, 'topRatedProduct'])->name('top-rated-product');
     Route::get('/product-comparison', [ProductController::class, 'productComparison'])->name('product-comparison');
 
     //TermAndConditionController
@@ -238,10 +231,14 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest','AddLocaleAutoma
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('withlist');
 });
 
+
+
 Route::group(['middleware' => ['vendor']], function () {
     Route::get('/{locale}/vendor-dashboard', [HomeController::class, 'index'])
         ->name('vendor-dashboard')
         ->where('locale', 'en');
 });
+
+
 
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');

@@ -24,24 +24,23 @@ class TermAndConditionController extends Controller
         //                     $query->where('language_id',$siteLanguage->id);
         //                     }])->where('title','Privacy Policy')->get();        
                             
-        $privacyPolicy = Policy::where('title','Privacy Policy')->first();
+        // $privacyPolicy = Policy::where('title','Privacy Policy')->first();
         // dd($privacyPolicy);
 
         // $rules = Rule::with(['translations' => function ($query) use ($siteLanguage){
         //                 $query->where('language_id', $siteLanguage->id);
         //                 }])->where('policy_id' ,$privacyPolicy->id)->get();          
 
-        return view('User.terms_condition.privacy_policy',compact('policies','rules'));
+        return view('User.terms_condition.privacy_policy');
     }
     public function termsCondtion()
     {
-
         $lang = Session::get('current_lang');
-
+        // dd($lang);
         // $siteLanguage = SiteLanguages::where('handle', $lang)->first();
 
-        // $policies = Policy::with(['translations' => function ($query) use ($siteLanguage){
-        //                     $query->where('language_id',$siteLanguage->id);
+        // $policies = Policy::with(['translations' => function ($query) use (){
+        //                     $query->where('language_id',1);
         //                     }])->where('title','Terms and Conditions')->get();        
                             
         // $terms= Policy::where('title','Terms and Conditions')->first();
@@ -49,7 +48,6 @@ class TermAndConditionController extends Controller
         // $rules = Rule::with(['translations' => function ($query) use ($siteLanguage){
         //                 $query->where('language_id', $siteLanguage->id);
         //                 }])->where('policy_id' ,$terms->id)->get();        
-
-        return view('User.terms_condition.terms_condition',compact('policies','rules'));
+        return view('User.terms_condition.terms_condition');
     }
 }

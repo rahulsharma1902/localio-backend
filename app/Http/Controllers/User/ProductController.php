@@ -3,85 +3,73 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoryProduct;
+use App\Models\CategoryTranslation;
+use App\Models\FeatureTransalte;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\SiteLanguages;
 use App\Models\TopProductContent;
 use App\Models\ProConsTranslation;
-use App\Models\Keyfeature;
 use App\Models\ProductFeature;
 use App\Models\ProductFeatureTranslate;
 use App\Models\ProCons;
-
+use App\Models\ProductTranslation;
 use App\Models\Wishlist;
+
+use function Laravel\Prompts\select;
 
 class ProductController extends Controller
 {
     //
     public function productDetail()
     {
-        $product = Product::find(1);
+        $product = Product::with(['product_features.featureTranslate' => function ($query) {
+            $query->select('feature_id', 'name');
+        }])->where('id', 1)->first();
         if (!$product) {
             return redirect()->route('product')->with('error', 'Product not found!');
         }
+        $result = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'description' => $product->description,
+            'product_price' => $product->product_price,
+            'product_icon' => $product->product_icon,
+            'product_image' => $product->product_image,
+            'product_link' => $product->product_link,
+            'overview' => $product->overview,
+            'product_features' => $product->product_features->toArray(),
+        ];
         $pross_id = ProCons::where('product_id', 1)->where('type', 'pross')->value('id');
         $prss_data = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
         $cons_id = ProCons::where('product_id', 1)->where('type', 'cons')->value('id');
         $cons_data = ProConsTranslation::where('pro_cons_id', $cons_id)->pluck('name')->toArray();
-        $fetured_id_typical_custmor = Keyfeature::where('product_id', 26)->where('type', 'typical_custmor')->pluck('feature_id');
-        $typical_custmor = [];
-        foreach ($fetured_id_typical_custmor as $value) {
-            $featured_name_typical_custmor = ProductFeatureTranslate::where('product_feture_id', $value)->value('name');
-            $typical_custmor[] = $featured_name_typical_custmor;
-        }
-
-        $fetured_id_platform_supported = Keyfeature::where('product_id', 26)->where('type', 'platform_supported')->pluck('feature_id');
-        $platform_supported = [];
-        foreach ($fetured_id_platform_supported as $value) {
-            $featured_name_platform_supported = ProductFeatureTranslate::where('product_feture_id', $value)->value('name');
-            $platform_supported[] = $featured_name_platform_supported;
-        }
-
-        $fetured_id_support_options = Keyfeature::where('product_id', 26)->where('type', 'support_options')->pluck('feature_id');
-        $support_options = [];
-        foreach ($fetured_id_support_options as $value) {
-            $featured_name_support_options = ProductFeatureTranslate::where('product_feture_id', $value)->value('name');
-            $support_options[] = $featured_name_support_options;
-        }
-
-        $fetured_id_tranning_options = Keyfeature::where('product_id', 26)->where('type', 'tranning_options')->pluck('feature_id');
-        $tranning_options = [];
-        foreach ($fetured_id_tranning_options as $value) {
-            $featured_name_tranning_options = ProductFeatureTranslate::where('product_feture_id', $value)->value('name');
-            $tranning_options[] = $featured_name_tranning_options;
-        }
-
-        $fetured_id_top_features = Keyfeature::where('product_id', 1)->where('type', 'top_features')->pluck('feature_id');
-        $top_features = [];
-        foreach ($fetured_id_top_features as $value) {
-            $featured_name_top_features = ProductFeatureTranslate::where('product_feture_id', $value)->value('name');
-            $top_features[] = $featured_name_top_features;
-        }
-
-        $featured_all_data = [
-            'typically_custmor' => $typical_custmor,
-            'platform_supported' => $platform_supported,
-            'support_options' => $support_options,
-            'tranning_options' => $tranning_options,
-            'top_features' => $top_features
-        ];
-
-        // dd($featured_all_data['top_features']);
-
-        return view('User.product.product_detail', compact('product', 'prss_data', 'cons_data', 'featured_all_data'));
+        // dd($result);
+        return view('User.product.product_detail', compact('result', 'prss_data', 'cons_data'));
     }
 
-
-    public function topRatedProduct()
+    public function topRatedProduct($lang, $category_slug = null)
     {
         $lang_id = getCurrentLanguageID();
+        if ($category_slug != '') {
+            $category_id  = CategoryTranslation::where('slug', $category_slug)->value('category_id');
+            $category_product_ids = CategoryProduct::where('category_id', $category_id)->pluck('product_id');
+            $products = Product::with(['product_features' => function ($query) {
+                $query->with('feature_translation')->where('feature_type', 'top_features');
+            }])
+                ->whereIn('id', $category_product_ids)
+                ->get()
+                ->toArray();
+        } else {
+            $products = Product::with(['product_features' => function ($query) {
+                $query->with('feature_translation')->where('feature_type', 'top_features');
+            }])
+                ->get()
+                ->toArray();
+        }
         $productMaxPrice = Product::max('product_price');
-        return view('User.product.top_rated_product', compact('products', 'topProductContents', 'productMaxPrice', 'files'));
+        // dd($products);
+        return view('User.product.top_rated_product', compact('productMaxPrice', 'products'));
     }
     public function productComparison()
     {
@@ -98,13 +86,6 @@ class ProductController extends Controller
             $max = $request->max;
             $topProductContents = $this->getTopProductContents($locale);
             $files = $this->getFiles();
-
-            // $productPriceFilter = $this->getProductPriceFilter($min, $max);
-
-            // foreach ($productPriceFilter as $product) {
-            //     $product->average_rating = $product->reviews->avg('rating') ?: 0;
-            //     $product->reviews_count = $product->reviews->count();
-            // }
 
 
             // $formattedProductRelations = $this->mapProductRelations($productPriceFilter);
