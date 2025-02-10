@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -94,12 +94,12 @@
                             <div class="Header_buttons">
                                 @if (!auth()->user())
                                     <a href="{{ route('login', ['locale' => session('locale', 'en-us')]) }}"
-                                        class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? '' }}</a>
+                                        class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? 'Login' }}</a>
                                     <a href="{{ route('register', ['locale' => session('locale', 'en-us')]) }}"
-                                        class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? '' }}</a>
+                                        class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? 'Sign Up' }}</a>
                                 @else
                                     <a href="{{ url('/logout') }}"
-                                        class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? '' }}</a>
+                                        class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? 'Sign out' }}</a>
                                 @endif
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                             <div class="left_menu">
                                 <ul class="menu">
                                     <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                                        <a href="#" class="cat_menu">{{ $headerContent['categories'] ?? '' }}</a>
+                                        <a href="#" class="cat_menu">{{ $headerContent['categories'] ?? 'Categories' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -149,7 +149,7 @@
                                     $products = Product::all();
                                     ?>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{ $headerContent['top_rated_product'] ?? '' }}</a>
+                                        <a href="#">{{ $headerContent['top_rated_product'] ?? 'Top Rated Products' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -165,7 +165,7 @@
                                         </ul>
                                     </li>
                                     <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{ $headerContent['exclusive'] ?? '' }}</a>
+                                        <a href="#">{{ $headerContent['exclusive'] ?? 'Exclusive Deals' }}</a>
                                         <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
                                         <ul
                                             class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
@@ -192,11 +192,11 @@
                                 <ul>
                                     <li>
                                         <a
-                                            href="{{ route('expert-guide') }}">{{ $headerContent['expert_guide'] ?? '' }}</a>
+                                            href="{{ route('expert-guide') }}">{{ $headerContent['expert_guide'] ?? 'Expert Guides' }}</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="{{ route('help-center') }}">{{ $headerContent['help_center'] ?? '' }}</a>
+                                            href="{{ route('help-center') }}">{{ $headerContent['help_center'] ?? 'Help Center' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -227,60 +227,64 @@
                                 @endif
                             </div>
                             <div class="foot-col">
-                                <h6> {{ $footerContents['discover'] ?? '' }}</h6>
+                                <h6> {{ $footerContents['discover'] ?? 'Discover' }}</h6>
                                 <ul class="foot-col-list">
                                     <li>
                                         <a
                                             href="{{ route('category', ['locale' => session('lang_code', 'en-us')]) }}">
-                                            {{ $footerContents['categories'] ?? '' }}
+                                            {{ $footerContents['categories'] ?? 'Categories'}}
                                         </a>
                                     </li>
                                     <li><a
-                                            href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ?? '' }}
+                                            href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ?? 'Top-Rated Products
+                                                ' }}
                                         </a>
                                     </li>
-                                    <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? '' }}</a>
+                                    <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? 'Exclusive Deals' }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{ $footerContents['company'] ?? '' }}</h6>
+                                <h6>{{ $footerContents['company'] ?? 'Company' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ?? '' }}</a>
+                                            href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ?? 'Who We Are
+                                                ' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ?? '' }}</a>
+                                            href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ?? 'Privacy Policy
+                                                ' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? '' }}</a>
+                                            href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? 'Terms & Conditions' }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{ $footerContents['vendors'] ?? '' }}</h6>
+                                <h6>{{ $footerContents['vendors'] ?? 'Vendors' }}</h6>
                                 <ul class="foot-col-list">
                                     <li><a
-                                            href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ?? '' }}</a>
+                                            href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ?? 'Get Listed
+                                                ' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? '' }}</a>
+                                            href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? 'Vendor Login' }}</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="foot-col">
-                                <h6>{{ $footerContents['help'] ?? '' }}</h6>
+                                <h6>{{ $footerContents['help'] ?? 'Help' }}</h6>
                                 <ul class="foot-col-list">
                                     <li>
                                         <a
-                                            href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['expert_guides'] ?? '' }}</a>
+                                            href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['expert_guides'] ?? 'Expert Guides' }}</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? '' }}</a>
+                                            href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? 'Help Center' }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? '' }}</a>
+                                            href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? 'Contact' }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -301,7 +305,8 @@
                                             <i class="fa-brands fa-facebook-f" style="color: #ffffff;">
                                             </i>
                                         @endif
-                                        {{ $footerContents['facebook'] ?? '' }}
+                                        {{ $footerContents['facebook'] ?? 'Facebook
+                                            ' }}
                                     </a>
                                 </li>
                                 <li>
@@ -315,7 +320,7 @@
                                             <i class="fa-brands fa-instagram" style="color: #ffffff;">
                                             </i>
                                         @endif
-                                        {{ $footerContents['instagram'] ?? '' }}
+                                        {{ $footerContents['instagram'] ?? 'Instagram' }}
                                     </a>
                                 </li>
                                 <li>
@@ -329,7 +334,7 @@
                                             <i class="fa-brands fa-twitter" style="color: #ffffff;">
                                             </i>
                                         @endif
-                                        {{ $footerContents['twitter'] ?? '' }}
+                                        {{ $footerContents['twitter'] ?? 'Twitter' }}
                                     </a>
                                 </li>
                             </ul>
