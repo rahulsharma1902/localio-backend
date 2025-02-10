@@ -28,7 +28,7 @@ Route::get('/switch-language/{lang_code}', [ViewController::class, 'changeLangua
 Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 Route::post('loginprocc', [AuthenticationController::class, 'loginProcc'])->name('login_process');
 
-// Admin Routes 
+// --------------- ADMIN ROUTES ----------------------
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin-dashboard', [AdminDashController::class, 'index'])->name('admin_dashboard');
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
@@ -179,7 +179,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin-dashboard/review-delete/{id}', [ReviewController::class, 'reviewDelete'])->name('review-delete');
 });
 
-// Add Locale 
+// --------------- USER ROUTES ----------------------
 Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutomatically']], function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
     Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
@@ -190,6 +190,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::get('/vendor-register', [AuthenticationController::class, 'vendorRegisterForm'])->name('vendor-register');
     Route::post('/vendor-register-process', [AuthenticationController::class, 'vendorRegisterProcess'])->name('vendor-register-process');
     // End Vendor Register Route
+    
     Route::get('/recover-password', [AuthenticationController::class, 'forgotPassword'])->name('recover-password');
     Route::post('/password-procc', [AuthenticationController::class, 'forgotProcc'])->name('password-procc');
     Route::get('/otp-confirm', [AuthenticationController::class, 'otpConfirm'])->name('get-otp');
@@ -224,10 +225,14 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('withlist');
 });
 
+
+
 Route::group(['middleware' => ['vendor']], function () {
     Route::get('/{locale}/vendor-dashboard', [HomeController::class, 'index'])
         ->name('vendor-dashboard')
         ->where('locale', 'en');
 });
+
+
 
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
