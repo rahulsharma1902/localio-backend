@@ -781,7 +781,7 @@
         <div class="container">
             <div class="about_asn_content">
                 <div class="hd_content asan-text-para">
-                    {{ $result['overview'] }}
+                    {!! $result['overview'] !!}
                 </div>
                 <div class="asn_dv asv_orng asv_blue" data-aos="fade-up" data-aos-duration="1000">
                     <div class="asn_dv_contnt">
