@@ -602,10 +602,52 @@ class AdminDashController extends Controller
             $file->move(public_path('front/img/'), $filename);
             $pageTile->image = 'front/img/' . $filename;
         }
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = now()->format('YmdHis') . '_right_tool_.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $pageTile->image = 'front/img/' . $filename;
+        }
+    }
+
+    public function RightToolItemUpdate(Request $request){
+
+        try {
+            $pageTileTranslation = PageTileTranslation::find($request->id);
+
+            // return response()->json($pageTileTranslation);
+
+            if (!$pageTileTranslation) {
+                return response()->json(['error' => false, 'msg' => 'Item not found.']);
+            }
+
+            $pageTileTranslation->title = $request->title;
+            $pageTileTranslation->description = $request->description;
+            $pageTileTranslation->status = $request->input('status', 1);
+            // Handle image upload
+
+            // Handle Image Upload (Only if a new image is provided)
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '_right_tools_item_.' . $image->getClientOriginalExtension();
+                $image->move(public_path('front/img/'), $filename);
+                $pageTileTranslation->image = 'front/img/' . $filename;
+            }
+
+            $pageTileTranslation->save();
+
+            return response()->json(['success' => true, 'msg' => 'Popular item updated successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => false, 'msg' => 'Error updating item: ' . $e->getMessage()], 500);
+        }
+    
     }
     public function Contact(){
         $contact = ContactContent::first();
-        return view('Admin.site-content.contact2',compact('contact'));
+        $pageTileTranslationRightTool = PageTile::where('source', 'right_tool_item')
+        ->with('translations') // Eager load translations
+        ->get();
+        return view('Admin.site-content.contact2',compact('contact','pageTileTranslationRightTool'));
     }
     public function ContactUpdate(Request $request)
     {
@@ -618,6 +660,8 @@ class AdminDashController extends Controller
         ]);
     
         $contact = ContactContent::first();
+        $pageTile = PageTile::first() ?? new PageTile();
+        $pageTileTranslation = PageTileTranslation::first() ?? new PageTileTranslation();
         if (!$contact) {
             return redirect()->back()->with('error', 'Contact content not found.');
         }
@@ -643,10 +687,60 @@ class AdminDashController extends Controller
             $file->move(public_path('front/img/'), $filename);
             $contact->image_second = 'front/img/' . $filename;
         }
+        $popularItems = $request->input('right_tool', []);
+        if (isset($popularItems['title']) && is_array($popularItems['title'])) {
+            foreach ($popularItems['title'] as $index => $title) {
+                $description = $popularItems['description'][$index] ?? null;
+                $image = $popularItems['image'][$index] ?? null;
+
+                $filename = null;
+                if ($image) {
+                    if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+                        $extension = $type[1];
+                        $image = substr($image, strpos($image, ',') + 1);
+                        $image = base64_decode($image);
+                        $filename = now()->format('YmdHis') . '_right_tools_item_' . $index . '.' . $extension;
+                        file_put_contents(public_path('front/img/') . $filename, $image);
+                    }
+                }
+
+                // Create a new PageTile if needed
+
+                $pageTile = new PageTile();
+                $pageTile->lang_id = $request->input('lang_id', 1);
+                $pageTile->image = $image ? 'front/img/' . $filename : null;
+                $pageTile->type = 'right_tool_item';
+                $pageTile->source = 'right_tool_item';
+                $pageTile->save();
+
+                // Create or update PageTileTranslation
+
+                $pageTileTranslation = new PageTileTranslation();
+                $pageTileTranslation->page_tile_id = $pageTile->id;
+                $pageTileTranslation->title = $title;
+                $pageTileTranslation->description = $description;
+                $pageTileTranslation->image = $image ? 'front/img/' . $filename : $pageTileTranslation->image;
+                $pageTileTranslation->status = $request->input('status', 1);
+                $pageTileTranslation->save();
+            }
+        }
+        $pageTile->update($request->except(['image']));
+
+        $this->handleEducationFileUpload($request, $pageTile);
     
         $contact->save();
     
         return redirect()->back()->with('success', 'Contact content updated successfully.');
+        
     }
-    
+    protected function handleRightFileUpload(Request $request, $pageTile)
+    {
+      
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = now()->format('YmdHis') . '_right_tools_item_.' . $file->getClientOriginalExtension();
+            $file->move(public_path('front/img/'), $filename);
+            $pageTile->image = 'front/img/' . $filename;
+        }
+    }
 }
