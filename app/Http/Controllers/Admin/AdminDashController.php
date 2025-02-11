@@ -325,20 +325,25 @@ class AdminDashController extends Controller
             $file->move(public_path('front/img/'), $filename);
             $pageTile->image = 'front/img/' . $filename;
         }
-
         if ($request->hasFile('img')) {
             $file = $request->file('img');
-            $filename = now()->format('YmdHis') . '_' . uniqid() . '_img.' . $file->getClientOriginalExtension();
-            $file->move(public_path('front/img/'), $filenameBig);
-            $pageTile->img = 'front/img/' . $filenameBig; // Save the first image to the 'img' field
+            if ($file->isValid()) {
+                $filenameBig = now()->format('YmdHis') . '_img_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('front/img/'), $filenameBig);
+                $pageTile->img = 'front/img/' . $filenameBig;
+            }
         }
+        
 
         if ($request->hasFile('small_img')) {
             $file = $request->file('small_img');
-            $filename = now()->format('YmdHis') . '_' . uniqid() . '_small_img.' . $file->getClientOriginalExtension();
-            $file->move(public_path('front/img/'), $filenameSmall);
-            $pageTile->small_img = 'front/img/' . $filenameSmall; // Save the second image to the 'small_img' field
+            if ($file->isValid()) {
+                $filenameSmall = now()->format('YmdHis') . '_small_img_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('front/img/'), $filenameSmall);
+                $pageTile->small_img = 'front/img/' . $filenameSmall;
+            }
         }
+       
     }
     public function deletePageTileTranslation($id)
     {
