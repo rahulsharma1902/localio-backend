@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="description">Description</label>
                                     <div class="form-control-wrap">
-                                        <textarea class="description" name="description" id="description" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                        <textarea class="description" name="description" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                         @error('description')
                                             <div class="error text-danger">{{ $message }}</div>
                                         @enderror
@@ -129,7 +129,8 @@
                                     @endif
                                     @if (isset($product))
                                         <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
-                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                                            alt="{{ $product->name }}"
+                                            style="width: 50px; height: auto;margin-top: 16px;border-radius: 40px;">
                                     @endif
                                 </div>
                                 @error('product_icon')
@@ -147,7 +148,8 @@
                                     @endif
                                     @if (isset($product))
                                         <img src="{{ asset('ProductImage/' . $product->product_image) }}"
-                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                                            alt="{{ $product->name }}"
+                                            style="width: 50px; height: auto;margin-top: 16px; border-radius: 40px;">
                                     @endif
                                 </div>
                                 @error('product_image')
@@ -158,25 +160,43 @@
 
 
                         <!-- Product Link -->
-                        <div class="col-md-12 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="product-link">Link</label>
-                                <input type="url" class="form-control" name="product_link" id="product-link"
-                                    value="{{ isset($product) ? $product->product_link : '' }}"
-                                    placeholder="Product Link">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-link">Link</label>
+                                    <input type="url" class="form-control" name="product_link" id="product-link"
+                                        value="{{ isset($product) ? $product->product_link : '' }}"
+                                        placeholder="Product Link">
+                                </div>
+                                @error('product_link')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('product_link')
-                                <div class="error text-danger">{{ $message }}</div>
-                            @enderror
+
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-feature">Product Feature</label>
+                                    <select class="form-control product-feature" name="product_feature[]" multiple="multiple">
+                                        @if ($features->isNotEmpty())
+                                            @foreach ($features as $feature)
+                                                <option value="{{ $feature->id }}" 
+                                                    @if (in_array($feature->id, array_column($feature_arr, 'id'))) selected="selected" @endif>
+                                                    {{ $feature->name }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    
+                                </div>
+                            </div>
                         </div>
 
-                        {{-- Product Overview --}}
 
                         <div class="col-md-12 mt-3">
                             <div class="form-group">
                                 <label class="form-label" for="description">Overview</label>
                                 <div class="form-control-wrap">
-                                    <textarea class="description" name="overview" id="description" rows="2" cols="70">{{ old('overview', isset($productTranslation) ? $productTranslation->description : $product->overview ?? '') }}</textarea>
+                                    <textarea class="description" name="overview" id="editor1" rows="2" cols="70">{{ old('overview', isset($productTranslation) ? $productTranslation->description : $product->overview ?? '') }}</textarea>
                                     @error('overview')
                                         <div class="error text-danger">{{ $message }}</div>
                                     @enderror
@@ -294,6 +314,44 @@
             $('.product-category').select2({
                 placeholder: "Select Product Category"
             });
+            $('.product-feature').select2({
+                placeholder: "Select Product Feature"
+            });
         });
+
+
+
+        // ck editor this script 
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
+                    'insertTable',
+                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+                },
+                language: 'en'
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#editor1'), {
+                toolbar: [
+                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
+                    'insertTable',
+                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+                },
+                language: 'en'
+            })
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 @endsection

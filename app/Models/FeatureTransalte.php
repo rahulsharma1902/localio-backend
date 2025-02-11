@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Keyfeature extends Model
+class FeatureTransalte extends Model
 {
+    protected $table = 'feature_translation';
+
     protected $fillable = [
+        'name',
         'product_id',
         'feature_id',
-        'type',
+        'status'
     ];
+
+
     use HasFactory;
 }

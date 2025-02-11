@@ -2,7 +2,7 @@
 @section('content')
     <style>
         .ck.ck-content {
-            min-height: 10rem;
+            min-height: 6rem  !important;
         }
 
         .nk-add-product.toggle-slide.toggle-slide-right.toggle-screen-any.content-active {
@@ -15,13 +15,6 @@
             <div class="nk-block-head-content">
                 <h4 class="title nk-block-title">
                     Update Category
-                    @if ($category)
-                        @if ($category->language_id ?? '')
-                            - <span>{{ $category->language->name ?? '' }}</span>
-                        @endif
-                    @else
-                        - <span>{{ Cookie::get('language_code', config('app.locale')) }}</span>
-                    @endif
                 </h4>
             </div>
             <div>
@@ -134,25 +127,20 @@
 
     <!-- JavaScript -->
     <script>
-        $(document).ready(function() {
-            // Update the slug field based on the name field
-            $('#name').on('input', function() {
-                let name = $(this).val().toLowerCase();
-                let slug = name.replace(/\s+/g, "-").replace(/\//g, "-");
-                $('#slug').val(slug);
+        ClassicEditor
+            .create(document.querySelector('#description'), {
+                toolbar: [
+                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
+                    'insertTable',
+                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+                },
+                language: 'en'
+            })
+            .catch(error => {
+                console.error(error);
             });
-
-            // Slug input: sanitize spaces and slashes
-            $('#slug').on('change', function() {
-                this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
-            });
-
-            // Handle input: Allow only alphanumeric characters and dashes
-            $('#handle').on('input', function() {
-                var value = $(this).val();
-                var validValue = value.replace(/[^a-zA-Z0-9-]/g, ''); // Allow only alphanumeric and dash
-                $(this).val(validValue);
-            });
-        });
     </script>
 @endsection

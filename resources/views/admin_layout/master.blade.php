@@ -145,7 +145,13 @@
                                                     class="nk-menu-text">Product</span>
                                             </a>
                                         </li>
-    
+                                        
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('productfeature.index') }}?tab=top_features"
+                                                class="nk-menu-link"><span class="nk-menu-text">Top Product Feature</span>
+                                            </a>
+                                        </li>
+
                                         <li class="nk-menu-item">
                                             <a href="{{ route('productfeature.index') }}?tab=typical_custmor"
                                                 class="nk-menu-link"><span class="nk-menu-text">Typical Customers</span>
@@ -220,14 +226,24 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Home</span></a>
                                         </li>
 
+                                      
                                         <li class="nk-menu-item ">
                                             <a href="{{ route('who_we_are_content') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Who we are</span></a>
 
                                         </li>
 
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ route('admin.page-expert-guide.update') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Expert Guide</span></a>
 
+                                        </li>
+                                       
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ route('admin.page-contact.update') }}" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Contact</span></a>
 
+                                        </li>
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/categories-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Categories
@@ -371,6 +387,7 @@
                                                 class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                                 data-bs-toggle="dropdown">
                                                 {{ Cookie::get('lang_code', config('app.locale')) }}
+                                                {{-- {{config('app.locale')}} --}}
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
@@ -600,8 +617,7 @@
         <script>
             toastr.clear();
             NioApp.Toast(
-                '{{ Session::get('
-                                                                                                                                                                                                                                success ') }}',
+                '{{ Session::get('                                                                                                                                                                                                          success ') }}',
                 'success', {
                     position: 'top-right'
                 });
@@ -697,6 +713,8 @@
             }
 
         }
+    }
+});
     </script>
 
 </body>

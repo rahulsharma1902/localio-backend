@@ -19,10 +19,10 @@
                                     <label class="form-label" for="name">Product Feature</label>
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <input type="hidden" name="feture_translate_id" value="{{$producttranslation['id']}}">
+                                            <input type="hidden" name="feture_translate_id" value="{{$productFeatureTranslate['id']}}">
                                             <input type="hidden" name="tab" value="{{request('tab')}}">
                                             <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Product Feature" value="{{$producttranslation['name']}}">
+                                                placeholder="Product Feature" value="{{$productFeatureTranslate['name']}}">
                                         </div>
                                     </div>
                                     @error('name')

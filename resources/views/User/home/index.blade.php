@@ -39,19 +39,19 @@
     <section class="banner_sec dark" style="background-color: #003F7D;">
         <div class="bubble-wrp">
             <?php
-                $headerBackgroundImage = $homeContantImages->get('header_background_img');
-                $headerImage = $homeContantImages->get('header_img');
-                $trustedBrandImages = $homeContantImages->get('trusted_brands_img');
-                $aiLeftImage = $homeContantImages->get('ai_section_left_img');
-                $aiRightImage = $homeContantImages->get('ai_section_right_img');
-                $findToolRightImage = $homeContantImages->get('find_tool_right_img');
-                $findToolLeftImage = $homeContantImages->get('find_tool_left_img');
-                $verifiedImage = $homeContantImages->get('user_reviews_img');
-                $featureImage = $homeContantImages->get('price_compare_img');
-                $indepentImage = $homeContantImages->get('independent_img');
-                $reviewRightImage = $homeContantImages->get('review_section_right_img');
-                $reviewLeftImage = $homeContantImages->get('review_section_left_img');
-                $aiImage = $homeContantImages->get('ai_send_img');
+            $headerBackgroundImage = $homeContantImages->get('header_background_img');
+            $headerImage = $homeContantImages->get('header_img');
+            $trustedBrandImages = $homeContantImages->get('trusted_brands_img');
+            $aiLeftImage = $homeContantImages->get('ai_section_left_img');
+            $aiRightImage = $homeContantImages->get('ai_section_right_img');
+            $findToolRightImage = $homeContantImages->get('find_tool_right_img');
+            $findToolLeftImage = $homeContantImages->get('find_tool_left_img');
+            $verifiedImage = $homeContantImages->get('user_reviews_img');
+            $featureImage = $homeContantImages->get('price_compare_img');
+            $indepentImage = $homeContantImages->get('independent_img');
+            $reviewRightImage = $homeContantImages->get('review_section_right_img');
+            $reviewLeftImage = $homeContantImages->get('review_section_left_img');
+            $aiImage = $homeContantImages->get('ai_send_img');
             
             ?>
             @if (isset($headerBackgroundImage))
@@ -147,7 +147,7 @@
                                     </button>
                                 </h2>
                                 <div id="collapse{{ $key }}" class="accordion-collapse collapse"
-                                    aria-labelledby="" data-bs-parent="#accordionExample">
+                                    aria-labelledby="heading{{ $key }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         <div class="accordion-bdy-wrp">
                                             <div class="accor-bdy-hd">
@@ -397,7 +397,6 @@
                         @endforeach
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -412,7 +411,6 @@
                     </div>
                     <div class="review_box text-right revw-width">
                         <a class="cta cta_white" href="#"> {{ $homeContents['all_exclusive'] ?? null }}</a>
-                        <!-- <a class="cta cta_white" href="#">All Exclusive deals</a> -->
                     </div>
                 </div>
             </div>
@@ -1231,15 +1229,4 @@
         </div>
 
     </section>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('.trust-brnd-marque').marquee({
-                duration: 5000,
-                gap: 20
-            });
-        });
-    </script>
 @endsection

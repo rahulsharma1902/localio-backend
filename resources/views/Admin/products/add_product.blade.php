@@ -34,7 +34,7 @@
                             <!-- Product Description -->
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="description">Product Overview</label>
+                                    <label class="form-label" for="description">Product Description</label>
                                     <div class="form-control-wrap">
                                         <textarea class="description" name="description" id="editor1" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                         @error('description')
@@ -162,7 +162,6 @@
                             </div>
                         </div>
 
-
                         <!-- Product Link -->
                         <div class="row mt-3">
 
@@ -177,20 +176,17 @@
                                 @enderror
                             </div>
 
+
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="product_feature">Product Feature</label>
-                                    <select class="form-control product_feature" name="product_feature[]"
+                                    <label class="form-label" for="product-category">Product Feature</label>
+                                    <select class="form-control product-feature" name="product_feature[]"
                                         multiple="multiple">
-                                            @foreach ($product_feature as $key => $value)
-                                                <option value="{{$key}}">{{ $value }}
-                                                </option>
-                                            @endforeach
+                                        @foreach ($product_feature as $key => $item)
+                                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                @error('product_feature')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
                             </div>
 
                         </div>
@@ -199,7 +195,7 @@
                         {{-- overview data --}}
                         <div class="col-md-12 mt-3">
                             <div class="form-group">
-                                <label class="form-label" for="description">Product Description</label>
+                                <label class="form-label" for="description">Product Overview</label>
                                 <div class="form-control-wrap">
                                     <textarea class="description" name="overview" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                     @error('overview')
@@ -241,50 +237,55 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center btn-localio"><em
                                         class="icon ni ni-plus"></em><span>{{ isset($product) ? 'Update Product' : 'Add Product' }}</span></button>
                             </div>
                         </div>
+
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
     <script>
-
         // add ck editor
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
+                    'insertTable',
+                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+                },
+                language: 'en'
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
         ClassicEditor
-        .create(document.querySelector('#editor'), {
-            toolbar: [
-                'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'insertTable',
-                'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
-            ],
-            image: {
-                toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-            },
-            language: 'en'
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-    ClassicEditor
-        .create(document.querySelector('#editor1'), {
-            toolbar: [
-                'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'insertTable',
-                'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
-            ],
-            image: {
-                toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-            },
-            language: 'en'
-        })
-        .catch(error => {
-            console.error(error);
-        });
+            .create(document.querySelector('#editor1'), {
+                toolbar: [
+                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
+                    'insertTable',
+                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+                },
+                language: 'en'
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
 
 
@@ -338,7 +339,7 @@
                 placeholder: "Select Product Category"
             });
 
-            $('.product_feature').select2({
+            $('.product-feature').select2({
                 placeholder: "Select Product Feature"
             });
         });

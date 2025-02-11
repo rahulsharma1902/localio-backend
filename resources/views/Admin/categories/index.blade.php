@@ -29,8 +29,8 @@
                                     <a href="#" data-target="addProduct"
                                         class="toggle btn btn-icon btn-primary d-md-none"><em
                                             class="icon ni ni-plus"></em></a>
-                                    <a href="#" data-target="addProduct"
-                                        class="toggle btn btn-primary d-none d-md-inline-flex btn-localio"><em
+                                    <a href="{{ route('add-category') }}"
+                                        class="btn btn-primary d-none d-md-inline-flex btn-localio"><em
                                             class="icon ni ni-plus"></em><span>Add Categories</span></a>
                                 </li>
 
@@ -60,7 +60,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- {{ dd($categories) }} --}}
                             @foreach ($categories as $category)
                                 <tr class="nk-tb-item">
 
@@ -84,7 +83,7 @@
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                     <div class="dropdown-menu dropdown-menu-end edit-btn"
-                                                        style="height: 59px !important;">
+                                                        style="height: 65px !important;">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a
                                                                     href="{{ url('admin-dashboard/update-category') ?? '' }}/{{ $category->category_id ?? '' }}"><em
@@ -107,88 +106,13 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-
                         </tbody>
                     @endif
                 </table>
             </div>
         </div>
 
-        <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProduct" data-toggle-screen="any"
-            data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
-            <div class="nk-block-head">
-                <div class="nk-block-head-content">
-                    <h5 class="nk-block-title">New Category</h5>
-                </div>
-            </div><!-- .nk-block-head -->
-            <div class="nk-block">
-                <form action="{{ url('admin-dashboard/categories/add') ?? '' }}" class="form-validate"
-                    novalidate="novalidate" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="name">Category Name</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="name" id="name">
-                                </div>
-                                @error('name')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <input type="hidden" class="form-control" name="slug" id="slug">
-                                </div>
-                                @error('slug')
-                                    <!-- <div class="error text-danger">{{ $message }}</div> -->
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label" for="description">Description</label>
-                                <div class="form-control-wrap">
-                                    <textarea class="description" name="description" id="description"></textarea>
-                                </div>
-                                @error('description')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="image">Upload Image</label>
-                                <div class="dz-message">
-                                    <input type="file" class="form-control" name="image" id="image">
-                                </div>
-                                @error('image')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="image">Upload Icon</label>
-                                <div class="dz-message">
-                                    <input type="file" class="form-control" name="category_icon" id="categoryIcon">
-                                </div>
-                                @error('image')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button class="addCategory btn btn-primary form-control text-center"><em
-                                    class="icon ni ni-plus"></em><span>Add New Category</span></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+
     </div>
 
 
