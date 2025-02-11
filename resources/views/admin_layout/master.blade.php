@@ -135,17 +135,17 @@
                                         <span class="nk-menu-text">Products</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                        
+
                                     </ul>
 
-                                    
+
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/products') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Product</span>
                                             </a>
                                         </li>
-                                        
+
                                         <li class="nk-menu-item">
                                             <a href="{{ route('productfeature.index') }}?tab=top_features"
                                                 class="nk-menu-link"><span class="nk-menu-text">Top Product Feature</span>
@@ -226,7 +226,7 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Home</span></a>
                                         </li>
 
-                                      
+
                                         <li class="nk-menu-item ">
                                             <a href="{{ route('who_we_are_content') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Who we are</span></a>
@@ -238,7 +238,7 @@
                                                     class="nk-menu-text">Expert Guide</span></a>
 
                                         </li>
-                                       
+
                                         <li class="nk-menu-item ">
                                             <a href="{{ route('admin.page-contact.update') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Contact</span></a>
@@ -253,6 +253,12 @@
                                         <li class="nk-menu-item ">
                                             <a href="{{ url('/admin-dashboard/top-product-page') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Top Product
+                                                </span></a>
+                                        </li>
+
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ url('/admin-dashboard/policies') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Privacy Policy
                                                 </span></a>
                                         </li>
                                     </ul>
@@ -272,35 +278,6 @@
                                     </ul>
                                 </li>
 
-                                <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                        <span class="nk-menu-text">Store Front</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-
-
-                                        <li class="nk-menu-item has-sub">
-                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                                <span class="nk-menu-text">Policies Section</span>
-                                            </a>
-                                            <ul class="nk-menu-sub">
-                                                <li class="nk-menu-item">
-                                                    <a href="{{ url('/admin-dashboard/policies') }}"
-                                                        class="nk-menu-link"><span
-                                                            class="nk-menu-text">Policies</span></a>
-                                                </li>
-                                                <li class="nk-menu-item">
-                                                    <a href="{{ url('/admin-dashboard/rules') }}"
-                                                        class="nk-menu-link"><span
-                                                            class="nk-menu-text">Rules</span></a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-                                </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
@@ -458,7 +435,7 @@
                                                     <li><a href="{{ url('admin-dashboard/setting') ?? '' }}"><em
                                                                 class="icon ni ni-setting-alt"></em><span>Account
                                                                 Setting</span></a></li>
-                                                
+
                                                 </ul>
                                             </div>
                                             <div class="dropdown-inner">
@@ -648,7 +625,7 @@
                 .create(element)
                 .catch(error => {
                     console.error(error);
-                }); 
+                });
         });
         var vareditorElements = document.querySelectorAll('.variation_description');
         vareditorElements.forEach(function(element) {
@@ -659,7 +636,7 @@
             .create(element)
             .catch(error => {
                 console.error(error);
-            }); 
+            });
     });
     var vareditorElements = document.querySelectorAll('.variation_description');
     vareditorElements.forEach(function(element) {

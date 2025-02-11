@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('/admin/page-right-tool-translation/update', [AdminDashController::class, 'RTsectionUpdate'])->name('admin.page_Right_tool_translation.update');
     Route::get('/admin/page-contact/update', [AdminDashController::class, 'Contact'])->name('admin.page-contact.update');
     Route::post('/admin/page-contact-content/update', [AdminDashController::class, 'ContactUpdate'])->name('admin.page-contact-content.update');
- 
+
 
 
     //  CategoriesController  categories
@@ -112,15 +112,11 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
     // policies Route
     Route::get('/admin-dashboard/policies', [SitePagesController::class, 'policies'])->name('policies');
-    Route::get('/admin-dashboard/policy/add', [SitePagesController::class, 'policyAdd'])->name('policy-add');
-    Route::get('/admin-dashboard/policy-edit/{id}', [SitePagesController::class, 'policyEdit'])->name('policy-edit');
-    Route::post('/admin-dashboard/policy-add', [SitePagesController::class, 'policyAddProcc'])->name('policy-add-process');
-
-    // Remove policy
+    Route::get('admin-dashboard/policy/add/{id?}',[SitePagesController::class, 'policiesAddShow'])->name('policies_add_show');
+    Route::post('/admin-dashboard/policy/add-process', [SitePagesController::class, 'policiesadd'])->name('policy-add');
     Route::get('/admin-dashboard/policy-remove/{id?}', [SitePagesController::class, 'pulicyRemove'])->name('policy-remove');
 
     // Rules Route
-
     Route::get('/admin-dashboard/rules', [SitePagesController::class, 'rules'])->name('rules');
     Route::get('/admin-dashboard/rule/add', [SitePagesController::class, 'ruleAdd'])->name('rule-add');
     Route::post('/admin-dashboard/rule-add-procc', [SitePagesController::class, 'ruleAddProcc'])->name('rule-add-procc');
@@ -196,7 +192,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::get('/vendor-register', [AuthenticationController::class, 'vendorRegisterForm'])->name('vendor-register');
     Route::post('/vendor-register-process', [AuthenticationController::class, 'vendorRegisterProcess'])->name('vendor-register-process');
     // End Vendor Register Route
-    
+
     Route::get('/recover-password', [AuthenticationController::class, 'forgotPassword'])->name('recover-password');
     Route::post('/password-procc', [AuthenticationController::class, 'forgotProcc'])->name('password-procc');
     Route::get('/otp-confirm', [AuthenticationController::class, 'otpConfirm'])->name('get-otp');

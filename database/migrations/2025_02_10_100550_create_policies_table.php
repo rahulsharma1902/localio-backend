@@ -13,16 +13,11 @@ return new class extends Migration
     {
         Schema::create('policies', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
             $table->unsignedBigInteger('lang_id');
             $table->foreign('lang_id')->references('id')->on('languages')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('policies');

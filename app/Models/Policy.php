@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Policy extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description'];
+    protected $table = 'policies';
+
+    protected $fillable = [
+        'lang_id',
+    ];
 
     public function translations()
     {
@@ -18,5 +22,5 @@ class Policy extends Model
     {
         return $this->hasMany(Rule::class);
     }
-   
+
 }

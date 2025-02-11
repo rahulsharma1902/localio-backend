@@ -165,6 +165,7 @@ class CategoriesController extends Controller
 
         if ($category) {
             CategoryTranslation::where('category_id', $id)->delete();
+            
             $category->delete();
             return redirect()->back()->with('success', 'Category and its translations removed successfully.');
         } else {
