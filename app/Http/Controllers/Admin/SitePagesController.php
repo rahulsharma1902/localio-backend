@@ -340,7 +340,7 @@ class SitePagesController extends Controller
         return redirect()->route('terms')->with('success', 'Successfully created policy');
     }
 
-    public function terms_remove(){
+    public function terms_remove($id){
         $term = Term::find($id);
         if(!$term)
         {
