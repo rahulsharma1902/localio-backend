@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('top_left_section_img')->nullable(); 
             $table->string('top_right_section_img')->nullable(); // Top right section image
             $table->string('mp_heading',600)->nullable(); // Middle page heading
-            $table->string('mp_sub_heading')->nullable(); // Middle page sub-heading
+            $table->string('mp_sub_heading',600)->nullable(); // Middle page sub-heading
             $table->string('top_card_title')->nullable(); // Top card title
             $table->string('top_card_image')->nullable(); // Top card image
             $table->text('top_card_desc')->nullable(); // Top card description

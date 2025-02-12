@@ -64,23 +64,26 @@
    <div class="container">
       <div class="right-tool-wrp text-center" data-aos="fade-up" data-aos-duration="1000">
          <div class="otr_rgtool">
-            <h2>{{ $contact->contact_heading ?? '' }}</h2>
+            <h2>{{ $contact->footer_heading ?? '' }}</h2>
          </div>
          <div class="right-tool-pack">
             <div class="row">
+            @forelse($pageTileTranslationRightTool as $index => $item)
+            @foreach ($item->translations as $translation)
                <div class="col-lg-4">
                   <div class="tool-card">
                      <div class="tool-card-img">
-                        <img src="{{asset('front/img/right-tool-img1.png') }}" alt="">
+                        <img src="{{ asset($translation->image) }}" alt="">
                      </div>
                      <div class="tool-crd-bdy">
-                        <h3 class="tool_hed">Verified User Reviews</h3>
-                        <p class="size18">Read real feedback from verified users to help you make the right choice.
+                        <h3 class="tool_hed">{{ $translation->title ?? 'No Title' }}</h3>
+                        <p class="size18">{{ $translation->description ?? 'No Description' }}
                         </p>
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4">
+               @endforeach
+               <!-- <div class="col-lg-4">
                   <div class="tool-card">
                      <div class="tool-card-img">
                         <img src="{{asset('front/img/right-tool-img2.png') }}" alt="">
@@ -103,7 +106,11 @@
                            software. </p>
                      </div>
                   </div>
-               </div>
+               </div> -->
+               @empty
+                    <p></p>
+
+                    @endforelse
             </div>
          </div>
          <div class="right-tool-btn text-center">

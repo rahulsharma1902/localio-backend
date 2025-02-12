@@ -100,7 +100,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="card border">
                                 <div class="card-header">
-                                  Education items
+                                    Education items
                                 </div>
                                 <div class="card-body">
 
@@ -116,39 +116,47 @@
                                             </tr>
                                         <tbody>
                                             @forelse ($pageTileTranslationEducation as $index => $pageTile)
-
+                                            @php
+                                            $firstTranslation = $pageTile->translations->first();
+                                            @endphp
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>
-                                                    @if ( $pageTile->translations->first()->image)
-                                                    <img src="{{ asset( $pageTile->translations->first()->image) }}"
-                                                        alt="Item Image" style="width: 100px; height: auto;">
+                                                    @if ($firstTranslation && $firstTranslation->image)
+                                                    <img src="{{ asset($firstTranslation->image) }}" alt="Item Image"
+                                                        style="width: 100px; height: auto;">
                                                     @else
                                                     No Image
                                                     @endif
                                                 </td>
-                                                <td>{{ $pageTile->translations->first()->title ?? 'No Title' }}</td>
-                                                <td>{{ $pageTile->translations->first()->description ?? 'No Description' }}
-                                                </td>
+                                                <td>{{ $firstTranslation?->title ?? 'No Title' }}</td>
+                                                <td>{{ $firstTranslation?->description ?? 'No Description' }}</td>
                                                 <td>
                                                     <a class="btn btn-danger btn-sm"
                                                         href="{{ route('admin.page_tile_translation.delete', $pageTile->id) }}">Delete</a>
                                                 </td>
                                                 <td>
+                                                    @if ($firstTranslation)
                                                     <button type="button"
                                                         class="btn btn-success btn-sm update-education-item"
-                                                        data-id="{{ $pageTile->translations->first()->id }}"
-                                                        data-title="{{ $pageTile->translations->first()->title }}"
-                                                        data-des="{{ $pageTile->translations->first()->description }}"
-                                                        data-image="{{ asset($pageTile->translations->first()->image) }}">Edit</button>
+                                                        data-id="{{ $firstTranslation->id ?? '' }}"
+                                                        data-title="{{ $firstTranslation->title ?? '' }}"
+                                                        data-des="{{ $firstTranslation->description ?? '' }}"
+                                                        data-image="{{ $firstTranslation->image ? asset($firstTranslation->image) : '' }}">
+                                                        Edit
+                                                    </button>
+                                                    @else
+                                                    <span class="text-muted">No Data</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td colspan="5">No popular items available.</td>
+                                                <td colspan="6">No records found.</td>
                                             </tr>
                                             @endforelse
                                         </tbody>
+
 
                                     </table>
                                 </div>
@@ -263,15 +271,15 @@
                     <div class="col-md-12">
                         <label for="assistant"><strong>Right Tool Heading</strong></label>
                         <input type="text" name="right_tool_heading" id="right_tool_heading" class="form-control"
-                        value="{{ $expertGuide->right_tool_heading ?? '' }}" required>
-                            
+                            value="{{ $expertGuide->right_tool_heading ?? '' }}" required>
+
                     </div>
                     <br>
                     <div class="col-md-12">
                         <label for="assistant"><strong>Get Start Button</strong></label>
                         <input type="text" name="get_start_button" id="get_start_button" class="form-control"
-                                value="{{ $expertGuide->get_start_button ?? '' }}" required>
-                         
+                            value="{{ $expertGuide->get_start_button ?? '' }}" required>
+
                     </div>
                     <br>
                     <div class="col-md-12">
@@ -279,11 +287,11 @@
                         <textarea name="assistant" id="assistant" class="description form-control"
                             value="">{{ $expertGuide->assistant ?? '' }}</textarea>
                     </div>
-                    
+
                     <div class="col-md-12">
                         <div class="card border">
                             <div class="card-header mt-3">
-                               Right Tools
+                                Right Tools
                                 <button type="button" class="btn btn-success btn-sm float-end" id="add-Right-item">Add
                                     Item</button>
                             </div>
@@ -326,7 +334,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="card border">
                                 <div class="card-header">
-                                   Right Tools
+                                    Right Tools
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-striped">
@@ -492,7 +500,7 @@
 
             $('#save-es-button').on('click', function() {
                 let itemId = $('#updated-es-id')
-            .val(); // Assuming you're saving the item ID in the form
+                    .val(); // Assuming you're saving the item ID in the form
 
                 let title = $('#updated-es-title').val(); // Get updated title
                 let description = $('#updated-es-description').val(); // Get updated description
@@ -563,7 +571,7 @@
         });
         </script>
         <script>
-               $(document).ready(function() {
+        $(document).ready(function() {
             let educationItems = [];
 
             $('#add-Right-item').on('click', function() {
@@ -643,7 +651,7 @@
 
             $('#save-rt-button').on('click', function() {
                 let itemId = $('#updated-rt-id')
-            .val(); // Assuming you're saving the item ID in the form
+                    .val(); // Assuming you're saving the item ID in the form
 
                 let title = $('#updated-rt-title').val(); // Get updated title
                 let description = $('#updated-rt-description').val(); // Get updated description
@@ -712,5 +720,5 @@
                 $('#tool_title, #tool_description, #tool_image').val('');
             }
         });
-            </script>
+        </script>
         @endsection

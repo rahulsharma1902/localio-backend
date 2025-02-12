@@ -15,8 +15,8 @@ class ContactContentSeeder extends Seeder
     {
         DB::table('contact_contents')->insert([
             'contact_heading' => 'Contact us',
-            'image_first' => '',
-            'image_second' => '',
+            'image_first' => 'public/front/img/20250203132618_image_first.png',
+            'image_second' => 'public/front/img/20250203132713_image_second.png',
             'footer_heading' => 'We are here to help!',
             'g_button' => 'Contact Us',
             'created_at' => now(),

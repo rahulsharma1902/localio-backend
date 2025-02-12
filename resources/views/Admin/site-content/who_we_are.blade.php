@@ -340,13 +340,13 @@
                     <div id="updated-special-details" class="mt-4" style="display: none;">
                         <p><strong>Title:</strong></p>
                         <input type="hidden" class="form-control" id="updated-s-id" name="SS[id]"
-                            value="{{ old('title', $item->translations->first()->title ?? '') }}" />
+                            value="{{ old('title', $specilistTileTranslation->first()->title ?? '') }}" />
                         <input type="text" class="form-control" id="updated-s-title" name="SS[title]"
-                            value="{{ old('title', $item->translations->first()->title ?? '') }}" />
+                            value="{{ old('title', $specilistTileTranslation->first()->title ?? '') }}" />
 
                         <p><strong>Description:</strong></p>
                         <input type="text" class="form-control" id="updated-s-description" name="MPS[description]"
-                            value="{{ old('description', $item->translations->first()->description ?? '') }}" />
+                            value="{{ old('description', $specilistTileTranslation->first()->description ?? '') }}" />
 
 
                         <p><strong>Image:</strong></p>
