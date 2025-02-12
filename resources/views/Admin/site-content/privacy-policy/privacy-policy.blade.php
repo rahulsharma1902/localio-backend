@@ -8,11 +8,6 @@
         .nk-add-product.toggle-slide.toggle-slide-right.toggle-screen-any.content-active {
             width: 40%;
         }
-
-        .edit-btn>ul>li>a {
-    padding: 2px 21px !important;
-    color: white !important;
-}
     </style>
     <?php
     $locale = getCurrentLocale();
@@ -90,7 +85,7 @@
                                                             </li>
                                                             @if ($locale == 'en')
                                                                 <li><a
-                                                                        href="{{ url('admin-dashboard/remove-product') ?? '' }}/{{ $policy['id'] ?? '' }}"><em
+                                                                        href="{{ url('admin-dashboard/remove-product') ?? '' }}/{{ $key  }}"><em
                                                                             class="icon ni ni-trash-fill"></em><span>Remove</span></a>
                                                                 </li>
                                                             @endif
