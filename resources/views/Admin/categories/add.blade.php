@@ -1,15 +1,5 @@
 @extends('admin_layout.master')
 @section('content')
-    <style>
-        .ck.ck-content {
-            min-height: 6rem !important;
-        }
-
-        .nk-add-product.toggle-slide.toggle-slide-right.toggle-screen-any.content-active {
-            width: 40%;
-        }
-    </style>
-
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
@@ -25,8 +15,8 @@
                 <form action="{{ route('add-category-process') }}" class="form-validate" novalidate="novalidate" method="post"
                     enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="category_id" value="{{isset($category_data)?$category_data['id']:''}}" />
                     <div class="row g-gs">
-                        <!-- Name Field -->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="name">Name</label>
@@ -37,26 +27,23 @@
                                 </sup>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ old('name') }}" />
+                                        value="{{isset($category_data)?$category_data['name']:old('name') }}" />
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Slug Field (Hidden) -->
-                        <input type="hidden" class="form-control" id="slug" name="slug"
-                            value="{{ old('slug') }}" />
 
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea class="description" name="description" id="description" rows="2" cols="20">sdgsdg</textarea>
+                                    <textarea class="description" name="description"  rows="2" cols="20">{{isset($category_data)?$category_data['description']:old('description') }}</textarea>
                                 </div>
                                 @error('description')
                                     <div class="error text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label" for="image">Upload Image</label>
@@ -68,21 +55,33 @@
                                 @enderror
                             </div>
                         </div>
+                        @isset($category_data['image'])
+                            <div class="col-12">
+                                <img src="{{ asset($category_data['image']) }}" alt="Category Image" class="img-fluid rounded-circle" style="height: 50px;">
+                            </div>
+                        @endisset
+
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label" for="image">Upload Icon</label>
                                 <div class="dz-message">
                                     <input type="file" class="form-control" name="category_icon" id="categoryIcon">
                                 </div>
-                                @error('image')
+                                @error('category_icon')
                                     <div class="error text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+
+                        @isset($category_data['category_icon'])
+                            <div class="col-12">
+                                <img src="{{ asset($category_data['category_icon']) }}" alt="Category Image" class="img-fluid rounded-circle" style="height: 50px;">
+                            </div>
+                        @endisset
                         <!-- Submit Button -->
                         <div class="col-md-12 mt-5">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-primary btn-localio">Add Category</button>
+                                <button type="submit" class="btn btn-lg btn-primary btn-localio">{{isset($category_data)?'Update Category':'Add Category' }}</button>
                             </div>
                         </div>
                     </div>
@@ -90,26 +89,4 @@
             </div>
         </div>
     </div>
-
-    <!-- JavaScript -->
-    <script>
-       
-
-
-        ClassicEditor
-            .create(document.querySelector('#description'), {
-                toolbar: [
-                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
-                    'insertTable',
-                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
-                ],
-                image: {
-                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-                },
-                language: 'en'
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
 @endsection

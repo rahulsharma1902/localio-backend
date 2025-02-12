@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category, Language, CategoryTranslation, SiteLanguages};
-use Cookie;
+use App\Models\{Category, Language, CategoryTranslation};
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 use App;
 use Session;
 
 class CategoriesController extends Controller
 {
-
-
     public function index(Request $request)
     {
-        // $locale = session()->get('lang_code');
         $locale = app()->getLocale();
         $siteLanguage = Language::where('lang_code', $locale)->first();
         $categories = collect();
@@ -25,151 +23,119 @@ class CategoriesController extends Controller
         return view('Admin.categories.index', compact('categories'));
     }
 
-
-    public function add()
+    public function add($id = null)
     {
-        return view('Admin.categories.add');
+        if($id != null){
+            $category_data = Category::where('id',$id)->first()->toArray();
+            return view('Admin.categories.add',compact('category_data'));
+        }else{
+            return view('Admin.categories.add');
+        }
     }
 
     public function add_process(Request $request)
     {
         $rules = [
-            'name' => 'required|unique:categories,name' . ($request->id ? ',' . $request->id : ''),
-            'slug' => 'required|unique:categories,slug' . ($request->id ? ',' . $request->id : ''),
+            'name' => ['required', 'min:3', 'max:255'],
+            'description' => 'required|string|min:10',
+            'image' => 'nullable|image',
+            'category_icon' => 'nullable|image',
         ];
 
-        if ($request->hasFile('images')) {
-            $rules['images.*'] = 'required|image|mimes:jpeg,png,jpg,svg,webp';
-        }
-
-        $request->validate($rules, [
-            'images.*.image' => 'The file must be an image.',
-            'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg, webp.',
-        ]);
-
-        if ($request->id) {
-            $category = Category::find($request->id);
-            if (!$category) {
-                return response()->json(['message' => 'Category not found'], 404);
-            }
+        if (!$request->category_id) {
+            $rules['name'][] = 'unique:categories,name';
         } else {
-            $category = new Category;
+            $rules['name'][] = 'unique:categories,name,' . $request->category_id;
         }
 
-        $category->name = $request->name;
-        $category->slug = $request->slug;
-        $category->description = $request->description ?? '';
+        $validate = $request->validate($rules);
+
+        $category = $request->category_id ? Category::find($request->category_id) : null;
+
+        $slug = Str::slug($validate['name']);
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (Category::where('slug', $slug)->where('id', '!=', $request->category_id)->exists()) {
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        $data = [
+            'name' => $validate['name'],
+            'description' => $validate['description'],
+            'slug' => $slug
+        ];
 
         if ($request->hasFile('image')) {
-            $featuredImage = $request->file('image');
-            $extension = $featuredImage->getClientOriginalExtension();
-
-            if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
-                return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
+            if ($category && $category->image && file_exists(public_path($category->image))) {
+                unlink(public_path($category->image));
             }
-            $featuredImageName = $request->slug . rand(0, 1000) . time() . '.' . $extension;;
-            $featuredImage->move(public_path() . '/CategoryImages/', $featuredImageName);
-            $category->image = $featuredImageName;
+
+            $imageName = $slug . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('CategoryImages'), $imageName);
+            $data['image'] = 'CategoryImages/' . $imageName;
         }
+
         if ($request->hasFile('category_icon')) {
-            $featuredIcon = $request->file('category_icon');
-            $IconExtension = $featuredIcon->getClientOriginalExtension();
-            if (!in_array(strtolower($IconExtension), ['png', 'jpg', 'svg'])) {
-                return redirect()->back()->with('error', 'Only PNG, JPG, and SVG icons are allowed.');
+            if ($category && $category->category_icon && file_exists(public_path($category->category_icon))) {
+                unlink(public_path($category->category_icon));
             }
-            $featuredIconName = $request->slug . rand(0, 1000) . time() . '.' . $IconExtension;;
-            $featuredIcon->move(public_path() . '/CategoryIcon/', $featuredIconName);
 
-            $category->category_icon = $featuredIconName;
+            $iconName = $slug . '_' . time() . '.' . $request->file('category_icon')->getClientOriginalExtension();
+            $request->file('category_icon')->move(public_path('CategoryIcon'), $iconName);
+            $data['category_icon'] = 'CategoryIcon/' . $iconName;
         }
 
-        if ($category->save()) {
-            $translation = $category->translations()->updateOrCreate(
-                ['language_id' => 1],
+        $category = Category::updateOrCreate(
+            ['id' => $request->category_id],
+            $data
+        );
+
+        if ($category) {
+            CategoryTranslation::updateOrCreate(
+                ['category_id' => (int) $category->id],
                 [
-                    'name' => $category->name,
-                    'slug' => $category->slug,
-                    'description' => $category->description,
+                    'language_id' => 1,
+                    'name' => $validate['name'],
+                    'description' => $validate['description'],
+                    'slug' => $slug
                 ]
             );
-            if (!$translation) {
-                return redirect()->route('category')->with('error', 'Failed to save category translation.');
-            }
+
             return redirect()->route('categories')->with('success', 'Category saved successfully');
-        } else {
-            return redirect()->route('categories')->with('error', 'Failed to save category');
         }
+            else {
+                return redirect()->route('categories')->with('error', 'Failed to save the category.');
+            }
+
     }
 
 
 
-    public function updateCategory($categoryId)
-    {
-        $locale = getCurrentLocale();
-        $lang_code = Language::where('lang_code', $locale)->first();
 
-        if ($lang_code) {
-            $defaultCategory = Category::find($categoryId);
-            $category = CategoryTranslation::with('language')->where('language_id', $lang_code->id)->where('category_id', $categoryId)->first();
-            if (!$category) {
-                return redirect()->back()->with('error', 'Category is Not Translated in this Language');
-            }
-            return view('Admin.categories.update', compact('category', 'defaultCategory'));
-        } else {
-            return redirect()->back()->with('error', 'Category is Not Found');
-        }
-    }
-
-
-    public function updateProcc(Request $request)
-    {
-        $locale = getCurrentLocale();
-        $lang_code = Language::where('lang_code', $locale)->first();
-        $category_id = CategoryTranslation::where('id', $request->id)->value('category_id');
-        if ($lang_code) {
-            CategoryTranslation::where('id', $request->id)->update(
-                [
-                    'name' => $request->name,
-                    'slug' => $request->slug,
-                    'description' => $request->description
-                ]
-            );
-
-            $category = Category::find($category_id);
-
-
-            if ($request->hasFile('image')) {
-                $featuredImage = $request->file('image');
-                $extension = $featuredImage->getClientOriginalExtension();
-                $featuredImageName = $request->slug . rand(0, 1000) . time() . '.' . $extension;
-                $featuredImage->move(public_path('/CategoryImages/'), $featuredImageName);
-                $category->image = $featuredImageName;
-            }
-
-            if ($request->hasFile('category_icon')) {
-                $featuredIcon = $request->file('category_icon');
-                $IconExtension = $featuredIcon->getClientOriginalExtension();
-                $featuredIconName = $request->slug . rand(0, 1000) . time() . '.' . $IconExtension;;
-                $featuredIcon->move(public_path() . '/CategoryIcon/', $featuredIconName);
-                $category->category_icon = $featuredIconName;
-            }
-
-            $category->update();
-            return redirect()->route('categories')->with('success', 'Category update successfully !');
-        }
-    }
 
     public function remove(Request $request, $id)
     {
-        $category = Category::find($id);
+        try {
+            $category = Category::findOrFail($id);
 
-        if ($category) {
+            if ($category->image && File::exists(public_path($category->image))) {
+                File::delete(public_path($category->image));
+            }
+
+            if ($category->category_icon && File::exists(public_path($category->category_icon))) {
+                File::delete(public_path($category->category_icon));
+            }
+
             CategoryTranslation::where('category_id', $id)->delete();
-            
             $category->delete();
+
             return redirect()->back()->with('success', 'Category and its translations removed successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Category not found.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
     }
+
+
 }
