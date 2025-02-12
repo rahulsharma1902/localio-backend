@@ -77,18 +77,17 @@
                                                 <div class="drodown">
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-end edit-btn">
+                                                    <div class="dropdown-menu dropdown-menu-end edit-btn"
+                                                        style="height: 65px !important;">
+
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a
                                                                     href="{{ url('admin-dashboard/policy/add') ?? '' }}/{{ $key  }}"><em
                                                                         class="icon ni ni-edit-fill"></em><span>Edit</span></a>
                                                             </li>
-                                                            @if ($locale == 'en')
-                                                                <li><a
-                                                                        href="{{ url('admin-dashboard/remove-product') ?? '' }}/{{ $key  }}"><em
-                                                                            class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                                </li>
-                                                            @endif
+                                                            <li><a
+                                                                href="{{ url('admin-dashboard/policy-remove') ?? '' }}/{{ $key  }}"><em
+                                                                    class="icon ni ni-trash-fill"></em><span>Remove</span></a>
                                                         </ul>
                                                     </div>
                                                 </div>
