@@ -113,6 +113,11 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('/admin-dashboard/policy/add-process', [SitePagesController::class, 'policiesadd'])->name('policy-add');
     Route::get('/admin-dashboard/policy-remove/{id?}', [SitePagesController::class, 'pulicyRemove'])->name('policy-remove');
 
+    // terms Route
+    Route::get('/admin-dashboard/terms', [SitePagesController::class, 'terms_show'])->name('terms');
+    Route::get('admin-dashboard/terms/add/{id?}',[SitePagesController::class, 'termsAdd_show'])->name('terms_add_show');
+    Route::post('/admin-dashboard/terms/add-process', [SitePagesController::class, 'terms_add_process'])->name('terms_add_process');
+    Route::get('/admin-dashboard/terms-remove/{id?}', [SitePagesController::class, 'terms_remove'])->name('terms-remove');
     // Rules Route
     Route::get('/admin-dashboard/rules', [SitePagesController::class, 'rules'])->name('rules');
     Route::get('/admin-dashboard/rule/add', [SitePagesController::class, 'ruleAdd'])->name('rule-add');

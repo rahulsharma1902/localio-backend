@@ -25,7 +25,7 @@
                         <div class="toggle-expand-content" data-content="pageMenu">
                             <ul class="nk-block-tools g-3">
                                 <li class="nk-block-tools-opt">
-                                    <a href="{{ url('admin-dashboard/product/add') ?? '' }}"
+                                    <a href="{{ route('policies_add_show')}}"
                                         class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ route('policies_add_show')}}"
                                         class=" btn btn-primary d-none d-md-inline-flex"><em

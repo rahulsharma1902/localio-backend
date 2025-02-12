@@ -261,6 +261,12 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">Privacy Policy
                                                 </span></a>
                                         </li>
+
+                                        <li class="nk-menu-item ">
+                                            <a href="{{ url('/admin-dashboard/terms') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Terms And Conditions
+                                                </span></a>
+                                        </li>
                                     </ul>
                                 </li>
 

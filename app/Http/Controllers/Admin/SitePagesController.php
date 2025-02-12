@@ -11,13 +11,15 @@ use App\Models\Rule;
 use Illuminate\Support\Str;
 use App\Models\RuleTranslation;
 use App\Models\Faq;
+use App\Models\Term;
+use App\Models\TermsTranslation;
 use App\Models\FaqTranslation;
 
 class SitePagesController extends Controller
 {
     public function policies()
     {
-        $privacy_policy = PolicyTranslation::get()->pluck('title','id');
+        $privacy_policy = PolicyTranslation::pluck('title','id');
         return view('Admin.site-content.privacy-policy.privacy-policy',compact('privacy_policy'));
     }
 
@@ -70,12 +72,11 @@ class SitePagesController extends Controller
             return redirect()->back()->with('error','policy not found');
         }
         $policy->delete();
-        PolicyTranslation::where('id',$id)->delete();
+        PolicyTranslation::where('policy_id',$id)->delete();
         return redirect()->back()->with('success','policy remove successfully');
     }
 
     // end remove policy function
-
     public function rules()
     {
         $rules = Rule::with('policy')->get();
@@ -292,4 +293,62 @@ class SitePagesController extends Controller
         $faq->delete();
         return redirect()->back()->with('success','faq remove successfully');
     }
+
+    // terms and condition
+    public function terms_show(){
+        $terms = TermsTranslation::pluck('title','id');
+        return view('Admin.site-content.terms-condition.terms',compact('terms'));
+    }
+
+    public function termsAdd_show($id = null){
+        if($id == null){
+            return view('Admin.site-content.terms-condition.terms-add');
+        }else{
+            $terms_data = TermsTranslation::where('id',$id)->first()->toArray();
+            return view('Admin.site-content.terms-condition.terms-add',compact('terms_data'));
+        }
+    }
+
+    public function terms_add_process(Request $request){
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'policy_description' => 'required|string',
+        ]);
+
+        $terms = Term::updateOrCreate(
+            ['id' => $request->term_id],
+            [
+                'lang_id' => 1
+            ]
+        );
+
+        $terms_id = $terms->id;
+
+        $terms_translation = TermsTranslation::updateOrCreate(
+            ['terms_id' => $request->term_id],
+            [
+                'title' => $validatedData['title'],
+                'lang_id' => 1,
+                'description' => $validatedData['policy_description'],
+                'key' =>$terms_id,
+                'terms_id' => $terms_id,
+                'status' => 'active'
+            ]
+        );
+
+        $terms_translation->update(['key' => $terms_translation->id]);
+        return redirect()->route('terms')->with('success', 'Successfully created policy');
+    }
+
+    public function terms_remove(){
+        $term = Term::find($id);
+        if(!$term)
+        {
+            return redirect()->back()->with('error','Terms  not found');
+        }
+        $term->delete();
+        TermsTranslation::where('terms_id',$id)->delete();
+        return redirect()->back()->with('success','poliTerms cy remove successfully');
+    }
+
 }

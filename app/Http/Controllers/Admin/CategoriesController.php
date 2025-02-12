@@ -111,10 +111,6 @@ class CategoriesController extends Controller
 
     }
 
-
-
-
-
     public function remove(Request $request, $id)
     {
         try {
@@ -136,6 +132,4 @@ class CategoriesController extends Controller
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
     }
-
-
 }
