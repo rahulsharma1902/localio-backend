@@ -8,18 +8,22 @@ use App\Models\SiteLanguage;
 class PolicyTranslation extends Model
 {
     use HasFactory;
-    protected $table = 'policies_translations';
+    protected $table = 'policy_transaltaion';
+
     protected $fillable = [
+        'lang_id',
         'policy_id',
-        'language_id',
         'title',
         'description',
-        'status',
+        'key',
+        'status'
     ];
+
     public function policy()
     {
         return $this->belongsTo(Policy::class);
     }
+
     public function language()
     {
         return $this->belongsTo(Language::class, 'language_id');

@@ -100,7 +100,7 @@
                 </div>
 
                 <div class="trust-brnd-marque">
-                    @if (isset($trustedBrandImages))
+                    @if (isset($trustedBrapPndImages))
                         @php
                             $imageIds = json_decode($trustedBrandImages->meta_value);
                         @endphp
