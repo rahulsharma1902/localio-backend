@@ -42,7 +42,10 @@ class MetaPagesController extends Controller
     public function contact()
     {
         $contact = ContactContent::first();
-        return view('User.meta-pages.support.contact',compact('contact'));
+        $pageTileTranslationRightTool = PageTile::where('source', 'right_tool_item')
+        ->with('translations') // Eager load translations
+        ->get();
+        return view('User.meta-pages.support.contact',compact('contact','pageTileTranslationRightTool'));
     }
 
     public function whoWeAre()
