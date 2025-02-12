@@ -9,10 +9,10 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'image', 'status'];
+    protected $fillable = ['name', 'slug', 'description', 'image','category_icon', 'status'];
 
     protected $lang_code, $lang_id;
-    
+
     public function __construct()
     {
         $this->lang_id = session()->get('lang_id');
@@ -23,25 +23,25 @@ class Category extends Model
     public function translations()
     {
         $category=  $this->hasOne(CategoryTranslation::class, 'category_id', 'id')
-        ->where('language_id',$this->lang_id ); 
+        ->where('language_id',$this->lang_id );
         if(!$category){
             $category=  $this->hasOne(CategoryTranslation::class, 'category_id', 'id')
-         ->where('language_id', 1); 
+         ->where('language_id', 1);
 
         }
-        return $category; 
+        return $category;
     }
 
     public function Gettranslations($lang_id)
     {
         $category=  $this->hasOne(CategoryTranslation::class, 'category_id', 'id')
-        ->where('language_id',$this->lang_id ); 
+        ->where('language_id',$this->lang_id );
         if(!$category){
             $category=  $this->hasOne(CategoryTranslation::class, 'category_id', 'id')
-         ->where('language_id', 1); 
+         ->where('language_id', 1);
 
         }
-        return $category; 
+        return $category;
     }
 
     public function getNameAttribute()
@@ -53,5 +53,5 @@ class Category extends Model
     }
 
 
-    
+
 }

@@ -26,7 +26,6 @@ class SitePagesController extends Controller
             return view('Admin.site-content.privacy-policy.privacy-policy-add');
         }else{
             $policy_data = PolicyTranslation::where('id',$id)->first()->toArray();
-            // dd($data);
             return view('Admin.site-content.privacy-policy.privacy-policy-add',compact('policy_data'));
         }
     }

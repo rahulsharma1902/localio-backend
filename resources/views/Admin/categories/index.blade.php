@@ -1,17 +1,5 @@
-{{-- {{ dd($categories) }} --}}
 @extends('admin_layout.master')
 @section('content')
-    <style>
-        .ck.ck-content {
-            min-height: 10rem;
-        }
-
-        .nk-add-product.toggle-slide.toggle-slide-right.toggle-screen-any.content-active {
-            width: 40%;
-        }
-    </style>
-
-
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head nk-block-head-sm">
             <div class="nk-block-between">
@@ -50,10 +38,7 @@
                     @else
                         <thead>
                             <tr class="nk-tb-item nk-tb-head">
-                                <!-- <th class="nk-tb-col">Sno.</th> -->
                                 <th class="nk-tb-col"><span class="sub-text">Name</span></th>
-                                <th class="nk-tb-col"><span class="sub-text">Description</span></th>
-                                <!-- <th class="nk-tb-col"><span class="sub-text">Status</span></th> -->
                                 <th class="nk-tb-col tb-tnx-action">
                                     <span>Action</span>
                                 </th>
@@ -62,19 +47,12 @@
                         <tbody>
                             @foreach ($categories as $category)
                                 <tr class="nk-tb-item">
-
-
                                     <td class="nk-tb-col">
                                         <div class="user-card">
                                             <div class="user-info">
                                                 <span class="tb-lead">{{ $category->name ?? '' }}</span>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-amount">
-                                            {!! $category->description ?? '' !!}
-                                        </span>
                                     </td>
                                     <td class="nk-tb-col nk-tb-col-tools">
                                         <ul class="nk-tb-actions gx-1">
@@ -86,18 +64,13 @@
                                                         style="height: 65px !important;">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a
-                                                                    href="{{ url('admin-dashboard/update-category') ?? '' }}/{{ $category->category_id ?? '' }}"><em
+                                                                    href="{{ url('admin-dashboard/categories/add') ?? '' }}/{{ $category->category_id ?? '' }}"><em
                                                                         class="icon ni ni-edit-fill"></em><span>Edit</span></a>
                                                             </li>
-
-                                                            @if ($category)
-                                                                <li class="removeConfermation"
-                                                                    data-url="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->category_id ?? '' }}">
-                                                                    <a class="delete"
-                                                                        href="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->category_id ?? '' }}"><em
-                                                                            class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                                </li>
-                                                            @endif
+                                                            <li><a
+                                                                href="{{ url('admin-dashboard/remove-category') ?? '' }}/{{ $category->category_id ?? '' }}"><em
+                                                                    class="icon ni ni-trash-fill"></em><span>Remove</span></a>
+                                                        </li>
                                                         </ul>
                                                     </div>
                                                 </div>
