@@ -744,7 +744,7 @@
                                                 <div class="sl_main">
                                                     <h6 class="head">${productName}</h6>
                                                     <div class="wishlist">
-                                                    ${isLoggedIn 
+                                                    ${isLoggedIn
                                                         ? `<a href="javascript:void(0)" class="heart-container" data-id="${product.id}" tabindex="0"></a>`
                                                         : `<a href="/login" class="heart-container" data-id="${product.id}" tabindex="0"></a>`
                                                     }
@@ -765,7 +765,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="auto-choice-btn">
                                         <a href="${product.product_link || '#'}" target="blank" class="cta cta_orange">
                                             ${topProductContents['visit_website'] || ''}
@@ -787,8 +787,8 @@
                                             return `
                                                                                             <li class="d-flex align-items-center">
                                                                                                 <div class="grn_chk">
-                                                                                                    ${files.green_tick_img 
-                                                                                                        ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">` 
+                                                                                                    ${files.green_tick_img
+                                                                                                        ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">`
                                                                                                         : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
                                                                                                 </div>
                                                                                                 <p>${keyFeature.feature || 'No key feature'}</p>

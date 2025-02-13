@@ -9,11 +9,9 @@
             width: 40%;
         }
     </style>
-    <?php
-
-    $locale = getCurrentLocale();
-
-    ?>
+        <?php
+        $locale = getCurrentLocale();
+        ?>
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head nk-block-head-sm">
             <div class="nk-block-between">
@@ -99,5 +97,4 @@
             </div>
         </div>
     </div>
-
 @endsection
