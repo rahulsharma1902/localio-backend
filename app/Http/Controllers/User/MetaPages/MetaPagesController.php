@@ -16,7 +16,7 @@ class MetaPagesController extends Controller
     {
         $expertGuide = ExpertGuides::first();
         $pageTileTranslationEducation = PageTile::where('source', 'educationItem')
-        ->with('translations') 
+        ->with('translations')
         ->get();
         $pageTileTranslationRightTools = PageTile::where('source', 'righttools')
             ->with('translations')
@@ -27,13 +27,7 @@ class MetaPagesController extends Controller
     {
         $locale = getCurrentLocale();
 
-        $siteLanguage = SiteLanguages::where('handle',$locale)->first();
-
-        $faqs  = Faq::with(['translations' => function($query) use ($siteLanguage){
-            
-                        $query->where('language_id',$siteLanguage->id);
-                        
-                        }])->get();
+        $faqs  = Faq::all();
 
         return view('User.meta-pages.support.help',compact('faqs'));
     }
@@ -51,16 +45,16 @@ class MetaPagesController extends Controller
     public function whoWeAre()
     {
         $whoWeAre = WhoWeAre::first();
-      
+
         $pageTileTranslationPopular = PageTile::where('source', 'popularItem')
-        ->with('translations')  
+        ->with('translations')
         ->get();
         // dd($pageTileTranslationPopular);
     $specilistTileTranslation = PageTile::where('source', 'specialists')
-        ->with('translations')  
+        ->with('translations')
         ->get();
-      
+
         return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre','pageTileTranslationPopular','specilistTileTranslation'));
     }
- 
+
 }

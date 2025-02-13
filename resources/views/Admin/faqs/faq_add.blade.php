@@ -13,15 +13,7 @@
                     <form action="{{ url('admin-dashboard/faq-add-procc') ?? '' }}" class="form-validate"
                         novalidate="novalidate" method="post">
                         @csrf
-                        <input type="hidden" name="id" value="{{ isset($faq) ? $faq->id : '' }}">
-                        <!-- faq translation id -->
-                        <input type="hidden" name="faq_tr_id" value="{{ $faqTranslation->id ?? '' }}">
-                        @if ($faqTranslation->language ?? '')
-                            <input type="hidden" name="handle" value="{{ $faqTranslation->language->handle ?? '' }}">
-                        @else
-                            <input type="hidden" name="handle"
-                                value="{{ Cookie::get('language_code', config('app.locale')) }}" />
-                        @endif
+                        <input type="hidden" name="faq_id" value="{{ isset($faqTranslation) ? $faqTranslation->faq_id : '' }}">
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">
