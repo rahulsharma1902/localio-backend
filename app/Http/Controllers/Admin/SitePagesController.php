@@ -214,14 +214,10 @@ class SitePagesController extends Controller
     }
     public function faqs()
     {
-        // $faqs = Faq::all();
         $locale = getCurrentLocale();
-
         $lang_code = Language::where('lang_code',$locale)->first();
         $faqs = Faq::with(['translations' =>function($query) use ($lang_code){
-                            $query->where('language_id',$lang_code->id);
-
-                    }])->get();
+                            $query->where('language_id',$lang_code->id);}])->get();
         return view('Admin.faqs.index',compact('faqs'));
     }
 
@@ -253,36 +249,37 @@ class SitePagesController extends Controller
         return view('Admin.faqs.faq_add',compact('faq','faqTranslation'));
     }
 
+
+
     public function faqAddProcc(Request $request)
     {
-        $request->validate([
-            'question' => 'required',
-            'answer'    => 'required',
+        $validatedData = $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
         ]);
 
-        $lang_code = Language::where('lang_ocde',$request->handle)->first();
+        $faqs = Faq::updateOrCreate(
+            ['id' => $request->faq_id],
+            [
+                'question'=> $validatedData['question'],
+                'answer' => $validatedData['answer']
+            ]
+        );
 
+        $faqs_id = $faqs->id;
 
-        if($lang_code)
-        {
-            $faqTranslation = isset($request->faq_tr_id) ? FaqTranslation::find($request->faq_tr_id) : new FaqTranslation;
-            $faqTranslation->faq_id = $request->id;
-
-            $faqTranslation->language_id = $lang_code->id;
-            $faqTranslation->question       = $request->question;
-
-            $faqTranslation->answer  = $request->answer;
-            $faqTranslation->save();  // Save the translation
-            return redirect()->back()->with('success', isset($request->faq_tr_id) ? 'FAQ translation successfully updated' : 'FAQ translation successfully added');
-        }
-        else{
-            $faq = isset($request->id) ? Faq::find($request->id) : new Faq;
-            $faq->question = $request->question;
-            $faq->answer = $request->answer;
-            $faq->save();
-            return redirect()->back()->with('success', isset($request->id) ? 'FAQ successfully updated' : 'FAQ successfully added');
-        }
+        $faq_translation = FaqTranslation::updateOrCreate(
+            ['faq_id' => $request->faq_id],
+            [
+                'language_id' => 1,
+                'question' => $validatedData['question'],
+                'answer' => $validatedData['answer'],
+                'faq_id' => $faqs_id
+            ]
+        );
+        return redirect()->route('faqs')->with('success', 'Successfully Faq Created !');
     }
+
     public function faqRemove($id)
     {
         $faq = Faq::find($id);
@@ -350,5 +347,9 @@ class SitePagesController extends Controller
         TermsTranslation::where('terms_id',$id)->delete();
         return redirect()->back()->with('success','poliTerms cy remove successfully');
     }
-
 }
+
+
+
+
+

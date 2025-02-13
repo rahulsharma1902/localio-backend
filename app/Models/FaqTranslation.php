@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class FaqTranslation extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'faq_id','language_id','question','answer'
+    ];
+
     public function faq()
     {
         return $this->belongsTo(Faq::class);

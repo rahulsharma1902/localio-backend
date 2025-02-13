@@ -10,9 +10,9 @@
         }
     </style>
     <?php
-    
+
     $locale = getCurrentLocale();
-    
+
     ?>
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head nk-block-head-sm">
@@ -75,18 +75,16 @@
                                                 <div class="drodown">
                                                     <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-end edit-btn">
+                                                    <div class="dropdown-menu dropdown-menu-end edit-btn" style="height: 68px !important">
                                                         <ul class="link-list-opt no-bdr">
                                                             <li><a
                                                                     href="{{ url('admin-dashboard/faq-edit') ?? '' }}/{{ $faq->id ?? '' }}"><em
                                                                         class="icon ni ni-edit-fill"></em><span>Edit</span></a>
                                                             </li>
-                                                            @if ($locale == 'en')
-                                                                <li><a
-                                                                        href="{{ url('admin-dashboard/faq-remove') ?? '' }}/{{ $faq->id ?? '' }}"><em
-                                                                            class="icon ni ni-trash-fill"></em><span>Remove</span></a>
-                                                                </li>
-                                                            @endif
+                                                            <li><a
+                                                                    href="{{ url('admin-dashboard/faq-remove') ?? '' }}/{{ $faq->id ?? '' }}"><em
+                                                                        class="icon ni ni-trash-fill"></em><span>Remove</span></a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
