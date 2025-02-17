@@ -2,20 +2,20 @@
 @section('content')
 <section class="banner_sec help-cntr-bnr inr-bnr dark" style="background-color: #003F7D;">
     <div class="bubble-wrp">
-        <img src="{{ asset($whoWeAre->top_right_section_img) }}" alt="">
+        <img src="{{ isset($whoWeAre->top_right_section_img) ? asset($whoWeAre->top_right_section_img) : asset('default-image.jpg') }}" alt="">
     </div>
     <div class="banner_content">
         <div class="container">
             <div class="banner_row" data-aos="fade-up" data-aos-duration="1000">
                 <div class="banner_text_col">
                     <div class="banner_content_inner bnr_inr_contnt">
-                        <h1>{{ $whoWeAre->main_heading }}</h1>
-                        <p>{{ $whoWeAre->sub_heading }}</p>
+                        <h1>{{ $whoWeAre->main_heading ?? '' }}</h1>
+                        <p>{{ $whoWeAre->sub_heading ?? '' }}</p>
                     </div>
                 </div>
                 <div class="banner_image_col">
                     <div class="banner_image">
-                        <img src="{{ asset($whoWeAre->top_left_section_img) }}" class="banner_top_image">
+                        <img src="{{ isset($whoWeAre->top_left_section_img) ? asset($whoWeAre->top_left_section_img) : asset('default-image.jpg') }}" class="banner_top_image">
                     </div>
                 </div>
             </div>
@@ -28,20 +28,21 @@
     <div class="container">
         <div class="most-popular-wrp">
             <div class="hd_text">
-                <h2 data-aos="zoom-in" data-aos-duration="1000" class="text-center">{{ $whoWeAre->mp_heading }}</h2>
-                <p>{{ $whoWeAre->mp_sub_heading }}</p>
+                <h2 data-aos="zoom-in" data-aos-duration="1000" class="text-center">{{ $whoWeAre->mp_heading ?? '' }}</h2>
+                <p>{{ $whoWeAre->mp_sub_heading ?? '' }}</p>
             </div>
             <div class="popular-accordion-wrp mst_wrp" data-aos="fade-up" data-aos-duration="1000">
                 <div class="row align-items-center ">
                     <div class="col-md-6">
                         <div class="accor-lft-img">
-                            <img src="{{ asset($whoWeAre->top_card_image) }}" alt="">
+                            <img src="{{ $whoWeAre->top_card_image ? asset($whoWeAre->top_card_image) : asset('default-image.jpg') }}" alt="">
+
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="accor-txt-contnt">
-                            <h6>{{ $whoWeAre->top_card_title }}</h6>
-                            <p>{{ $whoWeAre->top_card_desc }}
+                            <h6>{{ $whoWeAre->top_card_title ?? '' }}</h6>
+                            <p>{{ $whoWeAre->top_card_desc ?? '' }}
                             </p>
                         </div>
                     </div>
@@ -54,7 +55,7 @@
                             <div class="objec_box">
                                 <div class="objec-img">
                                     <img width="33" height="34" viewBox="0 0 33 34" fill="none"
-                                        src="{{ asset($translation->image) }}">
+                                    src="{{ asset($translation->image ?? 'default-image.jpg') }}" alt="">
                                     <path
                                         d="M3.30005 11.9838H1.23752C0.554326 11.9838 0 11.4295 0 10.7463V2.08362C0 1.17161 0.738016 0.433594 1.65003 0.433594C2.56204 0.433594 3.30005 1.17161 3.30005 2.08362V11.9838Z"
                                         fill="#06498B" />
@@ -79,8 +80,8 @@
                                     </svg>
                                 </div>
                                 <div class="objec_content size14">
-                                    <h6 class="big-bld">{{ $translation->title ?? 'No Title' }}</h6>
-                                    <p>{{ $translation->description ?? 'No Description' }}
+                                    <h6 class="big-bld">{{ $translation->title ?? '' }}</h6>
+                                    <p>{{ $translation->description ?? '' }}
                                     </p>
                                 </div>
                             </div>
@@ -155,7 +156,7 @@
     <div class="container">
         <div class="succes_content">
             <div class="hd_text" data-aos="zoom-in" data-aos-duration="1000">
-                <h2>{{ $whoWeAre->specialists_heading }}</h2>
+                <h2>{{ $whoWeAre->specialists_heading ?? '' }}</h2>
             </div>
             <div class="row succes_rw">
 
@@ -167,8 +168,8 @@
                         </div>
                         <div class="succes_infp">
                             <div class="succes_text">
-                                <h6 class="big-bld">{{ $item->translations->first()->title ?? 'No title' }}</h6>
-                                <p>{{ $item->translations->first()->description ?? 'No description available' }}
+                                <h6 class="big-bld">{{ $item->translations->first()->title ?? '' }}</h6>
+                                <p>{{ $item->translations->first()->description ?? '' }}
                                 </p>
                             </div>
                             <div class="succs_grp">
@@ -247,11 +248,11 @@
 <section class="portf_sec p_120">
     <div class="container">
         <div class="succes_content" data-aos="fade-up" data-aos-duration="1000">
-            <h2>{{ $whoWeAre->ss_heading }}</h2>
-            <p>{{ $whoWeAre->ss_sub_desc }}
+            <h2>{{ $whoWeAre->ss_heading ?? '' }}</h2>
+            <p>{{ $whoWeAre->ss_sub_desc ?? '' }}
             </p>
             <div class="top-pro-btn  snd_bttn">
-                <a href="#" class="cta cta_orange">{{ $whoWeAre->protfolio_btn }}</a>
+                <a href="#" class="cta cta_orange">{{ $whoWeAre->protfolio_btn ?? '' }}</a>
             </div>
         </div>
     </div>

@@ -3,10 +3,10 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
         <div class="nk-block-head-content review-title">
-            <h4 class="title nk-block-title">Update Review</h4>   
+            <h4 class="title nk-block-title">Update Review</h4>
         </div>
     </div>
-    <?php 
+    <?php
         $locale = getCurrentLocale();
     ?>
     <div class="card card-bordered review-section">
@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label class="form-label">Products</label>
                                 <div class="form-control-wrap">
-                                    @if ($locale === 'en-us') 
+                                    @if ($locale === 'en-us')
                                         <select name="product_id">
                                             @foreach($products as $product)
                                                 <option value="{{ $product->id }}" {{ $product->id == $review->product_id ? 'selected' : '' }}>
@@ -62,11 +62,11 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-md-12 mt-4">
                         <div class="form-group">
-                            <button type= "submit" class="addCategory btn btn-primary  text-center review-btn btn-localio"><em class="icon ni ni-plus"></em><span>Update Review</span></button>
+                            <button type= "submit" class="addCategory btn btn-primary  text-center review-btn btn-localio"><em class=""></em><span>Update Review</span></button>
                         </div>
                     </div>
                 </form>

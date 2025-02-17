@@ -11,7 +11,7 @@
     </style>
     <?php
     $locale = getCurrentLocale();
-    
+
     ?>
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head nk-block-head-sm">
@@ -30,7 +30,7 @@
                                         class=" btn btn-icon btn-primary d-md-none "><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ url('admin-dashboard/review/add') ?? '' }}"
                                         class=" btn btn-primary d-none d-md-inline-flex btn-localio"><em
-                                            class="icon ni ni-plus"></em><span>Add Review</span></a>
+                                            class=""></em><span>Add Review</span></a>
                                 </li>
                             </ul>
                         </div>

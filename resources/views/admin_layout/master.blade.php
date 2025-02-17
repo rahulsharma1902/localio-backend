@@ -89,6 +89,7 @@
         .active>.nk-menu-link {
             color: var(--btn-background) !important;
         }
+
     </style>
 
 </head>
@@ -124,15 +125,15 @@
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
                                 <!-- Dashboard -->
-                                <li class="nk-menu-heading">
+                                {{-- <li class="nk-menu-heading">
                                     <a href="{{ url('admin-dashboard/products') ?? '' }}">
                                         <h6 class="overline-title text-primary-alt">Dashboard</h6>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
-                                        <span class="nk-menu-text">Products</span>
+                                        <span class="nk-menu-text">Businesses</span>
                                     </a>
                                     <ul class="nk-menu-sub">
 
@@ -142,13 +143,13 @@
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/products') }}" class="nk-menu-link"><span
-                                                    class="nk-menu-text">Product</span>
+                                                    class="nk-menu-text">Business</span>
                                             </a>
                                         </li>
 
                                         <li class="nk-menu-item">
                                             <a href="{{ route('productfeature.index') }}?tab=top_features"
-                                                class="nk-menu-link"><span class="nk-menu-text">Top Product Feature</span>
+                                                class="nk-menu-link"><span class="nk-menu-text">Top Business Feature</span>
                                             </a>
                                         </li>
 
@@ -175,11 +176,16 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li class="nk-menu-item has-sub">
+                                    <a href="" class="nk-menu-link ">
+                                        <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
+                                        <span class="nk-menu-text">Deals</span>
+                                    </a>
+                                </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
-                                        <span class="nk-menu-text">categories</span>
+                                        <span class="nk-menu-text">Categories</span>
                                     </a>
                                 </li>
 
@@ -323,7 +329,7 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/site-languages') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">
-                                                    Languages</span></a>
+                                                    Countries/Regions</span></a>
                                         </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/country') }}"

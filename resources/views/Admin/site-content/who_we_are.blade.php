@@ -272,7 +272,7 @@
                     <!-- Specialists items will be appended here -->
                 </div>
                 <div id="specialist-items" class="specialist-items-container">
-                
+
                 <div class="col-md-12 mt-4">
                     <div class="card border">
                         <div class="card-header">
@@ -322,7 +322,7 @@
                                                 data-id="{{ $item->translations->first()->id }}"
                                                 data-title="{{ $item->translations->first()->title }}"
                                                 data-desc="{{ $item->translations->first()->description }}"
-                                                data-img="{{ asset( $item->translations->first()->img ) }}" 
+                                                data-img="{{ asset( $item->translations->first()->img ) }}"
                                                 data-small_img="{{ asset($item->translations->first()->small_img) }}">Edit</button>
                                         </td>
                                     </tr>
@@ -336,7 +336,7 @@
                         </div>
                     </div>
                 </div>
-              
+
                     <div id="updated-special-details" class="mt-4" style="display: none;">
                         <p><strong>Title:</strong></p>
                         <input type="hidden" class="form-control" id="updated-s-id" name="SS[id]"
@@ -360,7 +360,7 @@
                         <button type="button" id="save-ss-button" style="display: none;">Save</button>
                     </div>
                 </div>
-               
+
                  </br>
 
                 <!-- Service Software Heading -->
@@ -397,7 +397,7 @@
                 <div class="col-md-12 mt-4">
                         <div class="form-group">
                             <button type="submit" class="addCategory btn btn-primary btn-localio text-center"><em
-                                    class="icon ni ni-plus"></em><span>Update
+                                    class=""></em><span>Update
                                     Content</span></button>
                         </div>
                     </div>
@@ -617,7 +617,7 @@ $(document).ready(function() {
 
     $('#specialist-items').on('click', '.update-specialist-item', function() {
         let itemId = $(this).data('id'); // Assuming each item-card has a data-id attribute
-        console.log(itemId); 
+        console.log(itemId);
         let title = $(this).data('title');
         let description = $(this).data('desc');
         let imageSrc1 = $(this).data('img');
@@ -630,7 +630,7 @@ $(document).ready(function() {
         $('#updated-s-title').val(title);
         $('#updated-s-description').val(description);
         console.log(imageSrc1);
-        console.log(imageSrc2); 
+        console.log(imageSrc2);
         $('#updated-s-image').attr('src', imageSrc1);
         $('#updated-small-image').attr('src', imageSrc2);
 

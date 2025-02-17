@@ -7,7 +7,7 @@
             </div>
         </div>
         <?php
-        
+
         $lang_code = getCurrentLocale();
         ?>
         @if (isset($homeContents) && isset($allHomeContents))
@@ -717,7 +717,7 @@
     <div class="col-md-12 mt-4">
         <div class="form-group">
             <button class="addCategory btn btn-primary btn-localio text-center"><em
-                    class="icon ni ni-plus"></em><span>Update
+                    class=""></em><span>Update
                     Content</span></button>
         </div>
     </div>

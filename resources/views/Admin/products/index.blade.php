@@ -9,9 +9,9 @@
             width: 40%;
         }
 
-       
 
-        
+
+
     </style>
     <?php
     $locale = getCurrentLocale();
@@ -20,7 +20,7 @@
         <div class="nk-block-head nk-block-head-sm">
             <div class="nk-block-between">
                 <div class="nk-block-head-content">
-                    <h3 class="nk-block-title page-title">Products</h3>
+                    <h3 class="nk-block-title page-title">Business</h3>
                 </div>
                 <div class="nk-block-head-content">
                     <div class="toggle-wrap nk-block-tools-toggle">
@@ -33,7 +33,7 @@
                                         class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ url('admin-dashboard/product/add') ?? '' }}"
                                         class=" btn btn-primary d-none d-md-inline-flex"><em
-                                            class="icon ni ni-plus"></em><span>Add Product</span></a>
+                                            class=""></em><span>Add Business</span></a>
                                 </li>
                             </ul>
                         </div>

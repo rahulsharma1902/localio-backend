@@ -3,7 +3,7 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head d-flex justify-content-between">
         <div class="nk-block-head-content">
-            <h4 class="title nk-block-title">Add Article</h4>   
+            <h4 class="title nk-block-title">Add Article</h4>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label"> Article Categories</label>
-                             
+
                                 <div class="form-control-wrap">
                                     <select class="form-select js-select2" name="category_id" data-search="on">
                                         <option disabled selected>Default Option</option>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-md-12 mt-4">
                         <div class="form-group">
-                            <button class="addCategory btn btn-primary  text-center"><em class="icon ni ni-plus"></em><span>Add New Article</span></button>
+                            <button class="addCategory btn btn-primary  text-center"><em class=""></em><span>Add New Article</span></button>
                         </div>
                     </div>
                 </form>

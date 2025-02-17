@@ -231,7 +231,7 @@
             </div>
          </div>
          <div class="right-tool-btn text-center">
-            <a href="" class="cta">Get Started</a>
+            <a href="{{route('category')}}" class="cta">Get Started</a>
          </div>
       </div>
    </div>

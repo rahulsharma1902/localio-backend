@@ -3,7 +3,7 @@
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
-                <h4 class="title nk-block-title">{{ isset($product) ? 'Update Product' : 'Add Product' }}</h4>
+                <h4 class="title nk-block-title">{{ isset($product) ? 'Update Business' : 'Add Business' }}</h4>
             </div>
         </div>
         <?php $lang = getCurrentLocale(); ?>
@@ -17,7 +17,7 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Product Name</label>
+                                    <label class="form-label" for="name">Business Name</label>
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <input type="text" class="form-control" name="name" id="name"
@@ -175,18 +175,18 @@
 
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-feature">Product Feature</label>
+                                    <label class="form-label" for="product-feature">Business Feature</label>
                                     <select class="form-control product-feature" name="product_feature[]" multiple="multiple">
                                         @if ($features->isNotEmpty())
                                             @foreach ($features as $feature)
-                                                <option value="{{ $feature->id }}" 
+                                                <option value="{{ $feature->id }}"
                                                     @if (in_array($feature->id, array_column($feature_arr, 'id'))) selected="selected" @endif>
                                                     {{ $feature->name }}
                                                 </option>
                                             @endforeach
                                         @endif
                                     </select>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -259,7 +259,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center btn-localio"><em
-                                        class="icon ni ni-plus"></em><span>Update</span></button>
+                                        class=""></em><span>Update</span></button>
                             </div>
                         </div>
                     </form>
@@ -309,7 +309,7 @@
             });
         });
 
-        // select 2 
+        // select 2
         $(document).ready(function() {
             $('.product-category').select2({
                 placeholder: "Select Product Category"
@@ -321,7 +321,7 @@
 
 
 
-        // ck editor this script 
+        // ck editor this script
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 toolbar: [

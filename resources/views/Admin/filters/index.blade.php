@@ -27,7 +27,7 @@
                                         class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ url('admin-dashboard/filter/add') ?? '' }}"
                                         class=" btn btn-primary d-none d-md-inline-flex btn-localio"><em
-                                            class="icon ni ni-plus"></em><span>Add Filter</span></a>
+                                            class=""></em><span>Add Filter</span></a>
                                 </li>
                             </ul>
                         </div>
