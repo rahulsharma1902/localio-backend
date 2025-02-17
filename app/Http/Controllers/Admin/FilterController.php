@@ -159,7 +159,6 @@ class FilterController extends Controller
             }
         }
         else {
-            // Validation for primary language filters
             $request->validate([
                 'name' => 'required|unique:filters,name,' . ($request->id ?? 'NULL') . ',id',
                 'slug' => 'required|unique:filters,slug,' . ($request->id ?? 'NULL') . ',id',
