@@ -108,7 +108,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
             ],
             [
                 'meta_key' => 'header_bottom_text',
@@ -116,7 +116,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -125,7 +125,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -134,7 +134,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
 
@@ -144,7 +144,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
             ],
             [
                 'meta_key' => 'price',
@@ -152,7 +152,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
             ],
             [
                 'meta_key' => 'price_option',
@@ -160,7 +160,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -169,7 +169,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
             ],
             [
                 'meta_key' => 'show_more',
@@ -177,7 +177,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -186,7 +186,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
 
@@ -196,7 +196,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -205,7 +205,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -214,7 +214,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -223,7 +223,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
 
@@ -233,7 +233,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -242,7 +242,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -251,7 +251,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -260,7 +260,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -269,7 +269,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -278,7 +278,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -287,7 +287,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -296,7 +296,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -305,7 +305,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
             [
@@ -314,7 +314,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-              
+
 
             ],
             [
@@ -323,7 +323,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -332,7 +332,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-               
+
 
             ],
             [
@@ -341,7 +341,7 @@ class TopProductContentSeeder extends Seeder
                 'lang_id'    =>   '1',
                 'created_at'    =>  now(),
                 'updated_at'    =>  now(),
-                
+
 
             ],
 

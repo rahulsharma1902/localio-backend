@@ -12,7 +12,6 @@ use Illuminate\Validation\Rule;
 
 class FilterController extends Controller
 {
-    //
     public function index(Request $request){
         $getCurrentSiteLanguage = getCurrentSiteLanguage();
         $filters = Filter::with([
@@ -34,6 +33,7 @@ class FilterController extends Controller
         return view('Admin.filters.add',compact('categories'));
     }
     public function addProcc(Request $request) {
+
         $request->validate([
             'name' => [
                 'required',
@@ -51,32 +51,27 @@ class FilterController extends Controller
             ],
             'category_id' => 'required|exists:categories,id',
             'options' => 'required|array|min:1',
-            'options.*' => 'required|string', 
+            'options.*' => 'required|string',
         ]);
-    
+
         $siteLanguage = getCurrentSiteLanguage();
-
-
-        // Create a new filter entry
         $filter = new Filter();
         $filter->name = $request->name;
         $filter->slug = $request->slug;
         $filter->category_id = $request->category_id;
         $filter->save();
-
+        $filter_id =$filter->id;
         if($filter) {
-
             $filterTranslation = new FilterTranslation();
-            $filterTranslation->filter_id = $request->filter_id;
+            $filterTranslation->filter_id = $filter_id;
             $filterTranslation->language_id = $siteLanguage->id;
             $filterTranslation->name = $request->name;
             $filterTranslation->slug = $request->slug;
             $filterTranslation->save();
         }
-    
-        // Get the options from the request
+
         $options = $request->options;
-    
+
         // Loop through the options and save them
         foreach ($options as $optionName) {
             $option = new FilterOption();
@@ -92,16 +87,15 @@ class FilterController extends Controller
                 $filterOption->save();
             }
         }
-    
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Filter and options added successfully.');
+        return redirect()->route('filters')->with('success', 'Filter and options added successfully.');
     }
+
 
 
     public function updateFilter(Request $request,$filterId){
         $getCurrentSiteLanguage = getCurrentSiteLanguage();
         $languageRole = getLanguageRole();
-
         $defaultFilter = Filter::where('id',$filterId)->first();
         $categories = Category::where('status','active')->get();
         $filter = Filter::where('id',$filterId)->with([
@@ -115,14 +109,13 @@ class FilterController extends Controller
                 $query->where('language_id', $getCurrentSiteLanguage->id);
             },
         ])->first();
-
         return view('Admin.filters.update',compact('filter','defaultFilter','categories','languageRole'));
     }
 
 
     public function updateProcc(Request $request)
     {
- 
+
         // Find the site language
         if ($request->language_id) {
 
@@ -130,7 +123,7 @@ class FilterController extends Controller
         } else {
             $lang_code = Language::where('lang_code', $request->lang_code)->first();
         }
-    
+
         // Check if the language is a secondary language (not primary)
         if ($lang_code) {
             $request->validate([
@@ -139,23 +132,23 @@ class FilterController extends Controller
                 'options' => 'required|array|min:1',
                 'options.*' => 'required|string',
             ]);
-    
+
             $filter = $request->id
                 ? FilterTranslation::find($request->id)
                 : FilterTranslation::where('filter_id', $request->filter_id)
                     ->where('language_id', $lang_code->id)
                     ->first() ?? new FilterTranslation;
-    
+
             if (!$filter) {
                 return back()->withErrors(['message' => 'Filter translation not found.']);
             }
-    
+
             $filter->filter_id = $request->filter_id;
             $filter->language_id = $lang_code->id;
             $filter->name = $request->name;
             $filter->slug = $request->slug;
             $filter->save();
-    
+
             foreach ($request->options as $optionKey => $optionValue) {
                 $filterOption = FilterOptionTranslation::firstOrNew([
                     'filter_option_id' => $optionKey,
@@ -164,9 +157,8 @@ class FilterController extends Controller
                 $filterOption->name = $optionValue;
                 $filterOption->save();
             }
-        } 
+        }
         else {
-            // Validation for primary language filters
             $request->validate([
                 'name' => 'required|unique:filters,name,' . ($request->id ?? 'NULL') . ',id',
                 'slug' => 'required|unique:filters,slug,' . ($request->id ?? 'NULL') . ',id',
@@ -176,21 +168,20 @@ class FilterController extends Controller
                 // 'new_options' => 'required|array|min:1',
                 'new_options.*' => 'required|string',
             ]);
-    
+
             DB::beginTransaction();
-    
+
             try {
                 $filter = Filter::findOrFail($request->id);
                 $filter->name = $request->name;
                 $filter->slug = $request->slug;
                 $filter->category_id = $request->category_id;
                 $filter->save();
-    
                 $siteLanguage = getCurrentSiteLanguage();
-    
+
                 $existingOptionIds = array_keys($request->options);
                 $currentOptions = FilterOption::where('filter_id', $filter->id)->pluck('id')->toArray();
-    
+
                 foreach ($request->options as $optionId => $optionName) {
                     $optionTranslation = FilterOptionTranslation::firstOrNew([
                         'filter_option_id' => $optionId,
@@ -199,14 +190,14 @@ class FilterController extends Controller
                     $optionTranslation->name = $optionName;
                     $optionTranslation->save();
                 }
-    
+
                 $optionsToRemove = array_diff($currentOptions, $existingOptionIds);
 
                 if (!empty($optionsToRemove)) {
                     FilterOption::whereIn('id', $optionsToRemove)->delete();
                     FilterOptionTranslation::whereIn('filter_option_id', $optionsToRemove)->delete();
                 }
-    
+
                 if($request->new_options){
                     foreach ($request->new_options as $newOptionName) {
                         $newOption = new FilterOption();
@@ -216,23 +207,22 @@ class FilterController extends Controller
                     }
                 }
                 DB::commit();
-    
+
             } catch (\Exception $e) {
                 DB::rollBack();
-               return redirect()->back()->with('error' , 'An error occurred: ');
+               return redirect()->route('filters')->with('error' , 'An error occurred: ');
             }
-
         }
-    
-        return redirect()->back()->with('success', 'Filter updated successfully.');
+
+        return redirect()->route('filters')->with('success', 'Filter updated successfully.');
     }
-    
+
 
 
 
     public function remove(Request $request,$id){
         $filter = Filter::find($id);
-    
+
         if ($filter) {
             FilterTranslation::where('filter_id', $id)->delete();
             $filter->delete();
@@ -241,7 +231,7 @@ class FilterController extends Controller
             return redirect()->back()->with('error', 'Filter not found.');
         }
     }
-    
-    
-    
+
+
+
 }
