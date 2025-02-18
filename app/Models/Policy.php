@@ -16,8 +16,9 @@ class Policy extends Model
 
     public function translations()
     {
-        return $this->hasMany(PolicyTranslation::class);
+        return $this->hasMany(PolicyTranslation::class, 'policy_id');
     }
+
     public function rule()
     {
         return $this->hasMany(Rule::class);

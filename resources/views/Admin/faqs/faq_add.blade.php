@@ -44,7 +44,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary btn-localio  text-center"><em
-                                        class="icon ni ni-plus"></em><span>{{ isset($faq) ? 'Update Faq' : 'Save Faq' }}</span></button>
+                                        class=""></em><span>{{ isset($faq) ? 'Update Faq' : 'Save Faq' }}</span></button>
                             </div>
                         </div>
                     </form>

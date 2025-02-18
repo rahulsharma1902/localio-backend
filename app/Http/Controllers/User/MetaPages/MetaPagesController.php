@@ -8,6 +8,7 @@ use App\Models\SiteLanguages;
 use App\Models\Faq;
 use App\Models\WhoWeAre;
 use App\Models\ExpertGuides;
+use App\Models\PolicyTranslation;
 use App\Models\ContactContent;
 use App\Models\PageTile;
 class MetaPagesController extends Controller
@@ -56,5 +57,14 @@ class MetaPagesController extends Controller
 
         return view('User.meta-pages.site-pages.who_we_are',compact('whoWeAre','pageTileTranslationPopular','specilistTileTranslation'));
     }
+
+    public function showPrivacyPolicy($id)
+{
+    $privacy_policy = PolicyTranslation::first();
+
+    //dd($policy_data); // Debugging: Check if data is retrieved
+
+    return view('User.terms_condition.privacy_policy', compact('privacy_policy'));
+}
 
 }

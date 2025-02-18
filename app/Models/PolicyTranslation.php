@@ -21,11 +21,13 @@ class PolicyTranslation extends Model
 
     public function policy()
     {
-        return $this->belongsTo(Policy::class);
+        return $this->belongsTo(Policy::class, 'policy_id');
     }
 
     public function language()
     {
         return $this->belongsTo(Language::class, 'language_id');
     }
+
+
 }

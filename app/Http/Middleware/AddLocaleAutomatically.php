@@ -13,7 +13,7 @@ class AddLocaleAutomatically
 {
     public function handle(Request $request, Closure $next)
     {
-        $validLocales = ['en-us']; 
+        $validLocales = ['en-us'];
         $firstSegment = $request->segment(1);
         if (!in_array($firstSegment, $validLocales)) {
             $defaultLocale = 'en-us';
@@ -21,6 +21,6 @@ class AddLocaleAutomatically
         }
         App::setLocale($firstSegment);
         return $next($request);
-    
+
     }
 }
