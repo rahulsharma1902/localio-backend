@@ -81,7 +81,7 @@
                         <!-- Submit Button -->
                         <div class="col-md-12 mt-5">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-primary btn-localio">{{isset($category_data)?'Update Category':'Add Category' }}</button>
+                                <button type="submit" class="btn btn-lg btn-primary btn-localio">{{isset($category_data)?'Update Category':'Save Category' }}</button>
                             </div>
                         </div>
                     </div>

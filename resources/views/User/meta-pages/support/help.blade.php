@@ -29,7 +29,7 @@
             </div>
          </div>
       </section>
-      
+
       <!-- section how we can help you -->
       <section class="hlp-you-center p_120 light">
          <div class="container">
@@ -134,7 +134,7 @@
       </section>
 
       <!-- section smart search -->
-      <section class="smart_search_section dark p_120 pt-0 ">
+      {{-- <section class="smart_search_section dark p_120 pt-0 ">
          <div class="container">
             <div class="smart_search_inner">
                <div class="smart_srch_content text-center size18">
@@ -160,7 +160,7 @@
                </div>
             </div>
          </div>
-      </section>
+      </section> --}}
 
       <!-- section FAQ -->
       <section class="faq-section p_120 pt-0 light">

@@ -29,7 +29,7 @@
                                         class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ route('policies_add_show')}}"
                                         class=" btn btn-primary d-none d-md-inline-flex"><em
-                                            class="icon ni ni-plus"></em><span>Add Policy</span></a>
+                                            class=""></em><span>Add Policy</span></a>
                                 </li>
                             </ul>
                         </div>

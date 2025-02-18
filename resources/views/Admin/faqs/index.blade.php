@@ -29,7 +29,7 @@
                                         class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ url('admin-dashboard/faq-add') ?? '' }}"
                                         class=" btn btn-primary d-none d-md-inline-flex btn-localio"><em
-                                            class="icon ni ni-plus"></em><span>Add Faq</span></a>
+                                            class=""></em><span>Add Faq</span></a>
                                 </li>
                             </ul>
                         </div>

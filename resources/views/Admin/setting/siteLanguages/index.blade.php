@@ -27,7 +27,7 @@
                                         class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ url('admin-dashboard/site-languages/add') ?? '' }}"
                                         class=" btn btn-primary d-none d-md-inline-flex btn-localio"><em
-                                            class="icon ni ni-plus"></em><span>Add Site Languages</span></a>
+                                            class=""></em><span>Add Site Languages</span></a>
                                     <!-- <a href="{{ url('site-languages/add') ?? '' }}" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Site Languages</span></a> -->
                                 </li>
                             </ul>
@@ -150,7 +150,7 @@
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary form-control text-center btn-localio"><em
-                                class="icon ni ni-plus"></em><span>Add New Category</span></button>
+                                class=""></em><span>Add New Category</span></button>
                     </div>
                 </div>
             </div><!-- .nk-block -->

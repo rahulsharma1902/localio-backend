@@ -27,7 +27,7 @@
                                 <li class="nk-block-tools-opt">
                                     <a href="{{ route('terms_add_show')}}"
                                         class=" btn btn-primary d-none d-md-inline-flex"><em
-                                            class="icon ni ni-plus"></em><span>Add terms</span></a>
+                                            class=""></em><span>Add terms</span></a>
                                 </li>
                             </ul>
                         </div>

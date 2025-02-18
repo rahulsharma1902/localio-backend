@@ -279,8 +279,12 @@ class SiteContentController extends Controller
         }
         $footerFiles = FooterContent::where('type', 'file')->Where('lang_id', 1)->get();
         $footerLogo = FooterContent::where('meta_key', 'footer_logo')->Where('lang_id', 1)->first();
-
-        return view('Admin.site-content.footer_page', compact('footerContents', 'footerFiles', 'footerLogo'));
+        $footerMediaUrls = FooterContent::whereIn('meta_key', ['facebook_url', 'instagram_url', 'twitter_url'])
+          ->where('lang_id', $lang_id)
+         ->pluck('meta_value', 'meta_key')
+          ->toArray();
+      
+        return view('Admin.site-content.footer_page', compact('footerContents', 'footerFiles', 'footerLogo','footerMediaUrls'));
     }
     public function footerPageUpdate(Request $request)
     {

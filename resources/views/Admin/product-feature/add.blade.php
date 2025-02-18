@@ -16,7 +16,7 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Product Feature</label>
+                                    <label class="form-label" for="name">Business Feature</label>
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <input type="hidden" name="tab" value="{{ request('tab') }}">
@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center btn-localio"><em
-                                        class="icon ni ni-plus"></em>Add Feature</button>
+                                        class=""></em>Save Feature</button>
                             </div>
                         </div>
                 </div>

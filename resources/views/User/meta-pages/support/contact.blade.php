@@ -114,7 +114,7 @@
             </div>
          </div>
          <div class="right-tool-btn text-center">
-            <a href="" class="cta">{{ $contact->g_button ?? '' }}</a>
+            <a href="{{route('category')}}" class="cta">{{ $contact->g_button ?? '' }}</a>
          </div>
       </div>
    </div>

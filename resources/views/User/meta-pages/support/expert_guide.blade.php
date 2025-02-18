@@ -121,7 +121,7 @@
     </div>
 </section>
 
-<section class="smart-combined smrt_nw p_120 pt-0">
+{{-- <section class="smart-combined smrt_nw p_120 pt-0">
     <div class="combined-section-bg">
         <img src="{{asset('front/img/two-sec-bg.png') }}" alt="">
     </div>
@@ -153,7 +153,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
 <section class="wmail_sec p_120">
     <div class="container">
@@ -338,7 +338,7 @@
                 @forelse($pageTileTranslationRightTools as $index => $item)
                 @foreach ($item->translations as $translation)
                     <div class="col-lg-4">
-                      
+
                         <div class="tool-card">
                             <div class="tool-card-img">
                                 <img src="{{ asset($translation->image) }}" alt="">
@@ -351,7 +351,7 @@
                         </div>
                     </div>
                     @endforeach
-                  
+
                     <!-- <div class="col-lg-4">
                         <div class="tool-card">
                             <div class="tool-card-img">
@@ -386,7 +386,7 @@
 
             </div>
             <div class="right-tool-btn  text-center">
-                <a href="" class="cta">{{ $expertGuide->get_start_button ?? '' }}</a>
+                <a href="{{route('category')}}" class="cta">{{ $expertGuide->get_start_button ?? '' }}</a>
             </div>
         </div>
     </div>

@@ -25,8 +25,8 @@
                         <div class="toggle-expand-content" data-content="pageMenu">
                             <ul class="nk-block-tools g-3">
                                 <li class="nk-block-tools-opt">
-                                    <a href="{{ url('admin-dashboard/article/category/add') ?? '' }}" class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                    <a href="{{ url('admin-dashboard/article/category/add') ?? '' }}" class=" btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Article Category</span></a>
+                                    <a href="{{ url('admin-dashboard/article/category/add') ?? '' }}" class=" btn btn-icon btn-primary d-md-none"><em class=""></em></a>
+                                    <a href="{{ url('admin-dashboard/article/category/add') ?? '' }}" class=" btn btn-primary d-none d-md-inline-flex"><em class=""></em><span>Add Article Category</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -46,7 +46,7 @@
                         <th class="nk-tb-col tb-tnx-action"><span>Action</span></th> <!-- Missing in tbody -->
                     </tr>
                 </thead>
-                @if(isset($articleCategory) && $articleCategory->isNotEmpty()) 
+                @if(isset($articleCategory) && $articleCategory->isNotEmpty())
                     <tbody>
                         @foreach($articleCategory as $category)
                             <tr class="nk-tb-item">
@@ -87,8 +87,8 @@
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a
                                                                 href="{{ url('admin-dashboard/edit-article-category') ?? '' }}/{{ $category->id ?? ''}}/{{ $category->language_id ?? ''}}"><em class="icon ni ni-edit-fill"></em><span>Edit</span></a></li>
-                                                        
-                                                        @if($lang == 'en')        
+
+                                                        @if($lang == 'en')
                                                             <!-- <li class="removeConfermation" data-url="{{ url('admin-dashboard/remove-article-category') ?? '' }}/{{ $categoryTranslation->id ?? ''}}"> -->
                                                                 <a class="delete" href="{{ url('admin-dashboard/remove-article-category') ?? '' }}/{{ $category->id ?? ''}}"><em class="icon ni ni-trash-fill"></em><span>Remove</span></a>
                                                             <!-- </li> -->
@@ -102,7 +102,7 @@
                             </tr>
                         @endforeach
                     </tbody>
-                @endif    
+                @endif
             </table>
         </div>
     </div>

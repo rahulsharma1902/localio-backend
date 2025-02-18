@@ -28,7 +28,7 @@
                                         class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                     <a href="{{ route('country.add') }}"
                                         class=" btn btn-primary d-none d-md-inline-flex btn-localio"><em
-                                            class="icon ni ni-plus"></em><span>Add Country</span></a>
+                                            class=""></em><span>Add Country</span></a>
 
                                 </li>
                             </ul>
@@ -137,7 +137,7 @@
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary form-control text-center btn-localio"><em
-                                class="icon ni ni-plus"></em><span>Add
+                                class=""></em><span>Add
                                 New Category</span></button>
                     </div>
                 </div>

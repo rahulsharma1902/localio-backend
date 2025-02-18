@@ -22,14 +22,14 @@ class TermAndConditionController extends Controller
 
         // $policies = Policy::with(['translations' => function ($query) use ($siteLanguage){
         //                     $query->where('language_id',$siteLanguage->id);
-        //                     }])->where('title','Privacy Policy')->get();        
-                            
+        //                     }])->where('title','Privacy Policy')->get();
+
         // $privacyPolicy = Policy::where('title','Privacy Policy')->first();
         // dd($privacyPolicy);
 
         // $rules = Rule::with(['translations' => function ($query) use ($siteLanguage){
         //                 $query->where('language_id', $siteLanguage->id);
-        //                 }])->where('policy_id' ,$privacyPolicy->id)->get();          
+        //                 }])->where('policy_id' ,$privacyPolicy->id)->get();
 
         return view('User.terms_condition.privacy_policy');
     }
@@ -41,13 +41,13 @@ class TermAndConditionController extends Controller
 
         // $policies = Policy::with(['translations' => function ($query) use (){
         //                     $query->where('language_id',1);
-        //                     }])->where('title','Terms and Conditions')->get();        
-                            
+        //                     }])->where('title','Terms and Conditions')->get();
+
         // $terms= Policy::where('title','Terms and Conditions')->first();
 
         // $rules = Rule::with(['translations' => function ($query) use ($siteLanguage){
         //                 $query->where('language_id', $siteLanguage->id);
-        //                 }])->where('policy_id' ,$terms->id)->get();        
+        //                 }])->where('policy_id' ,$terms->id)->get();
         return view('User.terms_condition.terms_condition');
     }
 }

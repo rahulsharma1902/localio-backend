@@ -19,7 +19,7 @@
                                             class="icon ni ni-plus"></em></a>
                                     <a href="{{ route('add-category') }}"
                                         class="btn btn-primary d-none d-md-inline-flex btn-localio"><em
-                                            class="icon ni ni-plus"></em><span>Add Categories</span></a>
+                                            class=""></em><span>Add Categories</span></a>
                                 </li>
                             </ul>
                         </div>

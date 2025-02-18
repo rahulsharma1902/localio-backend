@@ -203,7 +203,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::post('new-password-procc', [AuthenticationController::class, 'newPasswordProcc'])->name('new-password-procc');
 
     // Category Controller
-    Route::get('/category', [CategoryController::class, 'index'])->name('category');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('category');
 
     // Product Controller
     Route::get('/product', [ProductController::class, 'productDetail'])->name('product');
@@ -215,7 +215,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::get('/terms-condition', [TermAndConditionController::class, 'termsCondtion'])->name('terms-condition');
 
     // SiteMetaPages Controller
-    Route::get('/expert-guide', [MetaPagesController::class, 'expertGuide'])->name('expert-guide');
+    Route::get('/expert-guides', [MetaPagesController::class, 'expertGuide'])->name('expert-guide');
     Route::get('/help-center', [MetaPagesController::class, 'helpCenter'])->name('help-center');
     Route::get('/who-we-are', [MetaPagesController::class, 'whoWeAre'])->name('who-we-are');
     Route::get('/contact', [MetaPagesController::class, 'contact'])->name('contact');

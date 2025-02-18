@@ -3,7 +3,7 @@
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
-                <h4 class="title nk-block-title">Add Product</h4>
+                <h4 class="title nk-block-title">Add Business</h4>
             </div>
         </div>
         <?php $lang = getCurrentLocale(); ?>
@@ -17,7 +17,7 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Product Name</label>
+                                    <label class="form-label" for="name">Business Name</label>
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <input type="text" class="form-control" name="name" id="name"
@@ -34,7 +34,7 @@
                             <!-- Product Description -->
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="description">Product Description</label>
+                                    <label class="form-label" for="description">Business Description</label>
                                     <div class="form-control-wrap">
                                         <textarea class="description" name="description" id="editor1" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                         @error('description')
@@ -59,7 +59,7 @@
                             @if (!isset($product))
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="product-category">Product Category</label>
+                                        <label class="form-label" for="product-category">Business Category</label>
                                         <select class="form-control product-category" name="product_category[]"
                                             multiple="multiple">
                                             @if ($categories->isNotEmpty())
@@ -79,9 +79,9 @@
                                 <div class="col-md-6">
                                     @if ($lang == 'en-us')
                                         <div class="form-group">
-                                            <label class="form-label" for="product-category">Product Category</label>
+                                            <label class="form-label" for="product-category">Business Category</label>
                                             <select class="form-control product-category" name="product_category[]"
-                                                multiple="multiple">
+                                                multiple="multiple" data-search="on">
                                                 @if ($categories->isNotEmpty())
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
@@ -91,10 +91,11 @@
                                                     @endforeach
                                                 @endif
                                             </select>
+
                                         </div>
                                     @elseif($lang !== 'en-us')
                                         <div class="form-group">
-                                            <label class="form-label" for="product-category">Product Category</label>
+                                            <label class="form-label" for="product-category">Business Category</label>
                                             <input type="text" class="form-control" name="product_category_display"
                                                 id="product-category-display"
                                                 value="{{ isset($product->categories)
@@ -113,7 +114,7 @@
                             @endif
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-price">Product Price</label>
+                                    <label class="form-label" for="product-price">Business Price</label>
                                     <input type="text" class="form-control" name="product_price" id="product-price"
                                         min="1" value="{{ old('product_price') }}" placeholder="Product Price">
                                 </div>
@@ -129,7 +130,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-icon">Product Icon</label>
+                                    <label class="form-label" for="product-icon">Business Icon</label>
                                     @if (!isset($product) || $lang == 'en-us')
                                         <input type="file" class="form-control" name="product_icon" id="product-icon">
                                     @endif
@@ -146,7 +147,7 @@
                             <!-- Product Image -->
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-image">Product Image</label>
+                                    <label class="form-label" for="product-image">Business Image</label>
                                     @if (!isset($product) || $lang == 'en-us')
                                         <input type="file" class="form-control" name="product_image"
                                             id="product-image">
@@ -167,7 +168,7 @@
 
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-link">Product Link</label>
+                                    <label class="form-label" for="product-link">Business Link</label>
                                     <input type="url" class="form-control" name="product_link" id="product-link"
                                         value="{{ old('product_link') }}" placeholder="Product Link">
                                 </div>
@@ -179,7 +180,7 @@
 
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="product-category">Product Feature</label>
+                                    <label class="form-label" for="product-category">Business Feature</label>
                                     <select class="form-control product-feature" name="product_feature[]"
                                         multiple="multiple">
                                         @foreach ($product_feature as $key => $item)
@@ -195,7 +196,7 @@
                         {{-- overview data --}}
                         <div class="col-md-12 mt-3">
                             <div class="form-group">
-                                <label class="form-label" for="description">Product Overview</label>
+                                <label class="form-label" for="description">Business Overview</label>
                                 <div class="form-control-wrap">
                                     <textarea class="description" name="overview" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                     @error('overview')
@@ -243,7 +244,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center btn-localio"><em
-                                        class="icon ni ni-plus"></em><span>{{ isset($product) ? 'Update Product' : 'Add Product' }}</span></button>
+                                        class=""></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
                             </div>
                         </div>
 

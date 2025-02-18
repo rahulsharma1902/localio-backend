@@ -103,7 +103,7 @@
                             <div class="col-md-12 mt-4">
                                 <div class="form-group">
                                     <button class="addCategory btn btn-primary  text-center"><em
-                                            class="icon ni ni-plus"></em><span>Add New Article</span></button>
+                                            class=""></em><span>Add New Article</span></button>
                                 </div>
                             </div>
                         </div>

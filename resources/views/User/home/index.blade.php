@@ -52,7 +52,7 @@
             $reviewRightImage = $homeContantImages->get('review_section_right_img');
             $reviewLeftImage = $homeContantImages->get('review_section_left_img');
             $aiImage = $homeContantImages->get('ai_send_img');
-            
+
             ?>
             @if (isset($headerBackgroundImage))
                 <img src="{{ asset($headerBackgroundImage->meta_value) }}" alt="{{ $headerBackgroundImage->meta_key }}">
@@ -515,7 +515,7 @@
         </div>
     </section>`
     <!-- section combined  smart search + top rated -->
-    <section class="smart-combined p_120">
+    {{-- <section class="smart-combined p_120">
         <div class="combined-section-bg">
             <img src="{{ asset('front/img/two-sec-bg.png') }}" alt="">
         </div>
@@ -818,7 +818,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!--  -------------------------------------------slider section start ------------------------------------->
     <section class="outer_slider dark p_120">
         <div class="section_hed" data-aos="fade-up" data-aos-duration="1000">
@@ -1206,7 +1206,7 @@
                     </div>
                 </div>
                 <div class="right-tool-btn text-center">
-                    <a href="" class="cta">
+                    <a href="{{route('category')}}" class="cta">
                         {{ $homeContents['get_button_lable'] ?? null }}
                     </a>
                 </div>

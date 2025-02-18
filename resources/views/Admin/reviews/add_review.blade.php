@@ -56,7 +56,7 @@
                                     <label class="form-label" for="description">Description</label>
                                     <div class="form-control-wrap">
                                         <textarea class="form-control" name="description" id="description" rows="4" cols="79">
-                                       
+
                                     </textarea>
                                     </div>
                                     @error('description')
@@ -68,7 +68,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary  text-center review-btn btn-localio"><em
-                                        class="icon ni ni-plus"></em><span>Add Review</span></button>
+                                        class=""></em><span>Save Review</span></button>
                             </div>
                         </div>
                     </form>

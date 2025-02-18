@@ -1,452 +1,473 @@
     <!DOCTYPE html>
-<html lang="en">
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"
-        integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"
+            integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"
-        integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"
+            integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- dashicon link //////////////////////////////// -->
+        <!-- dashicon link //////////////////////////////// -->
 
-    <link data-minify="1" rel='stylesheet' id='dashicons-css'
-        href='https://documentos-legales.mx/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1729539507'
-        media='all' />
+        <link data-minify="1" rel='stylesheet' id='dashicons-css'
+            href='https://documentos-legales.mx/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1729539507'
+            media='all' />
 
-    <!-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> -->
+        <!-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> -->
 
-    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
-    <title>home page</title>
-</head>
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+        <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
+        <title>home page</title>
+    </head>
 
-<body>
-    <?php
-    $lang = getCurrentLocale();
-    $lang_id = getCurrentLanguageID();
+    <body>
+        <?php
+        $lang = getCurrentLocale();
+        $lang_id = getCurrentLanguageID();
 
-    $headerLogo = \App\Models\HeaderContent::where([['lang_id', 1], ['meta_key', 'header_logo']])->first();
-    $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang_id], ['type', 'text']])->pluck('meta_value', 'meta_key');
+        $headerLogo = \App\Models\HeaderContent::where([['lang_id', 1], ['meta_key', 'header_logo']])->first();
+        $headerContent = \App\Models\HeaderContent::where([['lang_id', $lang_id], ['type', 'text']])->pluck('meta_value', 'meta_key');
 
-    if ($headerContent->isEmpty()) {
-        $headerContent = \App\Models\HeaderContent::where([['lang_id', 1], ['type', 'text']])->pluck('meta_value', 'meta_key');
-    }
-    $footerLogo = \App\Models\FooterContent::where([['lang_id', 1], ['meta_key', 'footer_logo']])->first();
-    $icons = \App\Models\FooterContent::where('lang_id', 1)
-        ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
-        ->get();
+        if ($headerContent->isEmpty()) {
+            $headerContent = \App\Models\HeaderContent::where([['lang_id', 1], ['type', 'text']])->pluck('meta_value', 'meta_key');
+        }
+        $footerLogo = \App\Models\FooterContent::where([['lang_id', 1], ['meta_key', 'footer_logo']])->first();
+        $icons = \App\Models\FooterContent::where('lang_id', 1)
+            ->whereIn('meta_key', ['facebook_icon', 'instagram_icon', 'twitter_icon'])
+            ->get();
 
-    $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
-    $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
-    $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
+        $facebookIcon = $icons->where('meta_key', 'facebook_icon')->first();
+        $instagramIcon = $icons->where('meta_key', 'instagram_icon')->first();
+        $twitterIcon = $icons->where('meta_key', 'twitter_icon')->first();
 
-    $footerContents = \App\Models\FooterContent::where('lang_id', $lang_id)->where('type', 'text')->pluck('meta_value', 'meta_key');
-    $footerMediaUrls = \App\Models\FooterContent::where('type', 'url')->where('lang_id', 1)->pluck('meta_value', 'meta_key');
+        $footerContents = \App\Models\FooterContent::where('lang_id', $lang_id)->where('type', 'text')->pluck('meta_value', 'meta_key');
+        $footerMediaUrls = \App\Models\FooterContent::where('type', 'url')->where('lang_id', 1)->pluck('meta_value', 'meta_key');
 
-    if ($footerContents->isEmpty()) {
-        $footerContents = \App\Models\FooterContent::where('lang_id', 1)->where('type', 'text')->pluck('meta_value', 'meta_key');
-    }
+        if ($footerContents->isEmpty()) {
+            $footerContents = \App\Models\FooterContent::where('lang_id', 1)->where('type', 'text')->pluck('meta_value', 'meta_key');
+        }
 
-    ?>
-    <header>
-        <section class="sec_head">
-            <div class="bottom_header dark">
-                <div class="container-fluid">
-                    <div class="header_row">
-                        <div class="search_logo">
-                            <div class="logo_col">
-                                <!-- <a href="{{ url('/' ?? '') }}" class="brand"><img src="{{ asset('front/img/logo.svg') }}"></a>               -->
-                                @if (isset($headerLogo) && $headerLogo)
-                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
-                                            src="{{ asset($headerLogo->meta_value) }}"
-                                            alt="{{ $headerLogo->meta_key }}"></a>
-                                @else
-                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
-                                            src="{{ asset('front/img/logo.svg') }}"></a>
-                                @endif
+        ?>
+        <header>
+            <section class="sec_head">
+                <div class="bottom_header dark">
+                    <div class="container-fluid">
+                        <div class="header_row">
+                            <div class="search_logo">
+                                <div class="logo_col">
+                                    <!-- <a href="{{ url('/' ?? '') }}" class="brand"><img src="{{ asset('front/img/logo.svg') }}"></a>               -->
+                                    @if (isset($headerLogo) && $headerLogo)
+                                        <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                                src="{{ asset($headerLogo->meta_value) }}"
+                                                alt="{{ $headerLogo->meta_key }}"></a>
+                                    @else
+                                        <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                                src="{{ asset('front/img/logo.svg') }}"></a>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div id="myID" class="search-box">
-                            <input type="text"
-                                placeholder="{{ $headerContent['header_search_placeholder'] ?? '' }}">
-                            <i class="fa fa-search"></i>
-                        </div>
-                        <div class="header_button_col">
-                            <div class="Header_buttons">
-                                @if (!auth()->user())
-                                    <a href="{{ route('login', ['locale' => session('locale', 'en-us')]) }}"
-                                        class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? 'Login' }}</a>
-                                    <a href="{{ route('register', ['locale' => session('locale', 'en-us')]) }}"
-                                        class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? 'Sign Up' }}</a>
-                                @else
-                                    <a href="{{ url('/logout') }}"
-                                        class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? 'Sign out' }}</a>
-                                @endif
+                            <div id="myID" class="search-box">
+                                <input type="text"
+                                    placeholder="{{ $headerContent['header_search_placeholder'] ?? '' }}">
+                                <i class="fa fa-search"></i>
+                            </div>
+                            <div class="header_button_col">
+                                <div class="Header_buttons">
+                                    @if (!auth()->user())
+                                        <a href="{{ route('login', ['locale' => session('locale', 'en-us')]) }}"
+                                            class="cta cta_trans">{{ $headerContent['login_btn_lable'] ?? 'Login' }}</a>
+                                        <a href="{{ route('register', ['locale' => session('locale', 'en-us')]) }}"
+                                            class="cta cta_orange">{{ $headerContent['sign_up_btn_lable'] ?? 'Sign Up' }}</a>
+                                    @else
+                                        <a href="{{ url('/logout') }}"
+                                            class="cta cta_orange">{{ $headerContent['sign_out_btn_lable'] ?? 'Sign out' }}</a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="top_header dark">
-                <div class="container-fluid">
-                    <nav class="navbar navbar-expand-lg">
-                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="bar"></span>
-                            <span class="bar"></span>
-                            <span class="bar"></span>
-                        </button>
-                        <?php
-                        use App\Models\CategoryTranslation;
-                        use App\Models\Language;
-                        if (Session::has('userDetails')) {
-                            $lang_id = Session::get('userDetails')['lang_id'];
-                        } else {
-                            $lang_id = 1;
-                        }
-                        $categories = CategoryTranslation::where('language_id', $lang_id)->get()->toArray();
-                        ?>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <div class="left_menu">
-                                <ul class="menu">
-                                    <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
-                                        <a href="#" class="cat_menu">{{ $headerContent['categories'] ?? 'Categories' }}</a>
-                                        <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
-                                        <ul
-                                            class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                            @foreach ($categories as $category)
-                                                <li class="dropdown_item-1">
-                                                    <a href="javascript:void(0);"
-                                                        onclick="changeCategory('{{ $category['slug'] }}')">
-                                                        {{ $category['name'] }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                    <?php
-                                    use App\Models\Product;
-                                    $products = Product::all();
-                                    ?>
-                                    <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{ $headerContent['top_rated_product'] ?? 'Top Rated Products' }}</a>
-                                        <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
-                                        <ul
-                                            class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                            @if (isset($products) && !$products->isEmpty())
-                                                @foreach ($products as $product)
+                <div class="top_header dark">
+                    <div class="container-fluid">
+                        <nav class="navbar navbar-expand-lg">
+                            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                            </button>
+                            <?php
+                            use App\Models\CategoryTranslation;
+                            use App\Models\Language;
+                            if (Session::has('userDetails')) {
+                                $lang_id = Session::get('userDetails')['lang_id'];
+                            } else {
+                                $lang_id = 1;
+                            }
+                            $categories = CategoryTranslation::where('language_id', $lang_id)->get()->toArray();
+                            ?>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <div class="left_menu">
+                                    <ul class="menu">
+                                        <li class=" menu-item cat_menu_item dropdown dropdown-6  mobile-drop">
+                                            <a href="#"
+                                                class="cat_menu">{{ $headerContent['categories'] ?? 'Categories' }}</a>
+                                            <span class="dropdown_toggle"><i
+                                                    class="fa-solid fa-chevron-down"></i></span>
+                                            <ul
+                                                class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
+                                                @foreach ($categories as $category)
                                                     <li class="dropdown_item-1">
-                                                        <a href="javascript:void(0)" class="product-name"
-                                                            data-id="{{ $product->id }}"
-                                                            data-slug="{{ $product->slug }}">{{ $product->name ?? '' }}</a>
+                                                        <a href="javascript:void(0);"
+                                                            onclick="changeCategory('{{ $category['slug'] }}')">
+                                                            {{ $category['name'] }}
+                                                        </a>
                                                     </li>
                                                 @endforeach
+                                            </ul>
+                                        </li>
+                                        <?php
+                                        use App\Models\Product;
+                                        $products = Product::all();
+                                        ?>
+                                        <li class=" menu-item dropdown dropdown-6 mobile-drop">
+                                            <a
+                                                href="#">{{ $headerContent['top_rated_product'] ?? 'Top Rated Products' }}</a>
+                                            <span class="dropdown_toggle"><i
+                                                    class="fa-solid fa-chevron-down"></i></span>
+                                            <ul
+                                                class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
+                                                @if (isset($products) && !$products->isEmpty())
+                                                    @foreach ($products as $product)
+                                                        <li class="dropdown_item-1">
+                                                            <a href="javascript:void(0)" class="product-name"
+                                                                data-id="{{ $product->id }}"
+                                                                data-slug="{{ $product->slug }}">{{ $product->name ?? '' }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                @endif
+                                            </ul>
+                                        </li>
+                                        <li class=" menu-item dropdown dropdown-6 mobile-drop">
+                                            <a
+                                                href="#">{{ $headerContent['exclusive'] ?? 'Exclusive Deals' }}</a>
+                                            <span class="dropdown_toggle"><i
+                                                    class="fa-solid fa-chevron-down"></i></span>
+                                            <ul
+                                                class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
+                                                <li class="dropdown_item-1">
+                                                    <a href="#">Item 1</a>
+                                                </li>
+                                                <li class="dropdown_item-2">
+                                                    <a href="#">Item 2</a>
+                                                </li>
+                                                <li class="dropdown_item-3">
+                                                    <a href="#">Item 3</a>
+                                                </li>
+                                                <li class="dropdown_item-4">
+                                                    <a href="#">Item 4</a>
+                                                </li>
+                                                <li class="dropdown_item-5">
+                                                    <a href="#">Item 5</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="right_menu">
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="{{ route('expert-guide') }}">{{ $headerContent['expert_guide'] ?? 'Expert Guides' }}</a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="{{ route('help-center') }}">{{ $headerContent['help_center'] ?? 'Help Center' }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+        </header>
+        @yield('content')
+        <!-- content section end -->
+        <!-- footer  -->
+        <footer class="dark">
+            <div class="container">
+                <div class="footer-wrp ">
+                    <div class="row foot-row">
+                        <div class="col-lg-9">
+                            <div class="foot-row-lft p_80">
+                                <div class="foot-logo">
+
+                                    @if (isset($footerLogo) && $footerLogo)
+                                        <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                                src="{{ asset($footerLogo->meta_value) }}"
+                                                alt="{{ $footerLogo->meta_key }}"></a>
+                                    @else
+                                        <a href="{{ url('/' ?? '') }}" class="brand"><img
+                                                src="{{ asset('front/img/foot-logo.svg') }}"></a>
+                                    @endif
+                                </div>
+                                <div class="foot-col">
+                                    <h6> {{ $footerContents['discover'] ?? 'Discover' }}</h6>
+                                    <ul class="foot-col-list">
+                                        <li>
+                                            <a
+                                                href="{{ route('category', ['locale' => session('lang_code', 'en-us')]) }}">
+                                                {{ $footerContents['categories'] ?? 'Categories' }}
+                                            </a>
+                                        </li>
+                                        <li><a
+                                                href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ??
+                                                    'Top-Rated Products
+                                                                                                                                                ' }}
+                                            </a>
+                                        </li>
+                                        <li><a
+                                                href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? 'Exclusive Deals' }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="foot-col">
+                                    <h6>{{ $footerContents['company'] ?? 'Company' }}</h6>
+                                    <ul class="foot-col-list">
+                                        <li><a
+                                                href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ??
+                                                    'Who We Are
+                                                                                                                                                ' }}</a>
+                                        </li>
+                                        <li><a
+                                                href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ??
+                                                    'Privacy Policy
+                                                                                                                                                ' }}</a>
+                                        </li>
+                                        <li><a
+                                                href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? 'Terms & Conditions' }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="foot-col">
+                                    <h6>{{ $footerContents['vendors'] ?? 'Vendors' }}</h6>
+                                    <ul class="foot-col-list">
+                                        <li><a
+                                                href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ??
+                                                    'Get Listed
+                                                                                                                                                ' }}</a>
+                                        </li>
+                                        <li><a
+                                                href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? 'Vendor Login' }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="foot-col">
+                                    <h6>{{ $footerContents['help'] ?? 'Help' }}</h6>
+                                    <ul class="foot-col-list">
+                                        <li>
+                                            <a href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}"
+                                                style="white-space: nowrap; text-decoration: none; display: inline-block;">
+                                                {{ $footerContents['expert_guides'] ?? 'Expert Guides' }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? 'Help Center' }}</a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? 'Contact' }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="foot-row-right foot-col p_80">
+                                <h6> {{ $footerContents['follow_us'] ?? '' }}</h6>
+                                <ul class="foot-right-list">
+                                    <li>
+                                        <a href="{{ $footerMediaUrls['facebook_url'] ?? '#' }}" target="_blank">
+                                            @if (isset($facebookIcon))
+                                                <img class="media_icon" src="{{ asset($facebookIcon->meta_value) }}"
+                                                    alt="{{ $facebookIcon->meta_key }}"
+                                                    style="width: 30px; height: 30px; filter: brightness(0) invert(1);">
+                                            @else
+                                                <i class="fa-brands fa-facebook-f"
+                                                    style="color: #ffffff; font-size: 30px;"></i>
                                             @endif
-                                        </ul>
-                                    </li>
-                                    <li class=" menu-item dropdown dropdown-6 mobile-drop">
-                                        <a href="#">{{ $headerContent['exclusive'] ?? 'Exclusive Deals' }}</a>
-                                        <span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
-                                        <ul
-                                            class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                            <li class="dropdown_item-1">
-                                                <a href="#">Item 1</a>
-                                            </li>
-                                            <li class="dropdown_item-2">
-                                                <a href="#">Item 2</a>
-                                            </li>
-                                            <li class="dropdown_item-3">
-                                                <a href="#">Item 3</a>
-                                            </li>
-                                            <li class="dropdown_item-4">
-                                                <a href="#">Item 4</a>
-                                            </li>
-                                            <li class="dropdown_item-5">
-                                                <a href="#">Item 5</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="right_menu">
-                                <ul>
-                                    <li>
-                                        <a
-                                            href="{{ route('expert-guide') }}">{{ $headerContent['expert_guide'] ?? 'Expert Guides' }}</a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="{{ route('help-center') }}">{{ $headerContent['help_center'] ?? 'Help Center' }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </section>
-    </header>
-    @yield('content')
-    <!-- content section end -->
-    <!-- footer  -->
-    <footer class="dark">
-        <div class="container">
-            <div class="footer-wrp ">
-                <div class="row foot-row">
-                    <div class="col-lg-9">
-                        <div class="foot-row-lft p_80">
-                            <div class="foot-logo">
-
-                                @if (isset($footerLogo) && $footerLogo)
-                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
-                                            src="{{ asset($footerLogo->meta_value) }}"
-                                            alt="{{ $footerLogo->meta_key }}"></a>
-                                @else
-                                    <a href="{{ url('/' ?? '') }}" class="brand"><img
-                                            src="{{ asset('front/img/foot-logo.svg') }}"></a>
-                                @endif
-                            </div>
-                            <div class="foot-col">
-                                <h6> {{ $footerContents['discover'] ?? 'Discover' }}</h6>
-                                <ul class="foot-col-list">
-                                    <li>
-                                        <a
-                                            href="{{ route('category', ['locale' => session('lang_code', 'en-us')]) }}">
-                                            {{ $footerContents['categories'] ?? 'Categories'}}
                                         </a>
                                     </li>
-                                    <li><a
-                                            href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ?? 'Top-Rated Products
-                                                ' }}
+                                    <li>
+                                        <a href="{{ $footerMediaUrls['instagram_url'] ?? '#' }}" target="blank">
+                                            @if (isset($instagramIcon))
+                                                <img class="media_icon" src="{{ asset($instagramIcon->meta_value) }}"
+                                                    alt="{{ $instagramIcon->meta_key }}"
+                                                    style="width: 30px; height: 30px; filter: brightness(0) invert(1);">
+                                            @else
+                                                <i class="fa-brands fa-instagram"
+                                                    style="color: #ffffff; font-size: 30px;"></i>
+                                            @endif
                                         </a>
                                     </li>
-                                    <li><a href="javascript:void(0)">{{ $footerContents['exclusive_deal'] ?? 'Exclusive Deals' }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="foot-col">
-                                <h6>{{ $footerContents['company'] ?? 'Company' }}</h6>
-                                <ul class="foot-col-list">
-                                    <li><a
-                                            href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ?? 'Who We Are
-                                                ' }}</a>
-                                    </li>
-                                    <li><a
-                                            href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ?? 'Privacy Policy
-                                                ' }}</a>
-                                    </li>
-                                    <li><a
-                                            href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? 'Terms & Conditions' }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="foot-col">
-                                <h6>{{ $footerContents['vendors'] ?? 'Vendors' }}</h6>
-                                <ul class="foot-col-list">
-                                    <li><a
-                                            href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ?? 'Get Listed
-                                                ' }}</a>
-                                    </li>
-                                    <li><a
-                                            href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? 'Vendor Login' }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="foot-col">
-                                <h6>{{ $footerContents['help'] ?? 'Help' }}</h6>
-                                <ul class="foot-col-list">
                                     <li>
-                                        <a
-                                            href="{{ route('expert-guide', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['expert_guides'] ?? 'Expert Guides' }}</a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="{{ route('help-center', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['help_center'] ?? 'Help Center' }}</a>
-                                    </li>
-                                    <li><a
-                                            href="{{ route('contact', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['contact'] ?? 'Contact' }}</a>
+                                        <a href="{{ $footerMediaUrls['twitter_url'] ?? '' }}" target="blank">
+                                            @if (isset($twitterIcon))
+                                                <img class="media_icon" src="{{ asset($twitterIcon->meta_value) }}"
+                                                    alt="{{ $twitterIcon->meta_key }}"
+                                                    style="width: 30px; height: 30px; filter: brightness(0) invert(1);">
+                                            @else
+                                                <i class="fa-brands fa-twitter"
+                                                    style="color: #ffffff; font-size: 30px;"></i>
+                                            @endif
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="foot-row-right foot-col p_80">
-                            <h6> {{ $footerContents['follow_us'] ?? '' }}</h6>
-                            <ul class="foot-right-list">
-                                <li><a href="{{ $footerMediaUrls['facebook_url'] ?? '' }}" target="blank"
-                                        class="d-flex align-items-center">
-
-                                        @if (isset($facebookIcon))
-                                            <img class="media_icon" src="{{ asset($facebookIcon->meta_value) }}"
-                                                alt="{{ $facebookIcon->meta_key }}"
-                                                style="width: 19px; height: 17px; color: #ffffff;">
-                                        @else
-                                            <i class="fa-brands fa-facebook-f" style="color: #ffffff;">
-                                            </i>
-                                        @endif
-                                        {{ $footerContents['facebook'] ?? 'Facebook
-                                            ' }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ $footerMediaUrls['instagram_url'] ?? '' }}" target="blank"
-                                        class="d-flex align-items-center">
-                                        @if (isset($instagramIcon))
-                                            <img class="media_icon" src="{{ asset($instagramIcon->meta_value) }}"
-                                                alt="{{ $instagramIcon->meta_key }}"
-                                                style="width: 19px; height: 17px; color: #ffffff;">
-                                        @else
-                                            <i class="fa-brands fa-instagram" style="color: #ffffff;">
-                                            </i>
-                                        @endif
-                                        {{ $footerContents['instagram'] ?? 'Instagram' }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ $footerMediaUrls['twitter_url'] ?? '' }}" target="blank"
-                                        class="d-flex align-items-center">
-                                        @if (isset($twitterIcon))
-                                            <img class="media_icon" src="{{ asset($twitterIcon->meta_value) }}"
-                                                alt="{{ $twitterIcon->meta_key }}"
-                                                style="width: 19px; height: 17px; color: #ffffff;">
-                                        @else
-                                            <i class="fa-brands fa-twitter" style="color: #ffffff;">
-                                            </i>
-                                        @endif
-                                        {{ $footerContents['twitter'] ?? 'Twitter' }}
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="foot-btm d-flex justify-content-between">
+                        <div class="ft-btm-lft">
+                            <p>©<?php echo date('Y'); ?> Localio. All rights reserved.</p>
                         </div>
-                    </div>
-                </div>
-                <div class="foot-btm d-flex justify-content-between">
-                    <div class="ft-btm-lft">
-                        <p>©<?php echo date('Y'); ?> Localio. All rights reserved.</p>
-                    </div>
-                    <div class="ft-btm-rgt">
-                        <div class="select-menu ">
-                            <div class="select-btn">
-                                <span class="sBtn-text">{{ 'United State- English' }}</span>
-                                <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
+                        <div class="ft-btm-rgt">
+                            <div class="select-menu ">
+                                <div class="select-btn">
+                                    <span class="sBtn-text">{{ 'United State- English' }}</span>
+                                    <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
+                                </div>
+
+                                <ul class="options">
+
+                                </ul>
                             </div>
-
-                            <ul class="options">
-
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
-    <!----------------------------------------- read section end --------------------------------------- -->
+        </footer>
+        <!----------------------------------------- read section end --------------------------------------- -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
-        integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+            integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-    <script src="{{ asset('front/js/script.js') }}"></script>
+        <script src="{{ asset('front/js/script.js') }}"></script>
 
-    <script>
-        $(function() {
-            AOS.init();
-        });
-
-        function changeCategory(categoryId) {
-            let url = new URL(window.location.href);
-            url.pathname = `/en-us/top-rated-product/${categoryId}`;
-            window.location.href = url.href;
-        }
-    </script>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectBtn = document.querySelector('.select-btn');
-            const options = document.querySelectorAll('.option');
-            const sBtnText = document.querySelector('.sBtn-text');
-
-            options.forEach(option => {
-                if (!this.classList.contains('selected')) {
-                    const selectedName = this.dataset.langName;
-                    sBtnText.textContent = selectedName;
-                }
-            });
-        });
-    </script>
-    <!-- header search js -->
-    <script>
-        $(document).ready(function() {
-            function checkScroll() {
-                const $myElement = $('#myID');
-
-                if ($(window).scrollTop() > 460) {
-                    $myElement.show();
-                } else {
-                    $myElement.hide();
-                }
-            }
-            checkScroll();
-            $(window).on('scroll', checkScroll);
-        });
-    </script>
-    @session('success')
         <script>
-            @if (Session::has('success'))
+            $(function() {
+                AOS.init();
+            });
+
+            function changeCategory(categoryId) {
+                let url = new URL(window.location.href);
+                url.pathname = `/en-us/top-rated-product/${categoryId}`;
+                window.location.href = url.href;
+            }
+        </script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                const selectBtn = document.querySelector('.select-btn');
+                const options = document.querySelectorAll('.option');
+                const sBtnText = document.querySelector('.sBtn-text');
+
+                options.forEach(option => {
+                    if (!this.classList.contains('selected')) {
+                        const selectedName = this.dataset.langName;
+                        sBtnText.textContent = selectedName;
+                    }
+                });
+            });
+        </script>
+        <!-- header search js -->
+        <script>
+            $(document).ready(function() {
+                function checkScroll() {
+                    const $myElement = $('#myID');
+
+                    if ($(window).scrollTop() > 460) {
+                        $myElement.show();
+                    } else {
+                        $myElement.hide();
+                    }
+                }
+                checkScroll();
+                $(window).on('scroll', checkScroll);
+            });
+        </script>
+        @session('success')
+            <script>
+                @if (Session::has('success'))
+                    Swal.fire({
+                        icon: 'success',
+                        title: "{{ session('success') }}",
+                        text: '{{ Session::get('sy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        success ') }}',
+                        position: 'top-right',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 3000, // Auto close after 3 seconds
+                    });
+                @endif
+            </script>
+        @endsession
+        <!-- <script>
+            @if (Session::has('error'))
                 Swal.fire({
-                    icon: 'success',
-                    title: "{{ session('success') }}",
-                    text: '{{ Session::get('sy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        success ') }}',
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ Session::get('
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                error ') }}',
                     position: 'top-right',
                     toast: true,
                     showConfirmButton: false,
                     timer: 3000, // Auto close after 3 seconds
                 });
             @endif
-        </script>
-    @endsession
-    <!-- <script>
-        @if (Session::has('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
-                position: 'top-right',
-                toast: true,
-                showConfirmButton: false,
-                timer: 3000, // Auto close after 3 seconds
+        </script> -->
+        <script>
+            // When the user clicks on the select button, toggle the dropdown menu
+            $('.select-btn').on('click', function() {
+                $(this).closest('.select-menu').toggleClass('open');
             });
-        @endif
-    </script> -->
-</body>
 
-</html>
+            // Optional: Close the dropdown if the user clicks outside of it
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.select-menu').length) {
+                    $('.select-menu').removeClass('open');
+                }
+            });
+        </script>
+    </body>
+
+    </html>
