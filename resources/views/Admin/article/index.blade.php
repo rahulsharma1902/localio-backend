@@ -8,7 +8,7 @@
     width: 40%;
 }
 </style>
-<?php 
+<?php
 
 $lang = getCurrentLocale();
 
@@ -25,8 +25,8 @@ $lang = getCurrentLocale();
                             <div class="toggle-expand-content" data-content="pageMenu">
                                 <ul class="nk-block-tools g-3">
                                     <li class="nk-block-tools-opt">
-                                        <a href="{{ url('admin-dashboard/article/add') ?? '' }}" class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                        <a href="{{ url('admin-dashboard/article/add') ?? '' }}" class=" btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Article</span></a>
+                                        <a href="{{ url('admin-dashboard/article/add') ?? '' }}" class=" btn btn-icon btn-primary d-md-none"><em class=""></em></a>
+                                        <a href="{{ url('admin-dashboard/article/add') ?? '' }}" class=" btn btn-primary d-none d-md-inline-flex"><em class=""></em><span>Add Article</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -42,13 +42,13 @@ $lang = getCurrentLocale();
                         <th class="nk-tb-col"><span class="sub-text">Article Name</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Category Name</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Description</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Image</span></th> 
+                        <th class="nk-tb-col"><span class="sub-text">Image</span></th>
                         <th class="nk-tb-col tb-tnx-action">
                             <span>Action</span>
                         </th>
                     </tr>
                 </thead>
-                @if(isset($articles) && $articles->isNotEmpty()) 
+                @if(isset($articles) && $articles->isNotEmpty())
                     <tbody>
                         @foreach($articles as $article)
                             <tr class="nk-tb-item">
@@ -70,7 +70,7 @@ $lang = getCurrentLocale();
                                 <td class="nk-tb-col tb-col-mb">
                                     <span class="tb-lead">
                                         {{strip_tags($article->translations->isNotEmpty() ? $article->translations->first()->description : $article->description ?? '' )}}
-                                    </span> 
+                                    </span>
                                 </td>
                                 <td class="nk-tb-col">
                                     @if($article->image)

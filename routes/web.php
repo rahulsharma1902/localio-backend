@@ -219,6 +219,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::get('/help-center', [MetaPagesController::class, 'helpCenter'])->name('help-center');
     Route::get('/who-we-are', [MetaPagesController::class, 'whoWeAre'])->name('who-we-are');
     Route::get('/contact', [MetaPagesController::class, 'contact'])->name('contact');
+    Route::get('/privacy-policy', [MetaPagesController::class, 'showPrivacyPolicy'])->name('privacy-policy');
 
     Route::get('/blog', [MetaPagesController::class, 'blog'])->name('blog');
 

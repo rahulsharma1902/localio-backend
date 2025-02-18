@@ -182,6 +182,7 @@
 
                 </div>
                 @endforeach
+                
                 <!-- <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                         <div class="succs_box">
                             <div class="succes_img">
