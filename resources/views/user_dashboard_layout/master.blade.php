@@ -25,7 +25,7 @@
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light">
                <div class="hdr_lft">
-                  <a class="navbar-brand" href="#">
+                  <a class="navbar-brand" href="{{route('home')}}">
                   <img src="{{asset('user-dashboard-theme/img/locailo_logo.png')}}" class="img-fluid">
                   </a>
                   <button class="menu-toggler" style="display: none;">
@@ -272,27 +272,30 @@
                                  </div>
                               </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Dashboard
+                                 <a class="dropdown-item" href="{{route('user-dashboard')}}"><i class="fa fa-user"></i>Dashboard
                                  </a>
                               </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href="#"><i class="fa fa-cog"></i>Configuration
+                                 <a class="dropdown-item" href="{{route('user-product')}}"><i class="fa fa-cog"></i>Saved Product
                                  </a>
                               </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href="#"><i class="fas fa-wallet"></i>Logo
-                                 Backup</a>
+                                 <a class="dropdown-item" href="{{route('user-review')}}"><i class="fas fa-wallet"></i>My Review</a>
                               </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href="#"><i
-                                    class="fa-solid fa-envelope-open-text"></i>Invoices</a>
+                                 <a class="dropdown-item" href="{{route('user-reward')}}"><i
+                                    class="fa-solid fa-envelope-open-text"></i>My Reward</a>
                               </div>
+                              <div class="dash-icon">
+                                <a class="dropdown-item" href="{{route('user-profile')}}"><i
+                                   class="fa-solid fa-envelope-open-text"></i>My Profile</a>
+                             </div>
                               <div class="dash-icon">
                                  <a class="dropdown-item" href="#"><i class="fa-solid fa-headset"></i>Support
                                  Tickets</a>
                               </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href=""><i class="fa fa-power-off"></i>Log Out</a>
+                                 <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"></i>Log Out</a>
                               </div>
                            </div>
                         </div>
@@ -309,7 +312,7 @@
                  <div class="left-text">
                     <ul class="list-unstyled dash-tab mb-0" id="menu">
                        <li class="nav-links">
-                          <a href="{{route('user-dashboard')}}" class="nav-link active">
+                          <a href="{{route('user-dashboard')}}" class="nav-link nav_sv">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_account.svg')}}" alt="">
