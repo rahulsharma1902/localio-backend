@@ -49,7 +49,6 @@
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Description</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Category</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Product Price</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Icon</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Image</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product link</span></th>
@@ -88,11 +87,7 @@
                                             @endif
                                         </span>
                                     </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            {{ $product['product_price'] }}
-                                        </span>
-                                    </td>
+                              
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
                                             @if (isset($product['product_icon']))
