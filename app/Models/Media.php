@@ -9,5 +9,5 @@ class Media extends Model
 {
     use HasFactory;
     protected $fillable = ['dir_path', 'file_name', 'file_type', 'file_size'];
-  
+
 }

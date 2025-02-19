@@ -49,7 +49,6 @@
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Description</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Category</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Product Price</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Icon</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Image</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product link</span></th>
@@ -88,15 +87,11 @@
                                             @endif
                                         </span>
                                     </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            {{ $product['product_price'] }}
-                                        </span>
-                                    </td>
+                              
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
                                             @if (isset($product['product_icon']))
-                                                <img src="{{ asset('ProductIcon/' . $product['product_icon']) }}"
+                                                <img src="{{ $product->product_icon }}"
                                                     alt="{{ $product['name'] }}" style="width: 50px; height: auto;">
                                             @endif
                                         </span>
@@ -104,7 +99,7 @@
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
                                             @if (isset($product['product_image']))
-                                                <img src="{{ asset('ProductImage/' . $product['product_image']) }}"
+                                                <img src="{{ $product->product_image }}"
                                                     alt="{{ $product['name'] }}" style="width: 50px; height: auto;">
                                             @endif
                                         </span>
