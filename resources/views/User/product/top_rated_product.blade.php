@@ -422,7 +422,7 @@
                                                     <div class="inn_sl_hed">
                                                         <div class="sli_img choice_img">
                                                             <img class="slider_img"
-                                                                src="{{ asset('ProductImage/') . '/' . $item['product_image'] }}"
+                                                                src="{{ $item->product_image }}"
                                                                 alt="">
                                                         </div>
                                                         <div class="sl_h">
@@ -463,7 +463,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="auto-choice-btn">
-                                                        <a href="{{ route('user.product_detail',['locale'=>'en-us', 'id' => '3'])}}" class="cta cta_orange">
+                                                        <a href="{{ route('user.product_detail',['locale'=>'en-us', 'id' => $item->id])}}" class="cta cta_orange">
                                                             Visit Website
                                                             <div class="right-arw">
                                                                 <i class="fa-solid fa-arrow-right"></i>

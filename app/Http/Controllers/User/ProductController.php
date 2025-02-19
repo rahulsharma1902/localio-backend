@@ -29,6 +29,7 @@ class ProductController extends Controller
         if (!$product) {
             return redirect()->route('product')->with('error', 'Product not found!');
         }
+
         $result = [
             'id' => $product->id,
             'name' => $product->name,
@@ -40,11 +41,13 @@ class ProductController extends Controller
             'overview' => $product->overview,
             'product_features' => $product->product_features->toArray(),
         ];
+
+     
         $pross_id = ProCons::where('product_id', 1)->where('type', 'pross')->value('id');
         $prss_data = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
         $cons_id = ProCons::where('product_id', 1)->where('type', 'cons')->value('id');
         $cons_data = ProConsTranslation::where('pro_cons_id', $cons_id)->pluck('name')->toArray();
-        // dd($result);
+
         return view('User.product.product_detail', compact('result', 'prss_data', 'cons_data'));
     }
 
@@ -58,14 +61,13 @@ class ProductController extends Controller
                 $query->with('feature_translation')->where('feature_type', 'top_features');
             }])
                 ->whereIn('id', $category_product_ids)
-                ->get()
-                ->toArray();
+                ->get();
+
         } else {
             $products = Product::with(['product_features' => function ($query) {
                 $query->with('feature_translation')->where('feature_type', 'top_features');
             }])
-                ->get()
-                ->toArray();
+                ->get();
         }
         $productMaxPrice = Product::max('product_price');
         return view('User.product.top_rated_product', compact('productMaxPrice', 'products'));
