@@ -15,7 +15,7 @@
                         @csrf
 
                         <div class="row g-3">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="name">Business Name</label>
                                     <div class="d-flex">
@@ -31,6 +31,16 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-link">Affiliate Link</label>
+                                    <input type="url" class="form-control" name="product_link" id="product-link"
+                                        value="{{ old('product_link') }}" placeholder="Affiliate Link">
+                                </div>
+                                @error('product_link')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <!-- Product Description -->
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
@@ -168,16 +178,6 @@
                         <!-- Product Link -->
                         <div class="row mt-3">
 
-                            <div class="col-md-6 mt-3">
-                                <div class="form-group">
-                                    <label class="form-label" for="product-link">Affiliate Link</label>
-                                    <input type="url" class="form-control" name="product_link" id="product-link"
-                                        value="{{ old('product_link') }}" placeholder="Affiliate Link">
-                                </div>
-                                @error('product_link')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
 
 
                             <div class="col-md-6 mt-3">
