@@ -45,9 +45,9 @@ class AuthenticationController extends Controller
                 if ($request->url != null) {
                     return redirect($request->url);
                 } else {
-                    return redirect()->route('home')->with('success', 'Successfully loggedin');
+                    return redirect()->route('user-dashboard')->with('success', 'Successfully loggedin');
                 }
-            } else { 
+            } else {
                 Auth::logout();
                 return redirect()->route('login')->with('loginerror', 'failed! Something went wrong');
             }
@@ -81,7 +81,7 @@ class AuthenticationController extends Controller
             $user->save();
             if ($user) {
                 Auth::login($user);
-                return redirect()->route('home')->with('success','Success full Register');
+                return redirect()->route('user-dashboard')->with('success','Success full Register');
             } else {
                 return redirect()->back()->withErrors(['error' => 'Authentication failed']);
             }
@@ -96,7 +96,7 @@ class AuthenticationController extends Controller
         Artisan::call('config:clear');
         Artisan::call('route:clear');
         Artisan::call('view:clear');
-    
+
         return redirect()->route('home')->with('success', "You have logged out successfully");
     }
 
@@ -277,7 +277,7 @@ class AuthenticationController extends Controller
         if (Auth::user()->user_type == 'admin') {
             return redirect("/{$lang}/admin-dashboard")->with('success', 'Your new password has been created successfully');
         } elseif (Auth::user()->user_type === 'user') {
-            return redirect("/{$lang}")->with('success', 'Your new password has been created successfully');
+            return redirect("/user-dashboard{$lang}")->with('success', 'Your new password has been created successfully');
             }
         }
         return redirect()->back()->with('error', 'Failed to authenticate user');
