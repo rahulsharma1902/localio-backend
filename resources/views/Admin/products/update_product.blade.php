@@ -21,7 +21,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Product Name"
+                                                placeholder="Business Name"
                                                 value="{{ old('name', isset($productTranslation) ? $productTranslation->name : $product->name ?? '') }}">
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                     <label class="form-label" for="product-price">Price</label>
                                     <input type="text" class="form-control" name="product_price" id="product-price"
                                         min="1" value="{{ isset($product) ? $product->product_price : '' }}"
-                                        placeholder="Product Price">
+                                        placeholder="Business Price">
                                 </div>
                                 @error('product_price')
                                     <div class="error text-danger">{{ $message }}</div>
@@ -166,7 +166,7 @@
                                     <label class="form-label" for="product-link">Link</label>
                                     <input type="url" class="form-control" name="product_link" id="product-link"
                                         value="{{ isset($product) ? $product->product_link : '' }}"
-                                        placeholder="Product Link">
+                                        placeholder="Business Link">
                                 </div>
                                 @error('product_link')
                                     <div class="error text-danger">{{ $message }}</div>

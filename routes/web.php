@@ -10,6 +10,7 @@ use App\Http\Controllers\User\MetaPages\MetaPagesController;
 
 use App\Http\Controllers\User\{ViewController, CategoryController, ProductController, UserController, TermAndConditionController};
 use App\Http\Controllers\Vendor\HomeController;
+use App\Http\Controllers\UserDashboard\{UserDashboardController};
 use App\Models\ProductFeature;
 use Illuminate\Support\Facades\Route;
 
@@ -228,6 +229,14 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('withlist');
+
+
+    //user-dashboard
+    Route::get('/user-dashboard', [UserDashboardController::class, 'userAccount'])->name('user-dashboard');
+    Route::get('/user-product', [UserDashboardController::class, 'userProduct'])->name('user-product');
+    Route::get('/user-profile', [UserDashboardController::class, 'userProfile'])->name('user-profile');
+    Route::get('/user-review', [UserDashboardController::class, 'userReview'])->name('user-review');
+    Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name('user-reward');
 });
 
 
@@ -241,3 +250,8 @@ Route::group(['middleware' => ['vendor']], function () {
 
 
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
+
+// user dashbord
+
+
+

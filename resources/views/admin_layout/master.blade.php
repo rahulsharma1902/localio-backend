@@ -89,7 +89,40 @@
         .active>.nk-menu-link {
             color: var(--btn-background) !important;
         }
+        .select2-container--default .select2-selection--multiple {
+    position: relative !important;
+    padding-right: 40px !important; /* Space for arrow */
+    min-height: 38px !important; /* Match Bootstrap form height */
+    border: 1px solid #ced4da !important; /* Ensure border is visible */
+    border-radius: 4px !important; /* Rounded edges */
+    display: flex !important;
+    align-items: center !important;
+}
 
+/* Add a dropdown arrow inside Select2 */
+.select2-container--default .select2-selection--multiple::after {
+    content: "▼"; /* Unicode for downward arrow */
+    font-size: 16px;
+    color: gray;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevent interaction */
+}
+
+/* Ensure the Select2 search field fits correctly */
+.select2-selection__rendered {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+}
+
+/* Adjust padding for better look */
+.select2-search--inline .select2-search__field {
+    padding: 5px !important;
+    min-height: 30px !important;
+}
     </style>
 
 </head>
