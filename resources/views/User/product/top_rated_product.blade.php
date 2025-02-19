@@ -369,7 +369,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="auto-choice-btn">
-                                                    <a href="{{ $product['product_link'] }}" class="cta cta_orange">
+                                                    <a href="{{ route('user.product_detail',['locale'=>'en-us', 'id' => $product->id ])}}" class="cta cta_orange">
                                                         Visit Website
                                                         <div class="right-arw">
                                                             <i class="fa-solid fa-arrow-right"></i>
@@ -463,7 +463,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="auto-choice-btn">
-                                                        <a href="{{ $item['product_link'] }}" class="cta cta_orange">
+                                                        <a href="{{ route('user.product_detail',['locale'=>'en-us', 'id' => '3'])}}" class="cta cta_orange">
                                                             Visit Website
                                                             <div class="right-arw">
                                                                 <i class="fa-solid fa-arrow-right"></i>

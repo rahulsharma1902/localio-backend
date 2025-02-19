@@ -96,7 +96,7 @@
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
                                             @if (isset($product['product_icon']))
-                                                <img src="{{ asset('ProductIcon/' . $product['product_icon']) }}"
+                                                <img src="{{ $product->product_icon }}"
                                                     alt="{{ $product['name'] }}" style="width: 50px; height: auto;">
                                             @endif
                                         </span>
@@ -104,7 +104,7 @@
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
                                             @if (isset($product['product_image']))
-                                                <img src="{{ asset('ProductImage/' . $product['product_image']) }}"
+                                                <img src="{{ $product->product_image }}"
                                                     alt="{{ $product['name'] }}" style="width: 50px; height: auto;">
                                             @endif
                                         </span>

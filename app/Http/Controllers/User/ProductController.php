@@ -21,11 +21,11 @@ use function Laravel\Prompts\select;
 class ProductController extends Controller
 {
     //
-    public function productDetail()
+    public function productDetail($locale, $id)
     {
         $product = Product::with(['product_features.featureTranslate' => function ($query) {
             $query->select('feature_id', 'name');
-        }])->where('id', 1)->first();
+        }])->where('id', $id)->first();
         if (!$product) {
             return redirect()->route('product')->with('error', 'Product not found!');
         }
@@ -68,7 +68,6 @@ class ProductController extends Controller
                 ->toArray();
         }
         $productMaxPrice = Product::max('product_price');
-        // dd($products);
         return view('User.product.top_rated_product', compact('productMaxPrice', 'products'));
     }
     public function productComparison()
