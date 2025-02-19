@@ -22,7 +22,7 @@
                                             <input type="hidden" name="feture_translate_id" value="{{$productFeatureTranslate['id']}}">
                                             <input type="hidden" name="tab" value="{{request('tab')}}">
                                             <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Product Feature" value="{{$productFeatureTranslate['name']}}">
+                                                placeholder="Business Feature" value="{{$productFeatureTranslate['name']}}">
                                         </div>
                                     </div>
                                     @error('name')
