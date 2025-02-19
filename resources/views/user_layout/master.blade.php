@@ -361,7 +361,6 @@
                                 </div>
 
                                 <ul class="options">
-
                                 </ul>
                             </div>
                         </div>
