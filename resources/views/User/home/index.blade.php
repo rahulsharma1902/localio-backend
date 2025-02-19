@@ -1122,6 +1122,7 @@
                             </div>
                         </a>
                     </div>
+                    {{-- {{ dd($footerMediaUrls)}} --}}
                     <div class="col-lg-4 col-md-4">
                         <a href="#" class="in_cont_box">
                             <div class="read_img">

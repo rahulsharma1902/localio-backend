@@ -215,6 +215,9 @@
         @yield('content')
         <!-- content section end -->
         <!-- footer  -->
+        @php
+            use App\Models\FooterContent;
+        @endphp
         <footer class="dark">
             <div class="container">
                 <div class="footer-wrp ">
@@ -244,7 +247,7 @@
                                         <li><a
                                                 href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ??
                                                     'Top-Rated Products
-                                                                                                                                                ' }}
+                                                                                                                                                                                                                                                ' }}
                                             </a>
                                         </li>
                                         <li><a
@@ -258,12 +261,12 @@
                                         <li><a
                                                 href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ??
                                                     'Who We Are
-                                                                                                                                                ' }}</a>
+                                                                                                                                                                                                                                                ' }}</a>
                                         </li>
                                         <li><a
                                                 href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ??
                                                     'Privacy Policy
-                                                                                                                                                ' }}</a>
+                                                                                                                                                                                                                                                ' }}</a>
                                         </li>
                                         <li><a
                                                 href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? 'Terms & Conditions' }}</a>
@@ -276,7 +279,7 @@
                                         <li><a
                                                 href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ??
                                                     'Get Listed
-                                                                                                                                                ' }}</a>
+                                                                                                                                                                                                                                                ' }}</a>
                                         </li>
                                         <li><a
                                                 href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? 'Vendor Login' }}</a>
@@ -308,6 +311,22 @@
                         <div class="col-lg-3">
                             <div class="foot-row-right foot-col p_80">
                                 <h6> {{ $footerContents['follow_us'] ?? '' }}</h6>
+                                @php
+                                    $lang_id = getCurrentLanguageID(); // Ensure this function exists
+                                    $footerContents = FooterContent::where('lang_id', $lang_id)
+                                        ->pluck('meta_value', 'meta_key')
+                                        ->toArray();
+
+                                    // Fetch social media links
+                                    $footerMediaUrls = FooterContent::whereIn('meta_key', [
+                                        'facebook_url',
+                                        'instagram_url',
+                                        'twitter_url',
+                                    ])
+                                        ->where('lang_id', $lang_id)
+                                        ->pluck('meta_value', 'meta_key')
+                                        ->toArray();
+                                @endphp
                                 <ul class="foot-right-list">
                                     <li>
                                         <a href="{{ $footerMediaUrls['facebook_url'] ?? '#' }}" target="_blank">
@@ -322,7 +341,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ $footerMediaUrls['instagram_url'] ?? '#' }}" target="blank">
+                                        <a href="{{ $footerMediaUrls['instagram_url'] ?? '#' }}" target="_blank">
                                             @if (isset($instagramIcon))
                                                 <img class="media_icon" src="{{ asset($instagramIcon->meta_value) }}"
                                                     alt="{{ $instagramIcon->meta_key }}"
@@ -334,7 +353,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ $footerMediaUrls['twitter_url'] ?? '' }}" target="blank">
+                                        <a href="{{ $footerMediaUrls['twitter_url'] ?? '#' }}" target="_blank">
                                             @if (isset($twitterIcon))
                                                 <img class="media_icon" src="{{ asset($twitterIcon->meta_value) }}"
                                                     alt="{{ $twitterIcon->meta_key }}"
@@ -348,6 +367,7 @@
                                 </ul>
                             </div>
                         </div>
+
                     </div>
                     <div class="foot-btm d-flex justify-content-between">
                         <div class="ft-btm-lft">
@@ -447,7 +467,7 @@
                     icon: 'error',
                     title: 'Oops...',
                     text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                error ') }}',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
                     position: 'top-right',
                     toast: true,
                     showConfirmButton: false,

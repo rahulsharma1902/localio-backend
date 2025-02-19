@@ -42,7 +42,7 @@
                     <span class="size16">or</span>
                 </div>
                 <!-- Continue with the rest of your form -->
-                <form class="register_form" action="{{ route('register-process') }}" method="post" id="registerForm">
+                <form class="register_form" action="{{ route('register-process', ['locale'=> getCurrentLocale()]) }}" method="POST" id="registerForm">
                     @csrf
                     <!-- First Name Input Field -->
                     <div class="form-group ">
