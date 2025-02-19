@@ -176,12 +176,28 @@
                                         </li>
                                     </ul>
                                 </li>
+
                                 <li class="nk-menu-item has-sub">
-                                    <a href="" class="nk-menu-link ">
-                                        <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-article"></em></span>
                                         <span class="nk-menu-text">Deals</span>
                                     </a>
+                                    <ul class="nk-menu-sub">
+
+                                    </ul>
+
+
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="" class="nk-menu-link"><span
+                                                    class="nk-menu-text">Add Deals</span>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
                                 </li>
+
                                 <li class="nk-menu-item has-sub">
                                     <a href="{{ url('admin-dashboard/categories') ?? '#' }}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><i class="icon fas fa-icons"></i></span>

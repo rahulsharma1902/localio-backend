@@ -13,7 +13,6 @@ use App\Models\Country;
 use App\Models\Language;
 use Illuminate\Support\Facades\Session;
 use App\Models\HomeContent;
-use App\Models\FooterContent;
 use Illuminate\Support\Facades\Auth;
 
 class ViewController extends Controller
@@ -37,15 +36,8 @@ class ViewController extends Controller
             ->whereIn('meta_key', ['header_background_img', 'header_img', 'trusted_brands_img', 'ai_section_left_img', 'ai_section_right_img', 'ai_send_img', 'review_section_right_img', 'review_section_left_img', 'find_tool_left_img', 'find_tool_right_img', 'user_reviews_img', 'price_compare_img', 'independent_img'])
             ->get()
             ->keyBy('meta_key');
-            $footerContents = FooterContent::where('lang_id', $lang_id)->get();
-            $footerFiles = FooterContent::where('type', 'file')->Where('lang_id', 1)->get();
-            $footerLogo = FooterContent::where('meta_key', 'footer_logo')->Where('lang_id', 1)->first();
-            $footerMediaUrls = FooterContent::whereIn('meta_key', ['facebook_url', 'instagram_url', 'twitter_url'])
-            ->where('lang_id', $lang_id)
-            ->pluck('meta_value', 'meta_key')
-            ->toArray();
- //dd($footerMediaUrls);
-        return view('User.home.index', compact('homeContents', 'translated_data', 'homeContantImages','footerContents','footerFiles','footerLogo','footerMediaUrls'));
+
+        return view('User.home.index', compact('homeContents', 'translated_data', 'homeContantImages'));
     }
 
     public function changeLanguage(Request $request, $lang_code)
