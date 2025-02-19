@@ -10,7 +10,7 @@
              <div class="mi_detail">
                 <div class="row gy-4">
                    <div class="col-lg-6">
-                      <a class="acc-box">
+                      <a class="acc-box" href="{{route('user-product')}}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/saved_prdt.svg')}}" class="img-fluid">
                          </div>
@@ -21,7 +21,7 @@
                       </a>
                    </div>
                    <div class="col-lg-6">
-                      <a class="acc-box">
+                      <a class="acc-box" href="{{route('user-review')}}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/my_rview.svg')}}" class="img-fluid">
                          </div>
@@ -32,18 +32,20 @@
                       </a>
                    </div>
                    <div class="col-lg-6">
-                      <a class="acc-box">
+                      <a class="acc-box" href="{{route('user-reward')}}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/mt_reward.svg')}}" class="img-fluid">
                          </div>
                          <div class="acc-text">
+
                             <h2>My Rewards</h2>
                             <p>Claim your rewards and discover new review offers!</p>
+
                          </div>
                       </a>
                    </div>
                    <div class="col-lg-6">
-                      <a class="acc-box">
+                      <a class="acc-box" href="{{route('user-profile')}}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/my_profle.svg')}}" class="img-fluid">
                          </div>

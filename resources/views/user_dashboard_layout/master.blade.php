@@ -272,27 +272,12 @@
                                  </div>
                               </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href="{{route('user-dashboard')}}"><i class="fa fa-user"></i>Dashboard
-                                 </a>
-                              </div>
-                              <div class="dash-icon">
-                                 <a class="dropdown-item" href="{{route('user-product')}}"><i class="fa fa-cog"></i>Saved Product
-                                 </a>
-                              </div>
-                              <div class="dash-icon">
-                                 <a class="dropdown-item" href="{{route('user-review')}}"><i class="fas fa-wallet"></i>My Review</a>
-                              </div>
-                              <div class="dash-icon">
-                                 <a class="dropdown-item" href="{{route('user-reward')}}"><i
-                                    class="fa-solid fa-envelope-open-text"></i>My Reward</a>
-                              </div>
-                              <div class="dash-icon">
-                                <a class="dropdown-item" href="{{route('user-profile')}}"><i
-                                   class="fa-solid fa-envelope-open-text"></i>My Profile</a>
+                                <a class="dropdown-item" href="{{route('user-profile')}}"><i class="fa fa-user"></i>My Profile</a>
                              </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href="#"><i class="fa-solid fa-headset"></i>Support
-                                 Tickets</a>
+                                 <a class="dropdown-item" href="{{route('user-dashboard')}}"><i
+                                    class="fa-solid fa-envelope-open-text"></i></i>Dashboard
+                                 </a>
                               </div>
                               <div class="dash-icon">
                                  <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"></i>Log Out</a>
