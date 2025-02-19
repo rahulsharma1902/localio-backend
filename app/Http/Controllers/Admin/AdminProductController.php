@@ -16,9 +16,18 @@ use App\Models\FeatureTransalte;
 use App\Models\Feature;
 use App\Models\ProductFeature;
 use Illuminate\Support\Facades\DB;
+use App\Services\MediaService;
 
 class AdminProductController extends Controller
 {
+
+    protected MediaService $mediaService;
+
+    public function __construct(MediaService $mediaService)
+    {
+        $this->mediaService = $mediaService;
+    }
+
     public function products()
     {
         $lang_id = getCurrentLanguageID();
@@ -26,6 +35,8 @@ class AdminProductController extends Controller
         $products = Product::with('categories')->latest()->get();
         return view('Admin.products.index', compact('products'));
     }
+
+    // Add the new product from the admin panel
     public function productAdd()
     {
         $categories = Category::all();
@@ -41,15 +52,15 @@ class AdminProductController extends Controller
                 ];
             })
             ->toArray();
-        // i send the name and id of product fature and name send on the table product feature translate table  and id send on the product fateure table 
         return view('Admin.products.add_product', compact('categories', 'product_feature'));
     }
 
 
     public function productAddProccess(Request $request)
     {
-        // dd($request->all());
         $language = Language::where('id', $request->lang_code)->first();
+
+
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
@@ -74,18 +85,17 @@ class AdminProductController extends Controller
             $product->description = $request->description;
             $product->product_price = $request->product_price;
             $product->overview = $request->overview;
+
             if ($request->hasFile('product_icon')) {
-                $productIcon = $request->file('product_icon');
-                $iconName = $product->slug . '-' . rand(0, 1000) . time() . '.' . $productIcon->getClientOriginalExtension();
-                $productIcon->move(public_path() . '/ProductIcon/', $iconName);
-                $product->product_icon = $iconName;
+                $media = $this->mediaService->uploadMedia($request->file('product_icon'),'products/images');
+                $product->product_icon = $media->id ?? null;
             }
+
             if ($request->hasFile('product_image')) {
-                $productImage = $request->file('product_image');
-                $imageName = $product->slug . '-' . rand(0, 999) . time() . '.' . $productImage->getClientOriginalExtension();
-                $productImage->move(public_path() . '/ProductImage/', $imageName);
-                $product->product_image = $imageName;
+                $media = $this->mediaService->uploadMedia($request->file('product_image'),'products/images');
+                $product->product_image =$media->id ?? null;
             }
+
             $product->product_link = $request->product_link;
             $product->save();
             $language_id = Language::where('lang_code', 'en-us')->value('id');
@@ -222,17 +232,16 @@ class AdminProductController extends Controller
         $product->overview = $request->overview;
 
         if ($request->hasFile('product_icon')) {
-            $iconName = $product->slug . '-' . uniqid() . '.' . $request->file('product_icon')->getClientOriginalExtension();
-            $request->file('product_icon')->move(public_path('/ProductIcon/'), $iconName);
-            $product->product_icon = $iconName;
+            $media = $this->mediaService->uploadMedia($request->file('product_icon'),'products/images');
+            $product->product_icon = $media->id ?? null;
+
         }
 
         if ($request->hasFile('product_image')) {
-            $imageName = $product->slug . '-' . uniqid() . '.' . $request->file('product_image')->getClientOriginalExtension();
-            $request->file('product_image')->move(public_path('/ProductImage/'), $imageName);
-            $product->product_image = $imageName;
-        }
+            $media = $this->mediaService->uploadMedia($request->file('product_image'),'products/images');
+            $product->product_image = $media->id ?? null;
 
+        }
         $product->product_link = $request->product_link;
         $product->update();
 

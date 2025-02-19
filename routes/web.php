@@ -208,6 +208,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
 
     // Product Controller
     Route::get('/product', [ProductController::class, 'productDetail'])->name('product');
+    Route::get('/products/{id}', [ProductController::class, 'productDetail'])->name('user.product_detail');
     Route::get('/top-rated-product/{category?}', [ProductController::class, 'topRatedProduct'])->name('top-rated-product');
     Route::get('/product-comparison', [ProductController::class, 'productComparison'])->name('product-comparison');
 

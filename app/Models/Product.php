@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\FeatureTransalte;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Media;
+
 class Product extends Model
 {
     use HasFactory;
@@ -33,6 +36,26 @@ class Product extends Model
     public function features()
     {
         return $this->belongsToMany(Feature::class, 'product_features', 'product_id', 'feature_id');
+    }
+
+
+    public function getProductIconAttribute($mediaId)
+    {
+        $media = Media::find($mediaId);
+
+        if ($media) {
+            return Storage::disk('public')->url($media->dir_path . '/' . $media->file_name);
+        }
+    }
+
+    public function getProductImageAttribute($mediaId)
+    {
+        $media = Media::find($mediaId);
+
+        if ($media) {
+            return Storage::disk('public')->url($media->dir_path . '/' . $media->file_name);
+        }
+
     }
 
 

@@ -26,7 +26,7 @@
                         <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                             <div class="ans_lft">
                                 <div class="asn-img">
-                                    <img src="{{ asset('ProductIcon/' . $result['product_icon']) }}" alt="Product Icon">
+                                    <img src="{{ $result['product_icon'] }}" alt="Product Icon">
 
                                 </div>
                                 <div class="asn-rating">
