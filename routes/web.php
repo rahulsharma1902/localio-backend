@@ -229,7 +229,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
 
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
-    Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('withlist');
+    Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('wishlist');
 
 
     //user-dashboard
