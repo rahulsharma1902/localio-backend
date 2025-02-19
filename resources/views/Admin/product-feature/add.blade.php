@@ -21,7 +21,7 @@
                                         <div class="flex-grow-1">
                                             <input type="hidden" name="tab" value="{{ request('tab') }}">
                                             <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Product Feature" value="">
+                                                placeholder="Business Feature" value="">
                                         </div>
                                     </div>
                                     @error('name')
