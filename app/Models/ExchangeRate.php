@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Media extends Model
+class ExchangeRate extends Model
 {
     use HasFactory;
-    protected $fillable = ['dir_path', 'file_name', 'file_type', 'file_size'];
-
+    protected $fillable = ['base_currency', 'target_country', 'rate'];
 }

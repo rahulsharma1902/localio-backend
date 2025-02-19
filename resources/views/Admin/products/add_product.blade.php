@@ -15,13 +15,13 @@
                         @csrf
 
                         <div class="row g-3">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="name">Business Name</label>
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Product Name"
+                                                placeholder="Business Name"
                                                 value="{{ old('name', isset($productTranslation) ? $productTranslation->name : $product->name ?? '') }}">
                                         </div>
                                     </div>
@@ -31,6 +31,16 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-link">Affiliate Link</label>
+                                    <input type="url" class="form-control" name="product_link" id="product-link"
+                                        value="{{ old('product_link') }}" placeholder="Affiliate Link">
+                                </div>
+                                @error('product_link')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <!-- Product Description -->
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
@@ -80,17 +90,19 @@
                                     @if ($lang == 'en-us')
                                         <div class="form-group">
                                             <label class="form-label" for="product-category">Business Category</label>
-                                            <select class="form-control product-category" name="product_category[]"
-                                                multiple="multiple" data-search="on">
-                                                @if ($categories->isNotEmpty())
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}"
-                                                            @if ($product->categories->contains($category->id)) selected @endif>
-                                                            {{ $category->name ?? '' }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                            <select class="form-control product-category select2-hidden-accessible"
+                                            name="product_category[]" multiple="" data-select2-id="1"
+                                            tabindex="-1" aria-hidden="true"
+                                            style="width: 100% !important; padding-right: 40px !important;">
+                                            @if ($categories->isNotEmpty())
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}"
+                                                        @if ($product->categories->contains($category->id)) selected @endif>
+                                                        {{ $category->name ?? '' }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
 
                                         </div>
                                     @elseif($lang !== 'en-us')
@@ -116,7 +128,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="product-price">Business Price</label>
                                     <input type="text" class="form-control" name="product_price" id="product-price"
-                                        min="1" value="{{ old('product_price') }}" placeholder="Product Price">
+                                        min="1" value="{{ old('product_price') }}" placeholder="Business Price">
                                 </div>
                                 @error('product_price')
                                     <div class="error text-danger">{{ $message }}</div>
@@ -166,16 +178,6 @@
                         <!-- Product Link -->
                         <div class="row mt-3">
 
-                            <div class="col-md-6 mt-3">
-                                <div class="form-group">
-                                    <label class="form-label" for="product-link">Business Link</label>
-                                    <input type="url" class="form-control" name="product_link" id="product-link"
-                                        value="{{ old('product_link') }}" placeholder="Product Link">
-                                </div>
-                                @error('product_link')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
 
 
                             <div class="col-md-6 mt-3">
@@ -337,12 +339,13 @@
         // select 2
         $(document).ready(function() {
             $('.product-category').select2({
-                placeholder: "Select Product Category"
+                placeholder: "Select Business Category"
             });
 
             $('.product-feature').select2({
-                placeholder: "Select Product Feature"
+                placeholder: "Select Business Feature"
             });
         });
     </script>
+
 @endsection
