@@ -61,4 +61,6 @@ class ViewController extends Controller
         return redirect()->route('home', ['locale' => $lang_code])
             ->with('success', 'Language changed successfully');
     }
+
+
 }

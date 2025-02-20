@@ -277,7 +277,7 @@ class AuthenticationController extends Controller
         if (Auth::user()->user_type == 'admin') {
             return redirect("/{$lang}/admin-dashboard")->with('success', 'Your new password has been created successfully');
         } elseif (Auth::user()->user_type === 'user') {
-            return redirect("/user-dashboard{$lang}")->with('success', 'Your new password has been created successfully');
+            return redirect("/{$lang}/user-dashboard")->with('success', 'Your new password has been created successfully');
             }
         }
         return redirect()->back()->with('error', 'Failed to authenticate user');
@@ -510,7 +510,7 @@ class AuthenticationController extends Controller
         if ($user->user_type === 'admin') {
             return redirect("/{$lang}/admin-dashboard")->with('success', 'Successfully logged in! Welcome, Admin.');
         } elseif ($user->user_type === 'user') {
-            return redirect("/{$lang}")->with('success', 'Successfully logged in.');
+            return redirect("/{$lang}/user-dashboard")->with('success', 'Successfully logged in.');
         } else {
             abort(404); // Handle unexpected user types
         }
@@ -643,7 +643,7 @@ class AuthenticationController extends Controller
         if ($user->user_type === 'admin') {
             return redirect("/{$lang}/admin-dashboard")->with('success', 'Successfully logged in! Welcome, Admin.');
         } elseif ($user->user_type === 'user') {
-            return redirect("/{$lang}")->with('success', 'Successfully logged in.');
+            return redirect("/{$lang}/user-dashboard")->with('success', 'Successfully logged in.');
         } else {
             abort(404); // Handle unexpected user types
         }

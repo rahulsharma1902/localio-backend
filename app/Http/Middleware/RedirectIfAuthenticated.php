@@ -18,10 +18,10 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next)
     {
-        
-        
+
+
         // Check if the user is authenticated
-        
+
 
         if (Auth::check()) {
             // Get the authenticated user

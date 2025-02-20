@@ -582,19 +582,27 @@
 
         const isLoggedIn = @json(auth()->check()); // Check if user is logged in
 
-$(document).ready(function() {
+        $(document).ready(function() {
     $('.heart-container').click(function() {
         let id = $(this).data('id'); // Get product ID
         console.log("Clicked product ID:", id); // Debugging
 
         if (!isLoggedIn) {
-            alert("Please log in to add to wishlist.");
+            Swal.fire({
+                toast: true,
+                position: 'top-end', // Top-right corner
+                icon: 'warning',
+                title: 'Please log in to add to wishlist.',
+                showConfirmButton: false,
+                timer: 3000 // Auto close after 3 seconds
+            });
             return;
         }
 
         addToWishlist(id);
     });
 });
+
 
 function addToWishlist(id) {
     $.ajax({
