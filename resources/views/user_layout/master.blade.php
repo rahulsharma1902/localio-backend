@@ -2,9 +2,21 @@
     <html lang="en">
 
     <head>
+        <?php
+
+        use App\Models\HomeContent; // Import your model
+
+        // Fetch meta title and description from database
+        $metaTitle = HomeContent::where('meta_key', 'meta_title')->value('meta_value') ?? 'Default Title';
+        $metaDescription = HomeContent::where('meta_key', 'Meta_description')->value('meta_value') ?? 'Default Description';
+
+        ?>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="description" content="<?= htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8'); ?>">
+
+
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
             integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
@@ -36,7 +48,9 @@
         <!-- SweetAlert2 JS -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
         <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
-        <title>home page</title>
+        <title><?= htmlspecialchars($metaTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+
+
     </head>
 
     <body>

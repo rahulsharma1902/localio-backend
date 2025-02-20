@@ -18,11 +18,11 @@ class UserCheck
     {
         if(Auth::check()){
             $user = Auth::user();
-            $role = $user->user_type ; 
-           return $next($request); 
+            $role = $user->user_type ;
+           return $next($request);
         }
-       
-        return $next($request); 
+
+        return $next($request);
 
     }
 }

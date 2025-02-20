@@ -14,7 +14,42 @@ class HomeContentSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // Truncate the table
+        DB::table('home_contents')->truncate();
+
+        // Enable foreign key checks back
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         DB::table('home_contents')->insert([
+            [
+                'meta_key' => 'meta_title',
+                'meta_value' => 'Here is meta title heading',
+                'lang_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'Meta_description',
+                'meta_value' => 'Here is meta title description Get free, unbiased product comparisons, read real customer reviews, and',
+                'lang_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'meta_user_login_title',
+                'meta_value' => 'Here is meta login title heading',
+                'lang_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'meta_user_login_description',
+                'meta_value' => 'Here is meta login title description Get free, unbiased product comparisons, read real customer reviews, and',
+                'lang_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             [
                 'meta_key' => 'header_title',
                 'meta_value' => 'Find the Best Deals and Save on Your Next Purchase!',
@@ -49,7 +84,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -79,7 +114,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -88,7 +123,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -97,7 +132,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -106,7 +141,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -115,7 +150,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -124,7 +159,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -133,7 +168,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -142,7 +177,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -158,7 +193,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -167,7 +202,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -176,7 +211,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -185,7 +220,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -194,7 +229,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -203,7 +238,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -212,7 +247,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -221,7 +256,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -230,7 +265,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -239,7 +274,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -248,7 +283,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -257,7 +292,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -266,7 +301,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -275,7 +310,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -284,7 +319,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -293,7 +328,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -302,7 +337,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -311,7 +346,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -320,7 +355,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -329,7 +364,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-              
+
 
             ],
             [
@@ -338,7 +373,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -347,7 +382,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
             [
@@ -356,7 +391,7 @@ class HomeContentSeeder extends Seeder
                 'lang_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
-                
+
 
             ],
         ]);

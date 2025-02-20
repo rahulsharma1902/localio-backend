@@ -86,6 +86,10 @@ class SiteContentController extends Controller
         $this->uploadImages($request, 'independ_image');
         $this->uploadBrandImages($request);
         $textFields = [
+            'meta_title',
+            'Meta_description',
+            'meta_user_login_title',
+            'meta_user_login_description',
             'header_title',
             'header_description',
             'placeholder_text',

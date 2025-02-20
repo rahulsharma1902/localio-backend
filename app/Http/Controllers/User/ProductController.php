@@ -15,7 +15,7 @@ use App\Models\ProductFeatureTranslate;
 use App\Models\ProCons;
 use App\Models\ProductTranslation;
 use App\Models\Wishlist;
-
+use Illuminate\Support\Facades\Auth;
 use function Laravel\Prompts\select;
 
 class ProductController extends Controller
@@ -42,7 +42,7 @@ class ProductController extends Controller
             'product_features' => $product->product_features->toArray(),
         ];
 
-     
+
         $pross_id = ProCons::where('product_id', 1)->where('type', 'pross')->value('id');
         $prss_data = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
         $cons_id = ProCons::where('product_id', 1)->where('type', 'cons')->value('id');
@@ -193,28 +193,39 @@ class ProductController extends Controller
     }
 
     public function addToWishlist(Request $request)
+
     {
         $id = $request->id;
-        $userId = auth()->id();
+        $userId = Auth::id(); // Get the authenticated user ID
+
+        // Check if user is authenticated
         if (!$userId) {
             return response()->json(['error' => 'User not authenticated'], 401);
         }
+
+        // Check if product exists
         $product = Product::find($id);
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
 
+        // Check if product is already in wishlist
         $existingWishlist = Wishlist::where('user_id', $userId)
             ->where('product_id', $product->id)
             ->first();
+
         if ($existingWishlist) {
             return response()->json(['info' => 'Product already in wishlist'], 200);
         }
-        $wishlist = new Wishlist();
-        $wishlist->user_id = $userId;
-        $wishlist->product_id = $product->id;
-        $wishlist->save();
 
-        return response()->json(['success' => 'Wishlist added successfully'], 200);
+        // Add to wishlist
+        Wishlist::create([
+            'user_id' => $userId,
+            'product_id' => $product->id,
+            'status' => 1 // Adding status field
+
+        ]);
+
+        return response()->json(['success' => 'Product added to wishlist'], 200);
     }
 }

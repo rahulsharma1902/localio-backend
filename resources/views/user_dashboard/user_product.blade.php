@@ -6,15 +6,18 @@
              <div class="uer_nm">
                 <h1>Saved Products</h1>
              </div>
+
              <div class="crt_main">
+                @foreach ($wishlistItems as $item)
                 <div class="row cart_dv savings_main">
+
                    <div class="col-lg-9 save-lft p-0 ">
                       <div class="crt-lft-top d-flex">
                          <div class="cart_img crt-lft-img">
-                            <img src="{{asset('user-dashboard-theme/img/saved-1.svg')}}" class="img-fluid">
+                            <img src="{{ asset($item->product->product_image) }}" class="img-fluid">
                          </div>
                          <div class="cart_text">
-                            <h3>Odoo</h3>
+                            <h3>{{ $item->product->name }}</h3>
                             <div class="crt-ratings d-flex">
                                <div class="star-p-txt d-flex">
                                   <p>5.0</p>
@@ -38,13 +41,13 @@
                          </div>
                       </div>
                       <div class="crt-lft-btm">
-                         <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+                        <p class="m-0">{!! $item->product->description !!}</p>
                       </div>
                    </div>
                    <div class="col-lg-3 crt_ryt save-rgt p-0">
                       <div class="start-price">
                          <h5>Starting Price</h5>
-                         <p class="m-0 value-p"><span>$9</span> / Month</p>
+                         <p class="m-0 value-p"><span>${{ $item->product->product_price }}</span> / Month</p>
                       </div>
                       <div class="visit-btn">
                          <a class="unq_btn d-flex g-5" href="">
@@ -57,7 +60,8 @@
                          </a>
                       </div>
                    </div>
-                   <div class="cross-icon">
+
+                   {{-- <div class="cross-icon">
                       <img src="{{asset('user-dashboard-theme/img/cross-icon.svg')}}" alt="">
                    </div>
                 </div>
@@ -168,8 +172,10 @@
                    <div class="cross-icon">
                       <img src="{{asset('user-dashboard-theme/img/cross-icon.svg')}}" alt="">
                    </div>
-                </div>
+                </div> --}}
+
              </div>
+             @endforeach
           </div>
        </div>
 

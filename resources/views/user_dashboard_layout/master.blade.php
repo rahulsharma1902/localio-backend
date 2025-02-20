@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
+    <?php
+
+        use App\Models\HomeContent; // Import your model
+
+        // Fetch meta title and description from database
+         $metaUserLoginTitle = HomeContent::where('meta_key', 'meta_user_login_title')->value('meta_value') ?? 'Default Title';
+        $metaUserLoginDescription = HomeContent::where('meta_key', 'meta_user_login_description')->value('meta_value') ?? 'Default Description';
+
+        ?>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="description" content="<?= htmlspecialchars($metaUserLoginDescription, ENT_QUOTES, 'UTF-8'); ?>">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -18,7 +28,8 @@
       <link rel="stylesheet" href="{{asset('user-dashboard-theme/css/custom1.css')}}" />
       <link rel="stylesheet" href="{{asset('user-dashboard-theme/css/responsive1.css')}}" />
       <link rel="stylesheet" href="{{asset('user-dashboard-theme/Basis Grotesque Pro/stylesheet.css')}}">
-      <title>page1</title>
+      <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
+      <title><?= htmlspecialchars($metaUserLoginTitle, ENT_QUOTES, 'UTF-8'); ?></title>
    </head>
    <body>
       <header class="main_dhdr">
@@ -272,13 +283,14 @@
                                  </div>
                               </div>
                               <div class="dash-icon">
-                                <a class="dropdown-item" href="{{route('user-profile')}}"><i class="fa fa-user"></i>My Profile</a>
+                                <a class="dropdown-item" href="{{route('user-dashboard')}}"><i
+                                   class="fa-solid fa-envelope-open-text"></i></i>Dashboard
+                                </a>
                              </div>
                               <div class="dash-icon">
-                                 <a class="dropdown-item" href="{{route('user-dashboard')}}"><i
-                                    class="fa-solid fa-envelope-open-text"></i></i>Dashboard
-                                 </a>
-                              </div>
+                                <a class="dropdown-item" href="{{route('user-profile')}}"><i class="fa fa-user"></i>My Profile</a>
+                             </div>
+
                               <div class="dash-icon">
                                  <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"></i>Log Out</a>
                               </div>
