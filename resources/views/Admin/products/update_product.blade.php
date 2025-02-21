@@ -104,32 +104,63 @@
                                     @endif
                                 </div>
                             @endif
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="product-price">Price</label>
-                                    <input type="text" class="form-control" name="product_price" id="product-price"
-                                        min="1" value="{{ isset($product) ? $product->product_price : '' }}"
-                                        placeholder="Business Price">
-                                </div>
-                                @error('product_price')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+
                         </div>
                         <div id="selected-category-ids-container"></div>
                         <div id="selected-categories"></div>
                         <!-- Product Icon (File Input) -->
+                        <br>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h4>Product Prices</h4>
+
+                                <div class="row">
+                                    @foreach ($product->prices as $price)
+                                        <!-- Hidden Input for Price ID -->
+                                        <input type="hidden" name="price_ids[]" value="{{ $price->id }}">
+
+                                        <!-- Dropdown for Tenure Selection -->
+                                        <div class="col-md-6 mb-3">
+                                            <label>Tenure:</label>
+                                            <div class="input-group">
+                                                <select name="tenures[]" class="form-control">
+                                                    <option value="{{ $price->tenure }}" selected>
+                                                        {{ ucfirst($price->tenure) }}</option>
+                                                    <option value="Starting Price">Starting Price</option>
+                                                    <option value="Standard Price">Standard Price</option>
+                                                    <option value="Pro">Pro</option>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-chevron-down"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Editable Price Input -->
+                                        <div class="col-md-6 mb-3">
+                                            <label>Price:</label>
+                                            <input type="text" name="prices[]" value="{{ $price->price }}"
+                                                class="form-control">
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+
+
 
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="product-icon">Icon</label>
                                     @if (!isset($product) || $lang == 'en-us')
-                                        <input type="file" class="form-control" name="product_icon" id="product-icon">
+                                        <input type="file" class="form-control" name="product_icon"
+                                            id="product-icon">
                                     @endif
                                     @if (isset($product))
-                                        <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
-                                            alt="{{ $product->name }}"
+                                        <img src="{{ asset($product->product_icon) }}" alt="{{ $product->name }}"
                                             style="width: 50px; height: auto;margin-top: 16px;border-radius: 40px;">
                                     @endif
                                 </div>
@@ -147,8 +178,7 @@
                                             id="product-image">
                                     @endif
                                     @if (isset($product))
-                                        <img src="{{ asset('ProductImage/' . $product->product_image) }}"
-                                            alt="{{ $product->name }}"
+                                        <img src="{{ asset($product->product_image) }}" alt="{{ $product->name }}"
                                             style="width: 50px; height: auto;margin-top: 16px; border-radius: 40px;">
                                     @endif
                                 </div>
@@ -176,7 +206,8 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
                                     <label class="form-label" for="product-feature">Business Feature</label>
-                                    <select class="form-control product-feature" name="product_feature[]" multiple="multiple">
+                                    <select class="form-control product-feature" name="product_feature[]"
+                                        multiple="multiple">
                                         @if ($features->isNotEmpty())
                                             @foreach ($features as $feature)
                                                 <option value="{{ $feature->id }}"
@@ -353,5 +384,28 @@
             .catch(error => {
                 console.error(error);
             });
+    </script>
+    <script>
+        document.getElementById('add-price').addEventListener('click', function() {
+            let container = document.getElementById('price-container');
+            let newPrice = document.createElement('div');
+            newPrice.classList.add('input-group', 'mb-2');
+            newPrice.innerHTML = `
+                <input type="number" class="form-control" name="prices[]" placeholder="Enter Price" required>
+                <select class="form-select" name="tenures[]">
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+                <button type="button" class="btn btn-danger remove-price">X</button>
+            `;
+            container.appendChild(newPrice);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-price')) {
+                e.target.parentElement.remove();
+            }
+        });
     </script>
 @endsection

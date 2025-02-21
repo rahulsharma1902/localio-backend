@@ -341,7 +341,8 @@
                                                             <div class="sl_main">
                                                                 <h6 class="head">{{ $product['name'] }}</h6>
                                                                 <div class="wishlist">
-                                                                    <a href="javascript:void(0)" class="heart-container" data-id="{{ $item->id }}">
+                                                                    <a href="javascript:void(0)" class="heart-container"
+                                                                        data-id="{{ $item->id }}">
 
                                                                     </a>
                                                                 </div>
@@ -430,7 +431,9 @@
                                                                 <div class="sl_main">
                                                                     <h6 class="head">{{ $item['name'] }}</h6>
                                                                     <div class="wishlist">
-                                                                        <a href="javascript:void(0)" class="heart-container" data-id="{{ $item->id }}">
+                                                                        <a href="javascript:void(0)"
+                                                                            class="heart-container"
+                                                                            data-id="{{ $item->id }}">
 
                                                                         </a>
                                                                     </div>
@@ -495,11 +498,22 @@
                                                             @endif
                                                         </ul>
                                                     </div>
-                                                    <div class="starting-price">
-                                                        <h6 class="m-0">Starting Price</h6>
-                                                        <p class="m-0"><span>{{ $item['product_price'] }}</span>/Month
-                                                        </p>
-                                                    </div>
+                                                    @if (isset($item['prices']))
+                                                        @php
+                                                            $startingPrice = collect($item['prices'])->firstWhere(
+                                                                'tenure',
+                                                                'Starting Price',
+                                                            );
+                                                        @endphp
+
+                                                        @if ($startingPrice)
+                                                            <div class="starting-price">
+                                                                <h6 class="m-0">{{ $startingPrice->tenure }}</h6>
+                                                                <p class="m-0">
+                                                                    <span>${{ $startingPrice->price }}</span> / Month</p>
+                                                            </div>
+                                                        @endif
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="blue-chkbox">
@@ -579,76 +593,75 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-
         const isLoggedIn = @json(auth()->check()); // Check if user is logged in
 
         $(document).ready(function() {
-    $('.heart-container').click(function() {
-        let id = $(this).data('id'); // Get product ID
-        console.log("Clicked product ID:", id); // Debugging
+            $('.heart-container').click(function() {
+                let id = $(this).data('id'); // Get product ID
+                console.log("Clicked product ID:", id); // Debugging
 
-        if (!isLoggedIn) {
-            Swal.fire({
-                toast: true,
-                position: 'top-end', // Top-right corner
-                icon: 'warning',
-                title: 'Please log in to add to wishlist.',
-                showConfirmButton: false,
-                timer: 3000 // Auto close after 3 seconds
-            });
-            return;
-        }
-
-        addToWishlist(id);
-    });
-});
-
-
-function addToWishlist(id) {
-    $.ajax({
-        url: "{{ url(app()->getLocale() . '/wishlist') }}",
-        type: "POST",
-        data: {
-            id: id,
-            _token: "{{ csrf_token() }}",
-        },
-        success: function(response) {
-            if (response.info) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Info',
-                    text: response.info,
-                    position: 'top-right',
-                    toast: true,
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
-            } else if (response.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: response.success,
-                    position: 'top-right',
-                    toast: true,
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
-            }
-        },
-        error: function(xhr) {
-            let errorMessage = 'An unexpected error occurred';
-            try {
-                const response = JSON.parse(xhr.responseText);
-                if (response.error) {
-                    errorMessage = response.error;
+                if (!isLoggedIn) {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end', // Top-right corner
+                        icon: 'warning',
+                        title: 'Please log in to add to wishlist.',
+                        showConfirmButton: false,
+                        timer: 3000 // Auto close after 3 seconds
+                    });
+                    return;
                 }
-            } catch (e) {
-                errorMessage = 'Failed to parse error response';
-            }
-            alert(errorMessage);
+
+                addToWishlist(id);
+            });
+        });
+
+
+        function addToWishlist(id) {
+            $.ajax({
+                url: "{{ url(app()->getLocale() . '/wishlist') }}",
+                type: "POST",
+                data: {
+                    id: id,
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
+                    if (response.info) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Info',
+                            text: response.info,
+                            position: 'top-right',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 3000,
+                        });
+                    } else if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.success,
+                            position: 'top-right',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 3000,
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    let errorMessage = 'An unexpected error occurred';
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.error) {
+                            errorMessage = response.error;
+                        }
+                    } catch (e) {
+                        errorMessage = 'Failed to parse error response';
+                    }
+                    alert(errorMessage);
+                }
+            });
         }
-    });
-}
         $(document).ready(function() {
 
             let minPrice = 0;
@@ -752,9 +765,9 @@ function addToWishlist(id) {
                                 <div class="auto-choice-hd">
                                     <div class="inn_sl_hed">
                                         ${product.product_icon ? `
-                                                                                            <div class="sli_img choice_img">
-                                                                                                <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="${productName}">
-                                                                                            </div>` : ''}
+                                                                                                    <div class="sli_img choice_img">
+                                                                                                        <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="${productName}">
+                                                                                                    </div>` : ''}
                                         <div class="sl_h">
                                             <div class="inn_h">
                                                 <div class="sl_main">
@@ -801,15 +814,15 @@ function addToWishlist(id) {
                                      <ul class="list-unstyled key-fea-lst">
                                         ${keyFeatures.map((keyFeature) => {
                                             return `
-                                                                                                <li class="d-flex align-items-center">
-                                                                                                    <div class="grn_chk">
-                                                                                                        ${files.green_tick_img
-                                                                                                            ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">`
-                                                                                                            : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
-                                                                                                    </div>
-                                                                                                    <p>${keyFeature.feature || 'No key feature'}</p>
-                                                                                                </li>
-                                                                                            `;
+                                                                                                        <li class="d-flex align-items-center">
+                                                                                                            <div class="grn_chk">
+                                                                                                                ${files.green_tick_img
+                                                                                                                    ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">`
+                                                                                                                    : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
+                                                                                                            </div>
+                                                                                                            <p>${keyFeature.feature || 'No key feature'}</p>
+                                                                                                        </li>
+                                                                                                    `;
                                         }).join('')}
                                     </ul>
                                     </div>

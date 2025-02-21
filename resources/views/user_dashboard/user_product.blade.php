@@ -1,67 +1,82 @@
 @extends('user_dashboard_layout.master')
 @section('content')
-
-       <div class="col-lg-9 p-0">
-          <div class="user_content">
-             <div class="uer_nm">
+    <div class="col-lg-9 p-0">
+        <div class="user_content">
+            <div class="uer_nm">
                 <h1>Saved Products</h1>
-             </div>
+            </div>
 
-             <div class="crt_main">
+            <div class="crt_main">
                 @foreach ($wishlistItems as $item)
-                <div class="row cart_dv savings_main">
+                    <div class="row cart_dv savings_main">
 
-                   <div class="col-lg-9 save-lft p-0 ">
-                      <div class="crt-lft-top d-flex">
-                         <div class="cart_img crt-lft-img">
-                            <img src="{{ asset($item->product->product_image) }}" class="img-fluid">
-                         </div>
-                         <div class="cart_text">
-                            <h3>{{ $item->product->name }}</h3>
-                            <div class="crt-ratings d-flex">
-                               <div class="star-p-txt d-flex">
-                                  <p>5.0</p>
-                                  <div class="star-div d-flex">
-                                     <div class="stars">
-                                        <ul class="list-unstyled m-0 d-flex">
-                                           <li><a href=""><img src="{{asset('user-dashboard-theme/img/star-img.svg')}}"></a></li>
-                                           <li><a href=""><img src="{{asset('user-dashboard-theme/img/star-img.svg')}}"></a></li>
-                                           <li><a href=""><img src="{{asset('user-dashboard-theme/img/star-img.svg')}}"></a></li>
-                                           <li><a href=""><img src="{{asset('user-dashboard-theme/img/star-img.svg')}}"></a></li>
-                                           <li><a href=""><img src="{{asset('user-dashboard-theme/img/star-img.svg')}}"></a></li>
-                                        </ul>
-                                     </div>
-                                     <i class="fa-solid fa-chevron-down arrw-down"></i>
-                                  </div>
-                               </div>
-                               <div class="rate-div">
-                                  <p>124 ratings</p>
-                               </div>
+                        <div class="col-lg-9 save-lft p-0 ">
+                            <div class="crt-lft-top d-flex">
+                                <div class="cart_img crt-lft-img">
+                                    <img src="{{ asset($item->product->product_image) }}" class="img-fluid">
+                                </div>
+                                <div class="cart_text">
+                                    <h3>{{ $item->product->name }}</h3>
+                                    <div class="crt-ratings d-flex">
+                                        <div class="star-p-txt d-flex">
+                                            <p>5.0</p>
+                                            <div class="star-div d-flex">
+                                                <div class="stars">
+                                                    <ul class="list-unstyled m-0 d-flex">
+                                                        <li><a href=""><img
+                                                                    src="{{ asset('user-dashboard-theme/img/star-img.svg') }}"></a>
+                                                        </li>
+                                                        <li><a href=""><img
+                                                                    src="{{ asset('user-dashboard-theme/img/star-img.svg') }}"></a>
+                                                        </li>
+                                                        <li><a href=""><img
+                                                                    src="{{ asset('user-dashboard-theme/img/star-img.svg') }}"></a>
+                                                        </li>
+                                                        <li><a href=""><img
+                                                                    src="{{ asset('user-dashboard-theme/img/star-img.svg') }}"></a>
+                                                        </li>
+                                                        <li><a href=""><img
+                                                                    src="{{ asset('user-dashboard-theme/img/star-img.svg') }}"></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <i class="fa-solid fa-chevron-down arrw-down"></i>
+                                            </div>
+                                        </div>
+                                        <div class="rate-div">
+                                            <p>124 ratings</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                         </div>
-                      </div>
-                      <div class="crt-lft-btm">
-                        <p class="m-0">{!! $item->product->description !!}</p>
-                      </div>
-                   </div>
-                   <div class="col-lg-3 crt_ryt save-rgt p-0">
-                      <div class="start-price">
-                         <h5>Starting Price</h5>
-                         <p class="m-0 value-p"><span>${{ $item->product->product_price }}</span> / Month</p>
-                      </div>
-                      <div class="visit-btn">
-                         <a class="unq_btn d-flex g-5" href="">
-                            Visit Website
-                            <div class="srrw-svg">
-                               <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M1.05376 6.27513C6.87501 6.27513 7.218 6.27513 13.0095 6.27513C13.0194 6.24788 13.0293 6.22063 13.0293 6.19338C12.8907 6.1298 12.7521 6.06621 12.6135 5.99354C10.7325 5.05794 9.70292 3.57732 9.31682 1.68793C9.29702 1.61527 9.38612 1.52443 9.42572 1.43359C9.51482 1.4881 9.65342 1.53351 9.68312 1.61527C9.84152 2.04219 9.92072 2.49637 10.1088 2.90513C10.9602 4.77635 12.4749 5.88454 14.6629 6.22063C14.8015 6.2388 14.9005 6.41139 15.0391 6.52039C14.2669 6.75656 13.5838 6.89282 12.9798 7.15624C11.2176 7.92834 10.1979 9.25454 9.78212 10.9895C9.73262 11.2075 9.76232 11.5436 9.30692 11.3983C9.66332 9.25454 10.4751 8.2281 13.0986 6.64756C12.8214 6.64756 12.6333 6.64756 12.4452 6.64756C6.9903 6.64756 6.974 6.64756 1.50916 6.63848C1.30126 6.63848 0.96466 6.75656 1.05376 6.27513Z" fill="white" stroke="white" stroke-width="0.8"/>
-                               </svg>
+                            <div class="crt-lft-btm">
+                                <p class="m-0">{!! $item->product->description !!}</p>
                             </div>
-                         </a>
-                      </div>
-                   </div>
+                        </div>
+                        <div class="col-lg-3 crt_ryt save-rgt p-0">
+                            <div class="start-price">
+                                @foreach ($item->product->prices->where('tenure', 'Starting Price') as $price)
+                                    <h5>{{ $price->tenure }}</h5>
+                                    <p class="m-0 value-p"><span>${{ $price->price }}</span> / Month</p>
+                                @endforeach
+                            </div>
 
-                   {{-- <div class="cross-icon">
+                            <div class="visit-btn">
+                                <a class="unq_btn d-flex g-5" href="">
+                                    Visit Website
+                                    <div class="srrw-svg">
+                                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M1.05376 6.27513C6.87501 6.27513 7.218 6.27513 13.0095 6.27513C13.0194 6.24788 13.0293 6.22063 13.0293 6.19338C12.8907 6.1298 12.7521 6.06621 12.6135 5.99354C10.7325 5.05794 9.70292 3.57732 9.31682 1.68793C9.29702 1.61527 9.38612 1.52443 9.42572 1.43359C9.51482 1.4881 9.65342 1.53351 9.68312 1.61527C9.84152 2.04219 9.92072 2.49637 10.1088 2.90513C10.9602 4.77635 12.4749 5.88454 14.6629 6.22063C14.8015 6.2388 14.9005 6.41139 15.0391 6.52039C14.2669 6.75656 13.5838 6.89282 12.9798 7.15624C11.2176 7.92834 10.1979 9.25454 9.78212 10.9895C9.73262 11.2075 9.76232 11.5436 9.30692 11.3983C9.66332 9.25454 10.4751 8.2281 13.0986 6.64756C12.8214 6.64756 12.6333 6.64756 12.4452 6.64756C6.9903 6.64756 6.974 6.64756 1.50916 6.63848C1.30126 6.63848 0.96466 6.75656 1.05376 6.27513Z"
+                                                fill="white" stroke="white" stroke-width="0.8" />
+                                        </svg>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        {{-- <div class="cross-icon">
                       <img src="{{asset('user-dashboard-theme/img/cross-icon.svg')}}" alt="">
                    </div>
                 </div>
@@ -174,9 +189,8 @@
                    </div>
                 </div> --}}
 
-             </div>
-             @endforeach
-          </div>
-       </div>
-
-@endsection
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endsection
