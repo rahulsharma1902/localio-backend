@@ -230,6 +230,8 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('wishlist');
+    Route::delete('/wishlist/{id}', [ProductController::class, 'destroyWishlist'])->name('wishlist.destroy');
+
 
 
     //user-dashboard
@@ -242,10 +244,44 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
 
 
 
-Route::group(['middleware' => ['vendor']], function () {
-    Route::get('/{locale}/vendor-dashboard', [HomeController::class, 'index'])
-        ->name('vendor-dashboard')
-        ->where('locale', 'en');
+Route::group(['prefix' => '{locale}', 'middleware' => ['vendor']], function () {
+    Route::get('/vendor-dashboard', [HomeController::class, 'index'])
+        ->name('vendor-dashboard');
+
+
+    Route::get('/vendor-add-new-list', [HomeController::class, 'vendorGetListed'])
+    ->name('vendor-add-new-list');
+
+        Route::get('/vendor-advertising', [HomeController::class, 'advertising'])
+        ->name('vendor-advertising');
+
+        Route::get('/vendor-analytics', [HomeController::class, 'analytic'])
+        ->name('vendor-analytics');
+
+        Route::get('/vendor-campaign', [HomeController::class, 'compaign'])
+        ->name('vendor-campaign');
+
+        Route::get('/vendor-overview', [HomeController::class, 'dash'])
+        ->name('vendor-overview');
+
+    Route::get('/vendor-my-listing', [HomeController::class, 'myListing'])
+    ->name('vendor-my-listing');
+
+        Route::get('/vendor-managing-campaign', [HomeController::class, 'm_Campaign'])
+        ->name('vendor-managing-campaign');
+
+        Route::get('/vendor-my-listing', [HomeController::class, 'myListing'])
+        ->name('vendor-my-listing');
+
+        Route::get('/vendor-review', [HomeController::class, 'review'])
+        ->name('vendor-review');
+
+        Route::get('/vendor-review-managment', [HomeController::class, 'reviewManagment'])
+        ->name('vendor-review-managment');
+
+
+    Route::get('/vendor-edit-list', [HomeController::class, 'editList'])
+    ->name('vendor-edit-list');
 });
 
 
@@ -253,6 +289,3 @@ Route::group(['middleware' => ['vendor']], function () {
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
 
 // user dashbord
-
-
-

@@ -76,11 +76,11 @@
                             </div>
                         </div>
 
-                        {{-- <div class="cross-icon">
+                        <div class="cross-icon" onclick="removeProduct({{ $item->id }}, this)">
                       <img src="{{asset('user-dashboard-theme/img/cross-icon.svg')}}" alt="">
                    </div>
-                </div>
-                <div class="row cart_dv savings_main">
+                {{-- </div> --}}
+                {{-- <div class="row cart_dv savings_main">
                    <div class="col-lg-9 save-lft p-0">
                       <div class="crt-lft-top d-flex">
                          <div class="cart_img crt-lft-img">
@@ -193,4 +193,59 @@
                 @endforeach
             </div>
         </div>
+        <script>
+              
+            function removeProduct(id, element) {
+                let locale = window.location.pathname.split('/')[1]; // Get locale dynamically
+                let url = `/${locale}/wishlist/${id}`;
+
+                console.log("Attempting DELETE request to:", url); // Debugging URL
+
+                $.ajax({
+                    url: `/${locale}/wishlist/${id}`,
+                    type: 'DELETE',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content') // CSRF Token
+                    },
+                    success: function(response) {
+                        console.log("Response from server:", response);
+
+                        if (response.error) {
+                            console.error("Error:", response.error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: response.error,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else {
+                            console.log("Successfully deleted item:", id);
+                            $(element).closest('.cart_dv').remove(); // Remove the item from UI
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Product removed from wishlist.',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", xhr.responseText);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Something went wrong, please try again.',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                });
+            }
+            </script>
     @endsection

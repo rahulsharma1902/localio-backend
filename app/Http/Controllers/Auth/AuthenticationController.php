@@ -694,21 +694,25 @@ class AuthenticationController extends Controller
         $vendor->product_url   = $request->product_url ?? null;
         $vendor->website_url   = $request->website_url ?? null;
         $vendor->save();
+        Auth::login($user);
+        $locale = app()->getLocale(); // Get the locale
 
-        return redirect()->back()->with('success', 'Registration successfully done');
-        // return redirect("")->with('success', 'Registration successfully done');
-        // if ($user) {
-        //     // Attempt to log the user in
-        //     if (Auth::attempt(['email' => $request->business_email, 'password' => $request->business_email])) {
-        //         $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
-        //         if (Auth::user()->user_type === 'vendor') {
-        //             return redirect("/{$lang}/vendor-dashboard")->with('success', 'Successfully logged in! Welcome Vendor');
-        //         }
-        //     } else {
-        //         // Authentication failed
-        //         return redirect()->back()->withErrors(['error' => 'Authentication failed']);
-        //     }
-        // }
+        return redirect()->route('vendor-dashboard', ['locale' => $locale])
+            ->with('success', 'Registration successfully done');
+
+        // return redirect('vendor-dashboard-layout', ['locale' => app()->getLocale()])->with('success', 'Registration successfully done');
+        if ($user) {
+            // Attempt to log the user in
+            if (Auth::attempt(['email' => $request->business_email, 'password' => $request->business_email])) {
+                $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
+                if (Auth::user()->user_type === 'vendor') {
+                    return redirect("/{$lang}/vendor-dashboard")->with('success', 'Successfully logged in! Welcome Vendor');
+                }
+            } else {
+                // Authentication failed
+                return redirect()->back()->withErrors(['error' => 'Authentication failed']);
+            }
+        }
     }
 
 }
