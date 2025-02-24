@@ -21,9 +21,8 @@ class UserDashboardController extends Controller
             return redirect()->route('login')->with('error', 'You need to log in first!');
         }
 
-        // Fetch wishlist products with their details
         $wishlistItems = Wishlist::where('user_id', $userId)
-            ->with('product','prices') // Assuming there's a 'product' relation in Wishlist Model
+            ->with('product','prices')
             ->get();
 
         return view('user_dashboard.user_product', compact('wishlistItems'));
@@ -41,6 +40,7 @@ class UserDashboardController extends Controller
     public function userReward(){
         return view('user_dashboard.user_reward');
     }
+
 
 
 }
