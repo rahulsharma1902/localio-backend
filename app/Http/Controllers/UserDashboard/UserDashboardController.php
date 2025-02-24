@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Wishlist;
 
+
 class UserDashboardController extends Controller
 {
     public function userAccount(){
@@ -22,7 +23,7 @@ class UserDashboardController extends Controller
 
         // Fetch wishlist products with their details
         $wishlistItems = Wishlist::where('user_id', $userId)
-            ->with('product') // Assuming there's a 'product' relation in Wishlist Model
+            ->with('product','prices') // Assuming there's a 'product' relation in Wishlist Model
             ->get();
 
         return view('user_dashboard.user_product', compact('wishlistItems'));

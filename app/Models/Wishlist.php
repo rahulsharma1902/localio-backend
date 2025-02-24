@@ -20,4 +20,8 @@ class Wishlist extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+    public function prices()
+    {
+        return $this->belongsTo(Price::class);
+    }
 }
