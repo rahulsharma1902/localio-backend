@@ -16,13 +16,16 @@ class UserCheck
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
-            $user = Auth::user();
-            $role = $user->user_type ;
-           return $next($request);
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to access the vendor dashboard.');
         }
 
-        return $next($request);
+        // Ensure user is a vendor
+        if (Auth::user()->user_type === 'user') {
+            return $next($request);
+        }
 
+        // If not a vendor, redirect to login
+        return redirect()->route('login')->with('error', 'Access denied. Vendors only.');
     }
 }

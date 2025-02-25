@@ -235,21 +235,22 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
 
 
     //user-dashboard
-    Route::get('/user-dashboard', [UserDashboardController::class, 'userAccount'])->name('user-dashboard');
-    Route::get('/user-product', [UserDashboardController::class, 'userProduct'])->name('user-product');
-    Route::get('/user-profile', [UserDashboardController::class, 'userProfile'])->name('user-profile');
-    Route::get('/user-review', [UserDashboardController::class, 'userReview'])->name('user-review');
-    Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name('user-reward');
+
 });
-
-
+Route::group(['prefix' => '{locale}', 'middleware' => ['User']], function () {
+Route::get('/user-dashboard', [UserDashboardController::class, 'userAccount'])->name('user-dashboard');
+Route::get('/user-product', [UserDashboardController::class, 'userProduct'])->name('user-product');
+Route::get('/user-profile', [UserDashboardController::class, 'userProfile'])->name('user-profile');
+Route::get('/user-review', [UserDashboardController::class, 'userReview'])->name('user-review');
+Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name('user-reward');
+});
 
 Route::group(['prefix' => '{locale}', 'middleware' => ['vendor']], function () {
     Route::get('/vendor-dashboard', [HomeController::class, 'index'])
         ->name('vendor-dashboard');
 
 
-    Route::get('/vendor-add-new-list', [HomeController::class, 'vendorGetListed'])
+    Route::get('/vendor-add-new-list', [HomeController::class, 'addList'])
     ->name('vendor-add-new-list');
 
         Route::get('/vendor-advertising', [HomeController::class, 'advertising'])

@@ -10,7 +10,7 @@
              <div class="mi_detail">
                 <div class="row gy-4">
                    <div class="col-lg-6">
-                      <a class="acc-box" href="{{route('user-product')}}">
+                      <a class="acc-box" href="{{ route('user-product', ['locale' => app()->getLocale()]) }}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/saved_prdt.svg')}}" class="img-fluid">
                          </div>
@@ -21,7 +21,7 @@
                       </a>
                    </div>
                    <div class="col-lg-6">
-                      <a class="acc-box" href="{{route('user-review')}}">
+                      <a class="acc-box" href="{{ route('user-review', ['locale' => app()->getLocale()]) }}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/my_rview.svg')}}" class="img-fluid">
                          </div>
@@ -32,7 +32,7 @@
                       </a>
                    </div>
                    <div class="col-lg-6">
-                      <a class="acc-box" href="{{route('user-reward')}}">
+                      <a class="acc-box" href="{{route('user-reward', ['locale' => app()->getLocale()])}}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/mt_reward.svg')}}" class="img-fluid">
                          </div>
@@ -45,7 +45,7 @@
                       </a>
                    </div>
                    <div class="col-lg-6">
-                      <a class="acc-box" href="{{route('user-profile')}}">
+                      <a class="acc-box" href="{{route('user-profile', ['locale' => app()->getLocale()])}}">
                          <div class="acc-img">
                             <img src="{{asset('user-dashboard-theme/img/my_profle.svg')}}" class="img-fluid">
                          </div>
