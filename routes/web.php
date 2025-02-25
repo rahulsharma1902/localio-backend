@@ -237,7 +237,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     //user-dashboard
 
 });
-Route::group(['prefix' => '{locale}', 'middleware' => ['User']], function () {
+Route::group(['prefix' => '{locale?}', 'middleware' => ['User']], function () {
 Route::get('/user-dashboard', [UserDashboardController::class, 'userAccount'])->name('user-dashboard');
 Route::get('/user-product', [UserDashboardController::class, 'userProduct'])->name('user-product');
 Route::get('/user-profile', [UserDashboardController::class, 'userProfile'])->name('user-profile');
@@ -245,7 +245,7 @@ Route::get('/user-review', [UserDashboardController::class, 'userReview'])->name
 Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name('user-reward');
 });
 
-Route::group(['prefix' => '{locale}', 'middleware' => ['vendor']], function () {
+Route::group(['prefix' => '{locale?}', 'middleware' => ['vendor']], function () {
     Route::get('/vendor-dashboard', [HomeController::class, 'index'])
         ->name('vendor-dashboard');
 

@@ -276,11 +276,11 @@
                            <div class="dropdown-main ">
                               <div class="user_detail">
                                  <div class="user_img">
-                                    MI
+                                    {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}{{ strtoupper(substr(Auth::user()->last_name, 0, 1)) }}
                                  </div>
                                  <div class="user_name">
-                                    <h5>Mi name</h5>
-                                    <p>mi@gmail.com</p>
+                                    <h5>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                                    <p>{{ Auth::user()->email }}</p>
                                  </div>
                               </div>
                               <div class="dash-icon">
