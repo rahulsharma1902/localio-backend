@@ -51,6 +51,20 @@ class HomeContentSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'meta_key' => 'meta_vendor',
+                'meta_value' => 'Here vendor login title heading',
+                'lang_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'meta_key' => 'meta_vendor_description',
+                'meta_value' => 'Here is vendor title description Get free, unbiased product comparisons, read real customer reviews, and',
+                'lang_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'meta_key' => 'header_title',
                 'meta_value' => 'Find the Best Deals and Save on Your Next Purchase!',
                 'lang_id' => '1',

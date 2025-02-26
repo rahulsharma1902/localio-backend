@@ -276,20 +276,20 @@
                            <div class="dropdown-main ">
                               <div class="user_detail">
                                  <div class="user_img">
-                                    MI
+                                    {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}{{ strtoupper(substr(Auth::user()->last_name, 0, 1)) }}
                                  </div>
                                  <div class="user_name">
-                                    <h5>Mi name</h5>
-                                    <p>mi@gmail.com</p>
+                                    <h5>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                                    <p>{{ Auth::user()->email }}</p>
                                  </div>
                               </div>
                               <div class="dash-icon">
-                                <a class="dropdown-item" href="{{route('user-dashboard')}}"><i
+                                <a class="dropdown-item" href="{{route('user-dashboard', ['locale' => app()->getLocale()])}}"><i
                                    class="fa-solid fa-envelope-open-text"></i></i>Dashboard
                                 </a>
                              </div>
                               <div class="dash-icon">
-                                <a class="dropdown-item" href="{{route('user-profile')}}"><i class="fa fa-user"></i>My Profile</a>
+                                <a class="dropdown-item" href="{{route('user-profile', ['locale' => app()->getLocale()])}}"><i class="fa fa-user"></i>My Profile</a>
                              </div>
 
                               <div class="dash-icon">
@@ -310,7 +310,7 @@
                  <div class="left-text">
                     <ul class="list-unstyled dash-tab mb-0" id="menu">
                        <li class="nav-links">
-                          <a href="{{route('user-dashboard')}}" class="nav-link nav_sv">
+                          <a href="{{route('user-dashboard', ['locale' => app()->getLocale()])}}" class="nav-link nav_sv">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_account.svg')}}" alt="">
@@ -320,7 +320,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-product')}}" class="nav-link nav_sv">
+                          <a href="{{route('user-product', ['locale' => app()->getLocale()])}}" class="nav-link nav_sv">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/saved_product.svg')}}" alt="">
@@ -330,7 +330,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-review')}}" class="nav-link nav_sv">
+                          <a href="{{route('user-review', ['locale' => app()->getLocale()])}}" class="nav-link nav_sv">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_review.svg')}}" alt="">
@@ -340,7 +340,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-reward')}}" class="nav-link">
+                          <a href="{{route('user-reward', ['locale' => app()->getLocale()])}}" class="nav-link">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_rewards.svg')}}" alt="">
@@ -350,7 +350,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-profile')}}" class="nav-link">
+                          <a href="{{route('user-profile', ['locale' => app()->getLocale()])}}" class="nav-link">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_profile.svg')}}" alt="">

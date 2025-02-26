@@ -32,30 +32,31 @@ class AuthenticationController extends Controller
     }
     public function loginProcc(Request $request)
     {
-        $lang = Session::get('current_lang');
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            if (Auth::user()->user_type === 'admin') {
-                return redirect()->route('admin_dashboard');
-            } elseif (Auth::user()->user_type === 'user') {
-                if ($request->url != null) {
-                    return redirect($request->url);
-                } else {
-                    return redirect()->route('user-dashboard')->with('success', 'Successfully loggedin');
-                }
+            $user = Auth::user();
+            $locale = app()->getLocale();
+
+            if ($user->user_type === 'admin') {
+                return redirect()->route('admin_dashboard')->with('success', 'Welcome Admin!');
+            } elseif ($user->user_type === 'user') {
+                return redirect()->route('user-dashboard',['locale' => $locale])->with('success', 'Successfully logged in!');
+            } elseif ($user->user_type === 'vendor') {
+                return redirect()->route('vendor-dashboard', ['locale' => $locale])
+                    ->with('success', 'Welcome, Vendor!');
             } else {
                 Auth::logout();
-                return redirect()->route('login')->with('loginerror', 'failed! Something went wrong');
+                return redirect()->route('login')->with('loginerror', 'Access Denied!');
             }
         } else {
-            return redirect()->route('login')->with('loginerror', 'failed to login');
+            return redirect()->route('login')->with('loginerror', 'Invalid email or password.');
         }
+    }
 
-}
     public function register()
     {
         $countries = Country::all();
@@ -667,6 +668,7 @@ class AuthenticationController extends Controller
             'last_name'     => 'required',
             'job_title'     => 'required',
             'business_email'=> 'required|email',
+            'password' => 'required|min:6',
             'business_phone'=> 'required|numeric|digits:10',
             'country_id'    => 'required',
             'company_name'  => 'required',
@@ -678,7 +680,7 @@ class AuthenticationController extends Controller
         $user->first_name = $request->first_name;
         $user->last_name  = $request->last_name;
         $user->email      = $request->business_email;
-        $user->password   = Hash::make($request->business_email);
+        $user->password   = Hash::make($request->password);
         $user->number     = $request->business_phone;
         $user->country_id = $request->country_id;
         $user->user_type  = 'vendor'; // Assign the user type as 'vendor'
@@ -701,18 +703,18 @@ class AuthenticationController extends Controller
             ->with('success', 'Registration successfully done');
 
         // return redirect('vendor-dashboard-layout', ['locale' => app()->getLocale()])->with('success', 'Registration successfully done');
-        if ($user) {
-            // Attempt to log the user in
-            if (Auth::attempt(['email' => $request->business_email, 'password' => $request->business_email])) {
-                $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
-                if (Auth::user()->user_type === 'vendor') {
-                    return redirect("/{$lang}/vendor-dashboard")->with('success', 'Successfully logged in! Welcome Vendor');
-                }
-            } else {
-                // Authentication failed
-                return redirect()->back()->withErrors(['error' => 'Authentication failed']);
-            }
-        }
+        // if ($user) {
+        //     // Attempt to log the user in
+        //     if (Auth::attempt(['email' => $request->business_email, 'password' => $request->business_email])) {
+        //         $lang = app()->getLocale(); // Assuming you're using localization, fetch the current language
+        //         if (Auth::user()->user_type === 'vendor') {
+        //             return redirect("/{$lang}/vendor-dashboard")->with('success', 'Successfully logged in! Welcome Vendor');
+        //         }
+        //     } else {
+        //         // Authentication failed
+        //         return redirect()->back()->withErrors(['error' => 'Authentication failed']);
+        //     }
+        // }
     }
 
 }
