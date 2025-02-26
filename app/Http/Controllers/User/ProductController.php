@@ -20,7 +20,7 @@ use function Laravel\Prompts\select;
 
 class ProductController extends Controller
 {
-    //
+
     public function productDetail($locale, $id)
     {
         $product = Product::with(['product_features.featureTranslate' => function ($query) {
@@ -42,7 +42,7 @@ class ProductController extends Controller
             'product_features' => $product->product_features->toArray(),
         ];
 
-     
+
         $pross_id = ProCons::where('product_id', 1)->where('type', 'pross')->value('id');
         $prss_data = ProConsTranslation::where('pro_cons_id', $pross_id)->pluck('name')->toArray();
         $cons_id = ProCons::where('product_id', 1)->where('type', 'cons')->value('id');

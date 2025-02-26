@@ -27,7 +27,6 @@
                             <div class="ans_lft">
                                 <div class="asn-img">
                                     <img src="{{ $result['product_icon'] }}" alt="Product Icon">
-
                                 </div>
                                 <div class="asn-rating">
                                     <div class="an_lkd">
