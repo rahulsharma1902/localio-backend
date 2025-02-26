@@ -173,6 +173,463 @@
                                 <div class="col-md-12">
                                     <div class="card border">
                                         <div class="card-header mt-3">
+                                            User Account Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_user_dashboard_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_dashboard_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_user_dashboard_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_dashboard_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            User Saved Product Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_user_product_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_product_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_user_product_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_product_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            User Review Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_user_review_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_review_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_user_review_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_review_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            User Managment Review Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_vendor_review_managment_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_vendor_review_managment_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_vendor_review_managment_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_vendor_review_managment_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            User Reward Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_user_reward_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_reward_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_user_reward_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_reward_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            User Profile Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_user_profile_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_profile_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_user_profile_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_user_profile_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
                                             Vendor Dashboard Meta Data
                                         </div>
                                         <div class="card-body">
@@ -237,6 +694,598 @@
                                                             <input type="text" class="form-control"
                                                                 id="{{ $key }}"
                                                                 name="meta_vendor_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Vendor Dashboard Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_overview_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_overview_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_overview_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_overview_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Vendor Manage List Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_add_new_list_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_add_new_list_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_add_new_list_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_add_new_list_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+
+
+                                                </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                    <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Vendor Manage List Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_edit_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_edit_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_edit_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_edit_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+
+
+                                                </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Vendor analitic Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_analitic_report_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_analitic_report_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_analitic_report_title_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_analitic_report_title_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Vendor advertising Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_advertising_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_advertising_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_analitic_report_title_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_analitic_report_title_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                                    @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_add_campaign_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_add_campaign_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_add_campaign_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_add_campaign_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                                    @foreach ($allHomeContents as $key => $val)
+                                                    @if ($val->meta_key == 'meta_new_add_campaign_title')
+
+                                                            <div class="form-group col-lg-12">
+                                                                <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" class="form-control"
+                                                                        id="{{ $key }}"
+                                                                        name="meta_new_add_campaign_title[{{ $val->id }}]"
+                                                                        value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                                </div>
+                                                            </div>
+
+                                                            @elseif($val->meta_key === 'meta_new_add_campaign_description')
+                                                            <div class="form-group col-lg-12">
+                                                                <label class="form-label"
+                                                                    for="{{ $key }}">Description</label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" class="form-control"
+                                                                        id="{{ $key }}"
+                                                                        name="meta_new_add_campaign_description[{{ $val->id }}]"
+                                                                        value="{{ $val->meta_value ?? '' }}" />
+                                                                </div>
+                                                            </div>
+                                                            @endif
+                                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            vendor review Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_vendor_review_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_vendor_review_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_vendor_review_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_vendor_review_description[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? '' }}" />
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            vendor review Meta Data
+                                        </div>
+                                        <div class="card-body">
+                                            @if ($lang_code == 'en-us')
+                                                @foreach ($homeContents as $content)
+                                                    @if ($content->meta_key == 'header_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_image[{{ $content->id }}]" id="metaValue"
+                                                                    value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @elseif($content->meta_key == 'header_background_img')
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image">Header Background
+                                                                Image</label>
+                                                            <div class="dz-message">
+                                                                <input type="file" class="form-control"
+                                                                    name="header_backgound_image[{{ $content->id }}]"
+                                                                    id="metaValue" value="{{ $content->value ?? '' }}">
+                                                            </div>
+                                                            @error('header_backgound_image')
+                                                                <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (isset($content->meta_key))
+                                                                <img src="{{ asset($content->meta_value) }}"
+                                                                    alt="{{ $content->meta_key }}"
+                                                                    style="width: 100px; height: auto;">
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @foreach ($allHomeContents as $key => $val)
+                                            @if ($val->meta_key == 'meta_support_title')
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label" for="{{ $key }}">Meta Title</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_support_title[{{ $val->id }}]"
+                                                                value="{{ $val->meta_value ?? 'not data found' }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    @elseif($val->meta_key === 'meta_support_description')
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="form-label"
+                                                            for="{{ $key }}">Description</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control"
+                                                                id="{{ $key }}"
+                                                                name="meta_support_description[{{ $val->id }}]"
                                                                 value="{{ $val->meta_value ?? '' }}" />
                                                         </div>
                                                     </div>

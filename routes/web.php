@@ -246,9 +246,10 @@ Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name
 });
 
 Route::group(['prefix' => '{locale?}', 'middleware' => ['vendor']], function () {
-    Route::get('/vendor-dashboard', [HomeController::class, 'index'])
-        ->name('vendor-dashboard');
-
+    // Route::get('/vendor-dashboard', [HomeController::class, 'index'])
+    //     ->name('vendor-dashboard');
+    Route::get('/vendor-overview', [HomeController::class, 'dash'])
+    ->name('vendor-overview');
 
     Route::get('/vendor-add-new-list', [HomeController::class, 'addList'])
     ->name('vendor-add-new-list');
@@ -262,8 +263,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['vendor']], function () 
         Route::get('/vendor-campaign', [HomeController::class, 'compaign'])
         ->name('vendor-campaign');
 
-        Route::get('/vendor-overview', [HomeController::class, 'dash'])
-        ->name('vendor-overview');
+
 
     Route::get('/vendor-my-listing', [HomeController::class, 'myListing'])
     ->name('vendor-my-listing');
