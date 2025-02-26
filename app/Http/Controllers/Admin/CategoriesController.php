@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{Category, Language, CategoryTranslation};
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use App\Models\HomeContent;
 use App;
 use Session;
 
@@ -14,12 +15,14 @@ class CategoriesController extends Controller
 {
     public function index(Request $request)
     {
+
         $locale = app()->getLocale();
         $siteLanguage = Language::where('lang_code', $locale)->first();
         $categories = collect();
         if ($siteLanguage) {
             $categories = CategoryTranslation::where('language_id', $siteLanguage->id)->get();
         }
+
         return view('Admin.categories.index', compact('categories'));
     }
 

@@ -15,8 +15,9 @@ use App\Models\ProductFeatureTranslate;
 use App\Models\ProCons;
 use App\Models\ProductTranslation;
 use App\Models\Wishlist;
-
+use Illuminate\Support\Facades\Auth;
 use function Laravel\Prompts\select;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -193,28 +194,65 @@ class ProductController extends Controller
     }
 
     public function addToWishlist(Request $request)
+
     {
         $id = $request->id;
-        $userId = auth()->id();
+        $userId = Auth::id(); // Get the authenticated user ID
+
+        // Check if user is authenticated
         if (!$userId) {
             return response()->json(['error' => 'User not authenticated'], 401);
         }
+
+        // Check if product exists
         $product = Product::find($id);
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
 
+        // Check if product is already in wishlist
         $existingWishlist = Wishlist::where('user_id', $userId)
             ->where('product_id', $product->id)
             ->first();
+
         if ($existingWishlist) {
             return response()->json(['info' => 'Product already in wishlist'], 200);
         }
-        $wishlist = new Wishlist();
-        $wishlist->user_id = $userId;
-        $wishlist->product_id = $product->id;
-        $wishlist->save();
 
-        return response()->json(['success' => 'Wishlist added successfully'], 200);
+        // Add to wishlist
+        Wishlist::create([
+            'user_id' => $userId,
+            'product_id' => $product->id,
+            'status' => 1 // Adding status field
+
+        ]);
+
+        return response()->json(['success' => 'Product added to wishlist'], 200);
     }
+
+    public function destroyWishlist($locale,$id)
+    {
+    //   return response()->json(['id' => $id]);
+
+        if (!Auth::check()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId =  Auth::user()->id;
+ // return response()->json(['userId' => $userId]);
+        $wishlistItem = Wishlist::where('id', $id)->where('user_id', $userId)->first();
+
+        if (!$wishlistItem) {
+            return response()->json(['error' => 'Wishlist item not found'], 404);
+        }
+
+        // Delete wishlist item
+        $wishlistItem->delete();
+        return response()->json(['success' => 'Item removed'], 200);
+    }
+
+
+
+
+
 }

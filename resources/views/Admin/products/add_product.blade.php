@@ -13,7 +13,6 @@
                     <form action="{{ url('admin-dashboard/product-add-procc') }}" class="form-validate" novalidate="novalidate"
                         method="post" enctype="multipart/form-data">
                         @csrf
-
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -21,8 +20,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Business Name"
-                                                value="{{ old('name', isset($productTranslation) ? $productTranslation->name : $product->name ?? '') }}">
+                                                placeholder="Business Name" value="">
                                         </div>
                                     </div>
                                     @error('name')
@@ -91,18 +89,18 @@
                                         <div class="form-group">
                                             <label class="form-label" for="product-category">Business Category</label>
                                             <select class="form-control product-category select2-hidden-accessible"
-                                            name="product_category[]" multiple="" data-select2-id="1"
-                                            tabindex="-1" aria-hidden="true"
-                                            style="width: 100% !important; padding-right: 40px !important;">
-                                            @if ($categories->isNotEmpty())
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}"
-                                                        @if ($product->categories->contains($category->id)) selected @endif>
-                                                        {{ $category->name ?? '' }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                                name="product_category[]" multiple="" data-select2-id="1" tabindex="-1"
+                                                aria-hidden="true"
+                                                style="width: 100% !important; padding-right: 40px !important;">
+                                                @if ($categories->isNotEmpty())
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}"
+                                                            @if ($product->categories->contains($category->id)) selected @endif>
+                                                            {{ $category->name ?? '' }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
 
                                         </div>
                                     @elseif($lang !== 'en-us')
@@ -123,138 +121,152 @@
                                         </div>
                                     @endif
                                 </div>
+
                             @endif
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="product-price">Business Price</label>
-                                    <input type="text" class="form-control" name="product_price" id="product-price"
-                                        min="1" value="{{ old('product_price') }}" placeholder="Business Price">
-                                </div>
-                                @error('product_price')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+
                         </div>
                         <div id="selected-category-ids-container"></div>
                         <div id="selected-categories"></div>
-                        <!-- Product Icon (File Input) -->
-
-                        <div class="row mt-3">
-                            <div class="col-md-6 mt-3">
-                                <div class="form-group">
-                                    <label class="form-label" for="product-icon">Business Icon</label>
-                                    @if (!isset($product) || $lang == 'en-us')
-                                        <input type="file" class="form-control" name="product_icon" id="product-icon">
-                                    @endif
-                                    @if (isset($product))
-                                        <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
-                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                                    @endif
-                                </div>
-                                @error('product_icon')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Product Image -->
-                            <div class="col-md-6 mt-3">
-                                <div class="form-group">
-                                    <label class="form-label" for="product-image">Business Image</label>
-                                    @if (!isset($product) || $lang == 'en-us')
-                                        <input type="file" class="form-control" name="product_image"
-                                            id="product-image">
-                                    @endif
-                                    @if (isset($product))
-                                        <img src="{{ asset('ProductImage/' . $product->product_image) }}"
-                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                                    @endif
-                                </div>
-                                @error('product_image')
-                                    <div class="error text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Product Link -->
-                        <div class="row mt-3">
-
-
-
-                            <div class="col-md-6 mt-3">
-                                <div class="form-group">
-                                    <label class="form-label" for="product-category">Business Feature</label>
-                                    <select class="form-control product-feature" name="product_feature[]"
-                                        multiple="multiple">
-                                        @foreach ($product_feature as $key => $item)
-                                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        {{-- overview data --}}
-                        <div class="col-md-12 mt-3">
+                        <br>
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label" for="description">Business Overview</label>
-                                <div class="form-control-wrap">
-                                    <textarea class="description" name="overview" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
-                                    @error('overview')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                    @enderror
+                                <label class="form-label">Product Prices</label>
+                                <div id="price-container">
+                                    <div class="input-group mb-2">
+                                        <input type="number" class="form-control" name="prices[]"
+                                            placeholder="Enter Price" required>
+                                        <select class="form-select" name="tenures[]">
+                                            <option value="Starting Price">Starting Price</option>
+                                            <option value="Standard Price">Standard Price</option>
+                                            <option value="Pro">Pro</option>
+                                        </select>
+                                        <button type="button" class="btn btn-danger remove-price">X</button>
+                                    </div>
                                 </div>
+                                <button type="button" class="btn btn-primary mt-2" id="add-price">+ Add More
+                                    Price</button>
                             </div>
                         </div>
 
-
-                        {{-- add cons and pross --}}
-                        <div class="col-md-12 mt-4">
-                            <div class="card border">
-                                <div class="card-header d-flex justify-content-between">
-                                    <h4>
-                                        Add Pros Data
-                                    </h4>
-                                    <p class="btn btn-success" id="prose-option">Add data</button>
-                                </div>
-                                <div class="card-body prose-body">
-
-                                    {{-- prose add --}}
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-12 mt-4">
-                            <div class="card border">
-                                <div class="card-header d-flex justify-content-between">
-                                    <h4>
-                                        Add Cons Data
-                                    </h4>
-                                    <p class="btn btn-success" id="conse-option">Add data</button>
-                                </div>
-                                <div class="card-body conse-data">
-
-                                    {{-- conse add --}}
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-md-12 mt-4">
-                            <div class="form-group">
-                                <button class="addCategory btn btn-primary text-center btn-localio"><em
-                                        class=""></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
-                            </div>
-                        </div>
-
-
-                    </form>
                 </div>
+
+
+                <!-- Product Icon (File Input) -->
+
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label class="form-label" for="product-icon">Business Icon</label>
+                            @if (!isset($product) || $lang == 'en-us')
+                                <input type="file" class="form-control" name="product_icon" id="product-icon">
+                            @endif
+                            @if (isset($product))
+                                <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
+                                    alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                            @endif
+                        </div>
+                        @error('product_icon')
+                            <div class="error text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Product Image -->
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label class="form-label" for="product-image">Business Image</label>
+                            @if (!isset($product) || $lang == 'en-us')
+                                <input type="file" class="form-control" name="product_image" id="product-image">
+                            @endif
+                            @if (isset($product))
+                                <img src="{{ asset('ProductImage/' . $product->product_image) }}"
+                                    alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                            @endif
+                        </div>
+                        @error('product_image')
+                            <div class="error text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Product Link -->
+                <div class="row mt-3">
+
+
+
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label class="form-label" for="product-category">Business Feature</label>
+                            <select class="form-control product-feature" name="product_feature[]" multiple="multiple">
+                                @foreach ($product_feature as $key => $item)
+                                    <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                {{-- overview data --}}
+                <div class="col-md-12 mt-3">
+                    <div class="form-group">
+                        <label class="form-label" for="description">Business Overview</label>
+                        <div class="form-control-wrap">
+                            <textarea class="description" name="overview" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                            @error('overview')
+                                <div class="error text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+
+                {{-- add cons and pross --}}
+                <div class="col-md-12 mt-4">
+                    <div class="card border">
+                        <div class="card-header d-flex justify-content-between">
+                            <h4>
+                                Add Pros Data
+                            </h4>
+                            <p class="btn btn-success" id="prose-option">Add data</button>
+                        </div>
+                        <div class="card-body prose-body">
+
+                            {{-- prose add --}}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 mt-4">
+                    <div class="card border">
+                        <div class="card-header d-flex justify-content-between">
+                            <h4>
+                                Add Cons Data
+                            </h4>
+                            <p class="btn btn-success" id="conse-option">Add data</button>
+                        </div>
+                        <div class="card-body conse-data">
+
+                            {{-- conse add --}}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12 mt-4">
+                    <div class="form-group">
+                        <button class="addCategory btn btn-primary text-center btn-localio"><em
+                                class=""></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
+                    </div>
+                </div>
+
+
+                </form>
             </div>
         </div>
+    </div>
     </div>
     <script>
         // add ck editor
@@ -347,5 +359,27 @@
             });
         });
     </script>
+    <script>
+        document.getElementById('add-price').addEventListener('click', function() {
+            let container = document.getElementById('price-container');
+            let newPrice = document.createElement('div');
+            newPrice.classList.add('input-group', 'mb-2');
+            newPrice.innerHTML = `
+        <input type="number" class="form-control" name="prices[]" placeholder="Enter Price" required>
+        <select class="form-select" name="tenures[]">
+             <option value="Starting Price">Starting Price</option>
+                                                <option value="Standard Price">Standard Price</option>
+                                                <option value="Pro">Pro</option>
+        </select>
+        <button type="button" class="btn btn-danger remove-price">X</button>
+    `;
+            container.appendChild(newPrice);
+        });
 
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-price')) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
 @endsection

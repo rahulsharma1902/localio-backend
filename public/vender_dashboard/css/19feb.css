@@ -1,0 +1,391 @@
+.white-box .editable-content-8 .about{
+    max-width: 666.41px;
+}
+.slider-videos_nav .slider-for .for-child{ 
+    margin-bottom: 21.4px;
+    position: relative;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: url('../img/slider-img.png') no-repeat center center;
+    background-size: contain;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    z-index: 10;
+}
+.slider-videos_nav .slider-for .for-child{
+    padding: 0px 7px;
+}
+.slider-videos_nav .slider-for .for-child video {
+    border-radius: 15px;
+    overflow: hidden; 
+    width: 100%; 
+    height: auto;
+}
+
+.slider-videos_nav .slider-nav .slick-list.draggable {
+    padding: 0px !important;
+}
+.slider-videos_nav .slider-nav .nav-child{
+    width: 100%;
+    padding: 0px 7px;
+}
+.slider-videos_nav .slider-nav .nav-child img{
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* page-5 */
+.overview_list_2{
+    justify-content: start !important;
+    gap: 20px ;
+}
+.overview_list .overlist_box {
+    padding: 25px  13px 23px 25px !important;
+}
+
+.overview_list_4 .overlist_box .overlist_value span.overlist_sp {
+    font-weight: 500 !important;
+    font-size: 50px !important;
+    line-height: 65px !important;
+}
+.overview_list_4 .overlist_box h6 {
+
+    line-height: 65px !important;
+}
+
+.mi_detail .overview_list_4{
+    justify-content: start;
+    gap:0px ;
+}
+.mi_detail .overview_list_4 .overlist_box {
+    flex: 0 0 25%;
+}
+.mi_detail .overview_list_4 .overlist_box:nth-child(3), .mi_detail .overview_list_4 .overlist_box:nth-child(4){
+    background-color: #fff ;
+    border: 1px solid #06498B26;
+
+}
+.mi_detail .overview_list_4 .overlist_box:nth-child(4){
+    border-radius: 0px 15px 0px 0px ;
+}
+
+.mi_detail .overview_list_4 .overlist_box:nth-child(1){
+   border-radius: 15px 0px 0px 0px ;
+
+}
+.overview_p{
+    border-radius: 15px;
+}
+.mi_detail .overview_list_4 .overlist_box{
+    border-radius: 0px;
+}
+.mi_detail .overview_list_4 .overlist_box:nth-child(3) h6, .mi_detail .overview_list_4 .overlist_box:nth-child(4) h6{
+    color: #000;
+}
+.mi_detail .overview_list_4 .overlist_box:nth-child(3) .overlist_value .overlist_sp , .mi_detail .overview_list_4 .overlist_box:nth-child(4) .overlist_value .overlist_sp {
+    color: #000;
+}
+
+
+
+.btn_all {
+    background-color: #F9633B;
+    display: inline-block;
+    margin-bottom: 23px;
+    border-radius: 170px;
+}
+.btn_all a.btn_campaign {
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    gap: 18.87px;
+    padding: 10px 12.3px;
+}
+.plus_img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF33;
+}
+.btn_all  a.btn_campaign  .plus_img img {
+    width: 16px;
+    height: 16px;
+}
+
+
+.overview_p .overview_img2{
+    margin-top: 80.81px;
+}
+
+
+/* page10 */
+.campaign{
+    width:100%;
+    border-radius: 15px;
+    border: 1px solid #06498B26;
+    padding: 24px 35px ; 
+}
+.campaign_1 .campaign_1part  .img_p_1 {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 15px;
+    
+}
+
+
+@media only  screen  and (max-width:1600px){
+    .user-name1 img {
+        height: 40px;
+        min-width: 40px;
+    }
+    .user-name1 {
+        height: 80px;
+        width: 80px;
+    }
+    .user-info {
+        gap: 15px;
+    }
+    .unq_btn {
+        font-size: 15px;
+        padding: 11px 36px;
+    }
+    .overview_list_2 .overlist_box{
+        flex: 0 0 32%;
+    }
+    .mi_detail .overview_list .overlist_box h6 {
+        font-size: 20px;
+        line-height: 1.4 !important;
+        margin-bottom: 0px;
+    }
+    .overview_list_4 .overlist_box .overlist_value span.overlist_sp {
+        font-size: 40px !important;
+        line-height: 1.4 !important;
+    }
+
+
+}
+
+@media only screen  and (max-width:1500px){
+    .feature-box ul li {
+        font-size: 17px;
+        margin-top: 15px;
+    }
+    .feature-box ul li:nth-child(1){
+        margin-top: 0px;
+    }
+    .feature-box .check-img {
+
+        margin-bottom: 5px;
+    }
+    .feature-box .blue-btn {
+        margin-top: 0;
+    }
+    .user-name1 img {
+        height: 30px;
+        min-width: 30px;
+    }
+    .user-name1 {
+        height: 70px;
+        width: 70px;
+    }
+    .editable-content .rgt-edit-data .share a {
+        height: 55px;
+        width: 55px;
+    }
+    .about p {
+        font-size: 16px;
+    }
+}
+@media only  screen and (max-width:1399px) {
+    .editable-content-l9 .features{
+        flex-wrap: wrap;
+    }
+    .editable-content-l9 .features .feature-box {
+        flex: 0 0 calc(50% - 11px);
+    }
+    .about p {
+        font-size: 15px;
+    }
+    .about {
+        padding-bottom: 15px;
+        margin-bottom: 0px;
+    }
+    .slider-videos_nav .slider-nav .nav-child {
+        padding: 0px 3px;
+    }
+    .editable-content-4 .feature-box  h4 {
+        font-size: 20px;
+    }
+    .overview_list .overlist_box {
+        padding: 18px !important;
+    }
+}
+@media only  screen and (max-width:1199px) {
+    .features {
+        flex-direction: column;
+    }
+    .feature-box ul li:nth-child(1) {
+        margin-top: 15px;
+    }
+    .edit-heading h2 {
+        font-size: 39px;
+    }
+    .features {
+        gap: 15px;
+    }
+    .editable-content-4{
+        margin-top: 0px !important;
+    }
+    .editable-content-4 .feature-box p{
+        margin-bottom: 0px;
+    }
+    .overview_list_2 {
+        flex-wrap: wrap;
+    }
+    .overview_list_2 .overlist_box {
+        flex: 0 0 calc(50% - 20px);
+    }
+    .mi_detail .overview_list {
+        flex-wrap: wrap;
+    }
+    .mi_detail .overview_list_4 .overlist_box {
+        flex: 0 0 50%;
+    }
+    .mi_detail .overview_list .overlist_box:nth-child(2){
+        border-radius: 0px 15px 0px 0px;
+    }
+    .overview_p .overview_img2 {
+        margin-top: 40.81px;
+    }
+    .btn_all a.btn_campaign {
+        gap: 10.87px;
+    }
+    .btn_all  a.btn_campaign  .plus_img img {
+        width: 14px;
+        height: 14px;
+    }
+    .plus_img {
+        width: 35px;
+        height: 35px;
+    }
+}
+@media only screen and (max-width:991px) {
+    .feature-box {
+        min-width: unset;
+        max-width: 336px;
+        width: 100%;
+        margin: auto;
+    }
+    .slider-videos_nav {
+        margin-top: 25px;
+    }
+}
+@media only  screen and (max-width:767px) {
+    .editable-content {
+        flex-direction: column;
+        gap: 15px;
+        align-items: baseline;
+    }
+    .rating {
+        align-items: baseline;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .rating {
+        flex-direction: column-reverse;
+    }
+    .editable-content .rgt-edit-data .share a {
+        height: 70px;
+        width: 70px;
+    }
+   
+    .integrations ul {
+        display: grid;
+        justify-content: unset;
+        gap: 10px;
+        grid-template-columns: auto auto;
+    }
+    .overview_list_2 .overlist_box {
+        flex: 0 0 100%;
+        padding:  20px !important;
+    }
+    .overview_list_2 {
+        padding: 0px 5px !important;
+    }
+    .overview_list_4 .overlist_box .overlist_value span.overlist_sp {
+        font-size: 30px !important;
+    }
+}
+@media only screen and (max-width:575px){
+    .editable-content .user-info .user-data .user-name h4 {
+        margin-bottom: 0px;
+    }
+    .rating {
+        gap: 0px;
+    }
+    .edit-listing .edit-boxs .edit-box .editable-content .rgt-edit-data .edit-btn .unq_btn {
+        padding: 10px;
+    }
+    .feature-box .top-img {
+        top: -7px;
+        width: 70%;
+    }
+    .feature-box {
+        padding: 15px;
+    }
+    .feature-box ul li {
+        font-size: 15px;
+    }
+    .edit-listing .edit-box {
+        padding: 30px 15px;
+    }
+    .about p {
+        font-size: 15px;
+    }
+    .edit-heading h2 {
+        font-size: 30px;
+    }
+    .mi_detail .overview_list_4 .overlist_box {
+        flex: 0 0 100%;
+    }
+    .mi_detail .overview_list_4 .overlist_box
+
+    {
+        border-radius: 0px 0px 0px 0px !important;
+    }
+    .plus_img {
+        width: 30px;
+        height: 30px;
+    }
+    .btn_all a.btn_campaign {
+        gap: 7px;
+    }
+}

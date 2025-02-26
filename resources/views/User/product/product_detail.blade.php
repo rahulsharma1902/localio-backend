@@ -26,14 +26,17 @@
                         <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                             <div class="ans_lft">
                                 <div class="asn-img">
+
                                     <img src="{{ $result['product_icon'] }}" alt="Product Icon">
+
                                 </div>
                                 <div class="asn-rating">
                                     <div class="an_lkd">
                                         <h6 style="color: #000;">{{ $result['name'] }}</h6>
                                         <p class="wishlist">
-                                            <a href=""><i class="fa-regular fa-heart"
-                                                    style="color: #06498B ;"></i></a>
+                                            <a href="javascript:void(0);" onclick="addToWishlist({{ $result['id'] }})">
+                                                <i class="fa-regular fa-heart" style="color: #06498B;"></i>
+                                            </a>
                                         </p>
                                     </div>
                                     <div class="rating light">
@@ -667,6 +670,7 @@
     </section>
     <section class="review_sec p_120 ">
         <div class="container">
+
             <div class="review_content" data-aos="fade-up" data-aos-duration="1000">
                 <h2>Top Reviews</h2>
                 <div class="review_detl">
@@ -847,6 +851,7 @@
                         complexity in their workflows.
                     </p>
                 </div>
+
                 <div class="asn_dv asv_orng trial-avil" data-aos="fade-up" data-aos-duration="1000">
                     <div class="asn_dv_contnt">
                         <div class="row frst_rw">
@@ -889,6 +894,7 @@
             </div>
         </div>
     </section>
+
 
     <!-- scetion exclusive deals -->
     <section class="xclusve-deal csd_sec light   p_120 bg-white">
@@ -1684,4 +1690,76 @@
             </div>
         </div>
     </section>
+    <script>
+        function addToWishlist(productId) {
+            $.ajax({
+                url: "{{ url(app()->getLocale() . '/wishlist') }}",
+                type: "POST",
+                data: {
+                    id: productId,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.success,
+                            position: 'top-right',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 3000,
+                        });
+                    } else if (response.info) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Info',
+                            text: response.info,
+                            position: 'top-right',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 3000,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            position: 'top-right',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 3000,
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    let errorMessage = "Error adding to wishlist.";
+                    if (xhr.status === 401) {
+                        errorMessage = "You need to log in first!";
+                    } else {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.error) {
+                                errorMessage = response.error;
+                            }
+                        } catch (e) {
+                            errorMessage = "Failed to parse error response";
+                        }
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: errorMessage,
+                        position: 'top-right',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                }
+            });
+        }
+    </script>
+
+
 @endsection

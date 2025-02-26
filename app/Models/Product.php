@@ -57,7 +57,9 @@ class Product extends Model
         }
 
     }
-
-
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
+    }
 
 }

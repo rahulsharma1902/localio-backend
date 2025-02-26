@@ -4,6 +4,9 @@ namespace App\Http\Controllers\UserDashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Wishlist;
+
 
 class UserDashboardController extends Controller
 {
@@ -12,7 +15,18 @@ class UserDashboardController extends Controller
     }
 
     public function userProduct(){
-        return view('user_dashboard.user_product');
+        $userId = Auth::id(); // Get logged-in user ID
+
+        if (!$userId) {
+            return redirect()->route('login')->with('error', 'You need to log in first!');
+        }
+
+        $wishlistItems = Wishlist::where('user_id', $userId)
+            ->with('product','prices')
+            ->get();
+
+        return view('user_dashboard.user_product', compact('wishlistItems'));
+
     }
 
     public function userProfile(){
@@ -27,5 +41,6 @@ class UserDashboardController extends Controller
         return view('user_dashboard.user_reward');
     }
 
-    
+
+
 }

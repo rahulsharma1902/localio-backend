@@ -341,8 +341,9 @@
                                                             <div class="sl_main">
                                                                 <h6 class="head">{{ $product['name'] }}</h6>
                                                                 <div class="wishlist">
-                                                                    <a href="#" class="heart-container"
-                                                                        tabindex="0">
+                                                                    <a href="javascript:void(0)" class="heart-container"
+                                                                        data-id="{{ $item->id }}">
+
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -369,7 +370,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="auto-choice-btn">
-                                                    <a href="{{ route('user.product_detail',['locale'=>'en-us', 'id' => $product->id ])}}" class="cta cta_orange">
+                                                    <a href="{{ route('user.product_detail', ['locale' => 'en-us', 'id' => $product->id]) }}"
+                                                        class="cta cta_orange">
                                                         Visit Website
                                                         <div class="right-arw">
                                                             <i class="fa-solid fa-arrow-right"></i>
@@ -421,8 +423,7 @@
                                                 <div class="auto-choice-hd">
                                                     <div class="inn_sl_hed">
                                                         <div class="sli_img choice_img">
-                                                            <img class="slider_img"
-                                                                src="{{ $item->product_image }}"
+                                                            <img class="slider_img" src="{{ $item->product_image }}"
                                                                 alt="">
                                                         </div>
                                                         <div class="sl_h">
@@ -430,8 +431,10 @@
                                                                 <div class="sl_main">
                                                                     <h6 class="head">{{ $item['name'] }}</h6>
                                                                     <div class="wishlist">
-                                                                        <a href="#" class="heart-container"
-                                                                            tabindex="0">
+                                                                        <a href="javascript:void(0)"
+                                                                            class="heart-container"
+                                                                            data-id="{{ $item->id }}">
+
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -463,7 +466,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="auto-choice-btn">
-                                                        <a href="{{ route('user.product_detail',['locale'=>'en-us', 'id' => $item->id])}}" class="cta cta_orange">
+                                                        <a href="{{ route('user.product_detail', ['locale' => 'en-us', 'id' => $item->id]) }}"
+                                                            class="cta cta_orange">
                                                             Visit Website
                                                             <div class="right-arw">
                                                                 <i class="fa-solid fa-arrow-right"></i>
@@ -494,11 +498,22 @@
                                                             @endif
                                                         </ul>
                                                     </div>
-                                                    <div class="starting-price">
-                                                        <h6 class="m-0">Starting Price</h6>
-                                                        <p class="m-0"><span>{{ $item['product_price'] }}</span>/Month
-                                                        </p>
-                                                    </div>
+                                                    @if (isset($item['prices']))
+                                                        @php
+                                                            $startingPrice = collect($item['prices'])->firstWhere(
+                                                                'tenure',
+                                                                'Starting Price',
+                                                            );
+                                                        @endphp
+
+                                                        @if ($startingPrice)
+                                                            <div class="starting-price">
+                                                                <h6 class="m-0">{{ $startingPrice->tenure }}</h6>
+                                                                <p class="m-0">
+                                                                    <span>${{ $startingPrice->price }}</span> / Month</p>
+                                                            </div>
+                                                        @endif
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="blue-chkbox">
@@ -512,22 +527,29 @@
                                             <ul class="pagination">
                                                 <li class="page-item pagi-btn disabled"><a class="page-link"><i
                                                             class="fa-solid fa-chevron-left"></i></a></li>
-                                                <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a>
+                                                <li class="page-item active"><a class="page-link"
+                                                        href="javascript:void(0)">1</a>
                                                 </li>
                                                 <li class="page-item " aria-current="page"><a class="page-link"
                                                         href="#">2</a>
                                                 </li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="javascript:void(0)">3</a>
                                                 </li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="javascript:void(0)">4</a>
                                                 </li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="javascript:void(0)">5</a>
                                                 </li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">6</a>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="javascript:void(0)">6</a>
                                                 </li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">7</a>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="javascript:void(0)">7</a>
                                                 </li>
-                                                <li class="page-item pagi-btn"> <a class="page-link" href="javascript:void(0)"><i
+                                                <li class="page-item pagi-btn"> <a class="page-link"
+                                                        href="javascript:void(0)"><i
                                                             class="fa-solid fa-chevron-right"></i></a>
                                                 </li>
                                             </ul>
@@ -546,7 +568,7 @@
         <div class="container">
             <div class="subs_content">
                 <div class="sub_img">
-                    <img src="{{asset('front/img/subs.png')}}">
+                    <img src="{{ asset('front/img/subs.png') }}">
                 </div>
                 <h2 data-aos="fade-up" data-aos-duration="1000">Top-rated Products of 2024</h2>
                 <p data-aos="fade-up" data-aos-duration="1000">Fill out the form and we'll send a list of the top-rated
@@ -571,28 +593,38 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        const isLoggedIn = @json(auth()->check());
+        const isLoggedIn = @json(auth()->check()); // Check if user is logged in
+
         $(document).ready(function() {
-            let hearts = $('.heart-container');
             $('.heart-container').click(function() {
-                let id = $(this).data('id');
-                console.log(id);
+                let id = $(this).data('id'); // Get product ID
+                console.log("Clicked product ID:", id); // Debugging
+
                 if (!isLoggedIn) {
-                    return
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end', // Top-right corner
+                        icon: 'warning',
+                        title: 'Please log in to add to wishlist.',
+                        showConfirmButton: false,
+                        timer: 3000 // Auto close after 3 seconds
+                    });
+                    return;
                 }
-                wishlist(id);
+
+                addToWishlist(id);
             });
         });
 
-        function wishlist(id) {
+
+        function addToWishlist(id) {
             $.ajax({
                 url: "{{ url(app()->getLocale() . '/wishlist') }}",
-                type: "Post",
+                type: "POST",
                 data: {
                     id: id,
                     _token: "{{ csrf_token() }}",
                 },
-
                 success: function(response) {
                     if (response.info) {
                         Swal.fire({
@@ -616,9 +648,8 @@
                         });
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function(xhr) {
                     let errorMessage = 'An unexpected error occurred';
-
                     try {
                         const response = JSON.parse(xhr.responseText);
                         if (response.error) {
@@ -627,10 +658,8 @@
                     } catch (e) {
                         errorMessage = 'Failed to parse error response';
                     }
-                    $('#message').text(errorMessage);
-
+                    alert(errorMessage);
                 }
-
             });
         }
         $(document).ready(function() {
@@ -736,9 +765,9 @@
                                 <div class="auto-choice-hd">
                                     <div class="inn_sl_hed">
                                         ${product.product_icon ? `
-                                                                                        <div class="sli_img choice_img">
-                                                                                            <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="${productName}">
-                                                                                        </div>` : ''}
+                                                                                                    <div class="sli_img choice_img">
+                                                                                                        <img class="slider_img" src="{{ asset('ProductIcon/') }}/${product.product_icon}" alt="${productName}">
+                                                                                                    </div>` : ''}
                                         <div class="sl_h">
                                             <div class="inn_h">
                                                 <div class="sl_main">
@@ -785,15 +814,15 @@
                                      <ul class="list-unstyled key-fea-lst">
                                         ${keyFeatures.map((keyFeature) => {
                                             return `
-                                                                                            <li class="d-flex align-items-center">
-                                                                                                <div class="grn_chk">
-                                                                                                    ${files.green_tick_img
-                                                                                                        ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">`
-                                                                                                        : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
-                                                                                                </div>
-                                                                                                <p>${keyFeature.feature || 'No key feature'}</p>
-                                                                                            </li>
-                                                                                        `;
+                                                                                                        <li class="d-flex align-items-center">
+                                                                                                            <div class="grn_chk">
+                                                                                                                ${files.green_tick_img
+                                                                                                                    ? `<img src="${files.green_tick_img}" class="banner_top_image" alt="Green Tick">`
+                                                                                                                    : `<img src="{{ asset('front/img/tick-img.png') }}" class="banner_top_image" alt="Green Tick">`}
+                                                                                                            </div>
+                                                                                                            <p>${keyFeature.feature || 'No key feature'}</p>
+                                                                                                        </li>
+                                                                                                    `;
                                         }).join('')}
                                     </ul>
                                     </div>
