@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'aa70cf4ff0696917a1a8bfb709dfcdcda2616894',
+        'reference' => 'c2706c4c35f88175257b65b9740e28c2c3f98505',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -472,7 +472,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'aa70cf4ff0696917a1a8bfb709dfcdcda2616894',
+            'reference' => 'c2706c4c35f88175257b65b9740e28c2c3f98505',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -601,6 +601,15 @@
             'reference' => 'f9c94b088837eb1aae1ad7c4f23eb65cc6993055',
             'type' => 'library',
             'install_path' => __DIR__ . '/../league/oauth1-client',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'livewire/livewire' => array(
+            'pretty_version' => 'v3.6.0',
+            'version' => '3.6.0.0',
+            'reference' => '4c66b569cb729ba9b2f4a3c4e79f50fd8f2b71d1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../livewire/livewire',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -919,8 +928,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(

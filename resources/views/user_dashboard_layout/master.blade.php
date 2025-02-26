@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
+    @livewireStyles
     <?php
 
         use App\Models\HomeContent; // Import your model
@@ -399,5 +400,6 @@
       <script>
          AOS.init();
       </script>
+      @livewireScripts
    </body>
 </html>

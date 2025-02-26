@@ -2,6 +2,7 @@
     <html lang="en">
 
     <head>
+        @livewireStyles
         <?php
 
         use App\Models\HomeContent; // Import your model
@@ -501,6 +502,7 @@
                 }
             });
         </script>
+        @livewireScripts
     </body>
 
     </html>

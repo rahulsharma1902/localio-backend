@@ -67,12 +67,14 @@
                         <div class="banner_content_inner">
                             <h1>{{ $homeContents['header_title'] ?? null }}</h1>
                             <p>{{ $homeContents['header_description'] ?? null }}</p>
-                            <div class="search-bar-wrp">
+                            {{-- <div class="search-bar-wrp">
                                 <div class="search-box">
                                     <input type="text" placeholder="{{ $homeContents['placeholder_text'] ?? null }}">
                                     <i class="fa fa-search"></i>
                                 </div>
-                            </div>
+                            </div> --}}
+                            <livewire:search />
+
                         </div>
                     </div>
                     <div class="banner_image_col">

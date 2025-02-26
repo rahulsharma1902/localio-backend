@@ -5234,6 +5234,10 @@ header .search_logo .search-box {
 	font-size: 20px;
 }
 
+.heart-container.wishlisted {
+    font-weight: 900 !important;
+}
+
 .heart-container::after {
 	content: '\f004';
 	font-family: 'Font Awesome 5 Free';
