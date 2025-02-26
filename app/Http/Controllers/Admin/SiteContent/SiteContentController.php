@@ -90,6 +90,8 @@ class SiteContentController extends Controller
             'Meta_description',
             'meta_user_login_title',
             'meta_user_login_description',
+            'meta_vendor',
+            'meta_vendor_description',
             'header_title',
             'header_description',
             'placeholder_text',

@@ -79,7 +79,7 @@
                                         <img src="{{asset('vender_dashboard/img/Stargold.png')}}" alt="">
                                      </div>
                                      <div class="review_star">
-                                        <img src="img/Stargold.png" alt="">
+                                        <img src="{{asset('vender_dashboard/img/Stargold.png')}}" alt="">
                                      </div>
                                      <div class="review_star">
                                         <img src="{{asset('vender_dashboard/img/Stargold.png')}}" alt="">

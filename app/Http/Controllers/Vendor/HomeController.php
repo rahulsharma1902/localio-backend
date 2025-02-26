@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
+    public function vendorGetListed()
+    {
 
+        return view('Vendor.vendor_get_listed');
+    }
     public function index()
     {
         return view('vendor_dashboard_layout.master');
@@ -16,13 +20,11 @@ class HomeController extends Controller
     public function dash(){
         return view('vendor_dashboard.dash');
     }
-
-
-    public function vendorGetListed()
-    {
-
+    public function addList(){
         return view('vendor_dashboard.add_new_list');
     }
+
+
     public function advertising(){
         return view('vendor_dashboard.advertising');
     }

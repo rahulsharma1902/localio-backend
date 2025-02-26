@@ -482,11 +482,11 @@
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span>AB</span>
+                                                        <span> {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}{{ strtoupper(substr(Auth::user()->last_name, 0, 1)) }}</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">{{ Auth::user()->name ?? '' }}</span>
-                                                        <span class="sub-text">{{ Auth::user()->email ?? '' }}</span>
+                                                        <span class="lead-text">{{ Auth::user()->first_name}} {{ Auth::user()->last_name }}</span>
+                                                        <span class="sub-text">{{ Auth::user()->email}}</span>
                                                     </div>
                                                 </div>
                                             </div>

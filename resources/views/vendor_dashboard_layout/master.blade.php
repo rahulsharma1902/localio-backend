@@ -2,8 +2,18 @@
 <html lang="en">
 
 <head>
+    <?php
+
+    use App\Models\HomeContent; // Import your model
+
+    // Fetch meta title and description from database
+     $metaUserLoginTitle = HomeContent::where('meta_key', 'meta_vendor')->value('meta_value') ?? 'Default Title';
+    $metaUserLoginDescription = HomeContent::where('meta_key', 'meta_vendor_description')->value('meta_value') ?? 'Default Description';
+
+    ?>
    <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta name="description" content="<?= htmlspecialchars($metaUserLoginDescription, ENT_QUOTES, 'UTF-8'); ?>">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -22,7 +32,8 @@
    <link rel="stylesheet" href="{{asset('vender_dashboard/css/20feb.css')}}" />
    <link rel="stylesheet" href="{{asset('vender_dashboard/css/21feb.css')}}" />
    <link rel="stylesheet" href="{{asset('vender_dashboard/Basis Grotesque Pro/stylesheet.css')}}">
-   <title>page1</title>
+   <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
+   <title><?= htmlspecialchars($metaUserLoginTitle, ENT_QUOTES, 'UTF-8'); ?></title>
 </head>
 
 <body>
@@ -30,7 +41,7 @@
       <div class="container-fluid">
          <nav class="navbar navbar-expand-lg navbar-light">
             <div class="hdr_lft">
-               <a class="navbar-brand" href="#">
+               <a class="navbar-brand" href="{{route('home')}}">
                   <img src="{{asset('vender_dashboard/img/locailo_logo.png')}}" class="img-fluid">
                </a>
                <button class="menu-toggler" style="display: none;">
@@ -265,11 +276,11 @@
                         <div class="dropdown-main ">
                            <div class="user_detail">
                               <div class="user_img">
-                                 MI
+                                {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}{{ strtoupper(substr(Auth::user()->last_name, 0, 1)) }}
                               </div>
                               <div class="user_name">
-                                 <h5>Mi name</h5>
-                                 <p>mi@gmail.com</p>
+                                 <h5>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                                 <p>{{ Auth::user()->email }}</p>
                               </div>
                            </div>
                            <div class="dash-icon">
@@ -293,7 +304,7 @@
                                  Tickets</a>
                            </div>
                            <div class="dash-icon">
-                              <a class="dropdown-item" href=""><i class="fa fa-power-off"></i>Log Out</a>
+                              <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"></i>Log Out</a>
                            </div>
                         </div>
                      </div>
