@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // $languages = getLanguages();
         // View::share('languages', $languages);
+        ini_set('max_execution_time', 120);
+
     }
 }

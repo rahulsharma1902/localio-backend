@@ -24,7 +24,26 @@
       <link rel="stylesheet" href="{{asset('user-dashboard-theme/css/responsive1.css')}}" />
       <link rel="stylesheet" href="{{asset('user-dashboard-theme/Basis Grotesque Pro/stylesheet.css')}}">
       <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
+      @livewireStyles
+      <style>
+      .profile-img {
+        width: 120px; /* Set the width of the container */
+        height: 120px; /* Set the height of the container */
+        border-radius: 50%; /* Make it circular */
+        overflow: hidden; /* Ensure the image stays within the circle */
+        border: 3px solid #ddd; /* Optional: Add a border */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
+    .profile-img img {
+        width: 100%; /* Make sure the image covers the div */
+        height: 100%;
+        object-fit: cover; /* Ensures the image fits well in the circle */
+        border-radius: 50%;
+    }
+</style>
    </head>
    <body>
       <header class="main_dhdr">
@@ -358,6 +377,7 @@
               </div>
            </div>
            @yield('content')
+           @livewireScripts
         </div>
      </section>
 
