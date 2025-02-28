@@ -2,18 +2,11 @@
 <html lang="en">
 
 <head>
-    <?php
 
-    use App\Models\HomeContent; // Import your model
-
-    // Fetch meta title and description from database
-     $metaUserLoginTitle = HomeContent::where('meta_key', 'meta_vendor')->value('meta_value') ?? 'Default Title';
-    $metaUserLoginDescription = HomeContent::where('meta_key', 'meta_vendor_description')->value('meta_value') ?? 'Default Description';
-
-    ?>
    <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <meta name="description" content="<?= htmlspecialchars($metaUserLoginDescription, ENT_QUOTES, 'UTF-8'); ?>">
+   <title>@yield('meta_title', 'Default Site Title')</title>
+   <meta name="meta_description" content="@yield('meta_description', 'Default Site Description')">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -33,7 +26,7 @@
    <link rel="stylesheet" href="{{asset('vender_dashboard/css/21feb.css')}}" />
    <link rel="stylesheet" href="{{asset('vender_dashboard/Basis Grotesque Pro/stylesheet.css')}}">
    <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
-   <title><?= htmlspecialchars($metaUserLoginTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+
 </head>
 
 <body>
@@ -65,7 +58,7 @@
                      <div class="dropdown-menu dropdown-menu-right notify-drop-main" style="margin-right: 20px;">
                         <div class="dropdown-main notify-drop">
                            <div class="user_detail_hd p_lft_rgt">
-                              <h5 class="m-0 ">All Notification</h5>
+                              <h5 class="m-0 ">{{ __('file.all-notification') }}</h5>
                            </div>
                            <div class="all-unread-tabs">
                               <div class="all-unread-hd d-flex align-items-center p_lft_rgt">
@@ -82,7 +75,7 @@
                                     </li>
                                  </ul>
                                  <div class="mark-as">
-                                    <a href="">Mark all as read</a>
+                                    <a href="">{{ __('file.mark-read') }}</a>
                                  </div>
                               </div>
                               <div class="tab-content" id="pills-tabContent">
@@ -90,7 +83,7 @@
                                     aria-labelledby="pills-All-tab">
                                     <div class="notify-cntnt">
                                        <div class="day p_lft_rgt">
-                                          <span>Today</span>
+                                          <span>{{ __('file.today') }}</span>
                                        </div>
                                        <ul class="list-unstyled m-0">
                                           <li>
@@ -205,7 +198,7 @@
                                     aria-labelledby="pills-Unread-tab">
                                     <div class="notify-cntnt">
                                        <div class="day p_lft_rgt">
-                                          <span>Today</span>
+                                          <span>{{ __('file.today') }}</span>
                                        </div>
                                        <ul class="list-unstyled m-0">
                                           <li>
@@ -284,27 +277,25 @@
                               </div>
                            </div>
                            <div class="dash-icon">
-                              <a class="dropdown-item" href="{{ route('vendor-dashboard', ['locale' => app()->getLocale()]) }}"><i class="fa fa-user"></i>Dashboard
+                              <a class="dropdown-item" href="{{ route('vendor-overview', ['locale' => app()->getLocale()]) }}"><i class="fa fa-user"></i>{{ __('file.dashboard') }}
                               </a>
                            </div>
                            <div class="dash-icon">
-                              <a class="dropdown-item" href="#"><i class="fa fa-cog"></i>Configuration
+                              <a class="dropdown-item" href="#"><i class="fa fa-cog"></i>{{ __('file.Configuration') }}
                               </a>
                            </div>
                            <div class="dash-icon">
-                              <a class="dropdown-item" href="#"><i class="fas fa-wallet"></i>Logo
-                                 Backup</a>
+                              <a class="dropdown-item" href="#"><i class="fas fa-wallet"></i>{{ __('file.logo backup') }}</a>
                            </div>
                            <div class="dash-icon">
                               <a class="dropdown-item" href="#"><i
-                                    class="fa-solid fa-envelope-open-text"></i>Invoices</a>
+                                    class="fa-solid fa-envelope-open-text"></i>{{ __('file.invoice') }}</a>
                            </div>
                            <div class="dash-icon">
-                              <a class="dropdown-item" href="#"><i class="fa-solid fa-headset"></i>Support
-                                 Tickets</a>
+                              <a class="dropdown-item" href="#"><i class="fa-solid fa-headset"></i>{{ __('file.Support Tickets') }}</a>
                            </div>
                            <div class="dash-icon">
-                              <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"></i>Log Out</a>
+                              <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"></i>{{ __('file.log out') }}</a>
                            </div>
                         </div>
                      </div>
@@ -326,7 +317,7 @@
                               <span class="icons-links">
                                  <img src="{{asset('vender_dashboard/img/my_account.svg')}}" alt="">
                               </span>
-                              <span class="icons-text">Overview</span>
+                              <span class="icons-text">{{ __('file.overview') }}</span>
                            </div>
                         </a>
                      </li>
@@ -338,7 +329,7 @@
                                     <span class="icons-links">
                                        <img src="{{asset('vender_dashboard/img/manage list_img.svg')}}" alt="">
                                     </span>
-                                    <span class="icons-text">Manage Listings</span>
+                                    <span class="icons-text">{{ __('file.manage-listings') }}</span>
                                  </div>
                                  <div class="sidein_box">
                                     <span class="arrow">
@@ -350,10 +341,10 @@
                         </a>
                         <ul class="sublist">
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="{{ route('vendor-add-new-list', ['locale' => app()->getLocale()]) }}">Add New Listing</a>
+                              <a class="sublist_inside" href="{{ route('vendor-add-new-list', ['locale' => app()->getLocale()]) }}">{{ __('file.add-new-list') }}</a>
                            </li>
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="{{ route('vendor-edit-list', ['locale' => app()->getLocale()]) }}">Edit Listing</a>
+                              <a class="sublist_inside" href="{{ route('vendor-edit-list', ['locale' => app()->getLocale()]) }}">{{ __('file.edit-listing') }}</a>
                            </li>
                         </ul>
                      </li>
@@ -366,7 +357,7 @@
                                     <span class="icons-links">
                                        <img src="{{asset('vender_dashboard/img/Analytics & Reports_img.svg')}}" alt="">
                                     </span>
-                                    <span class="icons-text">Analytics & Reports</span>
+                                    <span class="icons-text">{{ __('file.analytics') }}</span>
                                  </div>
                                  <div class="sidein_box">
                                     <span class="arrow">
@@ -378,15 +369,15 @@
                         </a>
                         <ul class="sublist">
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="#">Profile Views
+                              <a class="sublist_inside" href="#">{{ __('file.profile') }}
                               </a>
                            </li>
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="#">Engagement Metrics
+                              <a class="sublist_inside" href="#">{{ __('file.engagement') }}
                               </a>
                            </li>
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="#">Conversion Tracking
+                              <a class="sublist_inside" href="#">{{ __('file.conversion') }}
                               </a>
                            </li>
                         </ul>
@@ -400,7 +391,7 @@
                                     <span class="icons-links">
                                        <img src="{{asset('vender_dashboard/img/Advertising & Promotions_img.svg')}}" alt="">
                                     </span>
-                                    <span class="icons-text">Advertising & Promotions</span>
+                                    <span class="icons-text">{{ __('file.advertising') }}</span>
                                  </div>
                                  <div class="sidein_box">
                                     <span class="arrow">
@@ -412,11 +403,11 @@
                         </a>
                         <ul class="sublist">
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="{{ route('vendor-campaign', ['locale' => app()->getLocale()]) }}">Create New Ad Campaign
+                              <a class="sublist_inside" href="{{ route('vendor-campaign', ['locale' => app()->getLocale()]) }}">{{ __('file.create-new-ad') }}
                               </a>
                            </li>
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="{{ route('vendor-managing-campaign', ['locale' => app()->getLocale()]) }}">Manage Existing Campaigns
+                              <a class="sublist_inside" href="{{ route('vendor-managing-campaign', ['locale' => app()->getLocale()]) }}">{{ __('file.manage-exiting-campaigns') }}
                               </a>
                            </li>
                         </ul>
@@ -430,7 +421,7 @@
                                     <span class="icons-links">
                                        <img src="{{asset('vender_dashboard/img/Review Management_img.svg')}}" alt="">
                                     </span>
-                                    <span class="icons-text">Review Management</span>
+                                    <span class="icons-text">{{ __('file.review-management') }}</span>
                                  </div>
                                  <div class="sidein_box">
                                     <span class="arrow">
@@ -442,11 +433,11 @@
                         </a>
                         <ul class="sublist">
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="{{ route('vendor-review', ['locale' => app()->getLocale()]) }}">View User Reviews
+                              <a class="sublist_inside" href="{{ route('vendor-review', ['locale' => app()->getLocale()]) }}">{{ __('file.view-user-review') }}
                               </a>
                            </li>
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="{{ route('vendor-review-managment', ['locale' => app()->getLocale()]) }}">Respond to Reviews
+                              <a class="sublist_inside" href="{{ route('vendor-review-managment', ['locale' => app()->getLocale()]) }}">{{ __('file.respond-to-review') }}
                               </a>
                            </li>
                         </ul>
@@ -460,7 +451,7 @@
                                     <span class="icons-links">
                                        <img src="{{asset('vender_dashboard/img/Support_img.svg')}}" alt="">
                                     </span>
-                                    <span class="icons-text">Support</span>
+                                    <span class="icons-text">{{ __('file.support') }}</span>
                                  </div>
                                  <div class="sidein_box">
                                     <span class="arrow">
@@ -472,7 +463,7 @@
                         </a>
                         <ul class="sublist">
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="#">Support
+                              <a class="sublist_inside" href="#">{{ __('file.support') }}
                               </a>
                            </li>
                         </ul>

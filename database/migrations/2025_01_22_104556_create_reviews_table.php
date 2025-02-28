@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id(); // Primary key
+            $table->unsignedBigInteger('user_id'); // Foreign key to users table
             $table->unsignedBigInteger('product_id'); // Foreign key to products table
             $table->unsignedBigInteger('lang_id'); // Foreign key to languages table
             $table->integer('rating'); // Rating (e.g., 1-5)
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps(); // created_at and updated_at
 
         });

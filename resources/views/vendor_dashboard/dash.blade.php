@@ -1,16 +1,18 @@
 @extends('vendor_dashboard_layout.master')
+@section('meta_title', $metaTitle)
+@section('meta_description', $metaDescription)
 @section('content')
 <div class="col-lg-9 p-0">
     <div class="user_content">
        <div class="uer_nm">
-          <h1>Overview</h1>
+          <h1>{{ __('file.overview') }}</h1>
        </div>
        <div class="mi_detail">
           <div class="row gy-4">
              <div class="overview_list">
                 <div class="overlist_box ">
                    <h6>
-                      Total Listing
+                    {{ __('file.total-listing') }}
                    </h6>
                    <div class="overlist_value">
                       <span class="overlist_sp">
@@ -18,7 +20,7 @@
                       </span>
                       <span class="overlist_sp">
                          <a class="overlst_an" href="">
-                            View ALL
+                                   {{ __('file.view-all') }}
                             <img src="{{asset('vender_dashboard/img/arrow-rgt.svg')}}" alt="">
                          </a>
                       </span>
@@ -26,7 +28,7 @@
                 </div>
                 <div class="overlist_box ">
                    <h6>
-                      Profile Views
+                    {{ __('file.profile-views') }}
                    </h6>
                    <div class="overlist_value">
                       <span class="overlist_sp">
@@ -34,7 +36,7 @@
                       </span>
                       <span class="overlist_sp">
                          <a class="overlst_an" href="">
-                            View ALL
+                            {{ __('file.view-all') }}
                             <img src="{{asset('vender_dashboard/img/arrow-rgt.svg')}}" alt="">
                          </a>
                       </span>
@@ -42,7 +44,7 @@
                 </div>
                 <div class="overlist_box ">
                    <h6>
-                      Ad Campaign
+                    {{ __('file.ad-campaign') }}
                    </h6>
                    <div class="overlist_value">
                       <span class="overlist_sp">
@@ -50,7 +52,7 @@
                       </span>
                       <span class="overlist_sp">
                          <a class="overlst_an" href="">
-                            View ALL
+                            {{ __('file.view-all') }}
                             <img src="{{asset('vender_dashboard/img/arrow-rgt.svg')}}" alt="">
                          </a>
                       </span>
@@ -58,7 +60,7 @@
                 </div>
                 <div class="overlist_box ">
                    <h6>
-                      Reviews
+                    {{ __('file.review') }}
                    </h6>
                    <div class="overlist_value">
                       <span class="overlist_sp">
@@ -66,7 +68,7 @@
                       </span>
                       <span class="overlist_sp">
                          <a class="overlst_an" href="">
-                            View ALL
+                            {{ __('file.view-all') }}
                             <img src="{{asset('vender_dashboard/img/arrow-rgt.svg')}}" alt="">
                          </a>
                       </span>
@@ -85,10 +87,10 @@
                          <div class="prof_lft">
                             <div class="lft_prfhd">
                                <h6>
-                                  Profile Views
+                                {{ __('file.profile-views') }}
                                </h6>
                                <p>
-                                  In last 30 days profile views
+                                {{ __('file.in-last-days') }}
                                </p>
                             </div>
                             <div class="left_grap">
@@ -103,11 +105,11 @@
                          <div class="prof_rgt">
                             <div class="totl_viewbox">
                                <div class="hd_box">
-                                  <h6>Total Views</h6>
+                                  <h6>  {{ __('file.Total_Views') }}</h6>
                                </div>
                                <div class="custom-select">
                                   <div class="select-box">
-                                     <span class="selected">This Month</span>
+                                     <span class="selected">{{ __('file.this-month') }}</span>
                                      <i class="fa-solid fa-chevron-down"></i>
                                   </div>
                                   <div class="options">
@@ -120,7 +122,7 @@
                             <div class="profile_view">
                                <div class="prof_hd">
                                   <h6>
-                                     Profile Views
+                                    {{ __('file.profile-views') }}
                                   </h6>
                                   <div class="prof_vlu">
                                      <span class="prof_spvlu">
@@ -128,12 +130,12 @@
                                      </span>
                                   </div>
                                   <div class="vlue_compare">
-                                     Compared to (<span class="sub_vlue">-16.93%</span>)
+                                    {{ __('file.Compared_to') }} (<span class="sub_vlue">-16.93%</span>)
                                   </div>
                                </div>
                                <div class="prof_hd">
                                   <h6>
-                                     Engagement Metrics
+                                    {{ __('file.Engagement_Metrics') }}
                                   </h6>
                                   <div class="prof_vlu">
                                      <span class="prof_spvlu">
@@ -141,12 +143,12 @@
                                      </span>
                                   </div>
                                   <div class="vlue_compare">
-                                     Compared to (<span class="plse_vlue">+4.26%</span>)
+                                    {{ __('file.Compared_to') }} (<span class="plse_vlue">+4.26%</span>)
                                   </div>
                                </div>
                                <div class="prof_hd">
                                   <h6>
-                                     Conversion Tracking
+                                    {{ __('file.Conversion_Tracking') }}
                                   </h6>
                                   <div class="prof_vlu">
                                      <span class="prof_spvlu">
@@ -154,7 +156,7 @@
                                      </span>
                                   </div>
                                   <div class="vlue_compare">
-                                     Compared to (<span class="plse_vlue">+10.26%</span>)
+                                    {{ __('file.Compared_to') }} (<span class="plse_vlue">+10.26%</span>)
                                   </div>
                                </div>
                             </div>
@@ -176,7 +178,7 @@
                 <div class="recent_reviw">
                    <div class="revire_hd">
                       <h5>
-                         Recent Reviews
+                        {{ __('file.Recent_Reviews') }}
                          </h6>
                    </div>
                    <div class="review_scroll">

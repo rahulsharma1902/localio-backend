@@ -1,9 +1,11 @@
 @extends('vendor_dashboard_layout.master')
+@section('meta_title', $metaTitle)
+@section('meta_description', $metaDescription)
 @section('content')
 <div class="col-lg-9 p-0">
     <div class="user_content">
         <div class="edit-listing">
-            <h2>Edit Listing</h2>
+            <h2>{{ __('file.edit-listing') }}</h2>
             <div class="edit-boxs">
                 <div class="edit-box " style="background-color:#06498B1A; border: 0px;">
                     <div class="edit-icon">
@@ -43,7 +45,7 @@
                                 <a href="javascript:void(0)"><img src="{{asset('vender_dashboard/img/share.png')}}" alt=""></a>
                             </div>
                             <div class="edit-btn">
-                                <a href="javascript:void(0)" class="btn unq_btn">Visit Website <img
+                                <a href="javascript:void(0)" class="btn unq_btn">{{ __('file.visit_Website') }}<img
                                         src="{{asset('vender_dashboard/img/arrowdown.png')}}" alt=""></a>
                             </div>
                         </div>
@@ -68,9 +70,9 @@
                             </div>
                             <div class="feature-box">
                                 <div class="price-box">
-                                    <p>Starting Price</p>
+                                    <p>{{ __('file.Starting_Price') }}</p>
                                     <p class="price">
-                                        <span>$9</span> / Month
+                                        <span>$9</span> {{ __('file./Month') }}
                                     </p>
                                 </div>
                             </div>
@@ -78,9 +80,9 @@
                                 <div class="check-img">
                                     <img src="{{asset('vender_dashboard/img/check.png')}}" alt="">
                                 </div>
-                                <h6>Free Trial <br>
-                                    Available</h6>
-                                <a href="javascript:void(0)" class="btn blue-btn">Claim Now</a>
+                                <h6>{{ __('file.free_trail') }} <br>
+                                    {{ __('file.available') }}</h6>
+                                <a href="javascript:void(0)" class="btn blue-btn">{{ __('file.claim_Now') }}</a>
                             </div>
                         </div>
                     </div>
@@ -178,7 +180,7 @@
                     <div class="editable-content-2 editable-content-3 editable-content-l9 mt-15">
                         <div class="features">
                             <div class="feature-box">
-                                <h4>Typical Customers</h4>
+                                <h4>{{ __('file.typical_customer') }}</h4>
                                 <ul>
                                     <li>Freelancers</li>
                                     <li>Small businesses</li>
@@ -187,7 +189,7 @@
                                 </ul>
                             </div>
                             <div class="feature-box">
-                                <h4>Platforms Supported</h4>
+                                <h4>{{ __('file.Platforms_supported') }}</h4>
                                 <ul>
                                     <li>Web</li>
                                     <li>Android</li>
@@ -195,7 +197,7 @@
                                 </ul>
                             </div>
                             <div class="feature-box">
-                                <h4>Support Options</h4>
+                                <h4>{{ __('file.support_Option') }}</h4>
                                 <ul>
                                     <li>Phone Support</li>
                                     <li>Email/Help Desk</li>
@@ -206,7 +208,7 @@
                                 </ul>
                             </div>
                             <div class="feature-box">
-                                <h4>Training Options</h4>
+                                <h4>{{ __('file.training_option') }}</h4>
                                 <ul>
                                     <li>Videos</li>
                                     <li>Webinars</li>
@@ -224,15 +226,15 @@
                     <div class="editable-content-4 mt-15">
                         <div class="features">
                             <div class="feature-box">
-                                <h4>Locations</h4>
+                                <h4>{{ __('file.Location') }}</h4>
                                 <p>New York </p>
                             </div>
                             <div class="feature-box">
-                                <h4>Year Founded</h4>
+                                <h4>{{ __('file.year_founded') }}</h4>
                                 <p>2020</p>
                             </div>
                             <div class="feature-box">
-                                <h4>Languages Supported</h4>
+                                <h4>{{ __('file.language_supported') }}</h4>
                                 <div class="flag-box">
                                     <div class="flag">
                                         <img src="{{asset('vender_dashboard/img/flag1.png')}}" alt="">
@@ -249,7 +251,7 @@
                                 </div>
                             </div>
                             <div class="feature-box">
-                                <h4>Support Options</h4>
+                                <h4>{{ __('file.support_Option') }}</h4>
                                 <p>24/7 Live Chat, Email Support</p>
                             </div>
                         </div>
@@ -265,7 +267,7 @@
                                 <div class="pro-con-img">
                                     <img src="{{asset('vender_dashboard/img/pro.png')}}" alt="">
                                 </div>
-                                <h4>Pros</h4>
+                                <h4>{{ __('file.pros') }}</h4>
                                 <ul>
                                     <li>Modern user interface</li>
                                     <li>Customizable</li>
@@ -275,9 +277,9 @@
                             </div>
                             <div class="feature-box">
                                 <div class="pro-con-img">
-                                    <img src="img/cons.png" alt="">
+                                    <img src="{{asset('vender_dashboard/img/cons.png')}}" alt="">
                                 </div>
-                                <h4>Cons</h4>
+                                <h4>{{ __('file.cons') }}</h4>
                                 <ul class="cons">
                                     <li>Confusing pricing and plans</li>
                                     <li>Inconsistent and Byzantine navigation options</li>

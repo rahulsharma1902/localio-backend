@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea name="description">{{ old('description', $review->description) }}</textarea>
+                                    <textarea name="description">{{ old('description', $reviewTranslation->description) }}</textarea>
                                 </div>
                                 @error('description')
                                     <div class="error text-danger">{{ $message }}</div>

@@ -47,7 +47,6 @@
                             <th class="nk-tb-col"><span class="sub-text">Product Name</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Review Description</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Rating </span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Language Code</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Status </span></th>
                             <th class="nk-tb-col tb-tnx-action">
                                 <span>Action</span>
@@ -78,7 +77,7 @@
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
-                                            {{ strip_tags($review->description ?? '') }}
+                                            {{ strip_tags($review->translations->first()->description ?? 'No Description Available') }}
                                         </span>
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
@@ -86,13 +85,9 @@
                                             {{ $review->rating ?? '' }}
                                         </span>
                                     </td>
+
                                     <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-lead">
-                                            {{ $review->lang_code ?? '' }}
-                                        </span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        @if ($review->status == 1)
+                                        @if ($review->status === 'active')
                                             <span class=" tb-lead badge badge-success text-success">Active</span>
                                         @else
                                             <span class=" tb-lead badge badge-danger text-danger">Inactive</span>

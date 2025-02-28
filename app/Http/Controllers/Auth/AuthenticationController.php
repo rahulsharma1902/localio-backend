@@ -46,7 +46,7 @@ class AuthenticationController extends Controller
             } elseif ($user->user_type === 'user') {
                 return redirect()->route('user-dashboard',['locale' => $locale])->with('success', 'Successfully logged in!');
             } elseif ($user->user_type === 'vendor') {
-                return redirect()->route('vendor-dashboard', ['locale' => $locale])
+                return redirect()->route('vendor-overview', ['locale' => $locale])
                     ->with('success', 'Welcome, Vendor!');
             } else {
                 Auth::logout();
@@ -699,7 +699,7 @@ class AuthenticationController extends Controller
         Auth::login($user);
         $locale = app()->getLocale(); // Get the locale
 
-        return redirect()->route('vendor-dashboard', ['locale' => $locale])
+        return redirect()->route('vendor-overview', ['locale' => $locale])
             ->with('success', 'Registration successfully done');
 
         // return redirect('vendor-dashboard-layout', ['locale' => app()->getLocale()])->with('success', 'Registration successfully done');

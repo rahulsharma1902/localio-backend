@@ -44,7 +44,12 @@
                                 <div class="form-group">
                                     <label class="form-label" for="description">Business Description</label>
                                     <div class="form-control-wrap">
-                                        <textarea class="description" name="description" id="editor1" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                        <textarea id="editor1" rows="2" cols="70"></textarea>
+                                        <br>
+                                        <textarea id="editor2" rows="2" cols="70"></textarea>
+
+                                        <input type="hidden" name="description" id="final_description">
+
                                         @error('description')
                                             <div class="error text-danger">{{ $message }}</div>
                                         @enderror
@@ -212,7 +217,11 @@
                     <div class="form-group">
                         <label class="form-label" for="description">Business Overview</label>
                         <div class="form-control-wrap">
-                            <textarea class="description" name="overview" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                            <textarea id="editor3" rows="2" cols="70"></textarea>
+                            <br>
+                            <textarea id="editor4" rows="2" cols="70"></textarea>
+
+                            <input type="hidden" name="overview" id="final_overview">
                             @error('overview')
                                 <div class="error text-danger">{{ $message }}</div>
                             @enderror
@@ -270,38 +279,96 @@
     </div>
     <script>
         // add ck editor
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                toolbar: [
-                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
-                    'insertTable',
-                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
-                ],
-                image: {
-                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-                },
-                language: 'en'
-            })
-            .catch(error => {
-                console.error(error);
+        // ClassicEditor
+        //     .create(document.querySelector('#editor'), {
+        //         toolbar: [
+        //             'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
+        //             'insertTable',
+        //             'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+        //         ],
+        //         image: {
+        //             toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+        //         },
+        //         language: 'en'
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+
+        // ClassicEditor
+        //     .create(document.querySelector('#editor1'), {
+        //         toolbar: [
+        //             'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
+        //             'insertTable',
+        //             'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
+        //         ],
+        //         image: {
+        //             toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+        //         },
+        //         language: 'en'
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+
+        $(document).ready(function() {
+            let editor1Data = "",
+                editor2Data = "";
+            let overviewEditor1Data = "",
+                overviewEditor2Data = "";
+
+            // Function to initialize CKEditor
+            function initializeCKEditor(selector, callback) {
+                ClassicEditor
+                    .create($(selector)[0], {
+                        toolbar: [
+                            'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                            'imageUpload',
+                            'insertTable', 'blockQuote', 'undo', 'redo', 'alignment', 'fontSize',
+                            'fontColor', 'codeBlock'
+                        ],
+                        image: {
+                            toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
+                        },
+                        language: 'en',
+                        enterMode: 'p', // Ensures proper paragraph handling
+                        shiftEnterMode: 'br', // Shift+Enter inserts <br> instead of a new paragraph
+                        autoParagraph: true // Ensures paragraphs are auto-generated
+                    })
+                    .then(editor => {
+                        editor.model.document.on('change:data', () => {
+                            callback(editor.getData());
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            // Initialize CKEditor for Description fields
+            initializeCKEditor("#editor1", function(data) {
+                editor1Data = `<p>${data}</p>`;
             });
 
-        ClassicEditor
-            .create(document.querySelector('#editor1'), {
-                toolbar: [
-                    'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
-                    'insertTable',
-                    'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
-                ],
-                image: {
-                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-                },
-                language: 'en'
-            })
-            .catch(error => {
-                console.error(error);
+            initializeCKEditor("#editor2", function(data) {
+                editor2Data = `<p>${data}</p>`;
             });
 
+            // Initialize CKEditor for Overview fields
+            initializeCKEditor("#editor3", function(data) {
+                overviewEditor1Data = `<p>${data}</p>`;
+            });
+
+            initializeCKEditor("#editor4", function(data) {
+                overviewEditor2Data = `<p>${data}</p>`;
+            });
+
+            // Combine both descriptions & overviews before form submission
+            $("form").on("submit", function() {
+                $("#final_description").val(editor1Data + editor2Data);
+                $("#final_overview").val(overviewEditor1Data + overviewEditor2Data);
+            });
+        });
 
 
         // add data

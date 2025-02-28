@@ -445,5 +445,17 @@ foreach ($request->prices as $index => $price) {
         CategoryProduct::where('product_id',$id)->delete();
         return redirect()->back()->with('success', 'product remove successfully');
     }
+    public function deletePrice($id)
+    {
+        $price = Price::find($id);
+        if ($price) {
+            $price->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
+
 }
+
+
 // main branch code

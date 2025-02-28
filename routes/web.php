@@ -140,6 +140,8 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin-dashboard/product-edit/{id}', [AdminProductController::class, 'productEdit'])->name('product-edit');
     Route::post('/admin-dashboard/product-update-procc', [AdminProductController::class, 'productUpdateProccess'])->name('product-update-procc');
     Route::get('/admin-dashboard/remove-product/{id}', [AdminProductController::class, 'removeProduct'])->name('product-remove');
+    Route::post('/delete-price/{id}', [AdminProductController::class, 'deletePrice']);
+
 
 
     // product feture Route
@@ -246,9 +248,10 @@ Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name
 });
 
 Route::group(['prefix' => '{locale?}', 'middleware' => ['vendor']], function () {
-    Route::get('/vendor-dashboard', [HomeController::class, 'index'])
-        ->name('vendor-dashboard');
-
+    // Route::get('/vendor-dashboard', [HomeController::class, 'index'])
+    //     ->name('vendor-dashboard');
+    Route::get('/vendor-overview', [HomeController::class, 'dash'])
+    ->name('vendor-overview');
 
     Route::get('/vendor-add-new-list', [HomeController::class, 'addList'])
     ->name('vendor-add-new-list');
@@ -262,8 +265,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['vendor']], function () 
         Route::get('/vendor-campaign', [HomeController::class, 'compaign'])
         ->name('vendor-campaign');
 
-        Route::get('/vendor-overview', [HomeController::class, 'dash'])
-        ->name('vendor-overview');
+
 
     Route::get('/vendor-my-listing', [HomeController::class, 'myListing'])
     ->name('vendor-my-listing');

@@ -123,6 +123,11 @@
     padding: 5px !important;
     min-height: 30px !important;
 }
+#editor, #editor1 {
+    display: block;  /* Ensures editors are block elements */
+    margin-bottom: 20px; /* Adds space between both editors */
+}
+
     </style>
 
 </head>
@@ -333,7 +338,7 @@
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/reviews') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">Reviews</span>
+                                                class="nk-menu-link"><span class="nk-menu-text">reviews</span>
                                             </a>
                                         </li>
                                     </ul>

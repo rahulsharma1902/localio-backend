@@ -114,41 +114,46 @@
                             <div class="form-group">
                                 <h4>Product Prices</h4>
 
-                                <div class="row">
+                                <div class="row" id="price-container">
                                     @foreach ($product->prices as $price)
-                                        <!-- Hidden Input for Price ID -->
-                                        <input type="hidden" name="price_ids[]" value="{{ $price->id }}">
+                                        <div class="col-md-12 price-item" data-id="{{ $price->id }}">
+                                            <!-- Hidden Input for Price ID -->
+                                            <input type="hidden" name="price_ids[]" value="{{ $price->id }}">
 
-                                        <!-- Dropdown for Tenure Selection -->
-                                        <div class="col-md-6 mb-3">
-                                            <label>Tenure:</label>
-                                            <div class="input-group">
-                                                <select name="tenures[]" class="form-control">
-                                                    <option value="{{ $price->tenure }}" selected>
-                                                        {{ ucfirst($price->tenure) }}</option>
-                                                    <option value="Starting Price">Starting Price</option>
-                                                    <option value="Standard Price">Standard Price</option>
-                                                    <option value="Pro">Pro</option>
-                                                </select>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text"><i
-                                                            class="fas fa-chevron-down"></i></span>
+                                            <div class="row">
+                                                <!-- Dropdown for Tenure Selection -->
+                                                <div class="col-md-5 mb-3">
+                                                    <label>Tenure:</label>
+                                                    <div class="input-group">
+                                                        <select name="tenures[]" class="form-control">
+                                                            <option value="{{ $price->tenure }}" selected>
+                                                                {{ ucfirst($price->tenure) }}</option>
+                                                            <option value="Starting Price">Starting Price</option>
+                                                            <option value="Standard Price">Standard Price</option>
+                                                            <option value="Pro">Pro</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Editable Price Input -->
+                                                <div class="col-md-5 mb-3">
+                                                    <label>Price:</label>
+                                                    <input type="text" name="prices[]" value="{{ $price->price }}"
+                                                        class="form-control">
+                                                </div>
+
+                                                <!-- Delete Button -->
+                                                <div class="col-md-2 mb-3">
+                                                    <button type="button" class="btn btn-danger delete-price"
+                                                        data-id="{{ $price->id }}"> <i
+                                                            class="fas fa-trash-alt"></i></button>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Editable Price Input -->
-                                        <div class="col-md-6 mb-3">
-                                            <label>Price:</label>
-                                            <input type="text" name="prices[]" value="{{ $price->price }}"
-                                                class="form-control">
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
-
-
 
 
                         <div class="row mt-3">
@@ -386,26 +391,81 @@
             });
     </script>
     <script>
-        document.getElementById('add-price').addEventListener('click', function() {
-            let container = document.getElementById('price-container');
-            let newPrice = document.createElement('div');
-            newPrice.classList.add('input-group', 'mb-2');
-            newPrice.innerHTML = `
-                <input type="number" class="form-control" name="prices[]" placeholder="Enter Price" required>
-                <select class="form-select" name="tenures[]">
-                    <option value="monthly">Monthly</option>
-                    <option value="quarterly">Quarterly</option>
-                    <option value="yearly">Yearly</option>
-                </select>
-                <button type="button" class="btn btn-danger remove-price">X</button>
-            `;
-            container.appendChild(newPrice);
-        });
+        $(document).ready(function() {
+            // Add new price field
+            $('#add-price').on('click', function() {
+                let newPrice = `
+            <div class="row price-item">
+                <div class="col-md-5 mb-3">
+                    <label>Tenure:</label>
+                    <div class="input-group">
+                        <select name="tenures[]" class="form-control">
+                            <option value="Starting Price">Starting Price</option>
+                            <option value="Standard Price">Standard Price</option>
+                            <option value="Pro">Pro</option>
+                        </select>
+                    </div>
+                </div>
 
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-price')) {
-                e.target.parentElement.remove();
-            }
+                <div class="col-md-5 mb-3">
+                    <label>Price:</label>
+                    <input type="text" name="prices[]" class="form-control" placeholder="Enter Price" required>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <button type="button" class="btn btn-danger remove-price">X</button>
+                </div>
+            </div>
+        `;
+                $('#price-container').append(newPrice);
+            });
+
+            // Remove new price fields dynamically
+            $(document).on('click', '.remove-price', function() {
+                $(this).closest('.price-item').remove();
+            });
+
+            $(document).on('click', '.delete-price', function() {
+                let priceId = $(this).data('id');
+                let priceItem = $(this).closest('.price-item');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/delete-price/' +
+                            priceId, // Adjust the route as per your backend
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}' // Laravel CSRF protection
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    priceItem.remove(); // Remove item from DOM
+                                    Swal.fire("Deleted!", "The price has been removed.",
+                                        "success");
+                                } else {
+                                    Swal.fire("Failed!", "Failed to delete the price.",
+                                        "error");
+                                }
+                            },
+                            error: function() {
+                                Swal.fire("Error!",
+                                    "An error occurred while deleting the price.",
+                                    "error");
+                            }
+                        });
+                    }
+                });
+            });
+
         });
     </script>
 @endsection

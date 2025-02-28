@@ -1,4 +1,8 @@
 @extends('user_dashboard_layout.master')
+
+
+@section('meta_title', $metaTitle)
+@section('meta_description', $metaDescription)
 @section('content')
     <div class="col-lg-9 p-0">
         <div class="user_content">
@@ -194,7 +198,7 @@
             </div>
         </div>
         <script>
-              
+
             function removeProduct(id, element) {
                 let locale = window.location.pathname.split('/')[1]; // Get locale dynamically
                 let url = `/${locale}/wishlist/${id}`;
