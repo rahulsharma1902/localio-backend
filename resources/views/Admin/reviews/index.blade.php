@@ -105,7 +105,7 @@
                                                         data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <ul class="link-list-opt no-bdr">
-                                                            @if ($review->status == 1)
+                                                            @if ($review->status === 'active')
                                                                 <li><a
                                                                         href="{{ url('admin-dashboard/review-status-update') ?? '' }}/{{ $review->id ?? '' }}"><em
                                                                             class="icon ni ni-edit-fill"></em><span>Inactive</span></a>
