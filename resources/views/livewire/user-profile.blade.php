@@ -80,6 +80,7 @@
                     </form>
                 </div>
             </div>
+        </div>
             <div class="profile-main deactivate-accnt">
                 <h6>Deactivate</h6>
                 <p>Deactivating your account will disable your profile and remove your name from any content you've
