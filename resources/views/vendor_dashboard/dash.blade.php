@@ -105,7 +105,7 @@
                          <div class="prof_rgt">
                             <div class="totl_viewbox">
                                <div class="hd_box">
-                                  <h6>  {{ __('file.Total Views') }}</h6>
+                                  <h6>  {{ __('file.Total_Views') }}</h6>
                                </div>
                                <div class="custom-select">
                                   <div class="select-box">
@@ -130,12 +130,12 @@
                                      </span>
                                   </div>
                                   <div class="vlue_compare">
-                                    {{ __('file.Compared to') }} (<span class="sub_vlue">-16.93%</span>)
+                                    {{ __('file.Compared_to') }} (<span class="sub_vlue">-16.93%</span>)
                                   </div>
                                </div>
                                <div class="prof_hd">
                                   <h6>
-                                    {{ __('file.Engagement Metrics') }}
+                                    {{ __('file.Engagement_Metrics') }}
                                   </h6>
                                   <div class="prof_vlu">
                                      <span class="prof_spvlu">
@@ -143,12 +143,12 @@
                                      </span>
                                   </div>
                                   <div class="vlue_compare">
-                                    {{ __('file.Compared to') }} (<span class="plse_vlue">+4.26%</span>)
+                                    {{ __('file.Compared_to') }} (<span class="plse_vlue">+4.26%</span>)
                                   </div>
                                </div>
                                <div class="prof_hd">
                                   <h6>
-                                    {{ __('file.Conversion Tracking') }}
+                                    {{ __('file.Conversion_Tracking') }}
                                   </h6>
                                   <div class="prof_vlu">
                                      <span class="prof_spvlu">
@@ -156,7 +156,7 @@
                                      </span>
                                   </div>
                                   <div class="vlue_compare">
-                                    {{ __('file.Compared to') }} (<span class="plse_vlue">+10.26%</span>)
+                                    {{ __('file.Compared_to') }} (<span class="plse_vlue">+10.26%</span>)
                                   </div>
                                </div>
                             </div>
@@ -178,7 +178,7 @@
                 <div class="recent_reviw">
                    <div class="revire_hd">
                       <h5>
-                        {{ __('file.Recent Reviews') }}
+                        {{ __('file.Recent_Reviews') }}
                          </h6>
                    </div>
                    <div class="review_scroll">

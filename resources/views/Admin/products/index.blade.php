@@ -47,7 +47,7 @@
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Description</span></th>
+                            {{-- <th class="nk-tb-col"><span class="sub-text">Description</span></th> --}}
                             <th class="nk-tb-col"><span class="sub-text">Product Category</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Icon</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Product Image</span></th>
@@ -71,11 +71,11 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="nk-tb-col tb-col-mb">
+                                    {{-- <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
                                             {!! $product['description'] !!}
                                         </span>
-                                    </td>
+                                    </td> --}}
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-lead">
                                             @if (isset($product['categories']))

@@ -45,7 +45,7 @@
                                 <a href="javascript:void(0)"><img src="{{asset('vender_dashboard/img/share.png')}}" alt=""></a>
                             </div>
                             <div class="edit-btn">
-                                <a href="javascript:void(0)" class="btn unq_btn">{{ __('file.visit Website') }}<img
+                                <a href="javascript:void(0)" class="btn unq_btn">{{ __('file.visit_Website') }}<img
                                         src="{{asset('vender_dashboard/img/arrowdown.png')}}" alt=""></a>
                             </div>
                         </div>
@@ -70,9 +70,9 @@
                             </div>
                             <div class="feature-box">
                                 <div class="price-box">
-                                    <p>{{ __('file.Starting Price') }}</p>
+                                    <p>{{ __('file.Starting_Price') }}</p>
                                     <p class="price">
-                                        <span>$9</span> {{ __('file./ Month') }}
+                                        <span>$9</span> {{ __('file./Month') }}
                                     </p>
                                 </div>
                             </div>
@@ -80,9 +80,9 @@
                                 <div class="check-img">
                                     <img src="{{asset('vender_dashboard/img/check.png')}}" alt="">
                                 </div>
-                                <h6>{{ __('file.free trail') }} <br>
+                                <h6>{{ __('file.free_trail') }} <br>
                                     {{ __('file.available') }}</h6>
-                                <a href="javascript:void(0)" class="btn blue-btn">{{ __('file.claim Now') }}</a>
+                                <a href="javascript:void(0)" class="btn blue-btn">{{ __('file.claim_Now') }}</a>
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                     <div class="editable-content-2 editable-content-3 editable-content-l9 mt-15">
                         <div class="features">
                             <div class="feature-box">
-                                <h4>{{ __('file.typical customer') }}</h4>
+                                <h4>{{ __('file.typical_customer') }}</h4>
                                 <ul>
                                     <li>Freelancers</li>
                                     <li>Small businesses</li>
@@ -189,7 +189,7 @@
                                 </ul>
                             </div>
                             <div class="feature-box">
-                                <h4>{{ __('file.Platforms supported') }}</h4>
+                                <h4>{{ __('file.Platforms_supported') }}</h4>
                                 <ul>
                                     <li>Web</li>
                                     <li>Android</li>
@@ -197,7 +197,7 @@
                                 </ul>
                             </div>
                             <div class="feature-box">
-                                <h4>{{ __('file.support Option') }}</h4>
+                                <h4>{{ __('file.support_Option') }}</h4>
                                 <ul>
                                     <li>Phone Support</li>
                                     <li>Email/Help Desk</li>
@@ -208,7 +208,7 @@
                                 </ul>
                             </div>
                             <div class="feature-box">
-                                <h4>{{ __('file.training option') }}</h4>
+                                <h4>{{ __('file.training_option') }}</h4>
                                 <ul>
                                     <li>Videos</li>
                                     <li>Webinars</li>
@@ -230,11 +230,11 @@
                                 <p>New York </p>
                             </div>
                             <div class="feature-box">
-                                <h4>{{ __('file.year founded') }}</h4>
+                                <h4>{{ __('file.year_founded') }}</h4>
                                 <p>2020</p>
                             </div>
                             <div class="feature-box">
-                                <h4>{{ __('file.language supported') }}</h4>
+                                <h4>{{ __('file.language_supported') }}</h4>
                                 <div class="flag-box">
                                     <div class="flag">
                                         <img src="{{asset('vender_dashboard/img/flag1.png')}}" alt="">
@@ -251,7 +251,7 @@
                                 </div>
                             </div>
                             <div class="feature-box">
-                                <h4>{{ __('file.support Option') }}</h4>
+                                <h4>{{ __('file.support_Option') }}</h4>
                                 <p>24/7 Live Chat, Email Support</p>
                             </div>
                         </div>
