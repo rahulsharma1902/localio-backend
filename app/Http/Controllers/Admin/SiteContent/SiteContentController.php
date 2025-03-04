@@ -104,6 +104,8 @@ class SiteContentController extends Controller
             'meta_vendor_description',
             'meta_overview_title',
             'meta_overview_description',
+            'meta_profile_title',
+            'meta_profile_description',
             'meta_add_new_list_title',
             'meta_add_new_list_description',
             'meta_edit_title',

@@ -26,7 +26,35 @@
    <link rel="stylesheet" href="{{asset('vender_dashboard/css/21feb.css')}}" />
    <link rel="stylesheet" href="{{asset('vender_dashboard/Basis Grotesque Pro/stylesheet.css')}}">
    <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
+   @livewireStyles
+   <style>
+   .profile-circle {
+    max-width: 58px;
+    height: 69px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+      .profile-img {
+        width: 107px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+    }
 
+    .profile-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
 </head>
 
 <body>
@@ -263,7 +291,11 @@
                   </div>
                   <div class="user_img drop_menu">
                      <div class="usr_profile">
-                        <img src="{{asset('vender_dashboard/img/usr_img.png')}}" class="img-fluid">
+                        @if(Auth::user()->profile_image)
+                        <img src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}" class="img-fluid profile-circle">
+                    @else
+                        <img src="{{ asset('user-dashboard-theme/img/usr_img.png') }}" class="img-fluid">
+                    @endif
                      </div>
                      <div class="dropdown-menu dropdown-menu-right" style="margin-right: 20px;">
                         <div class="dropdown-main ">
@@ -280,6 +312,9 @@
                               <a class="dropdown-item" href="{{ route('vendor-overview', ['locale' => app()->getLocale()]) }}"><i class="fa fa-user"></i>{{ __('file.dashboard') }}
                               </a>
                            </div>
+                           <div class="dash-icon">
+                            <a class="dropdown-item" href="{{route('vendor-profile', ['locale' => app()->getLocale()])}}"><i class="fa fa-user"></i>My Profile</a>
+                         </div>
                            <div class="dash-icon">
                               <a class="dropdown-item" href="#"><i class="fa fa-cog"></i>{{ __('file.Configuration') }}
                               </a>
@@ -312,7 +347,7 @@
                <div class="left-text">
                   <ul class="list-unstyled dash-tab mb-0" id="menu">
                      <li class="nav-links">
-                        <a href="{{ route('vendor-overview', ['locale' => app()->getLocale()]) }}" class="nav-link active">
+                        <a href="{{ route('vendor-overview', ['locale' => app()->getLocale()]) }}" class="nav-link ">
                            <div class="side-links">
                               <span class="icons-links">
                                  <img src="{{asset('vender_dashboard/img/my_account.svg')}}" alt="">
@@ -369,7 +404,7 @@
                         </a>
                         <ul class="sublist">
                            <li class="sublist_li">
-                              <a class="sublist_inside" href="#">{{ __('file.profile') }}
+                              <a class="sublist_inside" href="{{route('vendor-profile', ['locale' => app()->getLocale()])}}">{{ __('file.profile') }}
                               </a>
                            </li>
                            <li class="sublist_li">
@@ -473,6 +508,7 @@
             </div>
          </div>
          @yield('content')
+         @livewireScripts
       </div>
    </section>
    <footer class="ds_ftr">
@@ -507,6 +543,37 @@
    <script>
       AOS.init();
    </script>
+
+<script>
+    $(document).ready(function () {
+        // Get all sidebar nav-links
+        let navLinks = $(".nav-links a");
+
+        // Get stored active link from localStorage
+        let activePage = localStorage.getItem("activePage");
+
+        // Loop through all nav-links and check for active
+        navLinks.each(function () {
+            if ($(this).attr("href") === activePage) {
+                $(this).addClass("active"); // Add active class to the stored link
+            }
+        });
+
+        // Add click event listener to each link
+        navLinks.on("click", function () {
+            // Remove active class from all links
+            navLinks.removeClass("active");
+
+            // Add active class to the clicked link
+            $(this).addClass("active");
+
+            // Store active link in localStorage
+            localStorage.setItem("activePage", $(this).attr("href"));
+        });
+    });
+</script>
+
+
 </body>
 
 </html>

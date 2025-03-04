@@ -21,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
         // $languages = getLanguages();
         // View::share('languages', $languages);
         ini_set('max_execution_time', 120);
-
+        ini_set('upload_max_filesize', '100M');
+        ini_set('post_max_size', '120M');
+        ini_set('max_execution_time', '300');
+        ini_set('memory_limit', '512M');
     }
 }

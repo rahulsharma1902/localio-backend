@@ -14,7 +14,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="description" content="<?= htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8'); ?>">
+        <meta name="description" content="<?= htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8') ?>">
 
 
 
@@ -48,7 +48,7 @@
         <!-- SweetAlert2 JS -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
         <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
-        <title><?= htmlspecialchars($metaTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+        <title><?= htmlspecialchars($metaTitle, ENT_QUOTES, 'UTF-8') ?></title>
 
 
     </head>
@@ -224,6 +224,7 @@
                         </nav>
                     </div>
                 </div>
+
             </section>
         </header>
         @yield('content')
@@ -261,7 +262,7 @@
                                         <li><a
                                                 href="{{ route('top-rated-product', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['top_rated_product'] ??
                                                     'Top-Rated Products
-                                                                                                                                                                                                                                                ' }}
+                                                                                                                                                                                                                                                                                                ' }}
                                             </a>
                                         </li>
                                         <li><a
@@ -275,12 +276,12 @@
                                         <li><a
                                                 href="{{ route('who-we-are', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['who_we_are'] ??
                                                     'Who We Are
-                                                                                                                                                                                                                                                ' }}</a>
+                                                                                                                                                                                                                                                                                                ' }}</a>
                                         </li>
                                         <li><a
                                                 href="{{ route('privacy-policy', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['privacy_policy'] ??
                                                     'Privacy Policy
-                                                                                                                                                                                                                                                ' }}</a>
+                                                                                                                                                                                                                                                                                                ' }}</a>
                                         </li>
                                         <li><a
                                                 href="{{ route('terms-condition', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['terms_and_conditions'] ?? 'Terms & Conditions' }}</a>
@@ -293,7 +294,7 @@
                                         <li><a
                                                 href="{{ route('vendor-get-listed', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['get_listed'] ??
                                                     'Get Listed
-                                                                                                                                                                                                                                                ' }}</a>
+                                                                                                                                                                                                                                                                                                ' }}</a>
                                         </li>
                                         <li><a
                                                 href="{{ route('login', ['locale' => session('lang_code', 'en-us')]) }}">{{ $footerContents['vendor_login'] ?? 'Vendor Login' }}</a>
@@ -480,7 +481,7 @@
                     icon: 'error',
                     title: 'Oops...',
                     text: '{{ Session::get('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        error ') }}',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            error ') }}',
                     position: 'top-right',
                     toast: true,
                     showConfirmButton: false,
@@ -501,6 +502,33 @@
                 }
             });
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Select the dropdown toggle button
+                let dropdownToggle = document.querySelector(".dropdown_toggle");
+                let dropdownMenu = document.querySelector(".dropdown_menu");
+
+                if (dropdownToggle && dropdownMenu) {
+                    dropdownToggle.addEventListener("click", function(event) {
+                        event.preventDefault(); // Prevent default link action
+
+                        // Toggle the dropdown menu visibility
+                        if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+                            dropdownMenu.style.display = "block"; // Show dropdown
+                        } else {
+                            dropdownMenu.style.display = "none"; // Hide dropdown
+                        }
+                    });
+                }
+            });
+//             $(document).ready(function(){
+//     $(".cat_menu").click(function(event){
+//         event.preventDefault();
+//         $(".dropdown_menu").toggle();
+//     });
+// });
+        </script>
+
     </body>
 
     </html>

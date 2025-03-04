@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\FeatureTransalte;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Media;
+use App\Models\VideoMedia;
 
 class Product extends Model
 {
@@ -61,5 +62,6 @@ class Product extends Model
     {
         return $this->hasMany(Price::class);
     }
+
 
 }

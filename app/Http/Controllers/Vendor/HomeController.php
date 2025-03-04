@@ -15,6 +15,14 @@ class HomeController extends Controller
 
         return view('Vendor.vendor_get_listed');
     }
+    public function vendorProfile()
+    {
+        $metaTitleKey = "meta_Profile_title";
+        $metaDescriptionKey = "meta_Profile_description";
+        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
+        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
+        return view('vendor_dashboard.vendor_profile', compact('metaTitle', 'metaDescription'));
+    }
     // public function index()
     // {
     //     return view('vendor_dashboard_layout.master');

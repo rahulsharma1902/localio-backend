@@ -285,6 +285,7 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['vendor']], function () 
 
     Route::get('/vendor-edit-list', [HomeController::class, 'editList'])
     ->name('vendor-edit-list');
+    Route::get('/vendor-profile', [HomeController::class, 'vendorProfile'])->name('vendor-profile');
 });
 
 

@@ -26,21 +26,30 @@
       <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
       @livewireStyles
       <style>
+        .profile-circle {
+    max-width: 60px;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
       .profile-img {
-        width: 120px; /* Set the width of the container */
-        height: 120px; /* Set the height of the container */
-        border-radius: 50%; /* Make it circular */
-        overflow: hidden; /* Ensure the image stays within the circle */
-        border: 3px solid #ddd; /* Optional: Add a border */
+        max-width: 100%;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #ddd;
         display: flex;
         align-items: center;
         justify-content: center;
+        vertical-align: middle;
     }
 
     .profile-img img {
-        width: 100%; /* Make sure the image covers the div */
+        width: 100%;
         height: 100%;
-        object-fit: cover; /* Ensures the image fits well in the circle */
+        object-fit: cover;
         border-radius: 50%;
     }
 </style>
@@ -283,7 +292,11 @@
                      </div>
                      <div class="user_img drop_menu">
                         <div class="usr_profile">
-                           <img src="{{asset('user-dashboard-theme/img/usr_img.png')}}" class="img-fluid">
+                            @if(Auth::user()->profile_image)
+                            <img src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}" class="img-fluid profile-circle">
+                        @else
+                            <img src="{{ asset('user-dashboard-theme/img/usr_img.png') }}" class="img-fluid">
+                        @endif
                         </div>
                         <div class="dropdown-menu dropdown-menu-right" style="margin-right: 20px;">
                            <div class="dropdown-main ">
@@ -413,5 +426,35 @@
       <script>
          AOS.init();
       </script>
+
+  <script>
+      $(document).ready(function () {
+          // Get all sidebar nav-links
+          let navLinks = $(".nav-links a");
+
+          // Get stored active link from localStorage
+          let activePage = localStorage.getItem("activePage");
+
+          // Loop through all nav-links and check for active
+          navLinks.each(function () {
+              if ($(this).attr("href") === activePage) {
+                  $(this).addClass("active"); // Add active class to the stored link
+              }
+          });
+
+          // Add click event listener to each link
+          navLinks.on("click", function () {
+              // Remove active class from all links
+              navLinks.removeClass("active");
+
+              // Add active class to the clicked link
+              $(this).addClass("active");
+
+              // Store active link in localStorage
+              localStorage.setItem("activePage", $(this).attr("href"));
+          });
+      });
+  </script>
+
    </body>
 </html>
