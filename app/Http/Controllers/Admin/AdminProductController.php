@@ -75,13 +75,12 @@ class AdminProductController extends Controller
             'tenures.*' => 'required|string',
             'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
-            'product_video' => 'required|file|mimes:mp4,mov,avi,wmv|max:102400', // 100MB
             'product_link' => 'required|url',
             'pros_data' => 'array',
             'conse_data' => 'array',
             'product_feature' => 'required|array'
         ]);
-        dd($request->all(), $request->validate());
+    
         if (!$language) {
             return redirect()->back()->with('error', 'Current language not found');
         }
