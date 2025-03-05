@@ -15,10 +15,24 @@
                     @csrf
                     <input type="hidden" name="id" value="{{ $siteLanguage->id }}" id="id">
                     <div class="row g-gs">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="country">Country</label>
+                                <sup>
+                                    @error('country')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </sup>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="country" name="country"
+                                        value="{{ old('country', $siteLanguage->country) }}" />
+                                </div>
+                            </div>
+                        </div>
                         <!-- Name Field -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="name">Name</label>
+                                <label class="form-label" for="name">Language</label>
                                 <sup>
                                     @error('name')
                                         <div class="error text-danger">{{ $message }}</div>
@@ -53,7 +67,7 @@
 
 
                         <!-- Country Selection -->
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Country</label>
                                 <sup>
@@ -73,7 +87,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Submit Button -->
                         <div class="col-md-12">

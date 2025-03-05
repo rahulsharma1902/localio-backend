@@ -65,15 +65,22 @@
                                 <td class="nk-tb-col tb-col-mb">
                                     <span class="tb-amount">{{ $siteLanguage->lang_code ?? '' }}</span>
                                 </td>
-
                                 <td class="nk-tb-col tb-col-md">
+                                    @if ($siteLanguage->primary == 1)
+                                        <span class="tb-amount"><i class="fas fa-globe-asia"></i></span>
+                                    @else
+                                        <span class="tb-amount">{{ $siteLanguage->country ?? '' }}</span>
+                                    @endif
+
+                                </td>
+                                <!-- <td class="nk-tb-col tb-col-md">
                                     @if ($siteLanguage->primary == 1)
                                         <span class="tb-amount"><i class="fas fa-globe-asia"></i></span>
                                     @else
                                         <span class="tb-amount">{{ $siteLanguage->country->name ?? '' }}</span>
                                     @endif
 
-                                </td>
+                                </td> -->
                                 <!-- <td class="nk-tb-col tb-col-md">
                                                                                                     <span class="tb-amount">{{ $siteLanguage->status ?? '' }}</span>
                                                                                                 </td> -->
