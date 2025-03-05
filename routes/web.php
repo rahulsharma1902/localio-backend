@@ -142,6 +142,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin-dashboard/remove-product/{id}', [AdminProductController::class, 'removeProduct'])->name('product-remove');
     Route::post('/delete-price/{id}', [AdminProductController::class, 'deletePrice']);
 
+    Route::post('/fetch-filters', [AdminProductController::class, 'fetchFilters'])->name('fetch.filters');
 
 
     // product feture Route

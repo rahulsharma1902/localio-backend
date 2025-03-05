@@ -73,7 +73,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="product-category">Business Category</label>
-                                        <select class="form-control product-category" name="product_category[]"
+                                        <select class="form-control product-category" id="product-category" name="product_category[]"
                                             multiple="multiple">
                                             @if ($categories->isNotEmpty())
                                                 @foreach ($categories as $category)
@@ -130,6 +130,9 @@
                             @endif
 
                         </div>
+                        <div id="filter-options">
+                        </div>
+
                         <div id="selected-category-ids-container"></div>
                         <div id="selected-categories"></div>
                         <br>
@@ -153,130 +156,128 @@
                             </div>
                         </div>
 
+                        </div>
+
+
+                        <!-- Product Icon (File Input) -->
+
+                        <div class="row mt-3">
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-icon">Business Icon</label>
+                                    @if (!isset($product) || $lang == 'en-us')
+                                        <input type="file" class="form-control" name="product_icon" id="product-icon">
+                                    @endif
+                                    @if (isset($product))
+                                        <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
+                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                                    @endif
+                                </div>
+                                @error('product_icon')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Product Image -->
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-image">Business Image</label>
+                                    @if (!isset($product) || $lang == 'en-us')
+                                        <input type="file" class="form-control" name="product_image" id="product-image">
+                                    @endif
+                                    @if (isset($product))
+                                        <img src="{{ asset('ProductImage/' . $product->product_image) }}"
+                                            alt="{{ $product->name }}" style="width: 50px; height: auto;">
+                                    @endif
+                                </div>
+                                @error('product_image')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- Product Link -->
+                        <div class="row mt-3">
+
+
+
+                            <div class="col-md-6 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-category">Business Feature</label>
+                                    <select class="form-control product-feature" name="product_feature[]" multiple="multiple">
+                                        @foreach ($product_feature as $key => $item)
+                                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        {{-- overview data --}}
+                        <div class="col-md-12 mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="description">Business Overview</label>
+                                <div class="form-control-wrap">
+                                    <textarea id="editor3" rows="2" cols="70"></textarea>
+                                    <br>
+                                    <textarea id="editor4" rows="2" cols="70"></textarea>
+
+                                    <input type="hidden" name="overview" id="final_overview">
+                                    @error('overview')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{-- add cons and pross --}}
+                        <div class="col-md-12 mt-4">
+                            <div class="card border">
+                                <div class="card-header d-flex justify-content-between">
+                                    <h4>
+                                        Add Pros Data
+                                    </h4>
+                                    <p class="btn btn-success" id="prose-option">Add data</button>
+                                </div>
+                                <div class="card-body prose-body">
+
+                                    {{-- prose add --}}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 mt-4">
+                            <div class="card border">
+                                <div class="card-header d-flex justify-content-between">
+                                    <h4>
+                                        Add Cons Data
+                                    </h4>
+                                    <p class="btn btn-success" id="conse-option">Add data</button>
+                                </div>
+                                <div class="card-body conse-data">
+
+                                    {{-- conse add --}}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group">
+                                <button class="addCategory btn btn-primary text-center btn-localio"><em
+                                        class=""></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
+                            </div>
+                        </div>
+
+
+                    </form>
                 </div>
-
-
-                <!-- Product Icon (File Input) -->
-
-                <div class="row mt-3">
-                    <div class="col-md-6 mt-3">
-                        <div class="form-group">
-                            <label class="form-label" for="product-icon">Business Icon</label>
-                            @if (!isset($product) || $lang == 'en-us')
-                                <input type="file" class="form-control" name="product_icon" id="product-icon">
-                            @endif
-                            @if (isset($product))
-                                <img src="{{ asset('ProductIcon/' . $product->product_icon) }}"
-                                    alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                            @endif
-                        </div>
-                        @error('product_icon')
-                            <div class="error text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Product Image -->
-                    <div class="col-md-6 mt-3">
-                        <div class="form-group">
-                            <label class="form-label" for="product-image">Business Image</label>
-                            @if (!isset($product) || $lang == 'en-us')
-                                <input type="file" class="form-control" name="product_image" id="product-image">
-                            @endif
-                            @if (isset($product))
-                                <img src="{{ asset('ProductImage/' . $product->product_image) }}"
-                                    alt="{{ $product->name }}" style="width: 50px; height: auto;">
-                            @endif
-                        </div>
-                        @error('product_image')
-                            <div class="error text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-        
-                </div>
-
-                <!-- Product Link -->
-                <div class="row mt-3">
-
-
-
-                    <div class="col-md-6 mt-3">
-                        <div class="form-group">
-                            <label class="form-label" for="product-category">Business Feature</label>
-                            <select class="form-control product-feature" name="product_feature[]" multiple="multiple">
-                                @foreach ($product_feature as $key => $item)
-                                    <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                {{-- overview data --}}
-                <div class="col-md-12 mt-3">
-                    <div class="form-group">
-                        <label class="form-label" for="description">Business Overview</label>
-                        <div class="form-control-wrap">
-                            <textarea id="editor3" rows="2" cols="70"></textarea>
-                            <br>
-                            <textarea id="editor4" rows="2" cols="70"></textarea>
-
-                            <input type="hidden" name="overview" id="final_overview">
-                            @error('overview')
-                                <div class="error text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-
-                {{-- add cons and pross --}}
-                <div class="col-md-12 mt-4">
-                    <div class="card border">
-                        <div class="card-header d-flex justify-content-between">
-                            <h4>
-                                Add Pros Data
-                            </h4>
-                            <p class="btn btn-success" id="prose-option">Add data</button>
-                        </div>
-                        <div class="card-body prose-body">
-
-                            {{-- prose add --}}
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-12 mt-4">
-                    <div class="card border">
-                        <div class="card-header d-flex justify-content-between">
-                            <h4>
-                                Add Cons Data
-                            </h4>
-                            <p class="btn btn-success" id="conse-option">Add data</button>
-                        </div>
-                        <div class="card-body conse-data">
-
-                            {{-- conse add --}}
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="col-md-12 mt-4">
-                    <div class="form-group">
-                        <button class="addCategory btn btn-primary text-center btn-localio"><em
-                                class=""></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
-                    </div>
-                </div>
-
-
-                </form>
             </div>
         </div>
-    </div>
     </div>
     <script>
         // add ck editor
@@ -450,4 +451,57 @@
             }
         });
     </script>
+    <script>
+    $(document).ready(function () {
+        $('.product-category').select2();
+
+        $('#product-category').on('change', function () {
+            let selectedCategories = $(this).val(); 
+            console.log("Selected Categories:", selectedCategories);
+            
+            if (selectedCategories.length > 0) {
+                $.ajax({
+                    url: "{{ route('fetch.filters') }}", 
+                    type: "POST",
+                    data: {
+                        categories: selectedCategories,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        console.log("Filters Response:", response); 
+
+                        $('#filter-options').html("");
+
+                        if (response.length > 0) {
+                            response.forEach(filter => {
+                                let filterHtml = `
+                                    <div class="filter-group">
+                                        <h4>${filter.name}</h4>
+                                        <ul>
+                                `;
+
+                                filter.options.forEach(option => {
+                                    filterHtml += `<li>${option.name}</li>`;
+                                });
+
+                                filterHtml += `</ul></div>`;
+
+                                $('#filter-options').append(filterHtml);
+                            });
+                        } else {
+                            $('#filter-options').html("<p>No filters available.</p>");
+                        }
+                    },
+                    error: function () {
+                        console.log("Error fetching filters.");
+                    }
+                });
+            } else {
+                $('#filter-options').html(""); // Clear filters if no category is selected
+            }
+        });
+    });
+
+</script>
+
 @endsection

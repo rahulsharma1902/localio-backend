@@ -17,7 +17,21 @@
                         <!-- Name Field -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="name">Name</label>
+                                <label class="form-label" for="country">Country</label>
+                                <sup>
+                                    @error('country')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </sup>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="country" name="country"
+                                        value="{{ old('country') }}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Language</label>
                                 <sup>
                                     @error('name')
                                         <div class="error text-danger">{{ $message }}</div>
@@ -49,20 +63,20 @@
                         <!-- handle Field -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="handle">Handle Name</label>
+                                <label class="form-label" for="lang_code">Lang code</label>
                                 <sup>
-                                    @error('handle')
+                                    @error('lang_code')
                                         <div class="error text-danger">{{ $message }}</div>
                                     @enderror
                                 </sup>
                                 <div class="form-control-wrap">
-                                    <input type="text" class="form-control" id="handle" name="handle"
-                                        value="{{ old('handle') }}" />
+                                    <input type="text" class="form-control" id="lang_code" name="lang_code"
+                                        value="{{ old('lang_code') }}" />
                                 </div>
                             </div>
                         </div>
                         <!-- Country Selection -->
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Country</label>
                                 <sup>
@@ -84,8 +98,8 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-
+                        </div> -->
+                        
                         <!-- Submit Button -->
                         <div class="col-md-12">
                             <div class="form-group">

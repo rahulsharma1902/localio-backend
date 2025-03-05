@@ -26,21 +26,24 @@ class SiteLanguagesController extends Controller
     public function addProcc(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:languages,name',
-            'lang_code' => 'required|alpha_dash|unique:languages,lang_code',
-            'country_id' => 'required|exists:countries,id',
+            // 'name' => 'required|unique:languages,name|string|max:255',
+            'name' => 'required|string|max:255',
+            'lang_code' => 'required|alpha_dash|unique:languages,lang_code|string|max:255',
+            // 'country_id' => 'required|exists:countries,id',
+            'country' => 'required|string|max:255',
         ]);
-        $is_valid = website_translator('translate this content',$request->lang_code);
-        if($is_valid != false && $is_valid != 0 && $is_valid != null) {
+        // $is_valid = website_translator('translate this content',$request->lang_code);
+        // if($is_valid != false && $is_valid != 0 && $is_valid != null) {
             $siteLanguage = new Language;
             $siteLanguage->name = $request->name;
             $siteLanguage->lang_code = $request->lang_code;
-            $siteLanguage->country_id = $request->country_id;
+            $siteLanguage->country = $request->country;
+            // $siteLanguage->country_id = $request->country_id;
             $siteLanguage->save();
             return redirect()->back()->with('success', 'Site Language updated successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Incorrect language code');
-        }
+        // } else {
+        //     return redirect()->back()->with('error', 'Incorrect language code');
+        // }
 
         return redirect()->back()->with('success', 'Site Language added successfully.');
     }
@@ -54,27 +57,35 @@ class SiteLanguagesController extends Controller
     }
     public function updateProcc(Request $request)
     {
+        $id = $request->id ?? $request->route('id') ?? 'NULL';
         $request->validate([
-            'name' => 'required|unique:languages,name,' . $request->id,
-            'lang_code' => 'required|alpha_dash|unique:languages,lang_code,' . $request->id,
-            'country_id' => 'required|exists:countries,id',
+            // 'name' => 'required|string|unique:languages,name,' . ($id ?? 'NULL') . ',id',
+            'name' => 'required|string|max:255',
+            // 'name' => 'required|unique:languages,name,' . ($id ?? 'NULL') . ',id',
+            'lang_code' => 'required|unique:languages,lang_code,' . ($id ?? 'NULL') . ',id',
+            'country' => 'required|string|max:255',
         ]);
-        try {
-            $is_valid = website_translator('translate this content',$request->lang_code);
-            if($is_valid != false && $is_valid != 0 && $is_valid != null) {
+       
+        
+        //       print_r($request->all());
+        // die();  
+        // try {
+            // $is_valid = website_translator('translate this content',$request->lang_code);
+            // if($is_valid != false && $is_valid != 0 && $is_valid != null) {
                 $siteLanguage = Language::findOrFail($request->id);
                 $siteLanguage->name = $request->name;
                 $siteLanguage->lang_code = $request->lang_code;
-                $siteLanguage->country_id = $request->country_id;
+                $siteLanguage->country = $request->country;
+                // $siteLanguage->country_id = $request->country_id;
                 $siteLanguage->save();
                 return redirect('/admin-dashboard/site-languages')->with('success', 'Site Language updated successfully.');
-            } else {
-                return redirect()->back()->with('error', 'Incorrect language code');
-            }
-            
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->back()->with('error', 'Language not found.');
-        }
+            // } else {
+            //     return redirect()->back()->with('error', 'Incorrect language code');
+            // }
+                
+            // } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            //     return redirect()->back()->with('error', 'Language not found.');
+            // }
     }
 
 

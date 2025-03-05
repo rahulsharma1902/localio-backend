@@ -11,6 +11,9 @@ class CountrySeeder extends Seeder
 {
     public function run()
     {
+        // Truncate the table to remove existing data and reset auto-increment
+        DB::table('countries')->truncate();
+
         // Path to the countries CSV file
         $csvPath = database_path('csv/countries.csv');
 
@@ -20,12 +23,12 @@ class CountrySeeder extends Seeder
 
         foreach ($csv as $row) {
             DB::table('countries')->insert([
-                'country_code' => $row['country_code'] ?? null,        // Ensure 'iso' is in your CSV
-                'name' => $row['name'] ?? null,      // Ensure 'name' is in your CSV
-                // 'iso3' => $row['iso3'] ?? null, // iso3 is nullable
-                // 'phonecode' => $row['dial'] ?? null, // Ensure 'dial' is in your CSV
-                // 'currency' => $row['currency'] ?? null, // Ensure 'currency' is in your CSV
-                // 'currency_name' => $row['currency_name'] ?? null // Ensure 'currency' is in your CSV
+                'country_code' => $row['country_code'] ?? null,  // Ensure 'country_code' exists in CSV
+                'name' => $row['name'] ?? null,  // Ensure 'name' exists in CSV
+                // 'iso3' => $row['iso3'] ?? null, // Uncomment if needed
+                // 'phonecode' => $row['dial'] ?? null, // Uncomment if needed
+                // 'currency' => $row['currency'] ?? null, // Uncomment if needed
+                // 'currency_name' => $row['currency_name'] ?? null // Uncomment if needed
             ]);
         }
     }
