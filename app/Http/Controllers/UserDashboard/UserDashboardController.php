@@ -14,22 +14,12 @@ use Illuminate\Support\Str;
 class UserDashboardController extends Controller
 {
     public function userAccount(){
-        $metaTitleKey = "meta_user_dashboard_title";
-        $metaDescriptionKey = "meta_user_dashboard_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
         return view('user_dashboard.user_account', compact('metaTitle', 'metaDescription'));
     }
 
     public function userProduct(){
-        $metaTitleKey = "meta_user_product_title";
-        $metaDescriptionKey = "meta_user_product_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
         $userId = Auth::id(); // Get logged-in user ID
 
         if (!$userId) {
@@ -40,41 +30,25 @@ class UserDashboardController extends Controller
             ->with('product','prices')
             ->get();
 
-        return view('user_dashboard.user_product', compact('wishlistItems','metaTitle', 'metaDescription'));
+        return view('user_dashboard.user_product', compact('wishlistItems'));
 
     }
 
     public function userProfile(){
-        $metaTitleKey = "meta_user_profile_title";
-        $metaDescriptionKey = "meta_user_profile_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
 
-        return view('user_dashboard.user_profile', compact('metaTitle', 'metaDescription'));
+        return view('user_dashboard.user_profile');
     }
 
     public function userReview(){
-        $metaTitleKey = "meta_user_review_title";
-        $metaDescriptionKey = "meta_user_review_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-
-        return view('user_dashboard.user_review', compact('metaTitle', 'metaDescription'));
+        return view('user_dashboard.user_review');
     }
 
     public function userReward(){
-        $metaTitleKey = "meta_user_reward_title";
-        $metaDescriptionKey = "meta_user_reward_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
 
-        return view('user_dashboard.user_reward', compact('metaTitle', 'metaDescription'));
+        return view('user_dashboard.user_reward');
     }
 
 

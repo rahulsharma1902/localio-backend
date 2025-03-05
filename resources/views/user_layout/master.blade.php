@@ -7,10 +7,13 @@
         use App\Models\HomeContent; // Import your model
 
         // Fetch meta title and description from database
-        $metaTitle = HomeContent::where('meta_key', 'meta_title')->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', 'Meta_description')->value('meta_value') ?? 'Default Description';
+        $metaTitle = HomeContent::where('meta_key', 'meta_home_title')->value('meta_value') ?? 'Default Title';
+        $metaDescription = HomeContent::where('meta_key', 'Meta_home_description')->value('meta_value') ?? 'Default Description';
 
         ?>
+        <title>@yield('meta_title', 'localio')</title>
+        <meta name="description" content="@yield('meta_description', '')">
+
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="csrf-token" content="{{ csrf_token() }}">

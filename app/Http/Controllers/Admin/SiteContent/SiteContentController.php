@@ -86,44 +86,8 @@ class SiteContentController extends Controller
         $this->uploadImages($request, 'independ_image');
         $this->uploadBrandImages($request);
         $textFields = [
-            'meta_title',
-            'Meta_description',
-            'meta_user_login_title',
-            'meta_user_login_description',
-            'meta_user_dashboard_title',
-            'meta_user_dashboard_description',
-            'meta_user_product_title',
-            'meta_user_product_description',
-            'meta_user_review_title',
-            'meta_user_review_description',
-            'meta_user_reward_title',
-            'meta_user_reward_description',
-            'meta_user_profile_title',
-            'meta_user_profile_description',
-            'meta_vendor',
-            'meta_vendor_description',
-            'meta_overview_title',
-            'meta_overview_description',
-            'meta_profile_title',
-            'meta_profile_description',
-            'meta_add_new_list_title',
-            'meta_add_new_list_description',
-            'meta_edit_title',
-            'meta_edit_description',
-            'meta_analitic_report_title',
-            'meta_analitic_report_title_description',
-            'meta_advertising_title',
-            'meta_advertising_description',
-            'meta_add_campaign_title',
-            'meta_add_campaign_description',
-            'meta_new_add_campaign_title',
-            'meta_new_add_campaign_description',
-            'meta_vendor_review_title',
-            'meta_vendor_review_description',
-            'meta_vendor_review_managment_title',
-            'meta_vendor_review_managment_description',
-            'meta_support_title',
-            'meta_support_description',
+            'meta_home_title',
+            'Meta_home_description',
             'header_title',
             'header_description',
             'placeholder_text',
@@ -152,16 +116,13 @@ class SiteContentController extends Controller
             'independent_description',
             'get_button_lable'
         ];
-
         foreach ($textFields as $field) {
             if ($request->has($field) && is_array($request->get($field))) {
-                $data = $request->get($field);  // The data array for each text field
+                $data = $request->get($field);
                 foreach ($data as $id => $value) {
-                    $homeContent = HomeContent::find($id);
-                    if ($homeContent) {
-                        $homeContent->update([
-                            'meta_value' => $value,  // Update the meta_value for the respective content
-                        ]);
+                    // Ensure the ID is valid
+                    if (!empty($id) && is_numeric($id)) {
+                        HomeContent::where('id', $id)->update(['meta_value' => $value]);
                     }
                 }
             }
