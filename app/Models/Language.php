@@ -28,4 +28,5 @@ class Language extends Model
     {
         return $this->hasMany(FaqTranslation::class, 'language_id');
     }
+
 }

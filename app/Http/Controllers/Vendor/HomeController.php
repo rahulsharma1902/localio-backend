@@ -15,102 +15,57 @@ class HomeController extends Controller
 
         return view('Vendor.vendor_get_listed');
     }
-    // public function index()
-    // {
-    //     return view('vendor_dashboard_layout.master');
-    // }
-    public function dash(){
-        $metaTitleKey = "meta_overview_title";
-        $metaDescriptionKey = "meta_overview_description";
+    public function vendorProfile()
+    {
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.dash', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.vendor_profile');
+    }
+
+    public function dash(){
+
+        return view('vendor_dashboard.dash');
     }
     public function addList(){
-        $metaTitleKey = "meta_add_new_list_title";
-        $metaDescriptionKey = "meta_add_new_list_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.add_new_list', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.add_new_list');
     }
 
 
     public function advertising(){
-        $metaTitleKey = "meta_advertising_title";
-        $metaDescriptionKey = "meta_advertising_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.advertising', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.advertising');
     }
 
     public function analytic(){
-        $metaTitleKey = "meta_analitic_report_title";
-        $metaDescriptionKey = "meta_analitic_report_title_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.analytics',compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.analytics');
     }
     public function compaign(){
-        $metaTitleKey = "meta_add_campaign_title";
-        $metaDescriptionKey = "meta_add_campaign_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.campaign',compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.campaign');
     }
 
 
     public function editList(){
-        $metaTitleKey = "meta_edit_title";
-        $metaDescriptionKey = "meta_edit_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-
-        return view('vendor_dashboard.edit_listing', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.edit_listing');
     }
 
     public function m_Campaign(){
-        $metaTitleKey = "meta_new_add_campaign_title";
-        $metaDescriptionKey = "meta_new_add_campaign_description";
-
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.M_campaign', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.M_campaign');
     }
 
     public function myListing(){
-        return view('vendor_dashboard.my_listing', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.my_listing');
     }
 
     public function review(){
-        $metaTitleKey = "meta_vendor_review_title";
-        $metaDescriptionKey = "meta_vendor_review_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.review', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.review');
     }
 
     public function reviewManagment(){
-        $metaTitleKey = "meta_vendor_review_managment_title";
-        $metaDescriptionKey = "meta_vendor_review_managment_description";
 
-        // Fetch meta title and description from the database
-        $metaTitle = HomeContent::where('meta_key', $metaTitleKey)->value('meta_value') ?? 'Default Title';
-        $metaDescription = HomeContent::where('meta_key', $metaDescriptionKey)->value('meta_value') ?? 'Default Description';
-        return view('vendor_dashboard.review_managment', compact('metaTitle', 'metaDescription'));
+        return view('vendor_dashboard.review_managment');
     }
 }

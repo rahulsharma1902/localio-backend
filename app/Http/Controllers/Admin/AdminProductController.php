@@ -20,6 +20,7 @@ use App\Models\ProductFeature;
 use Illuminate\Support\Facades\DB;
 use App\Services\MediaService;
 
+
 class AdminProductController extends Controller
 {
 
@@ -80,7 +81,7 @@ class AdminProductController extends Controller
             'conse_data' => 'array',
             'product_feature' => 'required|array'
         ]);
-
+    
         if (!$language) {
             return redirect()->back()->with('error', 'Current language not found');
         }
@@ -101,6 +102,7 @@ class AdminProductController extends Controller
             $media = $this->mediaService->uploadMedia($request->file('product_image'), 'products/images');
             $product->product_image = $media->id ?? null;
         }
+
 
         $product->product_link = $request->product_link;
         $product->save();

@@ -1,4 +1,7 @@
 @extends('user_layout.master')
+@section('meta_title', isset($whoWeAre) && isset($whoWeAre->meta_title) ? $whoWeAre->meta_title : 'Who We Are')
+@section('meta_description', isset($whoWeAre) && isset($whoWeAre->meta_description) ? $whoWeAre->meta_description : '')
+
 @section('content')
 <section class="banner_sec help-cntr-bnr inr-bnr dark" style="background-color: #003F7D;">
     <div class="bubble-wrp">
@@ -182,7 +185,7 @@
 
                 </div>
                 @endforeach
-                
+
                 <!-- <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                         <div class="succs_box">
                             <div class="succes_img">

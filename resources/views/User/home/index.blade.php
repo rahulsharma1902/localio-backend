@@ -1,6 +1,7 @@
 @extends('user_layout.master')
 {{-- {{ dd($translated_data) }} --}}
-
+@section('meta_title', isset($homeContents['meta_home_title']) ? $homeContents['meta_home_title'] : 'Default Title')
+@section('meta_description', isset($homeContents['meta_home_description']) ? $homeContents['meta_home_description'] : 'Default Description')
 
 
 @section('content')

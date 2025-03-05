@@ -28,6 +28,8 @@ class WhoWeAre extends Model
         'ss_sub_desc',
         'protfolio_btn',
         'status',
+        'meta_title',
+        'meta_description',
     ];
-    
+
 }

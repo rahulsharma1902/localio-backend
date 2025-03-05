@@ -21,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
         // $languages = getLanguages();
         // View::share('languages', $languages);
         ini_set('max_execution_time', 120);
-
+   
     }
 }

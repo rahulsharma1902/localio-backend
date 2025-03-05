@@ -195,7 +195,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         <!-- Product Link -->
                         <div class="row mt-3">
 

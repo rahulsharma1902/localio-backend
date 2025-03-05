@@ -31,6 +31,8 @@ class WhoWeAreSeeder extends Seeder
                 'ss_sub_desc' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'protfolio_btn' => 'View Portfolio',
                 'status' => 1,
+                'meta_title'=>'who we are page',
+                'meta_description'=>'who we are page',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

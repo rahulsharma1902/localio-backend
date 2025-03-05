@@ -171,6 +171,29 @@ class AdminDashController extends Controller
     {
         // dd($request->all());
         // Get the first instance of WhoWeAre, PageTile, and PageTileTranslation
+        $request->validate([
+            'main_heading' => 'required|string|max:255',
+            'sub_heading' => 'nullable|string|max:600',
+            'mp_heading' => 'nullable|string|max:600',
+            'mp_sub_heading' => 'nullable|string|max:600',
+            'top_card_title' => 'nullable|string|max:255',
+            'top_card_desc' => 'nullable|string',
+            'specialists_heading' => 'nullable|string|max:255',
+            'ss_heading' => 'nullable|string|max:255',
+            'ss_sub_desc' => 'nullable|string',
+            'protfolio_btn' => 'nullable|string|max:255',
+            'meta_title' => 'required|string|max:255',
+            'meta_description' => 'required|string',
+            'status' => 'required|integer|in:0,1',
+            'bg_top_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'top_left_section_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'top_right_section_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'top_card_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'popular_items.title.*' => 'nullable|string|max:255',
+            'popular_items.description.*' => 'nullable|string',
+            'specialists_items.title.*' => 'nullable|string|max:255',
+            'specialists_items.description.*' => 'nullable|string',
+        ]);
         $whoWeAre = WhoWeAre::first() ?? new WhoWeAre();
         $pageTile = PageTile::first() ?? new PageTile();
         $pageTileTranslation = PageTileTranslation::first() ?? new PageTileTranslation();
@@ -333,7 +356,7 @@ class AdminDashController extends Controller
                 $pageTile->img = 'front/img/' . $filenameBig;
             }
         }
-        
+
 
         if ($request->hasFile('small_img')) {
             $file = $request->file('small_img');
@@ -343,7 +366,7 @@ class AdminDashController extends Controller
                 $pageTile->small_img = 'front/img/' . $filenameSmall;
             }
         }
-       
+
     }
     public function deletePageTileTranslation($id)
     {
@@ -480,6 +503,8 @@ class AdminDashController extends Controller
             'imap_pop' => 'nullable|string',
             'right_tool_heading' => 'nullable|string',
             'get_start_button' => 'nullable|string',
+            'meta_title' => 'required|string|max:255',
+            'meta_description' => 'required|string',
             'assistant' => 'nullable|string',
         ]);
 
@@ -511,6 +536,8 @@ class AdminDashController extends Controller
             'imap_pop' => $request->imap_pop,
             'right_tool_heading' => $request->right_tool_heading,
             'get_start_button' => $request->get_start_button,
+            'meta_title' => $request->meta_title,
+            'meta_description' => $request->meta_description,
             'assistant' => $request->assistant,
         ]);
 
@@ -600,7 +627,7 @@ class AdminDashController extends Controller
 
     protected function handleEducationFileUpload(Request $request, $pageTile)
     {
-      
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = now()->format('YmdHis') . '_education_item_.' . $file->getClientOriginalExtension();
@@ -645,7 +672,7 @@ class AdminDashController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => false, 'msg' => 'Error updating item: ' . $e->getMessage()], 500);
         }
-    
+
     }
     public function Contact(){
         $contact = ContactContent::first();
@@ -663,21 +690,21 @@ class AdminDashController extends Controller
             'footer_heading' => 'nullable|string|max:255',
             'g_button' => 'nullable|string|max:255',
         ]);
-    
+
         $contact = ContactContent::first();
         $pageTile = PageTile::first() ?? new PageTile();
         $pageTileTranslation = PageTileTranslation::first() ?? new PageTileTranslation();
         if (!$contact) {
             return redirect()->back()->with('error', 'Contact content not found.');
         }
-    
+
         // Update fields except images
         $contact->update([
             'contact_heading' => $request->contact_heading,
             'footer_heading' => $request->footer_heading,
             'g_button' => $request->g_button,
         ]);
-    
+
         // Handle image uploads
         if ($request->hasFile('image_first')) {
             $file = $request->file('image_first');
@@ -685,7 +712,7 @@ class AdminDashController extends Controller
             $file->move(public_path('front/img/'), $filename);
             $contact->image_first = 'front/img/' . $filename;
         }
-    
+
         if ($request->hasFile('image_second')) {
             $file = $request->file('image_second');
             $filename = now()->format('YmdHis') . '_image_second.' . $file->getClientOriginalExtension();
@@ -732,15 +759,15 @@ class AdminDashController extends Controller
         $pageTile->update($request->except(['image']));
 
         $this->handleEducationFileUpload($request, $pageTile);
-    
+
         $contact->save();
-    
+
         return redirect()->back()->with('success', 'Contact content updated successfully.');
-        
+
     }
     protected function handleRightFileUpload(Request $request, $pageTile)
     {
-      
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = now()->format('YmdHis') . '_right_tools_item_.' . $file->getClientOriginalExtension();
