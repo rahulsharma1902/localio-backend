@@ -14,6 +14,7 @@ use App\Models\ProConsTranslation;
 use App\Models\ProductTranslation;
 use App\Models\FeatureTransalte;
 use App\Models\Feature;
+use App\Models\{Filter,FilterOption};
 use App\Models\Price;
 use App\Models\ProductFeature;
 use Illuminate\Support\Facades\DB;
@@ -175,19 +176,41 @@ class AdminProductController extends Controller
         }
 
         // Save multiple product prices
-  // Save multiple prices for the product
-if (isset($request->prices) && is_array($request->prices)) {
-    foreach ($request->prices as $index => $price) {
-        Price::create([
-            'product_id' => $product->id,
-            'price' => $price,
-            'tenure' => $request->tenures[$index] ?? null
-        ]);
-    }
-}
+        // Save multiple prices for the product
+        if (isset($request->prices) && is_array($request->prices)) {
+            foreach ($request->prices as $index => $price) {
+                Price::create([
+                    'product_id' => $product->id,
+                    'price' => $price,
+                    'tenure' => $request->tenures[$index] ?? null
+                ]);
+            }
+        }
 
 
         return redirect()->route('products')->with('success', 'Product added successfully');
+    }
+    public function fetchFilters(Request $request)
+    {
+        $categoryIds = $request->categories ?? []; // Ensure it's an array
+
+        if (!is_array($categoryIds)) {
+            return response()->json(['error' => 'Invalid categoryIds format'], 400);
+        }
+        $getCurrentSiteLanguage = getCurrentSiteLanguage();
+        $filters = Filter::with([
+            'options.translations' => function ($query) use ($getCurrentSiteLanguage) {
+                $query->where('language_id', $getCurrentSiteLanguage->id);
+            },
+            'translations' => function ($query) use ($getCurrentSiteLanguage) {
+                $query->where('language_id', $getCurrentSiteLanguage->id);
+            },
+            'category.translations' => function ($query) use ($getCurrentSiteLanguage) {
+                $query->where('language_id', $getCurrentSiteLanguage->id);
+            },
+        ])->whereIn('category_id', $categoryIds)->get();
+
+        return response()->json($filters);
     }
 
     public function productEdit($id)

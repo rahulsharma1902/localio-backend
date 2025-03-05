@@ -385,10 +385,10 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">
                                                     Countries/Regions</span></a>
                                         </li>
-                                        <li class="nk-menu-item">
+                                        <!-- <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/country') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Country</span></a>
-                                        </li>
+                                        </li> -->
 
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/db-refresh') }}"
