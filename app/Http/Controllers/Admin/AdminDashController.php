@@ -503,6 +503,8 @@ class AdminDashController extends Controller
             'imap_pop' => 'nullable|string',
             'right_tool_heading' => 'nullable|string',
             'get_start_button' => 'nullable|string',
+            'meta_title' => 'required|string|max:255',
+            'meta_description' => 'required|string',
             'assistant' => 'nullable|string',
         ]);
 
@@ -534,6 +536,8 @@ class AdminDashController extends Controller
             'imap_pop' => $request->imap_pop,
             'right_tool_heading' => $request->right_tool_heading,
             'get_start_button' => $request->get_start_button,
+            'meta_title' => $request->meta_title,
+            'meta_description' => $request->meta_description,
             'assistant' => $request->assistant,
         ]);
 

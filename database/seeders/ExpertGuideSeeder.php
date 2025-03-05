@@ -25,7 +25,7 @@ class ExpertGuideSeeder extends Seeder
             // CKEditor Content
             'how_to_check_email' => 'How To Check Email - Webmail & Email Applications.',
             'overview' => 'Overview',
-            'email_description' => '<p>Email is one of the most widely used forms of communication...</p> 
+            'email_description' => '<p>Email is one of the most widely used forms of communication...</p>
                                     <p>Once you’ve created your professional email address...</p>
                                     <p>Webmail</p>
                                     <p>Email Applications</p>
@@ -49,7 +49,8 @@ class ExpertGuideSeeder extends Seeder
                            <p>This is the setting you use if you want to access your email on multiple devices.</p>
                            <h6>POP3</h6>
                            <p>If you intend to access your email on only one device, this is the setting for you.</p>',
-
+             'meta_title'=>'Expert Guide Page',
+             'meta_description' => 'Here is expert guide page',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

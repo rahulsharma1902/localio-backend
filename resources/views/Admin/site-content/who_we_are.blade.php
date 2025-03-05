@@ -426,22 +426,25 @@
                                                 <a href="your-view-page-url" class="btn btn-link text-center">
                                                     <span><b>View Page</b></span>
                                                 </a>
-                                                    <button type="submit"
-                                                        class="addCategory btn btn-primary btn-localio text-center"><em
-                                                            class=""></em><span>Update
-                                                            Content</span></button>
-                                                </div>
-
+                                                <button type="submit"
+                                                    class="addCategory btn btn-primary btn-localio text-center"><em
+                                                        class=""></em><span>Update
+                                                        Content</span></button>
                                             </div>
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <label for="meta_title" class="form-label fw-bold">Meta Title</label>
-                                                    <input type="text" id="meta_title" name="meta_title" class="form-control" placeholder="Enter meta title" value="{{ $whoWeAre->meta_title ?? '' }}">
-                                                </div>
-                                                <div class="form-group mt-3">
-                                                    <label for="meta_description" class="form-label fw-bold">Meta Description</label>
-                                                    <textarea id="meta_description" name="meta_description" class="form-control" rows="3" placeholder="Enter meta description">{{ $whoWeAre->meta_description ?? '' }}</textarea>
-                                                </div>
+
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="meta_title" class="form-label fw-bold">Meta Title</label>
+                                                <input type="text" id="meta_title" name="meta_title"
+                                                    class="form-control" placeholder="Enter meta title"
+                                                    value="{{ $whoWeAre->meta_title ?? '' }}">
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="meta_description" class="form-label fw-bold">Meta
+                                                    Description</label>
+                                                <textarea id="meta_description" name="meta_description" class="form-control" rows="3"
+                                                    placeholder="Enter meta description">{{ $whoWeAre->meta_description ?? '' }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -449,10 +452,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
         </form>
     </div>
-    </div>
-    </div>
+
     <script>
         $(document).ready(function() {
             let addedItems = [];
