@@ -19,6 +19,8 @@ class ContactContentSeeder extends Seeder
             'image_second' => 'public/front/img/20250203132713_image_second.png',
             'footer_heading' => 'We are here to help!',
             'g_button' => 'Contact Us',
+            'meta_title'=>'Contact Page',
+            'meta_description'=>'here is contact page',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
