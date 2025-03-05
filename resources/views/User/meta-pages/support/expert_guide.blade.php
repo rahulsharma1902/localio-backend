@@ -1,5 +1,5 @@
 @extends('user_layout.master')
-@section('meta_title', isset($expertGuide) && isset($expertGuide->meta_title) ? $expertGuide->meta_title : 'Who We Are')
+@section('meta_title', isset($expertGuide) && isset($expertGuide->meta_title) ? $expertGuide->meta_title : 'Expert Guide')
 @section('meta_description', isset($expertGuide) && isset($expertGuide->meta_description) ? $expertGuide->meta_description : '')
 @section('content')
 <section class="banner_sec help-cntr-bnr inr-bnr dark" style="background-color: #003F7D;">

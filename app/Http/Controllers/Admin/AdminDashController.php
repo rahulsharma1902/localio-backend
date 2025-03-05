@@ -689,6 +689,9 @@ class AdminDashController extends Controller
             'image_second' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'footer_heading' => 'nullable|string|max:255',
             'g_button' => 'nullable|string|max:255',
+            'meta_title' => 'required|string|max:255',
+            'meta_description' => 'required|string',
+
         ]);
 
         $contact = ContactContent::first();
@@ -703,6 +706,8 @@ class AdminDashController extends Controller
             'contact_heading' => $request->contact_heading,
             'footer_heading' => $request->footer_heading,
             'g_button' => $request->g_button,
+            'meta_title' => $request->meta_title,
+            'meta_description' => $request->meta_description,
         ]);
 
         // Handle image uploads
