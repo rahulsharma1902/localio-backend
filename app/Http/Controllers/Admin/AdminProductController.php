@@ -19,6 +19,7 @@ use App\Models\Price;
 use App\Models\ProductFeature;
 use Illuminate\Support\Facades\DB;
 use App\Services\MediaService;
+use App\Models\CategoryFilterOption;
 
 
 class AdminProductController extends Controller
@@ -62,7 +63,8 @@ class AdminProductController extends Controller
 
     public function productAddProccess(Request $request)
     {
-        // dd($request->all());
+
+         //dd($request->all());
         $language = Language::where('id', $request->lang_code)->first();
 
         $request->validate([
@@ -81,7 +83,7 @@ class AdminProductController extends Controller
             'conse_data' => 'array',
             'product_feature' => 'required|array'
         ]);
-    
+
         if (!$language) {
             return redirect()->back()->with('error', 'Current language not found');
         }
@@ -188,8 +190,31 @@ class AdminProductController extends Controller
                 ]);
             }
         }
+        if ($request->has('selected_filters') && !empty($request->selected_filters)) {
+            $selectedFilters = json_decode($request->selected_filters, true);
 
+            // // **Debugging: Check if selected filters are being received**
+            // dd($selectedFilters);
 
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return redirect()->back()->with('error', 'Invalid filter data. JSON decode failed.');
+            }
+
+            if (is_array($selectedFilters)) {
+                foreach ($selectedFilters as $filter) {
+                    CategoryFilterOption::updateOrCreate(
+                        [
+                            'category_id' => $filter['category_id'],
+                            'filter_id' => $filter['filter_id'],
+                            'filter_option_id' => $filter['filter_option_id'],
+                            'product_id' => $product->id
+                        ]
+                    );
+                }
+            } else {
+                return redirect()->back()->with('error', 'Invalid filter data. Please try again.');
+            }
+        }
         return redirect()->route('products')->with('success', 'Product added successfully');
     }
     public function fetchFilters(Request $request)
@@ -444,9 +469,6 @@ foreach ($request->prices as $index => $price) {
         ]);
     }
 }
-
-
-
         // dd($data);
 
         // Insert the records into the product_features table

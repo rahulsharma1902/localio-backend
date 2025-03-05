@@ -131,8 +131,10 @@
 
                         </div>
                         <div id="filter-options">
-                        </div>
 
+
+                        </div>
+                        <input type="hidden" id="selected_filters" name="selected_filters">
                         <div id="selected-category-ids-container"></div>
                         <div id="selected-categories"></div>
                         <br>
@@ -197,9 +199,6 @@
                         </div>
                         <!-- Product Link -->
                         <div class="row mt-3">
-
-
-
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
                                     <label class="form-label" for="product-category">Business Feature</label>
@@ -269,7 +268,7 @@
                         <div class="col-md-12 mt-4">
                             <div class="form-group">
                                 <button class="addCategory btn btn-primary text-center btn-localio"><em
-                                        class=""></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
+                                        class=""  id="save-button"></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
                             </div>
                         </div>
 
@@ -452,56 +451,68 @@
         });
     </script>
     <script>
-    $(document).ready(function () {
-        $('.product-category').select2();
+        $(document).ready(function () {
+            $('.product-category').select2();
 
-        $('#product-category').on('change', function () {
-            let selectedCategories = $(this).val(); 
-            console.log("Selected Categories:", selectedCategories);
-            
-            if (selectedCategories.length > 0) {
-                $.ajax({
-                    url: "{{ route('fetch.filters') }}", 
-                    type: "POST",
-                    data: {
-                        categories: selectedCategories,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function (response) {
-                        console.log("Filters Response:", response); 
+            $('#product-category').on('change', function () {
+                let selectedCategories = $(this).val();
 
-                        $('#filter-options').html("");
+                if (selectedCategories.length > 0) {
+                    $.ajax({
+                        url: "{{ route('fetch.filters') }}",
+                        type: "POST",
+                        data: {
+                            categories: selectedCategories,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function (response) {
+                            $('#filter-options').html("");
 
-                        if (response.length > 0) {
-                            response.forEach(filter => {
-                                let filterHtml = `
-                                    <div class="filter-group">
-                                        <h4>${filter.name}</h4>
-                                        <ul>
-                                `;
-
-                                filter.options.forEach(option => {
-                                    filterHtml += `<li>${option.name}</li>`;
+                            if (response.length > 0) {
+                                response.forEach(filter => {
+                                    let filterHtml = `<div class="filter-group"><h4>${filter.name}</h4><ul class="filter-list">`;
+                                    filter.options.forEach(option => {
+                                        filterHtml += `
+                                            <li>
+                                                <input type="checkbox" class="filter-option"
+                                                    name="filter_options[]"
+                                                    value="${option.id}"
+                                                    data-category="${filter.category_id}"
+                                                    data-filter="${filter.id}">
+                                                <label>${option.name}</label>
+                                            </li>`;
+                                    });
+                                    filterHtml += `</ul></div>`;
+                                    $('#filter-options').append(filterHtml);
                                 });
-
-                                filterHtml += `</ul></div>`;
-
-                                $('#filter-options').append(filterHtml);
-                            });
-                        } else {
-                            $('#filter-options').html("<p>No filters available.</p>");
+                            } else {
+                                $('#filter-options').html("<p>No filters available.</p>");
+                            }
                         }
-                    },
-                    error: function () {
-                        console.log("Error fetching filters.");
-                    }
-                });
-            } else {
-                $('#filter-options').html(""); // Clear filters if no category is selected
-            }
-        });
-    });
+                    });
+                } else {
+                    $('#filter-options').html(""); // Clear filters if no category is selected
+                }
+            });
 
-</script>
+            // **Ensure selected_filters is set before form submission**
+            $("form").on("submit", function() {
+                let selectedFilters = [];
+
+                $('.filter-option:checked').each(function () {
+                    selectedFilters.push({
+                        category_id: $(this).data('category'),
+                        filter_id: $(this).data('filter'),
+                        filter_option_id: $(this).val()
+                    });
+                });
+
+                console.log("Final Selected Filters:", selectedFilters); // Debugging
+
+                // **Ensure the hidden input is set correctly**
+                $('#selected_filters').val(JSON.stringify(selectedFilters));
+            });
+        });
+        </script>
 
 @endsection
