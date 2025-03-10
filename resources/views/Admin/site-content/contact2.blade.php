@@ -212,7 +212,7 @@
                                     <div class="card border">
                                         <div class="nk-block">
                                             <div class="col-md-12 mt-1 d-flex justify-content-between">
-                                                <a href="your-view-page-url" class="btn btn-link text-center">
+                                                <a href="{{ route('contact') }}" class="btn btn-link text-center">
                                                     <span><b>View Page</b></span>
                                                 </a>
                                                 <button class="addCategory btn btn-primary  text-center btn-localio"><em

@@ -14,4 +14,9 @@ class FilterOption extends Model
     {
         return $this->hasMany(FilterOptionTranslation::class);
     }
+    public function filter()
+{
+    return $this->belongsTo(Filter::class);
+}
+
 }

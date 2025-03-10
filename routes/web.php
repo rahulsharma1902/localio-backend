@@ -138,11 +138,13 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin-dashboard/product/add', [AdminProductController::class, 'productAdd'])->name('product-add');
     Route::post('/admin-dashboard/product-add-procc', [AdminProductController::class, 'productAddProccess'])->name('product-add-procc');
     Route::get('/admin-dashboard/product-edit/{id}', [AdminProductController::class, 'productEdit'])->name('product-edit');
-    Route::post('/admin-dashboard/product-update-procc', [AdminProductController::class, 'productUpdateProccess'])->name('product-update-procc');
+    Route::post('/admin-dashboard/product-update-procc/{id}', [AdminProductController::class, 'productUpdateProccess'])->name('product-update-procc');
     Route::get('/admin-dashboard/remove-product/{id}', [AdminProductController::class, 'removeProduct'])->name('product-remove');
     Route::post('/delete-price/{id}', [AdminProductController::class, 'deletePrice']);
 
     Route::post('/fetch-filters', [AdminProductController::class, 'fetchFilters'])->name('fetch.filters');
+
+
 
 
     // product feture Route

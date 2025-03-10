@@ -52,6 +52,13 @@ class Category extends Model
         return $translation ? $translation->name : $this->attributes['name'];
     }
 
+    public function filters()
+    {
+        return $this->hasMany(Filter::class);
+    }
 
-
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'category_products', 'category_id', 'product_id');
+    }
 }

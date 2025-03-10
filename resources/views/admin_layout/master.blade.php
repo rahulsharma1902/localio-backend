@@ -591,6 +591,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- content @start -->
                 <div class="nk-content ">
                     @yield('content')

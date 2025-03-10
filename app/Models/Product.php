@@ -14,16 +14,17 @@ class Product extends Model
     use HasFactory;
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_products', 'product_id');
+        return $this->belongsToMany(Category::class, 'category_products', 'product_id', 'category_id');
     }
     public function translations()
     {
         return $this->hasOne(ProductTranslation::class);
     }
     public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
+{
+    return $this->hasMany(Review::class, 'product_id');
+}
+
     public function wishlists()
     {
         return $this->hasMany(Wishlist::class);
@@ -62,6 +63,16 @@ class Product extends Model
     {
         return $this->hasMany(Price::class);
     }
-
+    public function filters()
+    {
+        return $this->hasManyThrough(
+            Filter::class,
+            Category::class,
+            'id',       // Foreign key on the categories table
+            'category_id', // Foreign key on the filters table
+            'category_id', // Local key on the products table
+            'id'        // Local key on the categories table
+        );
+    }
 
 }

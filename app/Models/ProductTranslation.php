@@ -15,6 +15,8 @@ class ProductTranslation extends Model
         'slug',
         'description',
         'status',
+        'product_link',
+        'overview',
     ];
 
     public function product()

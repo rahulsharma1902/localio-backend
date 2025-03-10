@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('review_translations', function (Blueprint $table) {
             $table->id(); // Primary key
+            $table->unsignedBigInteger('language_id');
             $table->unsignedBigInteger('reviews_id'); // Foreign key to reviews table
             $table->string('title')->nullable(); // Title for the review translation
             $table->text('description'); // Description for the review translation
