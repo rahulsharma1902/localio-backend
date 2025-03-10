@@ -98,6 +98,7 @@ class AdminProductController extends Controller
         $product->description = $request->description;
         $product->product_price = $request->product_price;
         $product->overview = $request->overview;
+        $product->product_link = $request->product_link;
         $product->status = $request->status ?? 'public';
 
         if ($request->hasFile('product_icon')) {
@@ -114,7 +115,7 @@ class AdminProductController extends Controller
         $product->save();
 
         // Save product translation
-        $language_id = $language->id;
+        $language_id = Language::where('lang_code', 'en-us')->value('id');
         $productTranslation = new ProductTranslation();
         $productTranslation->name = $request->name;
         $productTranslation->slug = Str::slug($request->name);
@@ -122,7 +123,7 @@ class AdminProductController extends Controller
         $productTranslation->product_id = $product->id;
         $productTranslation->language_id = $language_id;
         $productTranslation->overview = $request->overview;
-
+        $productTranslation->product_link = $request->product_link;
         $productTranslation->status = $request->status ?? 'public';
         $productTranslation->save();
 
@@ -135,46 +136,54 @@ class AdminProductController extends Controller
         }
 
         // Save product pros
-        if (is_array($request->pros_data)) {
-            $procons_id = ProCons::create([
-                'product_id' => $product->id,
-                'lang_id' => $language_id,
-                'type' => 'pross',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ])->id;
+      // Save product pros
+if (is_array($request->pros_data)) {
+    foreach ($request->pros_data as $value) { // Loop over pros_data before inserting
+        $procons_id = ProCons::create([
+            'product_id' => $product->id,
+            'name' => $value, // Now correctly assigning value
+            'description' => 'null',
+            'type' => 'pross',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ])->id;
 
-            foreach ($request->pros_data as $value) {
-                ProConsTranslation::create([
-                    'pro_cons_id' => $procons_id,
-                    'name' => $value,
-                    'description' => 'null',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
-        }
+        ProConsTranslation::create([
+            'pro_cons_id' => $procons_id,
+            'language_id' => $language_id,
+            'name' => $value,
+            'description' => 'null',
+            'type' => 'pross',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+}
 
-        // Save product cons
-        if (is_array($request->conse_data)) {
-            $conse_id = ProCons::create([
-                'product_id' => $product->id,
-                'lang_id' => $language_id,
-                'type' => 'cons',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ])->id;
 
-            foreach ($request->conse_data as $value) {
-                ProConsTranslation::create([
-                    'pro_cons_id' => $conse_id,
-                    'name' => $value,
-                    'description' => 'null',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
-        }
+      // Save product cons
+if (is_array($request->conse_data)) {
+    foreach ($request->conse_data as $value) { // Loop over conse_data before inserting
+        $conse_id = ProCons::create([
+            'product_id' => $product->id,
+            'name' => $value, // Now correctly assigning value
+            'description' => 'null',
+            'type' => 'cons',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ])->id;
+
+        ProConsTranslation::create([
+            'pro_cons_id' => $conse_id,
+            'language_id' => $language_id,
+            'name' => $value,
+            'description' => 'null',
+            'type' => 'cons',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+}
 
         // Save product features
         foreach ($request->product_feature as $id) {
@@ -324,7 +333,7 @@ class AdminProductController extends Controller
     }
     public function productUpdateProccess(Request $request, Product $product)
     {
-        // dd($request->all());
+         //dd($request->all());
         $request->validate([
             'id' => 'required|exists:products,id',
             'lang_code' => 'required|exists:languages,id',
@@ -345,13 +354,11 @@ class AdminProductController extends Controller
             'conse_data' => 'nullable|array',
             'filter_options' => 'nullable|array',
             'product_category' => 'required|array',
-            'pros_data' => 'nullable|array',
-            'conse_data' => 'nullable|array',
             'selected_filters' => 'nullable|string',
             'status' => 'nullable|in:public,private',
 
         ]);
-
+        //dd($request->all());
         $language = Language::find($request->lang_code);
         //dd($request->lang_code);
 
@@ -388,10 +395,10 @@ class AdminProductController extends Controller
         $product->update();
 
         $language_id = $language->id;
-        // $existingTranslation = ProductTranslation::where([
-        //     'product_id' => $product->id,
-        //     'language_id' => $language_id
-        // ])->first();
+        $existingTranslation = ProductTranslation::where([
+            'product_id' => $product->id,
+            'language_id' => $language_id
+        ])->first();
 
         // dd($existingTranslation);
         $productTranslation=ProductTranslation::updateOrCreate(
@@ -401,7 +408,7 @@ class AdminProductController extends Controller
                 'slug' => $product->slug,
                 'description' => $request->description,
                 'overview' => $request->overview,
-                'status' => $request->status,
+                'status' => $request->status ?? 'public',
                 'product_link'=>$request->product_link,
             ]
         );
@@ -416,51 +423,57 @@ class AdminProductController extends Controller
         // Prose  data manage
         $matched = [];
         $notmatched = [];
+        // Get language ID from the request
+        $language = $request->lang_code;
         $pross_id = ProCons::where('product_id', $product->id)
             ->where('type', 'pross')
             ->value('id');
 
         if ($pross_id) {
             $existingTranslations = ProConsTranslation::where('pro_cons_id', $pross_id)
-                ->pluck('name')
+            ->where('language_id', $language_id) // Delete only for selected language
+            ->pluck('name')
                 ->toArray();
             $incomingFeatures = $request->pross_data;
 
             if (is_array($incomingFeatures)) {
                 $toDelete = array_diff($existingTranslations, $incomingFeatures);
                 $toInsert = array_diff($incomingFeatures, $existingTranslations);
+               // dd($existingTranslations, $incomingFeatures, $toInsert, $toDelete);
                 if (!empty($toDelete)) {
                     ProConsTranslation::where('pro_cons_id', $pross_id)
+                    ->where('language_id', $language_id) // Delete only for selected language
                         ->whereIn('name', $toDelete)
                         ->delete();
                 }
 
                 foreach ($toInsert as $feature) {
-                    ProConsTranslation::create([
-                        'pro_cons_id' => $pross_id,
-                        'name' => $feature ?? '',
-                        'description' => 'null',
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                    ProConsTranslation::updateOrCreate(
+                        ['pro_cons_id' => $pross_id, 'language_id' => $language_id, 'name' => $feature],
+                        ['description' => 'null', 'type' => 'pros', 'updated_at' => now()]
+                    );
+
                 }
 
                 $matched = array_intersect($existingTranslations, $incomingFeatures);
                 $notmatched = $toInsert;
             } else {
-                ProConsTranslation::where('pro_cons_id', $pross_id)->delete();
+                ProConsTranslation::where('pro_cons_id', $pross_id)->where('language_id', $language_id)->delete();
             }
         }
 
         // conse data manage
         $matched1 = [];
         $notmatched2 = [];
+         // Get language ID from the request
+         $language_id = $request->lang_code;
         $cross_id = ProCons::where('product_id', $product->id)
             ->where('type', 'cons')
             ->value('id');
 
         if ($cross_id) {
             $existingTranslations = ProConsTranslation::where('pro_cons_id', $cross_id)
+            ->where('language_id', $language_id) // Delete only for selected language
                 ->pluck('name')
                 ->toArray();
 
@@ -470,24 +483,26 @@ class AdminProductController extends Controller
                 $toInsert = array_diff($request->conse_data, $existingTranslations);
                 if (!empty($toDelete)) {
                     ProConsTranslation::where('pro_cons_id', $cross_id)
+                    ->where('language_id', $language_id) // Delete only for selected language
                         ->whereIn('name', $toDelete)
                         ->delete();
                 }
+            
                 foreach ($toInsert as $feature) {
-                    ProConsTranslation::create([
-                        'pro_cons_id' => $cross_id,
-                        'name' => $feature ?? '',
-                        'description' => 'null',
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                    ProConsTranslation::updateOrCreate(
+                        ['pro_cons_id' => $cross_id, 'language_id' => $language_id, 'name' => $feature],
+                        ['description' => 'null', 'type' => 'cons', 'updated_at' => now()]
+                    );
+
                 }
                 $matched1 = array_intersect($existingTranslations, $incomingFeatures);
                 $notmatched2 = $toInsert;
             } else {
-                ProConsTranslation::where('pro_cons_id', $cross_id)->delete();
+                ProConsTranslation::where('pro_cons_id', $cross_id)->where('language_id', $language_id)->delete();
             }
         }
+
+
         //     ProductFeature::where('product_id', $request->id)
         //     ->whereNotIn('feature_id', $request->product_feature)
         //     ->delete();

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('pro_cons', function (Blueprint $table) {
             $table->id(); // Primary key
             $table->unsignedBigInteger('product_id'); // Foreign key to the products table
-            $table->unsignedBigInteger('lang_id'); // Language ID (foreign key to the languages table)
+            $table->string('name'); // Translation name
+            $table->text('description'); // Translation description
             $table->string('type');
-            $table->timestamps(); // created_at and updated_at            
+            $table->timestamps(); // created_at and updated_at
         });
     }
 
