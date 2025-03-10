@@ -21,9 +21,10 @@ class Product extends Model
         return $this->hasOne(ProductTranslation::class);
     }
     public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
+{
+    return $this->hasMany(Review::class, 'product_id');
+}
+
     public function wishlists()
     {
         return $this->hasMany(Wishlist::class);

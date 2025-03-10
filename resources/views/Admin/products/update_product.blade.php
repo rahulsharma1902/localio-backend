@@ -35,12 +35,31 @@
                                     </div>
                                 </div>
 
+
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="product-link">Affiliate Link</label>
+                                        <input class="form-control" type="url" class="form-control" name="product_link" id="product-link"
+                                        {{-- value="{{ isset($productTranslation) ? $productTranslation->product_link : (isset($product) ? $product->product_link : '') }}"  placeholder="Business Link"> --}}
+                                        value="{{ old('product_link') !== null ? old('product_link') : ($productTranslation->product_link ?? $product->product_link ?? '') }}">
+                                        {{-- {{ dd(old('product_link'), $productTranslation->product_link ?? null, $product->product_link ?? null) }} --}}
+
+                                    </div>
+
+                                    @error('product_link')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                @error('lang_code')
+                                <div class="error text-danger">{{ $message }}</div>
+                                @enderror
                                 <!-- Product Description -->
                                 <div class="col-md-12 mt-3">
                                     <div class="form-group">
                                         <label class="form-label" for="description">Description</label>
                                         <div class="form-control-wrap">
-                                            <textarea class="description" name="description" id="editor" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
+                                            <textarea class="description" name="description" id="description" rows="2" cols="70">{{ old('description', isset($productTranslation) ? $productTranslation->description : $product->description ?? '') }}</textarea>
                                             @error('description')
                                                 <div class="error text-danger">{{ $message }}</div>
                                             @enderror
@@ -51,7 +70,7 @@
 
                             @if ($productTranslation->language ?? '')
                                 <input type="hidden" name="lang_code"
-                                    value="{{ $productTranslation->language->lang_code ?? '' }}">
+                                    value="{{ $productTranslation->language->id ?? '' }}">
                             @else
                                 <input type="hidden" class="form-control" id="language_id" name="lang_code"
                                     value="{{ getCurrentLanguageID() }}" />
@@ -115,8 +134,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Business Category</label>
-                                        <select class="form-control product-category filter-item filter-option"
-                                            id="product-category" name="product_category[]" multiple>
+                                        <select  class="form-control product-category filter-item filter-option"
+                                            id="product-category" name="product_category[]" multiple disabled>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
                                                     @if ($product->categories->contains($category->id)) selected @endif>
@@ -124,6 +143,9 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('product-category')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -140,8 +162,11 @@
                                                     data-filter="{{ $filter->id }}"
                                                     @if (in_array($option->id, $selectedFilterOptions)) checked @endif>
 
+
                                                 <label for="filter_{{ $option->id }}">{{ $option->name }}</label>
-                                                <!-- Clicking this checks/unchecks -->
+                                                @error('filter_options')
+                                                <div class="error text-danger">{{ $message }}</div>
+                                                @enderror
                                             </li>
                                         @endforeach
                                     </ul>
@@ -158,7 +183,7 @@
                             <br>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <h4>Product Prices</h4>
+                                    <h4>Business Prices</h4>
 
                                     <div class="row" id="price-container">
                                         @foreach ($product->prices as $price)
@@ -178,6 +203,9 @@
                                                                 <option value="Standard Price">Standard Price</option>
                                                                 <option value="Pro">Pro</option>
                                                             </select>
+                                                            @error('tenures')
+                                                            <div class="error text-danger">{{ $message }}</div>
+                                                            @enderror
                                                         </div>
                                                     </div>
 
@@ -189,7 +217,7 @@
                                                     </div>
 
                                                     <!-- Delete Button -->
-                                                    <div class="col-md-2 mb-3">
+                                                    <div class="col-md-2 mb-3 mt-4">
                                                         <button type="button" class="btn btn-danger delete-price"
                                                             data-id="{{ $price->id }}"> <i
                                                                 class="fas fa-trash-alt"></i></button>
@@ -242,17 +270,7 @@
 
                             <!-- Product Link -->
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="product-link">Link</label>
-                                        <input type="url" class="form-control" name="product_link" id="product-link"
-                                            value="{{ isset($product) ? $product->product_link : '' }}"
-                                            placeholder="Business Link">
-                                    </div>
-                                    @error('product_link')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+
 
                                 <div class="col-md-6 mt-3">
                                     <div class="form-group">
@@ -268,7 +286,9 @@
                                                 @endforeach
                                             @endif
                                         </select>
-
+                                        @error('product_feature')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +298,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="description">Overview</label>
                                     <div class="form-control-wrap">
-                                        <textarea class="description" name="overview" id="editor1" rows="2" cols="70">{{ old('overview', isset($productTranslation) ? $productTranslation->description : $product->overview ?? '') }}</textarea>
+                                        <textarea class="description" name="overview" id="overview" rows="2" cols="70">{{ old('overview', isset($productTranslation) ? $productTranslation->overview : $product->overview ?? '') }}</textarea>
                                         @error('overview')
                                             <div class="error text-danger">{{ $message }}</div>
                                         @enderror
@@ -309,6 +329,9 @@
                                                 </div>
                                             </div>
                                         @endforeach
+                                        @error('pross_data')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
@@ -337,6 +360,9 @@
                                                 </div>
                                             </div>
                                         @endforeach
+                                        @error('conse_data')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
@@ -369,18 +395,20 @@
                                                                     <!-- Private Label -->
                                                                     <label class="mb-0" style="margin-right: 15px;"><b>Private</b></label>
                                                                     <div class="custom-control custom-switch">
-                                                                        <input type="checkbox" class="custom-control-input" id="customSwitch">
+                                                                        <input type="checkbox" class="custom-control-input" id="customSwitch" {{ $status == 'public' ? 'checked' : '' }}>
                                                                         <label class="custom-control-label" for="customSwitch"></label>
                                                                     </div>
-
                                                                     <!-- Public Label -->
                                                                     <label class="ml-3 mb-0"><b>Public</b></label>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        @error('status')
+                                                        <div class="error text-danger">{{ $message }}</div>
+                                                    @enderror
                                                         <!-- Hidden Input to Store Status Value -->
-                                                        <input type="hidden" name="status" id="statusHidden" value="{{ $product->status ?? 'private' }}">
+                                                        <input type="hidden" name="status" id="statusHidden" value="{{ $status ?? 'private' }}">
+
 
                                                     </div>
                                                 </div>

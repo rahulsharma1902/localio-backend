@@ -20,7 +20,7 @@
                                 <label class="form-label" for="name">Rating</label>
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                    <input type="number" name="rating" value="{{ old('rating', $review->rating) }}" />
+                                    <input type="number" name="rating" class="form-control" value="{{ old('rating', $review->rating) }}" readonly/>
                                     </div>
                                 </div>
                                 @error('rating')
@@ -32,16 +32,17 @@
                         @if(isset($products))
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Products</label>
+                                <label class="form-label">Business Name</label>
                                 <div class="form-control-wrap">
                                     @if ($locale === 'en-us')
-                                        <select name="product_id">
-                                            @foreach($products as $product)
-                                                <option value="{{ $product->id }}" {{ $product->id == $review->product_id ? 'selected' : '' }}>
-                                                    {{ $product->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                    <select name="product_id" class="form-control" disabled>
+                                        @foreach($products as $product)
+                                            <option value="{{ $product->id }}" {{ $product->id == $review->product_id ? 'selected' : '' }}>
+                                                {{ $product->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="product_id" value="{{ $review->product_id }}">
                                     @endif
                                 </div>
 
@@ -55,7 +56,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea name="description">{{ old('description', $reviewTranslation ? $reviewTranslation->description : '') }}
+                                    <textarea class="form-control" name="description">{{ old('description', $reviewTranslation ? $reviewTranslation->description : '') }}
                                     </textarea>
                                 </div>
                                 @error('description')

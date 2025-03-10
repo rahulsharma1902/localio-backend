@@ -70,6 +70,7 @@ class AdminProductController extends Controller
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
+            'overview' => 'required|string',
             'product_category' => 'required',
             'product_price' => 'nullable',
             'prices' => 'required|array',
@@ -79,8 +80,8 @@ class AdminProductController extends Controller
             'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            'pros_data' => 'array',
-            'conse_data' => 'array',
+            'pros_data' => 'nullable|array',
+            'conse_data' => 'nullable|array',
             'product_feature' => 'required|array',
             'status' => 'nullable|in:public,private', // ✅ Add status validation
         ]);
@@ -113,13 +114,16 @@ class AdminProductController extends Controller
         $product->save();
 
         // Save product translation
-        $language_id = Language::where('lang_code', 'en-us')->value('id');
+        $language_id = $language->id;
         $productTranslation = new ProductTranslation();
         $productTranslation->name = $request->name;
         $productTranslation->slug = Str::slug($request->name);
         $productTranslation->description = $request->description;
         $productTranslation->product_id = $product->id;
         $productTranslation->language_id = $language_id;
+        $productTranslation->overview = $request->overview;
+
+        $productTranslation->status = $request->status ?? 'public';
         $productTranslation->save();
 
         // Save product categories
@@ -306,17 +310,27 @@ class AdminProductController extends Controller
                 ->get(['id', 'name'])
                 ->toArray()
             : [];
+            $language_id = Language::where('lang_code', getCurrentLocale())->value('id');
+
+    // Fetch product translation for the selected language
+    $productTranslation = ProductTranslation::where('product_id', $id)
+        ->where('language_id', $language_id)
+        ->first();
+
+    // Get the status from translation, fallback to default product status
+    $status = $productTranslation ? $productTranslation->status : $product->status;
         // dd($feature_arr);
-        return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data', 'feature_arr', 'features', 'product', 'selectedCategoryIds', 'filters', 'selectedFilterOptions'));
+        return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data', 'feature_arr', 'features', 'product', 'productTranslation','selectedCategoryIds', 'filters', 'selectedFilterOptions','status'));
     }
     public function productUpdateProccess(Request $request, Product $product)
     {
-        //  dd($request->all());
+        // dd($request->all());
         $request->validate([
             'id' => 'required|exists:products,id',
             'lang_code' => 'required|exists:languages,id',
             'name' => 'required|string',
             'description' => 'required|string',
+            'overview' => 'required|string',
             'product_category' => 'required|array|min:1',
             'product_category.*' => 'exists:categories,id',
             'product_price' => 'nullable|numeric',
@@ -327,16 +341,20 @@ class AdminProductController extends Controller
             'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            'pross_data' => 'array',
-            'conse_data' => 'array',
+            'pross_data' => 'nullable|array',
+            'conse_data' => 'nullable|array',
             'filter_options' => 'nullable|array',
             'product_category' => 'required|array',
+            'pros_data' => 'nullable|array',
+            'conse_data' => 'nullable|array',
             'selected_filters' => 'nullable|string',
             'status' => 'nullable|in:public,private',
 
         ]);
 
         $language = Language::find($request->lang_code);
+        //dd($request->lang_code);
+
         if (!$language) {
             return redirect()
                 ->back()
@@ -355,7 +373,7 @@ class AdminProductController extends Controller
         $product->description = $request->description;
         $product->product_price = $request->product_price;
         $product->overview = $request->overview;
-        $product->status = $request->status;
+        $product->product_link = $request->product_link;
 
         if ($request->hasFile('product_icon')) {
             $media = $this->mediaService->uploadMedia($request->file('product_icon'), 'products/images');
@@ -369,13 +387,22 @@ class AdminProductController extends Controller
         $product->product_link = $request->product_link;
         $product->update();
 
-        $language_id = Language::where('lang_code', 'en-us')->value('id');
-        ProductTranslation::updateOrCreate(
+        $language_id = $language->id;
+        // $existingTranslation = ProductTranslation::where([
+        //     'product_id' => $product->id,
+        //     'language_id' => $language_id
+        // ])->first();
+
+        // dd($existingTranslation);
+        $productTranslation=ProductTranslation::updateOrCreate(
             ['product_id' => $product->id, 'language_id' => $language_id],
             [
                 'name' => $request->name,
                 'slug' => $product->slug,
                 'description' => $request->description,
+                'overview' => $request->overview,
+                'status' => $request->status,
+                'product_link'=>$request->product_link,
             ]
         );
         CategoryProduct::where('product_id', $product->id)->delete();
@@ -583,14 +610,10 @@ class AdminProductController extends Controller
                 ->route('products')
                 ->with('error', 'No valid features to insert.');
         }
-
         return redirect()
-            ->route('products')
-            ->with('success', 'Product features updated successfully.');
+        ->back()
+        ->with('success', 'Product updated successfully');
 
-        return redirect()
-            ->route('products')
-            ->with('success', 'Product updated successfully');
     }
     public function removeProduct($id)
     {

@@ -28,6 +28,8 @@
                                                     placeholder="Business Name" value="">
                                             </div>
                                         </div>
+                                        {{-- @if ($errors->has('name')) <p style="color:red;">{{ $errors->first('name') }}</p> @endif --}}
+
                                         @error('name')
                                             <div class="error text-danger">{{ $message }}</div>
                                         @enderror
@@ -49,11 +51,7 @@
                                     <div class="form-group">
                                         <label class="form-label" for="description">Business Description</label>
                                         <div class="form-control-wrap">
-                                            <textarea id="editor1" rows="2" cols="70"></textarea>
-                                            <br>
-                                            <textarea id="editor2" rows="2" cols="70"></textarea>
-
-                                            <input type="hidden" name="description" id="final_description">
+                                            <textarea class="description" id="description" name="description" rows="2" cols="70"></textarea>
 
                                             @error('description')
                                                 <div class="error text-danger">{{ $message }}</div>
@@ -65,7 +63,7 @@
 
                             @if ($productTranslation->language ?? '')
                                 <input type="hidden" name="lang_code"
-                                    value="{{ $productTranslation->language->lang_code ?? '' }}">
+                                    value="{{ $productTranslation->language->id ?? '' }}">
                             @else
                                 <input type="hidden" class="form-control" id="language_id" name="lang_code"
                                     value="{{ getCurrentLanguageID() }}" />
@@ -145,7 +143,7 @@
                             <br>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label">Product Prices</label>
+                                    <label class="form-label">Business Prices</label>
                                     <div id="price-container">
                                         <div class="input-group mb-2">
                                             <input type="number" class="form-control" name="prices[]"
@@ -226,11 +224,8 @@
                                 <div class="form-group">
                                     <label class="form-label" for="description">Business Overview</label>
                                     <div class="form-control-wrap">
-                                        <textarea id="editor3" rows="2" cols="70"></textarea>
-                                        <br>
-                                        <textarea id="editor4" rows="2" cols="70"></textarea>
+                                        <textarea class="description" id="overview" name="overview" rows="2" cols="70"></textarea>
 
-                                        <input type="hidden" name="overview" id="final_overview">
                                         @error('overview')
                                             <div class="error text-danger">{{ $message }}</div>
                                         @enderror

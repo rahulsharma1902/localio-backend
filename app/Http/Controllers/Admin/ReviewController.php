@@ -73,24 +73,29 @@ class ReviewController extends Controller
 
     public function reviewEdit($id)
     {
-        $review = Review::findOrFail($id);
+        $review = Review::with('product')->findOrFail($id);
+
 
         $reviewTranslation = ReviewTranslation::where('reviews_id', $review->id)->first();
-        $products = Product::all('name', 'id');
+        $products = Product::all();
 
         return view('Admin.reviews.update_review', compact('review', 'reviewTranslation','products'));
     }
     public function reviewUpdate(Request $request, $id)
 {
+   // dd($request);
+
     // Validate the form data
     $request->validate([
         'rating' => 'required|integer|min:1|max:5',
-        'description' => 'required|string|max:255',
+        // 'description' => 'required|string|max:255',
         'product_id' => 'required|exists:products,id', // Make sure the product ID is valid
     ]);
-
+    $language = Language::where('lang_code', app()->getLocale())->first();
+        $langId = $language ? $language->id : 1;
     // Find the review by ID
-    $review = Review::findOrFail($id);
+    $review = Review::with('product')->findOrFail($id);
+
 
     // Update the review's data
     $review->rating = $request->rating;
@@ -109,7 +114,8 @@ class ReviewController extends Controller
         $reviewTranslation = new ReviewTranslation();
         $reviewTranslation->reviews_id = $review->id;
         $reviewTranslation->description = $request->description;
-        $reviewTranslation->lang_code = app()->getLocale(); // Store current locale
+        $reviewTranslation->language_id = $langId; // ✅ Use integer ID from languages table
+ // Store current locale
         $reviewTranslation->save();
     }
 
