@@ -40,9 +40,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label" for="product-link">Affiliate Link</label>
-                                        <input class="form-control" type="url" class="form-control" name="product_link" id="product-link"
-                                        {{-- value="{{ isset($productTranslation) ? $productTranslation->product_link : (isset($product) ? $product->product_link : '') }}"  placeholder="Business Link"> --}}
-                                        value="{{ old('product_link') !== null ? old('product_link') : ($productTranslation->product_link ?? $product->product_link ?? '') }}">
+                                        <input class="form-control" type="url" class="form-control" name="product_link"
+                                            id="product-link" {{-- value="{{ isset($productTranslation) ? $productTranslation->product_link : (isset($product) ? $product->product_link : '') }}"  placeholder="Business Link"> --}}
+                                            value="{{ old('product_link') !== null ? old('product_link') : $productTranslation->product_link ?? ($product->product_link ?? '') }}">
                                         {{-- {{ dd(old('product_link'), $productTranslation->product_link ?? null, $product->product_link ?? null) }} --}}
 
                                     </div>
@@ -52,7 +52,7 @@
                                     @enderror
                                 </div>
                                 @error('lang_code')
-                                <div class="error text-danger">{{ $message }}</div>
+                                    <div class="error text-danger">{{ $message }}</div>
                                 @enderror
                                 <!-- Product Description -->
                                 <div class="col-md-12 mt-3">
@@ -134,8 +134,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Business Category</label>
-                                        <select  class="form-control product-category filter-item filter-option"
-                                            id="product-category" name="product_category[]" multiple disabled>
+                                        <select class="form-control product-category filter-item filter-option"
+                                            id="product-category" name="product_category[]" multiple
+                                            @if (getCurrentLocale() !== 'en-us') disabled @endif>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
                                                     @if ($product->categories->contains($category->id)) selected @endif>
@@ -143,8 +144,14 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @if (getCurrentLocale() !== 'en-us')
+                                            @foreach ($product->categories as $category)
+                                                <input type="hidden" name="product_category[]"
+                                                    value="{{ $category->id }}">
+                                            @endforeach
+                                        @endif
                                         @error('product-category')
-                                        <div class="error text-danger">{{ $message }}</div>
+                                            <div class="error text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -161,11 +168,12 @@
                                                     value="{{ $option->id }}" data-category="{{ $filter->category_id }}"
                                                     data-filter="{{ $filter->id }}"
                                                     @if (in_array($option->id, $selectedFilterOptions)) checked @endif>
-
+                                                @if (getCurrentLocale() !== 'en-us')
+                                                @endif
 
                                                 <label for="filter_{{ $option->id }}">{{ $option->name }}</label>
                                                 @error('filter_options')
-                                                <div class="error text-danger">{{ $message }}</div>
+                                                    <div class="error text-danger">{{ $message }}</div>
                                                 @enderror
                                             </li>
                                         @endforeach
@@ -204,7 +212,7 @@
                                                                 <option value="Pro">Pro</option>
                                                             </select>
                                                             @error('tenures')
-                                                            <div class="error text-danger">{{ $message }}</div>
+                                                                <div class="error text-danger">{{ $message }}</div>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -212,8 +220,8 @@
                                                     <!-- Editable Price Input -->
                                                     <div class="col-md-5 mb-3">
                                                         <label>Price:</label>
-                                                        <input type="text" name="prices[]" value="{{ $price->price }}"
-                                                            class="form-control">
+                                                        <input type="text" name="prices[]"
+                                                            value="{{ $price->price }}" class="form-control">
                                                     </div>
 
                                                     <!-- Delete Button -->
@@ -287,8 +295,8 @@
                                             @endif
                                         </select>
                                         @error('product_feature')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                    @enderror
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -330,8 +338,8 @@
                                             </div>
                                         @endforeach
                                         @error('pross_data')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                    @enderror
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -361,8 +369,8 @@
                                             </div>
                                         @endforeach
                                         @error('conse_data')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                    @enderror
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -370,60 +378,65 @@
                         </div>
                     </div>
                 </div>
-                            <div class="col-lg-4">
-                                <div class="card card-bordered">
-                                    <div class="card-inner">
-                                        <div class="row g-3">
-                                            <div class="col-md-12">
-                                                <div class="card border">
+                <div class="col-lg-4">
+                    <div class="card card-bordered">
+                        <div class="card-inner">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="card border">
 
-                                                    <div class="nk-block">
-                                                        <div class="col-md-12 mt-1 d-flex justify-content-between">
-                                                            <a href="your-view-page-url" class="btn btn-link text-center">
-                                                                <span><b>View Page</b></span>
-                                                            </a>
-                                                            <button
-                                                                class="addCategory btn btn-primary text-center btn-localio"><em
-                                                                    class=""
-                                                                    id="update-button"></em><span>Update</span></button>
-
-                                                        </div>
-                                                        <div class="card-body col-md-12 mt-1 d-flex justify-content-left">
-                                                            <div class="form-group">
-                                                                <label class="form-label d-block text-left">Business Status</label>
-                                                                <div class="d-flex align-items-center justify-content-center">
-                                                                    <!-- Private Label -->
-                                                                    <label class="mb-0" style="margin-right: 15px;"><b>Private</b></label>
-                                                                    <div class="custom-control custom-switch">
-                                                                        <input type="checkbox" class="custom-control-input" id="customSwitch" {{ $status == 'public' ? 'checked' : '' }}>
-                                                                        <label class="custom-control-label" for="customSwitch"></label>
-                                                                    </div>
-                                                                    <!-- Public Label -->
-                                                                    <label class="ml-3 mb-0"><b>Public</b></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @error('status')
-                                                        <div class="error text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                        <!-- Hidden Input to Store Status Value -->
-                                                        <input type="hidden" name="status" id="statusHidden" value="{{ $status ?? 'private' }}">
-
-
-                                                    </div>
-                                                </div>
+                                        <div class="nk-block">
+                                            <div class="col-md-12 mt-1 d-flex justify-content-between">
+                                                <a href="your-view-page-url" class="btn btn-link text-center">
+                                                    <span><b>View Page</b></span>
+                                                </a>
+                                                <button class="addCategory btn btn-primary text-center btn-localio"><em
+                                                        class=""
+                                                        id="update-button"></em><span>Update</span></button>
 
                                             </div>
+                                            <div class="card-body col-md-12 mt-1 d-flex justify-content-left">
+                                                <div class="form-group">
+                                                    <label class="form-label d-block text-left">Business Status</label>
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <!-- Private Label -->
+                                                        <label class="mb-0"
+                                                            style="margin-right: 15px;"><b>Private</b></label>
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="customSwitch"
+                                                                {{ $status == 'public' ? 'checked' : '' }}>
+                                                            <label class="custom-control-label"
+                                                                for="customSwitch"></label>
+                                                        </div>
+                                                        <!-- Public Label -->
+                                                        <label class="ml-3 mb-0"><b>Public</b></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @error('status')
+                                                <div class="error text-danger">{{ $message }}</div>
+                                            @enderror
+                                            <!-- Hidden Input to Store Status Value -->
+                                            <input type="hidden" name="status" id="statusHidden"
+                                                value="{{ $status ?? 'private' }}">
+
+
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
         </form>
 
     </div>
+
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             const switchInput = $("#customSwitch");
             const hiddenInput = $("#statusHidden");
 
@@ -431,7 +444,7 @@
             switchInput.prop("checked", hiddenInput.val() === "public");
 
             // Update hidden input value when switch is toggled
-            switchInput.on("change", function () {
+            switchInput.on("change", function() {
                 hiddenInput.val(this.checked ? "public" : "private");
             });
         });
@@ -702,6 +715,34 @@
                 });
 
                 $('#selected_filters').val(JSON.stringify(selectedFilters));
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            function toggleFilterOptions() {
+                let isEnglish = $("#product-category").prop("disabled") ===
+                false; // Check if the category dropdown is enabled
+
+                console.log("Is English?:", isEnglish); // Debugging
+
+                $('.filter-option').prop('disabled', !isEnglish); // Enable/Disable checkboxes
+
+                if (!isEnglish) {
+                    console.log("Disabling filter checkboxes...");
+                    $('.filter-item').css('pointer-events', 'none'); // Prevent clicking
+                } else {
+                    console.log("Enabling filter checkboxes...");
+                    $('.filter-item').css('pointer-events', 'auto'); // Enable clicking
+                }
+            }
+
+            // **Run on page load to apply settings immediately**
+            toggleFilterOptions();
+
+            // **Trigger when language changes (assuming language changes affect the product category dropdown)**
+            $("#product-category").on("change", function() {
+                toggleFilterOptions();
             });
         });
     </script>
