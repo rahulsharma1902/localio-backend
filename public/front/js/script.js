@@ -21,9 +21,11 @@ $(document).ready(function () {
 // header dropdown at mobile js
 
 $('.mobile-drop').on('click', function (e) {
-  e.preventDefault();
-  $('.mobile-drop').not(this).find('.mob-drp-contnt').removeClass('show');
-  $(this).find('.mob-drp-contnt').toggleClass('show');
+   e.preventDefault();
+   $('.mobile-drop').not(this).removeClass('menu-active');
+   $(this).toggleClass('menu-active');
+   $('.mobile-drop').not(this).find('.mob-drp-contnt').removeClass('show');
+   $(this).find('.mob-drp-contnt').toggleClass('show');
 });
 
 

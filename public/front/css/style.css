@@ -3148,7 +3148,7 @@ input:-webkit-autofill:active {
 	color: #fff;
 	text-align: center;
 	background: #1877f2;
-	padding: 20px;
+	padding:15px 20px;
 	border-radius: 140px;
 	display: block;
 }
@@ -3210,11 +3210,14 @@ header.drk_header {
 	color: #06498b;
 }
 
-.login_form .contact_content {
+/* .login_form .contact_content {
 	max-width: 924px !important;
 	padding: 90px 120px !important;
+} */
+.login_form .contact_content {
+    max-width: 620px !important;
+    padding: 50px 60px !important;
 }
-
 /* chatwth_sec css */
 
 .chatwth_sec {
@@ -5386,4 +5389,53 @@ header .search_logo .search-box {
 
 ul.dropdown_menu.dropdown_menu--animated.dropdown_menu-6.mob-drp-contnt.show {
     display: block;
+}
+.top_header.dark {
+    position: relative;
+}
+
+.top_header.dark .navbar {
+    position: unset;
+}
+
+.top_header.dark  .menu li,
+.top_header.dark  .menu li.menu-item {
+    position: unset;
+}
+
+header .menu .dropdown_menu {
+    right: 0;
+    padding: 30px 0 30px 60px;
+}
+
+.top_header.dark  .menu li .dropdown_menu-6 {
+    animation: none;
+}
+
+
+.top_header.dark  .dropdown_menu.show::before  {
+    content: "";
+    height: 100vh;
+    width: 100%;
+    background-color: #00000073;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    z-index: -1;
+}
+.top_header.dark .menu-active span.dropdown_toggle {
+    transform: rotate(180deg);
+}
+
+
+.dropdown-ul-inner {
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap;
+}
+.dropdown-ul-inner li{
+    width:25%;
+}
+.login_box.size18 {
+    font-size: 16px;
 }
