@@ -227,12 +227,10 @@
 
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="" class="nk-menu-link"><span
+                                            <a href="#" class="nk-menu-link"><span
                                                     class="nk-menu-text">Add Deals</span>
                                             </a>
                                         </li>
-
-
                                     </ul>
                                 </li>
 
@@ -591,7 +589,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- content @start -->
                 <div class="nk-content ">
                     @yield('content')

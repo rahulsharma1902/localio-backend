@@ -9,7 +9,7 @@ class ReviewTranslation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['reviews_id', 'title', 'description', 'lang_code'];
+    protected $fillable = ['reviews_id', 'title', 'description', 'language_id'];
 
     public function review()
     {
