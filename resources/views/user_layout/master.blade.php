@@ -153,14 +153,16 @@
                                                     class="fa-solid fa-chevron-down"></i></span>
                                             <ul
                                                 class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                                @foreach ($categories as $category)
-                                                    <li class="dropdown_item-1">
-                                                        <a href="javascript:void(0);"
-                                                            onclick="changeCategory('{{ $category['slug'] }}')">
-                                                            {{ $category['name'] }}
-                                                        </a>
-                                                    </li>
-                                                @endforeach
+                                                <div class="dropdown-ul-inner">
+                                                    @foreach ($categories as $category)
+                                                        <li class="dropdown_item-1">
+                                                            <a href="javascript:void(0);"
+                                                                onclick="changeCategory('{{ $category['slug'] }}')">
+                                                                {{ $category['name'] }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </div>
                                             </ul>
                                         </li>
                                         <?php
@@ -174,15 +176,17 @@
                                                     class="fa-solid fa-chevron-down"></i></span>
                                             <ul
                                                 class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                                @if (isset($products) && !$products->isEmpty())
-                                                    @foreach ($products as $product)
-                                                        <li class="dropdown_item-1">
-                                                            <a href="javascript:void(0)" class="product-name"
-                                                                data-id="{{ $product->id }}"
-                                                                data-slug="{{ $product->slug }}">{{ $product->name ?? '' }}</a>
-                                                        </li>
-                                                    @endforeach
-                                                @endif
+                                                <div class="dropdown-ul-inner">
+                                                    @if (isset($products) && !$products->isEmpty())
+                                                        @foreach ($products as $product)
+                                                            <li class="dropdown_item-1">
+                                                                <a href="javascript:void(0)" class="product-name"
+                                                                    data-id="{{ $product->id }}"
+                                                                    data-slug="{{ $product->slug }}">{{ $product->name ?? '' }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
                                             </ul>
                                         </li>
                                         <li class=" menu-item dropdown dropdown-6 mobile-drop">
@@ -192,21 +196,24 @@
                                                     class="fa-solid fa-chevron-down"></i></span>
                                             <ul
                                                 class="dropdown_menu dropdown_menu--animated dropdown_menu-6 mob-drp-contnt">
-                                                <li class="dropdown_item-1">
-                                                    <a href="#">Item 1</a>
-                                                </li>
-                                                <li class="dropdown_item-2">
-                                                    <a href="#">Item 2</a>
-                                                </li>
-                                                <li class="dropdown_item-3">
-                                                    <a href="#">Item 3</a>
-                                                </li>
-                                                <li class="dropdown_item-4">
-                                                    <a href="#">Item 4</a>
-                                                </li>
-                                                <li class="dropdown_item-5">
-                                                    <a href="#">Item 5</a>
-                                                </li>
+                                                
+                                                <div class="dropdown-ul-inner">
+                                                    <li class="dropdown_item-1">
+                                                        <a href="#">Item 1</a>
+                                                    </li>
+                                                    <li class="dropdown_item-2">
+                                                        <a href="#">Item 2</a>
+                                                    </li>
+                                                    <li class="dropdown_item-3">
+                                                        <a href="#">Item 3</a>
+                                                    </li>
+                                                    <li class="dropdown_item-4">
+                                                        <a href="#">Item 4</a>
+                                                    </li>
+                                                    <li class="dropdown_item-5">
+                                                        <a href="#">Item 5</a>
+                                                    </li>
+                                                </div>
                                             </ul>
                                         </li>
                                     </ul>

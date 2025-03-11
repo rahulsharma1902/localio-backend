@@ -19,7 +19,7 @@ use App\Models\Price;
 use App\Models\ProductFeature;
 use Illuminate\Support\Facades\DB;
 use App\Services\MediaService;
-use App\Models\CategoryFilterOption;
+use App\Models\ProductFilterOption;
 
 class AdminProductController extends Controller
 {
@@ -220,7 +220,7 @@ if (is_array($request->conse_data)) {
 
             if (is_array($selectedFilters)) {
                 foreach ($selectedFilters as $filter) {
-                    CategoryFilterOption::updateOrCreate([
+                    ProductFilterOption::updateOrCreate([
                         'category_id' => $filter['category_id'],
                         'filter_id' => $filter['filter_id'],
                         'filter_option_id' => $filter['filter_option_id'],
@@ -283,23 +283,52 @@ if (is_array($request->conse_data)) {
                 ->toArray()
             : [];
 
-        $categories = Category::all();
-        $product = Product::with('categories')->findOrFail($id);
+        $categories = Category::with('translations')->get();
+        $getCurrentSiteLanguage = getCurrentSiteLanguage();
+        $getCurrentSiteLanguageId = (int) $getCurrentSiteLanguage->id; // Ensure it's an integer
+        
+        $product = Product::with([
+            'categories',
+            'prons',
+            'prons.translation'=> function ($query) use ($getCurrentSiteLanguageId) {
+                $query->where('language_id', $getCurrentSiteLanguageId);
+            },
+            'cons',
+            'cons.translation'=> function ($query) use ($getCurrentSiteLanguageId) {
+                $query->where('language_id', $getCurrentSiteLanguageId);
+            },
+            'prices',
+            'categories.translations',
+            'translations' => function ($query) use ($getCurrentSiteLanguageId) {
+                $query->where('language_id', $getCurrentSiteLanguageId);
+            },
+            'filters',
+            
+            ])->findOrFail($id);
+            
 
+        $languageId = getCurrentLanguageID();        
+        $language = Language::find($languageId);
+            // echo '<pre>';
+            // print_r($product->toArray());
+            // die();
         // Get selected category IDs
         $selectedCategoryIds = $product->categories->pluck('id')->toArray();
-
+        
         // Get selected filter option IDs
-        $selectedFilterOptions = CategoryFilterOption::where('product_id', $product->id)
-            ->pluck('filter_option_id')
-            ->toArray();
-
+        $selectedFilterOptions = ProductFilterOption::where('product_id', $product->id)
+        ->pluck('filter_option_id')
+        ->toArray();
+        
         // Fetch filters based on selected categories
         $filters = Filter::whereIn('category_id', $selectedCategoryIds)
-            ->with('filterOptions')
-            ->get();
-        $product = Product::with('categories.translations')->find($id);
-        $product = Product::with('prices')->find($id);
+        ->with('filterOptions')
+        ->get();
+        
+        
+        // $product = Product::with('categories.translations')->find($id);
+        // $product = Product::with('prices')->find($id);
+        
         $category_products = CategoryProduct::where('product_id', $id)
             ->pluck('category_id')
             ->toArray();
@@ -329,11 +358,14 @@ if (is_array($request->conse_data)) {
     // Get the status from translation, fallback to default product status
     $status = $productTranslation ? $productTranslation->status : $product->status;
         // dd($feature_arr);
+            
         return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data', 'feature_arr', 'features', 'product', 'productTranslation','selectedCategoryIds', 'filters', 'selectedFilterOptions','status'));
     }
     public function productUpdateProccess(Request $request, Product $product)
     {
-         //dd($request->all());
+        // echo '<pre>';
+        // print_r($request->all());
+        // die();
         $request->validate([
             'id' => 'required|exists:products,id',
             'lang_code' => 'required|exists:languages,id',
@@ -350,16 +382,27 @@ if (is_array($request->conse_data)) {
             'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
-            'pross_data' => 'nullable|array',
-            'conse_data' => 'nullable|array',
+            // 'pross_data' => 'nullable|array',
+            // 'conse_data' => 'nullable|array',
             'filter_options' => 'nullable|array',
             'product_category' => 'required|array',
             'selected_filters' => 'nullable|string',
             'status' => 'nullable|in:public,private',
 
+
+            'pros' => 'array',
+            'pros.*.name' => 'required|string|max:255',
+            'pros.*.description' => 'nullable|string',
+            'cons' => 'array',
+            'cons.*.name' => 'required|string|max:255',
+            'cons.*.description' => 'nullable|string',
+
         ]);
-        //dd($request->all());
+        $languageRole = getYourLanguageRole();
+        
+        // dd($languageRole);
         $language = Language::find($request->lang_code);
+        
         //dd($request->lang_code);
 
         if (!$language) {
@@ -367,7 +410,258 @@ if (is_array($request->conse_data)) {
                 ->back()
                 ->with('error', 'Current language not found');
         }
+        if($language->id === 1){
+            $product = Product::find($request->id);
+            if (!$product) {
+                return redirect()->back()->with('error', 'Product not found');
+            }
+            $product->name = $request->name;
+            $product->slug = Str::slug($request->name);
+            $product->description = $request->description;
+            $product->product_price = $request->product_price;
+            $product->overview = $request->overview;
+            $product->product_link = $request->product_link;
 
+            if ($request->hasFile('product_icon')) {
+                $media = $this->mediaService->uploadMedia($request->file('product_icon'), 'products/images');
+                $product->product_icon = $media->id ?? null;
+            }
+
+            if ($request->hasFile('product_image')) {
+                $media = $this->mediaService->uploadMedia($request->file('product_image'), 'products/images');
+                $product->product_image = $media->id ?? null;
+            }
+            $product->product_link = $request->product_link;
+            $product->update();
+
+            /** pronc or conss code : */
+            $removeproncondata = $request->input('removeproncondata', []);
+            if (!empty($removeproncondata)) {
+                ProCons::whereIn('id', $removeproncondata)->delete();
+                ProConsTranslation::whereIn('pro_cons_id', $removeproncondata)->delete();
+            }
+
+            $pros = $request->input('pros', []); 
+            $cons = $request->input('cons', []); 
+            if (!empty($pros)) {
+                foreach ($pros as $pro) {
+                    ProCons::updateOrCreate(
+                        ['id' => $pro['id'] ?? null],
+                        [
+                            'name' => $pro['name'],
+                            'description' => $pro['description'],
+                            'type' => 'pross',
+                            'product_id' => $request->id
+                        ]
+                    );
+                }
+            }
+          
+            if (!empty($cons)) {
+                foreach ($cons as $con) {
+                    ProCons::updateOrCreate(
+                        ['id' => $con['id'] ?? null],
+                        [
+                            'name' => $con['name'],
+                            'description' => $con['description'],
+                            'type' => 'cons',
+                            'product_id' => $request->id
+                        ]
+                    );
+                }
+            }
+
+            /** add category to category product table : */
+            CategoryProduct::where('product_id', $product->id)->delete();
+            foreach ($request->product_category as $value) {
+                CategoryProduct::updateOrCreate([
+                    'category_id' => $value,
+                    'product_id' => $product->id,
+                ]);
+            }
+
+            /** filter option data  */
+            ProductFeature::where('product_id', $request->id)->delete();
+
+            $feature_ids = FeatureTransalte::whereIn('id', is_array($request->product_feature) ? $request->product_feature : [])
+            ->pluck('feature_id')
+            ->toArray();
+
+
+            $data = [];
+            foreach ($feature_ids as $feature_id) {
+                $feature_type = Feature::where('id', $feature_id)->value('type');
+                $data[] = [
+                    'product_id' => $request->id,
+                    'feature_id' => $feature_id,
+                    'feature_type' => $feature_type,
+                ];
+            }
+
+            $existingPrices = Price::where('product_id', $product->id)
+                ->get()
+                ->keyBy('id');
+
+            foreach ($request->prices as $index => $price) {
+                $tenure = $request->tenures[$index] ?? null;
+                $priceId = $request->price_ids[$index] ?? null; // Retrieve price ID from form input
+
+                if ($tenure && $priceId) {
+                    if (isset($existingPrices[$priceId])) {
+                        // Update existing price (Keeping same ID)
+                        $existingPrices[$priceId]->update([
+                            'price' => $price,
+                            'tenure' => $tenure,
+                        ]);
+                    }
+                } else {
+                    // Insert new price if no existing ID is provided
+                    Price::create([
+                        'product_id' => $product->id,
+                        'price' => $price,
+                        'tenure' => $tenure,
+                    ]);
+                }
+            }
+
+            if ($request->has('selected_filters') && !empty($request->selected_filters)) {
+                $selectedFilters = json_decode($request->selected_filters, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    return redirect()
+                        ->back()
+                        ->with('error', 'Invalid filter data. JSON decode failed.');
+                }
+
+                if (is_array($selectedFilters)) {
+                    // **Fetch existing filters for this product**
+                    $existingFilters = ProductFilterOption::where('product_id', $product->id)->get();
+
+                    // **Create an array of currently selected filter option IDs**
+                    $selectedFilterOptionIds = collect($selectedFilters)
+                        ->pluck('filter_option_id')
+                        ->toArray();
+
+                    // **Delete filters that are no longer selected**
+                    ProductFilterOption::where('product_id', $product->id)
+                        ->whereNotIn('filter_option_id', $selectedFilterOptionIds)
+                        ->delete();
+
+                    // **Loop through selected filters and update or create**
+                    foreach ($selectedFilters as $filter) {
+                        ProductFilterOption::updateOrCreate([
+                            'product_id' => $product->id,
+                            'category_id' => $filter['category_id'],
+                            'filter_id' => $filter['filter_id'],
+                            'filter_option_id' => $filter['filter_option_id'], // Add this to make each filter unique
+                        ]);
+                    }
+                } else {
+                    return redirect()
+                        ->back()
+                        ->with('error', 'Invalid filter data. Please try again.');
+                }
+            }
+
+            if (!empty($data)) {
+                ProductFeature::insert($data);
+            } else {
+                return redirect()
+                    ->route('products')
+                    ->with('error', 'No valid features to insert.');
+            }
+
+        }else{
+            /** here is code for languagae data update : */
+            // echo '<pre>';
+            // print_r($request->all());
+            // die();
+            $product = Product::find($request->id);
+            if (!$product) {
+                return redirect()->back()->with('error', 'Product not found');
+            }
+            $translationProduct = ProductTranslation::firstOrNew([
+                'product_id' => $product->id,
+                'language_id' => $request->lang_code
+            ]);
+            $translationProduct->product_id = $product->id;
+            $translationProduct->language_id = $request->lang_code;
+            $translationProduct->name = $request->name;
+            // $translationProduct->slug = $request->slug;
+            $translationProduct->slug = Str::slug($request->name);
+
+            $translationProduct->description = $request->description;
+            $translationProduct->overview = $request->overview;
+            $translationProduct->status = $request->status ?? 'public';
+            $translationProduct->product_link = $request->product_link; 
+            $translationProduct->save(); 
+            
+            /** translate pron cons */
+            
+
+            $prosTranslation = $request->input('pros', []); 
+            $consTranslation = $request->input('cons', []); 
+
+            if (!empty($prosTranslation)) {
+                foreach ($prosTranslation as $pro) {
+                    $prosTranslation = ProConsTranslation::where('pro_cons_id', $pro['id'])
+                                        ->where('language_id', $request->lang_code)
+                                        ->first() ?? new ProConsTranslation;
+
+                    $prosTranslation->pro_cons_id = $pro['id'];
+                    $prosTranslation->language_id = $request->lang_code;
+                    $prosTranslation->name = $pro['name'];
+                    $prosTranslation->description = $pro['description'];
+                    $prosTranslation->type = 'pross';
+                    $prosTranslation->save();
+
+                    // ProConsTranslation::updateOrCreate(
+                    //     [
+                    //         'pro_cons_id' => $pro['id'],
+                    //         'language_id' => $request->lang_code
+                    //     ],
+                    //     [
+                    //         'name' => $pro['name'],
+                    //         'description' => $pro['description'],
+                    //         'type' => 'pross',
+                    //         'product_id' => $request->id
+                    //     ]
+                    // );
+                }
+            }
+
+            if (!empty($consTranslation)) {
+                foreach ($consTranslation as $con) {
+                    $consTranslation = ProConsTranslation::where('pro_cons_id', $con['id'])
+                                        ->where('language_id', $request->lang_code)
+                                        ->first() ?? new ProConsTranslation;
+
+                    $consTranslation->pro_cons_id = $con['id'];
+                    $consTranslation->language_id = $request->lang_code;
+                    $consTranslation->name = $con['name'];
+                    $consTranslation->description = $con['description'];
+                    $consTranslation->type = 'cons';
+                    $consTranslation->save();
+                    // ProConsTranslation::updateOrCreate(
+                    //     [
+                    //         'pro_cons_id' => $con['id'],
+                    //         'language_id' => $request->lang_code 
+                    //     ],
+                    //     [
+                    //         'name' => $con['name'],
+                    //         'description' => $con['description'],
+                    //         'type' => 'cons',
+                    //         'product_id' => $request->id
+                    //     ]
+                    // );
+                }
+            }
+
+        
+            return redirect()->back()->with('success', 'Product updated successfully');
+            
+            
+        }
         $product = Product::find($request->id);
         if (!$product) {
             return redirect()
@@ -420,87 +714,125 @@ if (is_array($request->conse_data)) {
             ]);
         }
 
-        // Prose  data manage
-        $matched = [];
-        $notmatched = [];
-        // Get language ID from the request
-        $language = $request->lang_code;
-        $pross_id = ProCons::where('product_id', $product->id)
-            ->where('type', 'pross')
-            ->value('id');
 
-        if ($pross_id) {
-            $existingTranslations = ProConsTranslation::where('pro_cons_id', $pross_id)
-            ->where('language_id', $language_id) // Delete only for selected language
-            ->pluck('name')
-                ->toArray();
-            $incomingFeatures = $request->pross_data;
-
-            if (is_array($incomingFeatures)) {
-                $toDelete = array_diff($existingTranslations, $incomingFeatures);
-                $toInsert = array_diff($incomingFeatures, $existingTranslations);
-               // dd($existingTranslations, $incomingFeatures, $toInsert, $toDelete);
-                if (!empty($toDelete)) {
-                    ProConsTranslation::where('pro_cons_id', $pross_id)
-                    ->where('language_id', $language_id) // Delete only for selected language
-                        ->whereIn('name', $toDelete)
-                        ->delete();
-                }
-
-                foreach ($toInsert as $feature) {
-                    ProConsTranslation::updateOrCreate(
-                        ['pro_cons_id' => $pross_id, 'language_id' => $language_id, 'name' => $feature],
-                        ['description' => 'null', 'type' => 'pros', 'updated_at' => now()]
-                    );
-
-                }
-
-                $matched = array_intersect($existingTranslations, $incomingFeatures);
-                $notmatched = $toInsert;
-            } else {
-                ProConsTranslation::where('pro_cons_id', $pross_id)->where('language_id', $language_id)->delete();
+        // if($request->pros){
+            $removeproncondata = $request->input('removeproncondata', []);
+            if (!empty($removeproncondata)) {
+                ProCons::whereIn('id', $removeproncondata)->delete();
+                ProConsTranslation::whereIn('pro_cons_id', $removeproncondata)->delete();
             }
-        }
 
-        // conse data manage
-        $matched1 = [];
-        $notmatched2 = [];
-         // Get language ID from the request
-         $language_id = $request->lang_code;
-        $cross_id = ProCons::where('product_id', $product->id)
-            ->where('type', 'cons')
-            ->value('id');
-
-        if ($cross_id) {
-            $existingTranslations = ProConsTranslation::where('pro_cons_id', $cross_id)
-            ->where('language_id', $language_id) // Delete only for selected language
-                ->pluck('name')
-                ->toArray();
-
-            $incomingFeatures = $request->conse_data;
-            if (is_array($request->conse_data)) {
-                $toDelete = array_diff($existingTranslations, $request->conse_data);
-                $toInsert = array_diff($request->conse_data, $existingTranslations);
-                if (!empty($toDelete)) {
-                    ProConsTranslation::where('pro_cons_id', $cross_id)
-                    ->where('language_id', $language_id) // Delete only for selected language
-                        ->whereIn('name', $toDelete)
-                        ->delete();
+            $pros = $request->input('pros', []); 
+            $cons = $request->input('cons', []); 
+            if (!empty($pros)) {
+                foreach ($pros as $pro) {
+                    ProCons::updateOrCreate(
+                        ['id' => $pro['id'] ?? null],
+                        [
+                            'name' => $pro['name'],
+                            'description' => $pro['description'],
+                            'type' => 'pross',
+                            'product_id' => $request->id
+                        ]
+                    );
                 }
+            }
+          
+            if (!empty($cons)) {
+                foreach ($cons as $con) {
+                    ProCons::updateOrCreate(
+                        ['id' => $con['id'] ?? null],
+                        [
+                            'name' => $con['name'],
+                            'description' => $con['description'],
+                            'type' => 'cons',
+                            'product_id' => $request->id
+                        ]
+                    );
+                }
+            }
             
-                foreach ($toInsert as $feature) {
-                    ProConsTranslation::updateOrCreate(
-                        ['pro_cons_id' => $cross_id, 'language_id' => $language_id, 'name' => $feature],
-                        ['description' => 'null', 'type' => 'cons', 'updated_at' => now()]
-                    );
+        // }
 
-                }
-                $matched1 = array_intersect($existingTranslations, $incomingFeatures);
-                $notmatched2 = $toInsert;
-            } else {
-                ProConsTranslation::where('pro_cons_id', $cross_id)->where('language_id', $language_id)->delete();
-            }
-        }
+        // Prose  data manage
+        // $matched = [];
+        // $notmatched = [];
+        // $language = $request->lang_code;
+        // $pross_id = ProCons::where('product_id', $product->id)
+        //     ->where('type', 'pross')
+        //     ->value('id');
+
+        // if ($pross_id) {
+        //     $existingTranslations = ProConsTranslation::where('pro_cons_id', $pross_id)
+        //     ->where('language_id', $language_id) // Delete only for selected language
+        //     ->pluck('name')
+        //         ->toArray();
+        //     $incomingFeatures = $request->pross_data;
+
+        //     if (is_array($incomingFeatures)) {
+        //         $toDelete = array_diff($existingTranslations, $incomingFeatures);
+        //         $toInsert = array_diff($incomingFeatures, $existingTranslations);
+        //        // dd($existingTranslations, $incomingFeatures, $toInsert, $toDelete);
+        //         if (!empty($toDelete)) {
+        //             ProConsTranslation::where('pro_cons_id', $pross_id)
+        //             ->where('language_id', $language_id) // Delete only for selected language
+        //                 ->whereIn('name', $toDelete)
+        //                 ->delete();
+        //         }
+
+        //         foreach ($toInsert as $feature) {
+        //             ProConsTranslation::updateOrCreate(
+        //                 ['pro_cons_id' => $pross_id, 'language_id' => $language_id, 'name' => $feature],
+        //                 ['description' => 'null', 'type' => 'pros', 'updated_at' => now()]
+        //             );
+
+        //         }
+
+        //         $matched = array_intersect($existingTranslations, $incomingFeatures);
+        //         $notmatched = $toInsert;
+        //     } else {
+        //         ProConsTranslation::where('pro_cons_id', $pross_id)->where('language_id', $language_id)->delete();
+        //     }
+        // }
+
+        // // conse data manage
+        // $matched1 = [];
+        // $notmatched2 = [];
+        //  $language_id = $request->lang_code;
+        // $cross_id = ProCons::where('product_id', $product->id)
+        //     ->where('type', 'cons')
+        //     ->value('id');
+
+        // if ($cross_id) {
+        //     $existingTranslations = ProConsTranslation::where('pro_cons_id', $cross_id)
+        //     ->where('language_id', $language_id) // Delete only for selected language
+        //         ->pluck('name')
+        //         ->toArray();
+
+        //     $incomingFeatures = $request->conse_data;
+        //     if (is_array($request->conse_data)) {
+        //         $toDelete = array_diff($existingTranslations, $request->conse_data);
+        //         $toInsert = array_diff($request->conse_data, $existingTranslations);
+        //         if (!empty($toDelete)) {
+        //             ProConsTranslation::where('pro_cons_id', $cross_id)
+        //             ->where('language_id', $language_id) // Delete only for selected language
+        //                 ->whereIn('name', $toDelete)
+        //                 ->delete();
+        //         }
+            
+        //         foreach ($toInsert as $feature) {
+        //             ProConsTranslation::updateOrCreate(
+        //                 ['pro_cons_id' => $cross_id, 'language_id' => $language_id, 'name' => $feature],
+        //                 ['description' => 'null', 'type' => 'cons', 'updated_at' => now()]
+        //             );
+
+        //         }
+        //         $matched1 = array_intersect($existingTranslations, $incomingFeatures);
+        //         $notmatched2 = $toInsert;
+        //     } else {
+        //         ProConsTranslation::where('pro_cons_id', $cross_id)->where('language_id', $language_id)->delete();
+        //     }
+        // }
 
 
         //     ProductFeature::where('product_id', $request->id)
@@ -526,13 +858,11 @@ if (is_array($request->conse_data)) {
         // Get the valid feature IDs
         ProductFeature::where('product_id', $request->id)->delete();
 
-        // Filter out the invalid feature IDs from the request
         $feature_ids = FeatureTransalte::whereIn('id', is_array($request->product_feature) ? $request->product_feature : [])
-    ->pluck('feature_id')
-    ->toArray();
+        ->pluck('feature_id')
+        ->toArray();
 
 
-        // Prepare data for insertion
         $data = [];
         foreach ($feature_ids as $feature_id) {
             $feature_type = Feature::where('id', $feature_id)->value('type');
@@ -545,7 +875,7 @@ if (is_array($request->conse_data)) {
 
         $existingPrices = Price::where('product_id', $product->id)
             ->get()
-            ->keyBy('id'); // Keying by ID instead of tenure
+            ->keyBy('id');
 
         foreach ($request->prices as $index => $price) {
             $tenure = $request->tenures[$index] ?? null;
@@ -572,13 +902,6 @@ if (is_array($request->conse_data)) {
         if ($request->has('selected_filters') && !empty($request->selected_filters)) {
             $selectedFilters = json_decode($request->selected_filters, true);
 
-            // **Debugging: Check if selected filters are being received**
-            //      dd($selectedFilters);
-            // }
-            // else{
-            //     "not founded";
-            // }
-
             if (json_last_error() !== JSON_ERROR_NONE) {
                 return redirect()
                     ->back()
@@ -587,7 +910,7 @@ if (is_array($request->conse_data)) {
 
             if (is_array($selectedFilters)) {
                 // **Fetch existing filters for this product**
-                $existingFilters = CategoryFilterOption::where('product_id', $product->id)->get();
+                $existingFilters = ProductFilterOption::where('product_id', $product->id)->get();
 
                 // **Create an array of currently selected filter option IDs**
                 $selectedFilterOptionIds = collect($selectedFilters)
@@ -595,13 +918,13 @@ if (is_array($request->conse_data)) {
                     ->toArray();
 
                 // **Delete filters that are no longer selected**
-                CategoryFilterOption::where('product_id', $product->id)
+                ProductFilterOption::where('product_id', $product->id)
                     ->whereNotIn('filter_option_id', $selectedFilterOptionIds)
                     ->delete();
 
                 // **Loop through selected filters and update or create**
                 foreach ($selectedFilters as $filter) {
-                    CategoryFilterOption::updateOrCreate([
+                    ProductFilterOption::updateOrCreate([
                         'product_id' => $product->id,
                         'category_id' => $filter['category_id'],
                         'filter_id' => $filter['filter_id'],
@@ -615,9 +938,6 @@ if (is_array($request->conse_data)) {
             }
         }
 
-        // dd($data);
-
-        // Insert the records into the product_features table
         if (!empty($data)) {
             ProductFeature::insert($data);
         } else {
@@ -625,9 +945,7 @@ if (is_array($request->conse_data)) {
                 ->route('products')
                 ->with('error', 'No valid features to insert.');
         }
-        return redirect()
-        ->back()
-        ->with('success', 'Product updated successfully');
+        return redirect()->back()->with('success', 'Product updated successfully');
 
     }
     public function removeProduct($id)

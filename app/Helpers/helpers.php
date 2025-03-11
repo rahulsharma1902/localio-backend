@@ -21,6 +21,34 @@ function getCurrentLocale()
     }
     return $langcode;
 }
+function getYourLanguageRole()
+{
+    if (Cookie::get('lang_code')) {
+        $langcode = Cookie::get('lang_code');
+    } elseif (Session::get('lang_code')) {
+        $langcode = Session::get('lang_code');
+    } else {
+        $langcode = "en-us";
+    }
+    
+    $siteLanguage = Language::where('lang_code', $langcode)->first();
+    // return $siteLanguage;
+    if ($siteLanguage && $siteLanguage->id != 1) {
+        return $siteLanguage->lang_code;
+    } else {
+        return 'global';
+    }
+}
+function getLanguageRole()
+{
+    $locale = Cookie::get('lang_code', config('app.locale'));
+    $siteLanguage = Language::where('lang_code', $locale)->first();
+    if ($siteLanguage && $siteLanguage->primary !== 1) {
+        return $siteLanguage->lang_code;
+    } else {
+        return 'global';
+    }
+}
 
 
 function getCurrentLanguageID()
@@ -47,16 +75,6 @@ function getCurrentSiteLanguage()
 }
 
 
-function getLanguageRole()
-{
-    $locale = Cookie::get('lang_code', config('app.locale'));
-    $siteLanguage = Language::where('lang_code', $locale)->first();
-    if ($siteLanguage && $siteLanguage->primary !== 1) {
-        return $siteLanguage->handle;
-    } else {
-        return 'global';
-    }
-}
 
 
 function formatInr($amount)

@@ -12,6 +12,12 @@ use App\Models\VideoMedia;
 class Product extends Model
 {
     use HasFactory;
+    public function prons(){
+        return $this->hasMany(ProCons::class,'product_id','id')->where('type','pross');
+    }
+    public function cons(){
+        return $this->hasMany(ProCons::class,'product_id','id')->where('type','cons');
+    }
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_products', 'product_id', 'category_id');
@@ -19,6 +25,10 @@ class Product extends Model
     public function translations()
     {
         return $this->hasOne(ProductTranslation::class);
+    }
+    public function translationsData()
+    {
+        return $this->hasMany(ProductTranslation::class,'product_id','id');
     }
     public function reviews()
 {
@@ -63,16 +73,19 @@ class Product extends Model
     {
         return $this->hasMany(Price::class);
     }
-    public function filters()
-    {
-        return $this->hasManyThrough(
-            Filter::class,
-            Category::class,
-            'id',       // Foreign key on the categories table
-            'category_id', // Foreign key on the filters table
-            'category_id', // Local key on the products table
-            'id'        // Local key on the categories table
-        );
+    // public function filters()
+    // {
+    //     return $this->hasManyThrough(
+    //         Filter::class,
+    //         Category::class,
+    //         'id',       // Foreign key on the categories table
+    //         'category_id', // Foreign key on the filters table
+    //         'category_id', // Local key on the products table
+    //         'id'        // Local key on the categories table
+    //     );
+    // }
+    public function filters(){
+        return $this->hasMany(ProductFilterOption::class,'product_id','id');
     }
 
 }

@@ -15,8 +15,12 @@ class ProCons extends Model
     }
 
     // Get translation for a specific language
-    public function translation($languageId)
+    // public function translation($languageId)
+    // {
+    //     return $this->hasOne(ProConsTranslation::class, 'pro_cons_id')->where('lang_id', $languageId);
+    // }
+    public function translation()
     {
-        return $this->hasOne(ProConsTranslation::class, 'pro_cons_id')->where('lang_id', $languageId);
+        return $this->hasOne(ProConsTranslation::class, 'pro_cons_id','id');
     }
 }
