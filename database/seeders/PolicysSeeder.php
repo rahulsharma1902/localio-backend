@@ -10,9 +10,7 @@ use Illuminate\Support\Str;
 
 class PolicysSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
 
