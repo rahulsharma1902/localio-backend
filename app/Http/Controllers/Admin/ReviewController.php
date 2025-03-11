@@ -19,7 +19,6 @@ class ReviewController extends Controller
     }
     public function reviewAdd()
     {
-
         $products = Product::all('name','id');
 
         return view('Admin.reviews/add_review',compact('products'));
@@ -33,16 +32,26 @@ class ReviewController extends Controller
             'rating'       => 'required|integer|min:1|max:5',
             'description'  => 'required|string|max:255',
             'product_id'   => 'required|exists:products,id',
+            'status' => 'nullable|in:active,inactive', // ✅ Add status validation
+
         ]);
         $language = Language::where('lang_code', app()->getLocale())->first();
-        $langId = $language ? $language->id : 1;
+        //dd($language);
+
+        if (!$language) {
+            return redirect()->back()->with('error', 'Language not found!');
+        }
+        $langId = $language->id;
+        
+        //dd($langId);
         // Create a new Review
         $review = new Review();
         $review->rating = $request->rating;
         $review->product_id = $request->product_id;
         $review->user_id = auth()->user()->id;
         $review->lang_id = $langId;
-        $review->status = 'active';
+        $review->status = $request->input('status', 'active'); // Default to 'inactive' if not provided
+
         $review->save();
 
         // Create a corresponding ReviewTranslation entry
@@ -50,10 +59,11 @@ class ReviewController extends Controller
         $reviewTranslation->reviews_id = $review->id;
 
         $reviewTranslation->description = $request->description;
-        // $reviewTranslation->lang_code = app()->getLocale();
+        $reviewTranslation->language_id = $langId;
         $reviewTranslation->save();
 
-        return redirect()->back()->with('success', 'Review added successfully');
+        // return redirect()->back()->with('success', 'Review added successfully');
+        return redirect()->route('reviews')->with('success', 'Review added successfully');
     }
 
 
@@ -61,67 +71,87 @@ class ReviewController extends Controller
     {
         $id = $request->id;
         $review = Review::find($id);
+
         if (!$review) {
             return redirect()->back()->with(['error' => 'Review not found']);
         }
+
+        // Check the current status and toggle between 'active' and 'inactive'
+        $newStatus = $review->status == 'active' ? 'inactive' : 'active';
+
+        // Update the status
         $review->update([
-            'status' => $review->status == 1 ? 0 : 1
+            'status' => $newStatus
         ]);
+
         return redirect()->back()->with(['success' => 'Review status updated successfully']);
     }
+
 
 
     public function reviewEdit($id)
     {
         $review = Review::with('product')->findOrFail($id);
+        $language = Language::where('lang_code',getCurrentLocale())->first();
+        $langId = $language->id;
 
-
-        $reviewTranslation = ReviewTranslation::where('reviews_id', $review->id)->first();
+        $reviewTranslation = ReviewTranslation::where('reviews_id', $review->id)
+        ->where('language_id', $langId)
+        ->first();
         $products = Product::all();
-
-        return view('Admin.reviews.update_review', compact('review', 'reviewTranslation','products'));
+        $defaultTranslation = ReviewTranslation::where('reviews_id', $review->id)
+        ->where('language_id', 1) // lang_id = 1 for default language (en-us)
+        ->first();
+        return view('Admin.reviews.update_review', compact('review', 'reviewTranslation','products','defaultTranslation'));
     }
     public function reviewUpdate(Request $request, $id)
-{
-   // dd($request);
+    {
+        // Ensure this function returns a valid locale code
+        $locale = getCurrentLocale(); // Ensure this function returns a valid locale code
+//dd($locale);
+        // Validate the form data
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'description'  => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
 
-    // Validate the form data
-    $request->validate([
-        'rating' => 'required|integer|min:1|max:5',
-        // 'description' => 'required|string|max:255',
-        'product_id' => 'required|exists:products,id', // Make sure the product ID is valid
-    ]);
-    $language = Language::where('lang_code', app()->getLocale())->first();
-        $langId = $language ? $language->id : 1;
-    // Find the review by ID
-    $review = Review::with('product')->findOrFail($id);
+        ]);
 
+        // Get the language record from the database based on the current locale
+        $language = Language::where('lang_code', $locale)->first();
+       //dd($language);
+        // If the language doesn't exist, return an error
+        if (!$language) {
+            return redirect()->back()->with('error', 'Language not found!');
+        }
 
-    // Update the review's data
-    $review->rating = $request->rating;
-    // $review->description = $request->description;
-    $review->product_id = $request->product_id;
+        // Get the language ID
+        $langId = $language->id;
+        //dd($langId);
 
-    // Save the changes to the database
-    $review->save();
-    $reviewTranslation = ReviewTranslation::where('reviews_id', $review->id)->first();
+        // Find the review by ID
+        $review = Review::findOrFail($id);
 
-    // If translation exists, update it; otherwise, create a new one
-    if ($reviewTranslation) {
-        $reviewTranslation->description = $request->description;
-        $reviewTranslation->save();
-    } else {
-        $reviewTranslation = new ReviewTranslation();
-        $reviewTranslation->reviews_id = $review->id;
-        $reviewTranslation->description = $request->description;
-        $reviewTranslation->language_id = $langId; // ✅ Use integer ID from languages table
- // Store current locale
-        $reviewTranslation->save();
+        // Update review data
+        $review->rating = $request->rating;
+        $review->status = $request->status;
+        $review->save();
+
+        // Update or create ReviewTranslation
+        $reviewTranslation = ReviewTranslation::where('reviews_id', $review->id)
+            ->where('language_id', $langId)
+            ->first();
+
+        $reviewTranslation=ReviewTranslation::updateOrCreate(
+            ['reviews_id' => $review->id, 'language_id' => $langId],
+            [
+                'description' => $request->description,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Review updated successfully!');
     }
 
-    // Redirect back with a success message
-    return redirect()->back()->with(['success' => 'Review status updated successfully']);
-}
 
 public function reviewDelete($id)
     {

@@ -83,7 +83,7 @@ class AdminProductController extends Controller
             'pros_data' => 'nullable|array',
             'conse_data' => 'nullable|array',
             'product_feature' => 'required|array',
-            'status' => 'nullable|in:public,private', // ✅ Add status validation
+            'status' => 'nullable|in:public,private', 
         ]);
 
         if (!$language) {
@@ -439,7 +439,6 @@ if (is_array($request->conse_data)) {
             if (is_array($incomingFeatures)) {
                 $toDelete = array_diff($existingTranslations, $incomingFeatures);
                 $toInsert = array_diff($incomingFeatures, $existingTranslations);
-               // dd($existingTranslations, $incomingFeatures, $toInsert, $toDelete);
                 if (!empty($toDelete)) {
                     ProConsTranslation::where('pro_cons_id', $pross_id)
                     ->where('language_id', $language_id) // Delete only for selected language
@@ -487,7 +486,7 @@ if (is_array($request->conse_data)) {
                         ->whereIn('name', $toDelete)
                         ->delete();
                 }
-            
+
                 foreach ($toInsert as $feature) {
                     ProConsTranslation::updateOrCreate(
                         ['pro_cons_id' => $cross_id, 'language_id' => $language_id, 'name' => $feature],
@@ -501,8 +500,6 @@ if (is_array($request->conse_data)) {
                 ProConsTranslation::where('pro_cons_id', $cross_id)->where('language_id', $language_id)->delete();
             }
         }
-
-
         //     ProductFeature::where('product_id', $request->id)
         //     ->whereNotIn('feature_id', $request->product_feature)
         //     ->delete();
