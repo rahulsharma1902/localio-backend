@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('slug');
             $table->longText('description');
             $table->string('status')->default('active');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cacade');
-            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cacade');
+           // $table->foreign('product_id')->references('id')->on('products')->onDelete('cacade');
+            //$table->foreign('language_id')->references('id')->on('languages')->onDelete('cacade');
             $table->timestamps();
         });
     }
