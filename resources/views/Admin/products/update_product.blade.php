@@ -349,10 +349,7 @@
                                                                 />
                                                         </div>
                                                         <div class="col-lg-10 mt-2">
-                                                            <textarea name="pros[{{ $index }}][description]" class="form-control" placeholder="Enter Description">
-                                                                {{ optional($value->translation)->description ?? $value['description'] ?? '' }}
-                                                            
-                                                            </textarea>
+                                                            <textarea name="pros[{{ $index }}][description]" class="form-control" placeholder="Enter Description">{{ optional($value->translation)->description ?? $value['description'] ?? '' }}</textarea>
                                                         </div>
                                                         @if(getCurrentLanguageID() == 1)
                                                         <div class="col-lg-2 d-flex align-items-center">
@@ -387,9 +384,7 @@
                                                             >
                                                         </div>
                                                         <div class="col-lg-10 mt-2">
-                                                            <textarea name="cons[{{ $index }}][description]" class="form-control" placeholder="Enter Description">
-                                                                {{ optional($value->translation)->description ?? $value['description'] ?? '' }}
-                                                            </textarea>
+                                                            <textarea name="cons[{{ $index }}][description]" class="form-control" placeholder="Enter Description">{{ optional($value->translation)->description ?? $value['description'] ?? '' }}</textarea>
                                                         </div>
                                                         @if(getCurrentLanguageID() == 1)
                                                             <div class="col-lg-2 d-flex align-items-center">
