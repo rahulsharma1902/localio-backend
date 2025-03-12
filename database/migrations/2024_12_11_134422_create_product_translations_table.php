@@ -19,17 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->longText('description');
-<<<<<<< HEAD
-            $table->enum('status', ['public', 'private'])->nullable()->default('public');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')
-            ;
-            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade')
-            ;
-=======
-            $table->string('status')->default('active');
-           // $table->foreign('product_id')->references('id')->on('products')->onDelete('cacade');
-            //$table->foreign('language_id')->references('id')->on('languages')->onDelete('cacade');
->>>>>>> 0858e0f4 ( test)
+            $table->longText('overview');
+            $table->string('status')->default('public');
             $table->timestamps();
         });
     }
