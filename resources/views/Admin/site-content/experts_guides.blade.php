@@ -1,425 +1,472 @@
 @extends('admin_layout.master')
 @section('content')
-@if(session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
-@if(session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
-<div class="nk-block nk-block-lg">
-    <div class="nk-block-head d-flex justify-content-between">
-        <div class="nk-block-head-content">
-            <h4 class="title nk-block-title">Expert Guide</h4>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
-    </div>
-    <div class="card card-bordered">
-        <div class="card-inner">
-            <form action="{{ route('expertGuide.update') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <!-- Title Field -->
-                <div>
-                    <div>
-                        <label for="title"><strong>Title</strong></label>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    <div class="nk-block nk-block-lg">
+        <div class="nk-block-head d-flex justify-content-between">
+            <div class="nk-block-head-content">
+                <h4 class="title nk-block-title">Expert Guide</h4>
+            </div>
+        </div>
 
-                        <input type="text" name="title" id="title" class="form-control"
-                            value="{{ $expertGuide->title ?? '' }}" required>
-
-                    </div>
-                    <br>
-                    <!-- Description Field -->
-                    <div>
-                        <label for="description"><strong>Description</strong></label>
-                        <textarea name="description" id="description" class="form-control" value=""
-                            required>{{ $expertGuide->description ?? '' }}</textarea>
-                    </div>
-                    <br>
-                    <!-- Education Title Field -->
-                    <div>
-                        <label for="education_title"><strong>Education Title</strong></label>
-                        <input type="text" name="education_title" id="education_title" class="form-control"
-                            value="{{ $expertGuide->education_title ?? '' }}" required>
-                    </div>
-                    <br>
-                    <!-- Education Description Field -->
-                    <div>
-                        <label for="education_description"><strong>Education Description</strong></label>
-                        <textarea name="education_description" id="education_description" value="" class="form-control"
-                            required>{{ $expertGuide->education_description ?? '' }}</textarea>
-                    </div>
-                    <br>
-                    <div class="col-md-12">
-                        <div class="card border">
-                            <div class="card-header mt-3">
-                                <strong> Education </strong>
-                                <button type="button" class="btn btn-success btn-sm float-end"
-                                    id="add-education-item">Add
-                                    Item</button>
+        <form action="{{ route('expertGuide.update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <!-- Title Field -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card card-bordered">
+                        <div class="card-inner">
+                            <div class="nk-block">
                             </div>
-                            <div class="card-body">
+                            <div>
+                                <div>
+                                    <label for="title"><strong>Title</strong></label>
 
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="image">Image</label>
-                                    <div class="form-control-wrap">
-                                        <input type="file" class="form-control" id="edu_image" />
+                                    <input type="text" name="title" id="title" class="form-control"
+                                        value="{{ $expertGuide->title ?? '' }}" required>
+
+                                </div>
+                                <br>
+                                <!-- Description Field -->
+                                <div>
+                                    <label for="description"><strong>Description</strong></label>
+                                    <textarea name="description" id="description" class="form-control" value="" required>{{ $expertGuide->description ?? '' }}</textarea>
+                                </div>
+                                <br>
+                                <!-- Education Title Field -->
+                                <div>
+                                    <label for="education_title"><strong>Education Title</strong></label>
+                                    <input type="text" name="education_title" id="education_title" class="form-control"
+                                        value="{{ $expertGuide->education_title ?? '' }}" required>
+                                </div>
+                                <br>
+                                <!-- Education Description Field -->
+                                <div>
+                                    <label for="education_description"><strong>Education
+                                            Description</strong></label>
+                                    <textarea name="education_description" id="education_description" value="" class="form-control" required>{{ $expertGuide->education_description ?? '' }}</textarea>
+                                </div>
+                                <br>
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            <strong> Education </strong>
+                                            <button type="button" class="btn btn-success btn-sm float-end"
+                                                id="add-education-item">Add
+                                                Item</button>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="image">Image</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="file" class="form-control" id="edu_image" />
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="title">Title</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="edu_title"
+                                                        placeholder="Enter Here Title.." />
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="description">Description</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="edu_desc" placeholder="Enter Here Description..." />
+
+                                                </div>
+                                            </div>
+
+                                        </div>
 
                                     </div>
                                 </div>
+                                <br>
+                                <div id="education-items-list" class="popular-items-container">
+                                    <!-- Popular items will be appended here -->
+                                </div>
 
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="title">Title</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="edu_title"
-                                            placeholder="Enter Here Title.." />
+                                <div id="education-items" class="popular-items-container">
+                                    <div class="col-md-12 mt-4">
+                                        <div class="card border">
+                                            <div class="card-header">
+                                                Education items
+                                            </div>
+                                            <div class="card-body">
+
+
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Image</th>
+                                                            <th>Title</th>
+                                                            <th>Description</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    <tbody>
+                                                        @forelse ($pageTileTranslationEducation as $index => $pageTile)
+                                                            @php
+                                                                $firstTranslation = $pageTile->translations->first();
+                                                            @endphp
+                                                            <tr>
+                                                                <td>{{ $index + 1 }}</td>
+                                                                <td>
+                                                                    @if ($firstTranslation && $firstTranslation->image)
+                                                                        <img src="{{ asset($firstTranslation->image) }}"
+                                                                            alt="Item Image"
+                                                                            style="width: 100px; height: auto;">
+                                                                    @else
+                                                                        No Image
+                                                                    @endif
+                                                                </td>
+                                                                <td>{{ $firstTranslation?->title ?? 'No Title' }}
+                                                                </td>
+                                                                <td>{{ $firstTranslation?->description ?? 'No Description' }}
+                                                                </td>
+                                                                <td>
+                                                                    <a class="btn btn-danger btn-sm"
+                                                                        href="{{ route('admin.page_tile_translation.delete', $pageTile->id) }}">Delete</a>
+                                                                </td>
+                                                                <td>
+                                                                    @if ($firstTranslation)
+                                                                        <button type="button"
+                                                                            class="btn btn-success btn-sm update-education-item"
+                                                                            data-id="{{ $firstTranslation->id ?? '' }}"
+                                                                            data-title="{{ $firstTranslation->title ?? '' }}"
+                                                                            data-des="{{ $firstTranslation->description ?? '' }}"
+                                                                            data-image="{{ $firstTranslation->image ? asset($firstTranslation->image) : '' }}">
+                                                                            Edit
+                                                                        </button>
+                                                                    @else
+                                                                        <span class="text-muted">No Data</span>
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @empty
+                                                            <tr>
+                                                                <td colspan="6">No records found.</td>
+                                                            </tr>
+                                                        @endforelse
+                                                    </tbody>
+
+
+                                                </table>
+                                            </div>
+
+
+                                            <div id="updated-item-details" class="mt-4" style="display: none;">
+                                                <p><strong>Title:</strong></p>
+                                                <input type="hidden" class="form-control" id="updated-es-id" name="ES[id]"
+                                                    value="{{ old('id', $pageTileTranslation->id ?? '') }}" />
+
+
+                                                <input type="text" class="form-control" id="updated-es-title"
+                                                    name="ES[title]"
+                                                    value="{{ old('title', $pageTileTranslation->title ?? '') }}" />
+
+                                                <p><strong>Description:</strong></p>
+                                                <input type="text" class="form-control" id="updated-es-description"
+                                                    name="ES[description]"
+                                                    value="{{ old('description', $pageTileTranslation->description ?? '') }}" />
+
+
+                                                <p><strong>Image:</strong></p>
+                                                <img id="updated-es-image" style="width: 100px; height: auto;" />
+                                                <input type="file" id="update-es-image-input" name="ES[image]" />
+
+                                                <button type="button" id="save-es-button"
+                                                    style="display: none;">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- Smart Search Title -->
+                                    <div>
+                                        <label for="smart_search"><strong>Smart Search Title</strong></label>
+                                        <input type="text" name="smart_search" id="smart_search" class="form-control"
+                                            value="{{ $expertGuide->smart_search ?? '' }}" required>
+                                    </div>
+                                    <br>
+                                    <!-- Smart Search Description -->
+                                    <div>
+                                        <label for="smart_search_description"><strong>Smart Search
+                                                Description</strong></label>
+                                        <textarea name="smart_search_description" id="smart_search_description" value="" class="form-control"
+                                            required>{{ $expertGuide->smart_search_description ?? '' }}</textarea>
+                                    </div>
+                                    <br>
+                                    <!-- How To Check Email (CKEditor) -->
+                                    <div>
+                                        <label for="how_to_check_email"><strong>How To Check Email</strong></label>
+                                        <input type="text" name="how_to_check_email" id="how_to_check_email"
+                                            class="form-control" value="{{ $expertGuide->how_to_check_email ?? '' }}"
+                                            required>
+                                    </div>
+                                    <br>
+                                    <!-- Overview -->
+                                    <div>
+                                        <label for="overview"><strong>Overview Heading</strong></label>
+                                        <input type="text" name="overview" id="overview" class="form-control"
+                                            value="{{ $expertGuide->overview ?? '' }}" required>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <label for="email_description"><strong>Email Description</strong></label>
+                                        <textarea name="email_description" id="email_description" class="description form-control" value="" required>{{ $expertGuide->email_description ?? '' }}</textarea>
+                                    </div>
+                                    <br>
+                                    <!-- Webmail -->
+                                    <div>
+                                        <label for="webmail"><strong>Webmail</strong></label>
+                                        <input type="text" name="webmail" id="webmail" class="form-control"
+                                            value="{{ $expertGuide->webmail ?? '' }}" required>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <label for="webmail_description"><strong>webmail
+                                                Description</strong></label>
+                                        <textarea name="webmail_description" id="webmail_description" class="description form-control" value="">{{ $expertGuide->webmail_description ?? '' }}</textarea>
+                                    </div>
+                                    <br>
+                                    <!-- Email Application -->
+                                    <div>
+                                        <label for="email_application"><strong>Email Application</strong></label>
+                                        <input type="text" name="email_application" id="email_application"
+                                            class="form-control" value="{{ $expertGuide->email_application ?? '' }}"
+                                            required>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <label for="email_app_description"><strong>Email Application
+                                                Description</strong></label>
+                                        <textarea name="email_app_description" id="email_app_description" class="description form-control" value="">{{ $expertGuide->email_app_description ?? '' }}</textarea>
+                                    </div>
+                                    <br>
+                                    <!-- IMAP and POP -->
+                                    <div>
+                                        <label for="imap"><strong>IMAP and POP</strong></label>
+                                        <input type="text" name="imap" id="imap" class="form-control"
+                                            value="{{ $expertGuide->imap ?? '' }}" required>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <label for="imap_pop"><strong>IMAP & POP Description</strong></label>
+                                        <textarea name="imap_pop" id="imap_pop" class="description form-control">{{ $expertGuide->imap_pop ?? '' }}</textarea>
+
+                                        @error('description')
+                                            <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="col-md-12">
+                                    <label for="assistant"><strong>Right Tool Heading</strong></label>
+                                    <input type="text" name="right_tool_heading" id="right_tool_heading"
+                                        class="form-control" value="{{ $expertGuide->right_tool_heading ?? '' }}"
+                                        required>
+
+                                </div>
+                                <br>
+                                <div class="col-md-12">
+                                    <label for="assistant"><strong>Get Start Button</strong></label>
+                                    <input type="text" name="get_start_button" id="get_start_button"
+                                        class="form-control" value="{{ $expertGuide->get_start_button ?? '' }}" required>
+
+                                </div>
+                                <br>
+                                <div class="col-md-12">
+                                    <label for="assistant"><strong>Assistance</strong></label>
+                                    <textarea name="assistant" id="assistant" class="description form-control" value="">{{ $expertGuide->assistant ?? '' }}</textarea>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-header mt-3">
+                                            Right Tools
+                                            <button type="button" class="btn btn-success btn-sm float-end"
+                                                id="add-Right-item">Add
+                                                Item</button>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="image">Image</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="file" class="form-control" id="tool_image" />
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="title">Title</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="tool_title"
+                                                        placeholder="Enter Here Title.." />
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-12">
+                                                <label class="form-label" for="description">Description</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control site_text_input"
+                                                        id="tool_description" placeholder="Enter Here Description..." />
+
+                                                </div>
+                                            </div>
+
+                                        </div>
 
                                     </div>
                                 </div>
+                                <div id="right_tools_list" class="right-tools-container">
+                                    <!-- Popular items will be appended here -->
+                                </div>
+                                <div id="right_tools" class="right-tools-container">
+                                    <div class="col-md-12 mt-4">
+                                        <div class="card border">
+                                            <div class="card-header">
+                                                Right Tools
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Image</th>
+                                                            <th>Title</th>
+                                                            <th>Description</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @forelse ($pageTileTranslationRightTools as $index => $item)
+                                                            @foreach ($item->translations as $translation)
+                                                                <tr>
+                                                                    <td>{{ $loop->parent->iteration }}</td>
+                                                                    <td>
+                                                                        @if ($translation->image)
+                                                                            <img src="{{ asset($translation->image) }}"
+                                                                                alt="Item Image"
+                                                                                style="width: 100px; height: auto;">
+                                                                        @else
+                                                                            N/A
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>{{ $translation->title ?? 'No Title' }}
+                                                                    </td>
+                                                                    <td>{{ $translation->description ?? 'No Description' }}
+                                                                    </td>
+                                                                    <td>
+                                                                        <a class="btn btn-danger btn-sm"
+                                                                            href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button type="button"
+                                                                            class="btn btn-success btn-sm update-rt-item"
+                                                                            data-id="{{ $translation->id }}"
+                                                                            data-title="{{ $translation->title }}"
+                                                                            data-desc="{{ $translation->description }}"
+                                                                            data-image="{{ asset($translation->image) }}">Edit</button>
+                                                                    </td>
+                                                            @endforeach
+                                                            </tr>
+                                                        @empty
+                                                            <tr>
+                                                                <td colspan="5">No popular items available.</td>
+                                                            </tr>
+                                                        @endforelse
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="description">Description</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="edu_desc"
-                                            placeholder="Enter Here Description..." />
+                                    <div id="updated-rt-item-details" class="mt-4" style="display: none;">
+                                        <p><strong>Title:</strong></p>
+                                        <input type="hidden" class="form-control" id="updated-rt-id" name="RT[id]"
+                                            value="{{ old('title', $item->title ?? '') }}" />
+                                        <input type="text" class="form-control" id="updated-rt-title"
+                                            name="RT[title]" value="{{ old('title', $item->title ?? '') }}" />
 
+                                        <p><strong>Description:</strong></p>
+                                        <input type="text" class="form-control" id="updated-rt-description"
+                                            name="RT[description]"
+                                            value="{{ old('description', $item->description ?? '') }}" />
+
+
+                                        <p><strong>Image:</strong></p>
+                                        <img id="updated-rt-image" style="width: 100px; height: auto;" />
+                                        <input type="file" id="update-rt-image-input" name="RT[image]" />
+
+                                        <button type="button" id="save-rt-button" style="display: none;">Save</button>
                                     </div>
                                 </div>
-
+                                <br>
                             </div>
-
-                        </div>
-                    </div>
-                    <br>
-                    <div id="education-items-list" class="popular-items-container">
-                        <!-- Popular items will be appended here -->
-                    </div>
-
-                    <div id="education-items" class="popular-items-container">
-                        <div class="col-md-12 mt-4">
-                            <div class="card border">
-                                <div class="card-header">
-                                    Education items
-                                </div>
-                                <div class="card-body">
-
-
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Image</th>
-                                                <th>Title</th>
-                                                <th>Description</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        <tbody>
-                                            @forelse ($pageTileTranslationEducation as $index => $pageTile)
-                                            @php
-                                            $firstTranslation = $pageTile->translations->first();
-                                            @endphp
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>
-                                                    @if ($firstTranslation && $firstTranslation->image)
-                                                    <img src="{{ asset($firstTranslation->image) }}" alt="Item Image"
-                                                        style="width: 100px; height: auto;">
-                                                    @else
-                                                    No Image
-                                                    @endif
-                                                </td>
-                                                <td>{{ $firstTranslation?->title ?? 'No Title' }}</td>
-                                                <td>{{ $firstTranslation?->description ?? 'No Description' }}</td>
-                                                <td>
-                                                    <a class="btn btn-danger btn-sm"
-                                                        href="{{ route('admin.page_tile_translation.delete', $pageTile->id) }}">Delete</a>
-                                                </td>
-                                                <td>
-                                                    @if ($firstTranslation)
-                                                    <button type="button"
-                                                        class="btn btn-success btn-sm update-education-item"
-                                                        data-id="{{ $firstTranslation->id ?? '' }}"
-                                                        data-title="{{ $firstTranslation->title ?? '' }}"
-                                                        data-des="{{ $firstTranslation->description ?? '' }}"
-                                                        data-image="{{ $firstTranslation->image ? asset($firstTranslation->image) : '' }}">
-                                                        Edit
-                                                    </button>
-                                                    @else
-                                                    <span class="text-muted">No Data</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @empty
-                                            <tr>
-                                                <td colspan="6">No records found.</td>
-                                            </tr>
-                                            @endforelse
-                                        </tbody>
-
-
-                                    </table>
-                                </div>
-
-
-                                <div id="updated-item-details" class="mt-4" style="display: none;">
-                                    <p><strong>Title:</strong></p>
-                                    <input type="hidden" class="form-control" id="updated-es-id" name="ES[id]"
-                                        value="{{ old('id', $pageTileTranslation->id ?? '') }}" />
-
-
-                                    <input type="text" class="form-control" id="updated-es-title" name="ES[title]"
-                                        value="{{ old('title', $pageTileTranslation->title ?? '') }}" />
-
-                                    <p><strong>Description:</strong></p>
-                                    <input type="text" class="form-control" id="updated-es-description"
-                                        name="ES[description]"
-                                        value="{{ old('description', $pageTileTranslation->description ?? '') }}" />
-
-
-                                    <p><strong>Image:</strong></p>
-                                    <img id="updated-es-image" style="width: 100px; height: auto;" />
-                                    <input type="file" id="update-es-image-input" name="ES[image]" />
-
-                                    <button type="button" id="save-es-button" style="display: none;">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!-- Smart Search Title -->
-                        <div>
-                            <label for="smart_search"><strong>Smart Search Title</strong></label>
-                            <input type="text" name="smart_search" id="smart_search" class="form-control"
-                                value="{{ $expertGuide->smart_search ?? '' }}" required>
-                        </div>
-                        <br>
-                        <!-- Smart Search Description -->
-                        <div>
-                            <label for="smart_search_description"><strong>Smart Search Description</strong></label>
-                            <textarea name="smart_search_description" id="smart_search_description" value=""
-                                class="form-control"
-                                required>{{ $expertGuide->smart_search_description ?? '' }}</textarea>
-                        </div>
-                        <br>
-                        <!-- How To Check Email (CKEditor) -->
-                        <div>
-                            <label for="how_to_check_email"><strong>How To Check Email</strong></label>
-                            <input type="text" name="how_to_check_email" id="how_to_check_email" class="form-control"
-                                value="{{ $expertGuide->how_to_check_email ?? '' }}" required>
-                        </div>
-                        <br>
-                        <!-- Overview -->
-                        <div>
-                            <label for="overview"><strong>Overview Heading</strong></label>
-                            <input type="text" name="overview" id="overview" class="form-control"
-                                value="{{ $expertGuide->overview ?? '' }}" required>
-                        </div>
-                        <br>
-                        <div>
-                            <label for="email_description"><strong>Email Description</strong></label>
-                            <textarea name="email_description" id="email_description" class="description form-control"
-                                value="" required>{{ $expertGuide->email_description ?? '' }}</textarea>
-                        </div>
-                        <br>
-                        <!-- Webmail -->
-                        <div>
-                            <label for="webmail"><strong>Webmail</strong></label>
-                            <input type="text" name="webmail" id="webmail" class="form-control"
-                                value="{{ $expertGuide->webmail ?? '' }}" required>
-                        </div>
-                        <br>
-                        <div>
-                            <label for="webmail_description"><strong>webmail Description</strong></label>
-                            <textarea name="webmail_description" id="webmail_description"
-                                class="description form-control"
-                                value="">{{ $expertGuide->webmail_description ?? '' }}</textarea>
-                        </div>
-                        <br>
-                        <!-- Email Application -->
-                        <div>
-                            <label for="email_application"><strong>Email Application</strong></label>
-                            <input type="text" name="email_application" id="email_application" class="form-control"
-                                value="{{ $expertGuide->email_application ?? '' }}" required>
-                        </div>
-                        <br>
-                        <div>
-                            <label for="email_app_description"><strong>Email Application Description</strong></label>
-                            <textarea name="email_app_description" id="email_app_description"
-                                class="description form-control"
-                                value="">{{ $expertGuide->email_app_description ?? '' }}</textarea>
-                        </div>
-                        <br>
-                        <!-- IMAP and POP -->
-                        <div>
-                            <label for="imap"><strong>IMAP and POP</strong></label>
-                            <input type="text" name="imap" id="imap" class="form-control"
-                                value="{{ $expertGuide->imap ?? '' }}" required>
-                        </div>
-                        <br>
-                        <div>
-                            <label for="imap_pop"><strong>IMAP & POP Description</strong></label>
-                            <textarea name="imap_pop" id="imap_pop"
-                                class="description form-control">{{ $expertGuide->imap_pop ?? '' }}</textarea>
-
-                            @error('description')
-                            <div class="error text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                    </div>
-                    <br>
-                    <div class="col-md-12">
-                        <label for="assistant"><strong>Right Tool Heading</strong></label>
-                        <input type="text" name="right_tool_heading" id="right_tool_heading" class="form-control"
-                            value="{{ $expertGuide->right_tool_heading ?? '' }}" required>
-
-                    </div>
-                    <br>
-                    <div class="col-md-12">
-                        <label for="assistant"><strong>Get Start Button</strong></label>
-                        <input type="text" name="get_start_button" id="get_start_button" class="form-control"
-                            value="{{ $expertGuide->get_start_button ?? '' }}" required>
-
-                    </div>
-                    <br>
-                    <div class="col-md-12">
-                        <label for="assistant"><strong>Assistance</strong></label>
-                        <textarea name="assistant" id="assistant" class="description form-control"
-                            value="">{{ $expertGuide->assistant ?? '' }}</textarea>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="card border">
-                            <div class="card-header mt-3">
-                                Right Tools
-                                <button type="button" class="btn btn-success btn-sm float-end" id="add-Right-item">Add
-                                    Item</button>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="image">Image</label>
-                                    <div class="form-control-wrap">
-                                        <input type="file" class="form-control" id="tool_image" />
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="title">Title</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="tool_title"
-                                            placeholder="Enter Here Title.." />
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-12">
-                                    <label class="form-label" for="description">Description</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control site_text_input" id="tool_description"
-                                            placeholder="Enter Here Description..." />
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div id="right_tools_list" class="right-tools-container">
-                        <!-- Popular items will be appended here -->
-                    </div>
-                    <div id="right_tools" class="right-tools-container">
-                        <div class="col-md-12 mt-4">
-                            <div class="card border">
-                                <div class="card-header">
-                                    Right Tools
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Image</th>
-                                                <th>Title</th>
-                                                <th>Description</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($pageTileTranslationRightTools as $index => $item)
-                                            @foreach ($item->translations as $translation)
-                                            <tr>
-                                                <td>{{ $loop->parent->iteration}}</td>
-                                                <td>
-                                                    @if ($translation->image)
-                                                    <img src="{{ asset($translation->image) }}" alt="Item Image"
-                                                        style="width: 100px; height: auto;">
-                                                    @else
-                                                    N/A
-                                                    @endif
-                                                </td>
-                                                <td>{{ $translation->title ?? 'No Title' }}</td>
-                                                <td>{{ $translation->description ?? 'No Description' }}</td>
-                                                <td>
-                                                    <a class="btn btn-danger btn-sm"
-                                                        href="{{ route('admin.page_tile_translation.delete', $item->id) }}">Delete</a>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-success btn-sm update-rt-item"
-                                                        data-id="{{ $translation->id }}"
-                                                        data-title="{{ $translation->title }}"
-                                                        data-desc="{{ $translation->description }}"
-                                                        data-image="{{ asset($translation->image) }}">Edit</button>
-                                                </td>
-                                                @endforeach
-                                            </tr>
-                                            @empty
-                                            <tr>
-                                                <td colspan="5">No popular items available.</td>
-                                            </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="updated-rt-item-details" class="mt-4" style="display: none;">
-                            <p><strong>Title:</strong></p>
-                            <input type="hidden" class="form-control" id="updated-rt-id" name="RT[id]"
-                                value="{{ old('title', $item->title ?? '') }}" />
-                            <input type="text" class="form-control" id="updated-rt-title" name="RT[title]"
-                                value="{{ old('title', $item->title ?? '') }}" />
-
-                            <p><strong>Description:</strong></p>
-                            <input type="text" class="form-control" id="updated-rt-description" name="RT[description]"
-                                value="{{ old('description', $item->description ?? '') }}" />
-
-
-                            <p><strong>Image:</strong></p>
-                            <img id="updated-rt-image" style="width: 100px; height: auto;" />
-                            <input type="file" id="update-rt-image-input" name="RT[image]" />
-
-                            <button type="button" id="save-rt-button" style="display: none;">Save</button>
-                        </div>
-                    </div>
-                    <br>
-                    <!-- Submit Button -->
-                    <div class="col-md-12 mt-4">
-                        <div class="form-group">
-                            <button type="submit" class="addCategory btn btn-primary btn-localio text-center"><em
-                                    class=""></em><span>Update
-                                    Content</span></button>
                         </div>
                     </div>
                 </div>
-        </div>
+                <div class="col-lg-4">
+                    <div class="card card-bordered">
+                        <div class="card-inner">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="nk-block">
+                                            <div class="col-md-12 mt-1 d-flex justify-content-between">
+                                                <a href="your-view-page-url" class="btn btn-link text-center">
+                                                    <span><b>View Page</b></span>
+                                                </a>
+                                                <button type="submit"
+                                                class="addCategory btn btn-primary btn-localio text-center"><em
+                                                    class=""></em><span>Update
+                                                    Content</span></button>
+                                            </div>
+
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="meta_title" class="form-label fw-bold">Meta Title</label>
+                                                <input type="text" id="meta_title" name="meta_title"
+                                                    class="form-control" placeholder="Enter meta title"
+                                                    value="{{ $expertGuide->meta_title ?? '' }}">
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="meta_description" class="form-label fw-bold">Meta
+                                                    Description</label>
+                                                <textarea id="meta_description" name="meta_description" class="form-control" rows="3"
+                                                    placeholder="Enter meta description">{{ $expertGuide->meta_description ?? '' }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </form>
+    </div>
 
-
-        <script>
+    <script>
         $(document).ready(function() {
             let educationItems = [];
 
@@ -517,7 +564,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ url("/admin/page-education-translation/update") }}',
+                    url: '{{ url('/admin/page-education-translation/update') }}',
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -569,8 +616,8 @@
                 $('#edu_title, #edu_desc, #edu_image').val('');
             }
         });
-        </script>
-        <script>
+    </script>
+    <script>
         $(document).ready(function() {
             let educationItems = [];
 
@@ -668,7 +715,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ url("/admin/page-right-tool-translation/update") }}',
+                    url: '{{ url('/admin/page-right-tool-translation/update') }}',
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -720,5 +767,5 @@
                 $('#tool_title, #tool_description, #tool_image').val('');
             }
         });
-        </script>
-        @endsection
+    </script>
+@endsection

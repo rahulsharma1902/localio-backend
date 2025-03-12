@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-    <?php
 
-        use App\Models\HomeContent; // Import your model
-
-        // Fetch meta title and description from database
-         $metaUserLoginTitle = HomeContent::where('meta_key', 'meta_user_login_title')->value('meta_value') ?? 'Default Title';
-        $metaUserLoginDescription = HomeContent::where('meta_key', 'meta_user_login_description')->value('meta_value') ?? 'Default Description';
-
-        ?>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta name="description" content="<?= htmlspecialchars($metaUserLoginDescription, ENT_QUOTES, 'UTF-8'); ?>">
+      <title>user dashboard</title>
+      <meta name="csrf-token" content="{{ csrf_token() }}">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -29,7 +22,35 @@
       <link rel="stylesheet" href="{{asset('user-dashboard-theme/css/responsive1.css')}}" />
       <link rel="stylesheet" href="{{asset('user-dashboard-theme/Basis Grotesque Pro/stylesheet.css')}}">
       <link rel="shortcut icon" href="{{ url('front/img/icon.svg') }}">
-      <title><?= htmlspecialchars($metaUserLoginTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+      @livewireStyles
+      <style>
+        .profile-circle {
+    max-width: 60px;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+      .profile-img {
+        max-width: 100%;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+    }
+
+    .profile-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
    </head>
    <body>
       <header class="main_dhdr">
@@ -269,26 +290,30 @@
                      </div>
                      <div class="user_img drop_menu">
                         <div class="usr_profile">
-                           <img src="{{asset('user-dashboard-theme/img/usr_img.png')}}" class="img-fluid">
+                            @if(Auth::user()->profile_image)
+                            <img src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}" class="img-fluid profile-circle">
+                        @else
+                            <img src="{{ asset('user-dashboard-theme/img/usr_img.png') }}" class="img-fluid">
+                        @endif
                         </div>
                         <div class="dropdown-menu dropdown-menu-right" style="margin-right: 20px;">
                            <div class="dropdown-main ">
                               <div class="user_detail">
                                  <div class="user_img">
-                                    MI
+                                    {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}{{ strtoupper(substr(Auth::user()->last_name, 0, 1)) }}
                                  </div>
                                  <div class="user_name">
-                                    <h5>Mi name</h5>
-                                    <p>mi@gmail.com</p>
+                                    <h5>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                                    <p>{{ Auth::user()->email }}</p>
                                  </div>
                               </div>
                               <div class="dash-icon">
-                                <a class="dropdown-item" href="{{route('user-dashboard')}}"><i
+                                <a class="dropdown-item" href="{{route('user-dashboard', ['locale' => app()->getLocale()])}}"><i
                                    class="fa-solid fa-envelope-open-text"></i></i>Dashboard
                                 </a>
                              </div>
                               <div class="dash-icon">
-                                <a class="dropdown-item" href="{{route('user-profile')}}"><i class="fa fa-user"></i>My Profile</a>
+                                <a class="dropdown-item" href="{{route('user-profile', ['locale' => app()->getLocale()])}}"><i class="fa fa-user"></i>My Profile</a>
                              </div>
 
                               <div class="dash-icon">
@@ -309,7 +334,7 @@
                  <div class="left-text">
                     <ul class="list-unstyled dash-tab mb-0" id="menu">
                        <li class="nav-links">
-                          <a href="{{route('user-dashboard')}}" class="nav-link nav_sv">
+                          <a href="{{route('user-dashboard', ['locale' => app()->getLocale()])}}" class="nav-link nav_sv">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_account.svg')}}" alt="">
@@ -319,7 +344,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-product')}}" class="nav-link nav_sv">
+                          <a href="{{route('user-product', ['locale' => app()->getLocale()])}}" class="nav-link nav_sv">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/saved_product.svg')}}" alt="">
@@ -329,7 +354,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-review')}}" class="nav-link nav_sv">
+                          <a href="{{route('user-review', ['locale' => app()->getLocale()])}}" class="nav-link nav_sv">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_review.svg')}}" alt="">
@@ -339,7 +364,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-reward')}}" class="nav-link">
+                          <a href="{{route('user-reward', ['locale' => app()->getLocale()])}}" class="nav-link">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_rewards.svg')}}" alt="">
@@ -349,7 +374,7 @@
                           </a>
                        </li>
                        <li class="nav-links">
-                          <a href="{{route('user-profile')}}" class="nav-link">
+                          <a href="{{route('user-profile', ['locale' => app()->getLocale()])}}" class="nav-link">
                              <div class="side-links">
                                 <span class="icons-links">
                                 <img src="{{asset('user-dashboard-theme/img/my_profile.svg')}}" alt="">
@@ -363,6 +388,7 @@
               </div>
            </div>
            @yield('content')
+           @livewireScripts
         </div>
      </section>
 
@@ -398,5 +424,35 @@
       <script>
          AOS.init();
       </script>
+
+  <script>
+      $(document).ready(function () {
+          // Get all sidebar nav-links
+          let navLinks = $(".nav-links a");
+
+          // Get stored active link from localStorage
+          let activePage = localStorage.getItem("activePage");
+
+          // Loop through all nav-links and check for active
+          navLinks.each(function () {
+              if ($(this).attr("href") === activePage) {
+                  $(this).addClass("active"); // Add active class to the stored link
+              }
+          });
+
+          // Add click event listener to each link
+          navLinks.on("click", function () {
+              // Remove active class from all links
+              navLinks.removeClass("active");
+
+              // Add active class to the clicked link
+              $(this).addClass("active");
+
+              // Store active link in localStorage
+              localStorage.setItem("activePage", $(this).attr("href"));
+          });
+      });
+  </script>
+
    </body>
 </html>

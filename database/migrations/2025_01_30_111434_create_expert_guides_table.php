@@ -31,6 +31,8 @@ return new class extends Migration
             $table->LongText('imap_pop')->nullable();
             $table->string('right_tool_heading')->nullable();
             $table->string('get_start_button')->nullable();
+            $table->string('meta_title');
+            $table->text('meta_description');
             $table->timestamps();
         });
     }

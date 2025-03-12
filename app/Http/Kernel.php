@@ -84,4 +84,9 @@ class Kernel extends HttpKernel
         'AddLocaleAutomatically' => \App\Http\Middleware\AddLocaleAutomatically::class,
 
     ];
+
+    protected $except = [
+        'wishlist/*'
+    ];
+
 }

@@ -16,13 +16,18 @@ class CheckVendor
      */
     public function handle(Request $request, Closure $next)
     {
-       
-        // Ensure user is authenticated and is a vendor
-        if (Auth::check() && Auth::user()->user_type === 'vendor') {
+        // Check if the user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to access the vendor dashboard.');
+        }
+
+        // Ensure user is a vendor
+        if (Auth::user()->user_type === 'vendor') {
             return $next($request);
         }
 
-        // If not a vendor, redirect to login or error page
-        return redirect()->route('login')->with('error', 'You must be a vendor to access this page.');
+        // If not a vendor, redirect to login
+        return redirect()->route('login')->with('error', 'Access denied. Vendors only.');
     }
+
 }

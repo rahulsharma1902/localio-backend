@@ -138,8 +138,13 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin-dashboard/product/add', [AdminProductController::class, 'productAdd'])->name('product-add');
     Route::post('/admin-dashboard/product-add-procc', [AdminProductController::class, 'productAddProccess'])->name('product-add-procc');
     Route::get('/admin-dashboard/product-edit/{id}', [AdminProductController::class, 'productEdit'])->name('product-edit');
-    Route::post('/admin-dashboard/product-update-procc', [AdminProductController::class, 'productUpdateProccess'])->name('product-update-procc');
+    Route::post('/admin-dashboard/product-update-procc/{id}', [AdminProductController::class, 'productUpdateProccess'])->name('product-update-procc');
     Route::get('/admin-dashboard/remove-product/{id}', [AdminProductController::class, 'removeProduct'])->name('product-remove');
+    Route::post('/delete-price/{id}', [AdminProductController::class, 'deletePrice']);
+
+    Route::post('/fetch-filters', [AdminProductController::class, 'fetchFilters'])->name('fetch.filters');
+
+
 
 
     // product feture Route
@@ -230,22 +235,60 @@ Route::group(['prefix' => '{locale?}', 'middleware' => ['guest', 'AddLocaleAutom
     Route::post('fetch-product', [ProductController::class, 'fetchProduct'])->name('fetch.product');
 
     Route::post('wishlist', [ProductController::class, 'addToWishlist'])->name('wishlist');
+    Route::delete('/wishlist/{id}', [ProductController::class, 'destroyWishlist'])->name('wishlist.destroy');
+
 
 
     //user-dashboard
-    Route::get('/user-dashboard', [UserDashboardController::class, 'userAccount'])->name('user-dashboard');
-    Route::get('/user-product', [UserDashboardController::class, 'userProduct'])->name('user-product');
-    Route::get('/user-profile', [UserDashboardController::class, 'userProfile'])->name('user-profile');
-    Route::get('/user-review', [UserDashboardController::class, 'userReview'])->name('user-review');
-    Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name('user-reward');
+
+});
+Route::group(['prefix' => '{locale?}', 'middleware' => ['User']], function () {
+Route::get('/user-dashboard', [UserDashboardController::class, 'userAccount'])->name('user-dashboard');
+Route::get('/user-product', [UserDashboardController::class, 'userProduct'])->name('user-product');
+Route::get('/user-profile', [UserDashboardController::class, 'userProfile'])->name('user-profile');
+Route::get('/user-review', [UserDashboardController::class, 'userReview'])->name('user-review');
+Route::get('/user-reward', [UserDashboardController::class, 'userReward'])->name('user-reward');
 });
 
+Route::group(['prefix' => '{locale?}', 'middleware' => ['vendor']], function () {
+    // Route::get('/vendor-dashboard', [HomeController::class, 'index'])
+    //     ->name('vendor-dashboard');
+    Route::get('/vendor-overview', [HomeController::class, 'dash'])
+    ->name('vendor-overview');
+
+    Route::get('/vendor-add-new-list', [HomeController::class, 'addList'])
+    ->name('vendor-add-new-list');
+
+        Route::get('/vendor-advertising', [HomeController::class, 'advertising'])
+        ->name('vendor-advertising');
+
+        Route::get('/vendor-analytics', [HomeController::class, 'analytic'])
+        ->name('vendor-analytics');
+
+        Route::get('/vendor-campaign', [HomeController::class, 'compaign'])
+        ->name('vendor-campaign');
 
 
-Route::group(['middleware' => ['vendor']], function () {
-    Route::get('/{locale}/vendor-dashboard', [HomeController::class, 'index'])
-        ->name('vendor-dashboard')
-        ->where('locale', 'en');
+
+    Route::get('/vendor-my-listing', [HomeController::class, 'myListing'])
+    ->name('vendor-my-listing');
+
+        Route::get('/vendor-managing-campaign', [HomeController::class, 'm_Campaign'])
+        ->name('vendor-managing-campaign');
+
+        Route::get('/vendor-my-listing', [HomeController::class, 'myListing'])
+        ->name('vendor-my-listing');
+
+        Route::get('/vendor-review', [HomeController::class, 'review'])
+        ->name('vendor-review');
+
+        Route::get('/vendor-review-managment', [HomeController::class, 'reviewManagment'])
+        ->name('vendor-review-managment');
+
+
+    Route::get('/vendor-edit-list', [HomeController::class, 'editList'])
+    ->name('vendor-edit-list');
+    Route::get('/vendor-profile', [HomeController::class, 'vendorProfile'])->name('vendor-profile');
 });
 
 
@@ -253,6 +296,3 @@ Route::group(['middleware' => ['vendor']], function () {
 Route::get('/set-site-active-language/{lang_code}', [SiteLanguagesController::class, 'setActiveSiteLanguage'])->name('set-site-languages');
 
 // user dashbord
-
-
-

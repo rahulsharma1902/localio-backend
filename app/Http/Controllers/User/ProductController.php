@@ -17,6 +17,7 @@ use App\Models\ProductTranslation;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use function Laravel\Prompts\select;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -228,4 +229,30 @@ class ProductController extends Controller
 
         return response()->json(['success' => 'Product added to wishlist'], 200);
     }
+
+    public function destroyWishlist($locale,$id)
+    {
+    //   return response()->json(['id' => $id]);
+
+        if (!Auth::check()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $userId =  Auth::user()->id;
+ // return response()->json(['userId' => $userId]);
+        $wishlistItem = Wishlist::where('id', $id)->where('user_id', $userId)->first();
+
+        if (!$wishlistItem) {
+            return response()->json(['error' => 'Wishlist item not found'], 404);
+        }
+
+        // Delete wishlist item
+        $wishlistItem->delete();
+        return response()->json(['success' => 'Item removed'], 200);
+    }
+
+
+
+
+
 }

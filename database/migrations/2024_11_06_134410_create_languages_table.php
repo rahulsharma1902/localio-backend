@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('lang_code', 10)->nullable(); 
             $table->foreignId('country_id')->nullable();
+            $table->string('country')->nullable();
             $table->integer('status')->default(1);
             $table->tinyInteger('is_active_translation')->default(0);
             $table->tinyInteger('is_valid_language_code')->default(0);

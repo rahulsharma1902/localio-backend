@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MetaVendor extends Model
 {
     use HasFactory;
+    protected $fillable = ['company_name', 'company_size', 'job_title'];
+
 }

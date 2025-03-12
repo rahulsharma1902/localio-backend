@@ -123,6 +123,11 @@
     padding: 5px !important;
     min-height: 30px !important;
 }
+#editor, #editor1 {
+    display: block;  /* Ensures editors are block elements */
+    margin-bottom: 20px; /* Adds space between both editors */
+}
+
     </style>
 
 </head>
@@ -222,12 +227,10 @@
 
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="" class="nk-menu-link"><span
+                                            <a href="#" class="nk-menu-link"><span
                                                     class="nk-menu-text">Add Deals</span>
                                             </a>
                                         </li>
-
-
                                     </ul>
                                 </li>
 
@@ -333,7 +336,7 @@
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/reviews') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">Reviews</span>
+                                                class="nk-menu-link"><span class="nk-menu-text">reviews</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -380,10 +383,10 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">
                                                     Countries/Regions</span></a>
                                         </li>
-                                        <li class="nk-menu-item">
+                                        <!-- <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/country') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Country</span></a>
-                                        </li>
+                                        </li> -->
 
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/db-refresh') }}"
@@ -482,11 +485,11 @@
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span>AB</span>
+                                                        <span> {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}{{ strtoupper(substr(Auth::user()->last_name, 0, 1)) }}</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">{{ Auth::user()->name ?? '' }}</span>
-                                                        <span class="sub-text">{{ Auth::user()->email ?? '' }}</span>
+                                                        <span class="lead-text">{{ Auth::user()->first_name}} {{ Auth::user()->last_name }}</span>
+                                                        <span class="sub-text">{{ Auth::user()->email}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -586,6 +589,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- content @start -->
                 <div class="nk-content ">
                     @yield('content')
@@ -642,23 +646,17 @@
     @if (Session::get('error'))
         <script>
             toastr.clear();
-            NioApp.Toast(
-                '{{ Session::get('
-                                                                                                                                                                                                                                error ') }}',
-                'error', {
-                    position: 'top-right'
-                });
+            NioApp.Toast('{{ Session::get('error') }}', 'error', {
+                position: 'top-right'
+            });
         </script>
     @endif
-
     @if (Session::get('success'))
         <script>
             toastr.clear();
-            NioApp.Toast(
-                '{{ Session::get('                                                                                                                                                                                                          success ') }}',
-                'success', {
-                    position: 'top-right'
-                });
+            NioApp.Toast('{{ Session::get('success') }}', 'info', {
+                position: 'top-right'
+            });
         </script>
     @endif
 

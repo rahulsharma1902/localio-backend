@@ -51,7 +51,7 @@
                             </div>
                         @endif
                     </div>
-                  
+
                     <!-- Last Name Input Field -->
                     <div class="form-group ">
                         <label for="">Last Name</label>
@@ -84,6 +84,7 @@
                             </div>
                         @endif
                     </div>
+
                     <div class="form-group">
                         <label for="">Business Phone</label>
                         <input type="text" class="form-control" name="business_phone" id="businessPhone">
@@ -100,10 +101,19 @@
                         @foreach($countries as $key=> $country)
                         <option value="{{$country->id}}">{{$country->name}}</option>
                         @endforeach
-                    </select>    
+                    </select>
                     @if ($errors->has('country_id'))
                         <span class="text-danger">{{ $errors->first('country_id') }}</span>
                     @endif
+
+
+                    <div class="form-group">
+                        <label for="">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <span id="togglePassword" class="eye-icon" >
+                            <i class="fa fa-eye-slash"></i>
+                        </span>
+                    </div>
                     <div class="form-group">
                         <label for="">Company Name</label>
                         <input type="text" class="form-control" id="companyName" name="company_name">
@@ -162,14 +172,15 @@
                     <div class="container">
                         <span class="text-danger" id="allErr"></span>
                     </div>
-                 
+
                     <div class="accor-btn">
                         <button type="submit" class="cta cta_white register_btn">Sign Up</button>
                     </div>
-                  
+
                </form>
             </div>
          </div>
+
     </section>
 
 
@@ -333,7 +344,7 @@
 //             let input = $(this);
 //             let value = input.val()?.trim();
 //             let errorElement = $('#' + input.attr('id') + 'Error');
-            
+
 //             if (input.attr('name') && (input.attr('name') !== 'category') && value === '') {
 //                 // Only validate non-radio inputs and select elements
 //                 errorElement.text('This field is required.').show();

@@ -86,10 +86,8 @@ class SiteContentController extends Controller
         $this->uploadImages($request, 'independ_image');
         $this->uploadBrandImages($request);
         $textFields = [
-            'meta_title',
-            'Meta_description',
-            'meta_user_login_title',
-            'meta_user_login_description',
+            'meta_home_title',
+            'Meta_home_description',
             'header_title',
             'header_description',
             'placeholder_text',
@@ -118,16 +116,13 @@ class SiteContentController extends Controller
             'independent_description',
             'get_button_lable'
         ];
-
         foreach ($textFields as $field) {
             if ($request->has($field) && is_array($request->get($field))) {
-                $data = $request->get($field);  // The data array for each text field
+                $data = $request->get($field);
                 foreach ($data as $id => $value) {
-                    $homeContent = HomeContent::find($id);
-                    if ($homeContent) {
-                        $homeContent->update([
-                            'meta_value' => $value,  // Update the meta_value for the respective content
-                        ]);
+                    // Ensure the ID is valid
+                    if (!empty($id) && is_numeric($id)) {
+                        HomeContent::where('id', $id)->update(['meta_value' => $value]);
                     }
                 }
             }

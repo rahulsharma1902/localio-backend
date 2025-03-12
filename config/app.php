@@ -83,14 +83,14 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'en-us',
     // config/app.php
 
     'available_locales' => [
         'de',
         'it',
-        'es',
-        'en',
+        'pt-br',
+        'en-us',
     ],
 
 
@@ -107,7 +107,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en-us',
 
     /*
     |--------------------------------------------------------------------------

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'product_id', 'description', 'rating', 'lang_code', 'status'];
+
+    protected $fillable = ['product_id', 'lang_id', 'rating', 'status', 'user_id'];
 
     public function user()
     {
@@ -16,6 +17,11 @@ class Review extends Model
     }
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function translations()
+    {
+        return $this->hasMany(ReviewTranslation::class, 'reviews_id');
     }
 }

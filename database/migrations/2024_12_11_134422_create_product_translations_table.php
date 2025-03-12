@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('product_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id'); 
-            $table->unsignedBigInteger('language_id'); 
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('language_id');
+            $table->string('product_link')->default('https://default-link.com')->change();
             $table->string('name');
             $table->string('slug');
             $table->longText('description');
-            $table->string('status')->default('active');
-           // $table->foreign('product_id')->references('id')->on('products')->onDelete('cacade');
-            //$table->foreign('language_id')->references('id')->on('languages')->onDelete('cacade');
+            $table->longText('overview');
+            $table->string('status')->default('public');
             $table->timestamps();
         });
     }

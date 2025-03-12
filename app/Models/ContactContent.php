@@ -15,6 +15,8 @@ class ContactContent extends Model
         'image_second',
         'footer_heading',
         'g_button',
+        'meta_title',
+        'meta_description',
     ];
 
 }

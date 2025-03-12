@@ -1,4 +1,6 @@
 @extends('user_layout.master')
+@section('meta_title', isset($contact) && isset($contact->meta_title) ? $contact->meta_title : 'Contact Page')
+@section('meta_description', isset($contact) && isset($contact->meta_description) ? $contact->meta_description : '')
 @section('content')
 
 <section class="banner_sec help-cntr-bnr inr-bnr dark" style="background-color: #003F7D;">

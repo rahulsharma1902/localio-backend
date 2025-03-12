@@ -16,12 +16,17 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->LongText('description');
-            $table->decimal('product_price', 10, 2);
+            $table->decimal('product_price', 10, 2)->nullable();
             $table->string('product_icon');
             $table->string('product_image');
             $table->string('product_link');
-            $table->string('status')->default('active');
+            $table->enum('status', ['public', 'private'])->nullable()->default('public');
             $table->text('overview')->nullable();
+            $table->string('location')->nullable();;
+            $table->string('address')->nullable();;
+            $table->integer('year_founded')->nullable();;
+            $table->string('language_supported')->nullable();;
+            $table->string('support_options')->nullable();;
             $table->timestamps();
         });
     }

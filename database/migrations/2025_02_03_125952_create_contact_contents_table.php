@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('image_second')->nullable();
             $table->string('footer_heading')->nullable();
             $table->string('g_button')->nullable();
+            $table->string('meta_title');
+            $table->text('meta_description');
             $table->timestamps();
         });
     }

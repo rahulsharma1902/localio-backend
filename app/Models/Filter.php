@@ -18,4 +18,10 @@ class Filter extends Model
     public function category(){
         return $this->hasOne(Category::class,'id','category_id');
     }
+
+    public function filterOptions()
+    {
+        return $this->hasMany(FilterOption::class, 'filter_id', 'id');
+    }
+
 }
