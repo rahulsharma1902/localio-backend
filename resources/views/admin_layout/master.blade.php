@@ -646,23 +646,17 @@
     @if (Session::get('error'))
         <script>
             toastr.clear();
-            NioApp.Toast(
-                '{{ Session::get('
-                                                                                                                                                                                                                                error ') }}',
-                'error', {
-                    position: 'top-right'
-                });
+            NioApp.Toast('{{ Session::get('error') }}', 'error', {
+                position: 'top-right'
+            });
         </script>
     @endif
-
     @if (Session::get('success'))
         <script>
             toastr.clear();
-            NioApp.Toast(
-                '{{ Session::get('                                                                                                                                                                                                          success ') }}',
-                'success', {
-                    position: 'top-right'
-                });
+            NioApp.Toast('{{ Session::get('success') }}', 'info', {
+                position: 'top-right'
+            });
         </script>
     @endif
 
