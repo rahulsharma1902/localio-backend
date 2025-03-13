@@ -15,13 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->nullable();
-            $table->LongText('description');
+            $table->string('base_price')->nullable();
+            $table->string('standard_price')->nullable();
+            $table->string('pro_price')->nullable();
+            $table->longtext('description');
             $table->decimal('product_price', 10, 2)->nullable();
             $table->string('product_icon');
             $table->string('product_image');
             $table->string('product_link');
             $table->enum('status', ['public', 'private'])->nullable()->default('public');
-            $table->text('overview')->nullable();
+            $table->longtext('overview')->nullable();
             $table->string('location')->nullable();;
             $table->string('address')->nullable();;
             $table->integer('year_founded')->nullable();;

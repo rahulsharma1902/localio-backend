@@ -183,6 +183,8 @@
                             <div id="selected-categories"></div>
                             <!-- Product Icon (File Input) -->
                             <br>
+                             
+                            {{-- 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <h4>Business Prices</h4>
@@ -190,11 +192,9 @@
                                     <div class="row" id="price-container">
                                         @foreach ($product->prices as $price)
                                             <div class="col-md-12 price-item" data-id="{{ $price->id }}">
-                                                <!-- Hidden Input for Price ID -->
                                                 <input type="hidden" name="price_ids[]" value="{{ $price->id }}">
 
                                                 <div class="row">
-                                                    <!-- Dropdown for Tenure Selection -->
                                                     <div class="col-md-5 mb-3">
                                                         <label>Tenure:</label>
                                                         <div class="input-group">
@@ -213,7 +213,6 @@
                                                     </div>
 
 
-                                                    <!-- Editable Price Input -->
                                                     <div class="col-md-5 mb-3">
                                                         <label>Price: $</label>
                                                         <input type="text" name="prices[]"
@@ -224,7 +223,6 @@
                                                             
                                                     </div>
 
-                                                    <!-- Delete Button -->
                                                     @if( getCurrentLanguageID() == 1 )
 
                                                     <div class="col-md-2 mb-3 mt-4">
@@ -239,8 +237,59 @@
                                     </div>
                                 </div>
                             </div>
+                            --}}
+                            <h4>Business Prices</h4>
+                            <!-- price -->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="base_price">Base Price ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" name="base_price" id="base_price"
+                                            placeholder="Enter Base Price"
+                                            {{ getCurrentLanguageID() != 1 ? 'readonly' : '' }}
+                                            value="{{ old('base_price', $product->translations->base_price ?? $product->base_price ?? '') }}" />
+                                    </div>
+                                    @error('base_price')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="standard_price">Standard Price ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" name="standard_price" id="standard_price"
+                                            placeholder="Enter Standard Price"
+                                            {{ getCurrentLanguageID() != 1 ? 'readonly' : '' }}
+                                            value="{{ old('standard_price', $product->translations->standard_price ?? $product->standard_price ?? '') }}" />
+                                    </div>
+                                    @error('standard_price')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="pro_price">Pro Price ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" name="pro_price" id="pro_price"
+                                            placeholder="Enter Pro Price"
+                                            {{ getCurrentLanguageID() != 1 ? 'readonly' : '' }}
+                                            value="{{ old('pro_price', $product->translations->pro_price ?? $product->pro_price ?? '') }}" />
+                                    </div>
+                                    @error('pro_price')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
 
 
+                            <!-- price end here -->
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -539,9 +588,6 @@
             itemRow.remove();
         });
     });
-
-
-
     </script>
     <script>
      
@@ -684,59 +730,44 @@
                             _token: "{{ csrf_token() }}"
                         },
                         success: function(response) {
-                            console.log("Filters Response:", response); // Debugging
 
                             $('#filter-options').html("");
 
                             if (response.length > 0) {
                                 response.forEach(filter => {
-                                    console.log("Filter Data:", filter); // Debugging
-
-                                    let filterHtml = `<div class="filter-group" data-category="${filter.category_id}">
-                                    <h4>${filter.name}</h4>
-                                    <ul class="filter-list">`;
+                                    let filterHtml = `
+                                        <div class="col-12">
+                                            <h4>${filter.name}</h4>
+                                        </div>`;
 
                                     filter.options.forEach(option => {
-                                        console.log("Filter Option:",
-                                            option); // Debugging
-
-                                        let isChecked = @json($product->filters->pluck('filter_option_id')->toArray())
-                                            .includes(option.id) ? 'checked' : '';
+                                        let isChecked = @json($product->filters->pluck('filter_option_id')->toArray()).includes(option.id) ? 'checked' : '';
 
                                         filterHtml += `
-                                        <li>
-                                            <input type="checkbox" class="filter-option"
-                                                name="filter_options[]"
-                                                value="${option.id}"
-                                                data-category="${filter.category_id}"
-                                                data-filter="${filter.id}"
-                                                ${isChecked}>
-                                            <label>${option.name}</label>
-                                        </li>`;
+                                        <div class="col-md-6"> 
+                                            <div class="form-check"> 
+                                                <input type="checkbox" class="form-check-input filter-option"
+                                                    id="filter_${option.id}" 
+                                                    name="filter_options[]"
+                                                    value="${option.id}" 
+                                                    data-category="${filter.category_id}"
+                                                    data-filter="${filter.id}"
+                                                    ${isChecked}>
+
+                                                <label class="form-check-label" for="filter_${option.id}">
+                                                    ${option.translations?.name ?? option.name ?? ''}
+                                                </label>
+                                            </div>
+                                        </div>`;
                                     });
 
-                                    filterHtml += `</ul></div>`;
                                     $('#filter-options').append(filterHtml);
                                 });
-
-                                // **Click on filter option (label or list item) to check/uncheck the checkbox**
-                                $(document).on("click", ".filter-item", function(e) {
-                                    let checkbox = $(this).find(".filter-option");
-
-                                    if (!$(e.target).is(
-                                            "input"
-                                        )) { // Prevent toggling when clicking directly on checkbox
-                                        checkbox.prop("checked", !checkbox.prop("checked"))
-                                            .trigger("change");
-                                    }
-                                });
-
-
-
                             } else {
                                 $('#filter-options').html("<p>No filters available.</p>");
                             }
                         }
+
                     });
                 } else {
                     $('#filter-options').html(""); // Clear filters if no category is selected

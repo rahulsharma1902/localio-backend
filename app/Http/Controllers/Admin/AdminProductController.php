@@ -65,14 +65,20 @@ class AdminProductController extends Controller
     public function productAddProccess(Request $request)
     {
         //dd($request->all());
+        // echo '<pre>';
+        // print_r($request->all());
+        // die();
         $language = Language::where('id', $request->lang_code)->first();
 
         $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
+            'base_price' => 'required|numeric|min:0',
+            'standard_price' => 'required|numeric|min:0',
+            'pro_price' => 'required|numeric|min:0',
             'overview' => 'required|string',
             'product_category' => 'required',
-            'product_price' => 'nullable',
+            // 'product_price' => 'nullable',
             'prices' => 'required|array',
             'prices.*' => 'required|numeric|min:0',
             'tenures' => 'required|array',
@@ -83,7 +89,7 @@ class AdminProductController extends Controller
             'pros_data' => 'nullable|array',
             'conse_data' => 'nullable|array',
             'product_feature' => 'required|array',
-            'status' => 'nullable|in:public,private', // ✅ Add status validation
+            'status' => 'nullable|in:public,private', 
         ]);
 
         if (!$language) {
@@ -92,11 +98,15 @@ class AdminProductController extends Controller
                 ->with('error', 'Current language not found');
         }
 
-        $product = isset($request->id) ? Product::find($request->id) : new Product();
+        // $product = isset($request->id) ? Product::find($request->id) : new Product();
+        $product = new Product();
         $product->name = $request->name;
         $product->slug = Str::slug($request->name);
         $product->description = $request->description;
-        $product->product_price = $request->product_price;
+        // $product->product_price = $request->product_price;
+        $product->base_price = $request->base_price;
+        $product->standard_price = $request->standard_price;
+        $product->pro_price = $request->pro_price;
         $product->overview = $request->overview;
         $product->product_link = $request->product_link;
         $product->status = $request->status ?? 'public';
@@ -111,23 +121,10 @@ class AdminProductController extends Controller
             $product->product_image = $media->id ?? null;
         }
 
-        $product->product_link = $request->product_link;
         $product->save();
 
-        // Save product translation
-        $language_id = Language::where('lang_code', 'en-us')->value('id');
-        $productTranslation = new ProductTranslation();
-        $productTranslation->name = $request->name;
-        $productTranslation->slug = Str::slug($request->name);
-        $productTranslation->description = $request->description;
-        $productTranslation->product_id = $product->id;
-        $productTranslation->language_id = $language_id;
-        $productTranslation->overview = $request->overview;
-        $productTranslation->product_link = $request->product_link;
-        $productTranslation->status = $request->status ?? 'public';
-        $productTranslation->save();
 
-        // Save product categories
+        
         foreach ($request->product_category as $value) {
             CategoryProduct::create([
                 'category_id' => $value,
@@ -135,55 +132,31 @@ class AdminProductController extends Controller
             ]);
         }
 
-        // Save product pros
-      // Save product pros
-if (is_array($request->pros_data)) {
-    foreach ($request->pros_data as $value) { // Loop over pros_data before inserting
-        $procons_id = ProCons::create([
-            'product_id' => $product->id,
-            'name' => $value, // Now correctly assigning value
-            'description' => 'null',
-            'type' => 'pross',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ])->id;
+        $pros = $request->input('pros', []); 
+        $cons = $request->input('cons', []); 
 
-        ProConsTranslation::create([
-            'pro_cons_id' => $procons_id,
-            'language_id' => $language_id,
-            'name' => $value,
-            'description' => 'null',
-            'type' => 'pross',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-    }
-}
+        if (!empty($pros)) {
+            foreach ($pros as $pro) {
+                ProCons::create([
+                    'name' => $pro['name'],
+                    'description' => $pro['description'],
+                    'type' => 'pross',
+                    'product_id' => $product->id
+                ]);
+            }
+        }
 
+        if (!empty($cons)) {
+            foreach ($cons as $con) {
+                ProCons::create([
+                    'name' => $con['name'],
+                    'description' => $con['description'],
+                    'type' => 'cons',
+                    'product_id' => $product->id
+                ]);
+            }
+        }
 
-      // Save product cons
-if (is_array($request->conse_data)) {
-    foreach ($request->conse_data as $value) { // Loop over conse_data before inserting
-        $conse_id = ProCons::create([
-            'product_id' => $product->id,
-            'name' => $value, // Now correctly assigning value
-            'description' => 'null',
-            'type' => 'cons',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ])->id;
-
-        ProConsTranslation::create([
-            'pro_cons_id' => $conse_id,
-            'language_id' => $language_id,
-            'name' => $value,
-            'description' => 'null',
-            'type' => 'cons',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-    }
-}
 
         // Save product features
         foreach ($request->product_feature as $id) {
@@ -370,13 +343,16 @@ if (is_array($request->conse_data)) {
             'id' => 'required|exists:products,id',
             'lang_code' => 'required|exists:languages,id',
             'name' => 'required|string',
+            'base_price' => 'required|numeric|min:0',
+            'standard_price' => 'required|numeric|min:0',
+            'pro_price' => 'required|numeric|min:0',
             'description' => 'required|string',
             'overview' => 'required|string',
             'product_category' => 'required|array|min:1',
             'product_category.*' => 'exists:categories,id',
             'product_price' => 'nullable|numeric',
-            'prices' => 'required|array',
-            'prices.*' => 'required|numeric|min:0',
+            // 'prices' => 'required|array',
+            // 'prices.*' => 'required|numeric|min:0',
             'tenures' => 'required|array',
             'tenures.*' => 'required|string',
             'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
@@ -416,6 +392,9 @@ if (is_array($request->conse_data)) {
             $product->slug = Str::slug($request->name);
             $product->description = $request->description;
             $product->product_price = $request->product_price;
+            $product->base_price = $request->base_price;
+            $product->standard_price = $request->standard_price;
+            $product->pro_price = $request->pro_price;
             $product->overview = $request->overview;
             $product->product_link = $request->product_link;
 
@@ -495,31 +474,31 @@ if (is_array($request->conse_data)) {
                 ];
             }
 
-            $existingPrices = Price::where('product_id', $product->id)
-                ->get()
-                ->keyBy('id');
+            // $existingPrices = Price::where('product_id', $product->id)
+            //     ->get()
+            //     ->keyBy('id');
 
-            foreach ($request->prices as $index => $price) {
-                $tenure = $request->tenures[$index] ?? null;
-                $priceId = $request->price_ids[$index] ?? null; // Retrieve price ID from form input
+            // foreach ($request->prices as $index => $price) {
+            //     $tenure = $request->tenures[$index] ?? null;
+            //     $priceId = $request->price_ids[$index] ?? null; // Retrieve price ID from form input
 
-                if ($tenure && $priceId) {
-                    if (isset($existingPrices[$priceId])) {
-                        // Update existing price (Keeping same ID)
-                        $existingPrices[$priceId]->update([
-                            'price' => $price,
-                            'tenure' => $tenure,
-                        ]);
-                    }
-                } else {
-                    // Insert new price if no existing ID is provided
-                    Price::create([
-                        'product_id' => $product->id,
-                        'price' => $price,
-                        'tenure' => $tenure,
-                    ]);
-                }
-            }
+            //     if ($tenure && $priceId) {
+            //         if (isset($existingPrices[$priceId])) {
+            //             // Update existing price (Keeping same ID)
+            //             $existingPrices[$priceId]->update([
+            //                 'price' => $price,
+            //                 'tenure' => $tenure,
+            //             ]);
+            //         }
+            //     } else {
+            //         // Insert new price if no existing ID is provided
+            //         Price::create([
+            //             'product_id' => $product->id,
+            //             'price' => $price,
+            //             'tenure' => $tenure,
+            //         ]);
+            //     }
+            // }
 
             if ($request->has('selected_filters') && !empty($request->selected_filters)) {
                 $selectedFilters = json_decode($request->selected_filters, true);
