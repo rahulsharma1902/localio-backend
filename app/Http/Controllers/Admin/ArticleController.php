@@ -16,13 +16,13 @@ class ArticleController extends Controller
     public function index()
     {
         // $articles = Article::all();
-        $locale = getCurrentLocale(); 
-    
+        $locale = getCurrentLocale();
+
         $lang_code = Language::where('lang_code', $locale)->first();
 
         $articles = Article::with(['articleCategory', 'translations' => function ($query) use ($lang_code) {
                                                 $query->where('language_id', $lang_code->id);
-                                            }])->get();                    
+                                            }]) ->get();
         return view('Admin.article.index',compact('articles'));
     }
 
@@ -45,7 +45,7 @@ class ArticleController extends Controller
     public function add(Request $request)
     {
         $articleCategory = ArticleCategory::all();
-    
+
         return view('Admin.article.add_article',compact('articleCategory'));
     }
     // add new article function
@@ -54,7 +54,7 @@ class ArticleController extends Controller
         // Validation rules
         $rules = [
             'name' => 'required|unique:articles,name',
-            'description' => 'required', 
+            'description' => 'required',
             'image' => 'required|image|mimes:png,jpg,svg',
             'category_id'   => 'required',
         ];
@@ -72,15 +72,13 @@ class ArticleController extends Controller
         $article->slug = Str::slug($request->name);
         $article->description = $request->description ?? '';
         $article->category_id  = $request->category_id;
-        
+
 
         // Handle the image upload
         if ($request->hasFile('image')) {
             $articleImage = $request->file('image');
             $extension = $article->slug . '-'. $articleImage->getClientOriginalExtension();
-            if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
-                return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
-            }
+
             // Store the image in the public storage folder
             $articleImage->move(public_path().'/ArticleImages/',$extension);
             $article->image = $extension;
@@ -98,13 +96,17 @@ class ArticleController extends Controller
         }
     }
 
-    // Article Update Function 
+    // Article Update Function
 
     public function articleUpdateProcc(Request $request)
-    {   
-   
-        $lang_code = Language::where('lang_code', $request->lang_code)->first();
- 
+    {
+
+        $lang_code = getCurrentLocale();
+
+        $lang_code = Language::where('lang_code', $lang_code)->value('id');
+
+        // $lang_code = Language::where('lang_code', $request->lang_code)->first();
+
         if ($lang_code) {
             $request->validate([
                 'name' => 'required' ,
@@ -112,13 +114,13 @@ class ArticleController extends Controller
             ]);
             if ($request->article_tr_id) {
                 $article = ArticleTranslation::find($request->article_tr_id);
-                
+
                 if (!$article) {
                     return back()->withErrors(['message' => 'Article translation not found.']);
                 }
             }else{
                     $existingTranslation = ArticleTranslation::where('id', $request->article_tr_id)
-                    ->where('language_id', $lang_code->id)
+                    ->where('language_id', $lang_code)
                     ->first();
 
                 if ($existingTranslation) {
@@ -126,8 +128,8 @@ class ArticleController extends Controller
                 } else {
                     $article = new ArticleTranslation;
                     $article->article_id = $request->article_id;
-                    $article->language_id = $lang_code->id;
-               
+                    $article->language_id = $lang_code;
+
                 }
             }
         }
@@ -137,24 +139,24 @@ class ArticleController extends Controller
                 'description' => 'required',
             ]);
             $article = Article::find($request->article_id);
-          
+
             if ($request->hasFile('image')) {
                 $featuredImage = $request->file('image');
                 $extension = $featuredImage->getClientOriginalExtension();
                 if (!in_array(strtolower($extension), ['png', 'jpg', 'svg'])) {
                     return redirect()->back()->with('error', 'Only PNG, JPG, and SVG images are allowed.');
                 }
-    
+
                 $featuredImageName = Str::slug($request->name) . rand(0, 1000) . time() . '.' . $extension;
                 $featuredImage->move(public_path('/ArticleImages/'), $featuredImageName);
                 $article->image = $featuredImageName;
             }
-            $article->category_id    = $request->category_id  ?? '';
+            // $article->category_id = $request->category_id ?? null;
         }
         $article->name = $request->name ?? '';
-        
+
         $article->slug = Str::slug($request->name) ?? '';
-       
+
         $article->description = $request->description ?? '';
 
         $article->save();
@@ -174,14 +176,14 @@ class ArticleController extends Controller
         }
         $article->delete();
         return redirect()->back()->with('success','article delete successfully');
-    }   
+    }
 
     // End article Remove function
 
     public function articleCategory()
     {
-        $locale = getCurrentLocale(); 
-    
+        $locale = getCurrentLocale();
+
         $lang_code = Language::where('lang_code', $locale)->first();
 
         $articleCategory = ArticleCategory::with(['translations' => function ($query) use ($lang_code) {
@@ -189,7 +191,7 @@ class ArticleController extends Controller
                                             }])->get();
         return view('Admin.article.article_categories',compact('articleCategory'));
 
-        
+
     }
     public function articleCategoryAdd()
     {
@@ -256,11 +258,13 @@ class ArticleController extends Controller
         }
         return view('Admin.article.article_category_update', compact('articleCategory', 'articleTranslationCategory'));
     }
-    
-    public function articleCategoryUpdate(Request $request) 
-    {   
+
+    public function articleCategoryUpdate(Request $request)
+    {
         // dd($request->all());
-        $siteLanguage = Language::where('lang_code', $request->lang_code)->first();
+        $lang_code = getCurrentLocale();
+
+        $siteLanguage = Language::where('lang_code', $lang_code)->value('id');
         if ($siteLanguage) {
             $request->validate([
                 'name' => 'required' ,
@@ -273,14 +277,14 @@ class ArticleController extends Controller
                 }
             }else{
                     $existingTranslation = ArticleCategoryTranslation::where('id', $request->article_tr_id)
-                    ->where('language_id', $request->lang_id)
+                    ->where('language_id', $siteLanguage)
                     ->first();
                 if ($existingTranslation) {
                     $category = $existingTranslation;
                 } else {
                     $category = new ArticleCategoryTranslation;
                     $category->article_category_id = $request->article_ct_id;
-                    $category->language_id = $siteLanguage->id;
+                    $category->language_id = $siteLanguage;
                 }
             }
         }
@@ -318,5 +322,5 @@ class ArticleController extends Controller
         $articleCategoryRemove->delete();
         return redirect()->back()->with('success','remove article category successfull');
     }
-    
+
 }

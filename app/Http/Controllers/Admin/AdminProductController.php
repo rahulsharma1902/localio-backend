@@ -79,19 +79,23 @@ class AdminProductController extends Controller
             'overview' => 'required|string',
             'product_category' => 'required',
             // 'product_price' => 'nullable',
-            'prices' => 'required|array',
-            'prices.*' => 'required|numeric|min:0',
-            'tenures' => 'required|array',
-            'tenures.*' => 'required|string',
+            // 'prices' => 'required|array',
+            // 'prices.*' => 'required|numeric|min:0',
+            // 'tenures' => 'required|array',
+            // 'tenures.*' => 'required|string',
             'product_icon' => 'required|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'required|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
             'pros_data' => 'nullable|array',
             'conse_data' => 'nullable|array',
             'product_feature' => 'required|array',
-            'status' => 'nullable|in:public,private', 
+            'status' => 'nullable|in:public,private',
         ]);
 
+
+// echo '<pre>';
+//             print_r($request->all());
+//             die();
         if (!$language) {
             return redirect()
                 ->back()
@@ -124,7 +128,7 @@ class AdminProductController extends Controller
         $product->save();
 
 
-        
+
         foreach ($request->product_category as $value) {
             CategoryProduct::create([
                 'category_id' => $value,
@@ -132,8 +136,8 @@ class AdminProductController extends Controller
             ]);
         }
 
-        $pros = $request->input('pros', []); 
-        $cons = $request->input('cons', []); 
+        $pros = $request->input('pros', []);
+        $cons = $request->input('cons', []);
 
         if (!empty($pros)) {
             foreach ($pros as $pro) {
@@ -259,7 +263,7 @@ class AdminProductController extends Controller
         $categories = Category::with('translations')->get();
         $getCurrentSiteLanguage = getCurrentSiteLanguage();
         $getCurrentSiteLanguageId = (int) $getCurrentSiteLanguage->id; // Ensure it's an integer
-        
+
         $product = Product::with([
             'categories',
             'prons',
@@ -276,32 +280,32 @@ class AdminProductController extends Controller
                 $query->where('language_id', $getCurrentSiteLanguageId);
             },
             'filters',
-            
-            ])->findOrFail($id);
-            
 
-        $languageId = getCurrentLanguageID();        
+            ])->findOrFail($id);
+
+
+        $languageId = getCurrentLanguageID();
         $language = Language::find($languageId);
             // echo '<pre>';
             // print_r($product->toArray());
             // die();
         // Get selected category IDs
         $selectedCategoryIds = $product->categories->pluck('id')->toArray();
-        
+
         // Get selected filter option IDs
         $selectedFilterOptions = ProductFilterOption::where('product_id', $product->id)
         ->pluck('filter_option_id')
         ->toArray();
-        
+
         // Fetch filters based on selected categories
         $filters = Filter::whereIn('category_id', $selectedCategoryIds)
         ->with('filterOptions')
         ->get();
-        
-        
+
+
         // $product = Product::with('categories.translations')->find($id);
         // $product = Product::with('prices')->find($id);
-        
+
         $category_products = CategoryProduct::where('product_id', $id)
             ->pluck('category_id')
             ->toArray();
@@ -331,7 +335,7 @@ class AdminProductController extends Controller
     // Get the status from translation, fallback to default product status
     $status = $productTranslation ? $productTranslation->status : $product->status;
         // dd($feature_arr);
-            
+
         return view('Admin.products.update_product', compact('product', 'categories', 'cat_arr', 'proconse_data', 'cronse_data', 'feature_arr', 'features', 'product', 'productTranslation','selectedCategoryIds', 'filters', 'selectedFilterOptions','status'));
     }
     public function productUpdateProccess(Request $request, Product $product)
@@ -350,11 +354,11 @@ class AdminProductController extends Controller
             'overview' => 'required|string',
             'product_category' => 'required|array|min:1',
             'product_category.*' => 'exists:categories,id',
-            'product_price' => 'nullable|numeric',
+            // 'product_price' => 'nullable|numeric',
             // 'prices' => 'required|array',
             // 'prices.*' => 'required|numeric|min:0',
-            'tenures' => 'required|array',
-            'tenures.*' => 'required|string',
+            // 'tenures' => 'required|array',
+            // 'tenures.*' => 'required|string',
             'product_icon' => 'nullable|file|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_image' => 'nullable|file|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
             'product_link' => 'required|url',
@@ -375,9 +379,9 @@ class AdminProductController extends Controller
 
         ]);
         $languageRole = getYourLanguageRole();
-        
+
         $language = Language::find($request->lang_code);
-        
+
         if (!$language) {
             return redirect()
                 ->back()
@@ -417,8 +421,8 @@ class AdminProductController extends Controller
                 ProConsTranslation::whereIn('pro_cons_id', $removeproncondata)->delete();
             }
 
-            $pros = $request->input('pros', []); 
-            $cons = $request->input('cons', []); 
+            $pros = $request->input('pros', []);
+            $cons = $request->input('cons', []);
             if (!empty($pros)) {
                 foreach ($pros as $pro) {
                     ProCons::updateOrCreate(
@@ -432,7 +436,7 @@ class AdminProductController extends Controller
                     );
                 }
             }
-          
+
             if (!empty($cons)) {
                 foreach ($cons as $con) {
                     ProCons::updateOrCreate(
@@ -569,14 +573,14 @@ class AdminProductController extends Controller
             $translationProduct->description = $request->description;
             $translationProduct->overview = $request->overview;
             $translationProduct->status = $request->status ?? 'public';
-            $translationProduct->product_link = $request->product_link; 
-            $translationProduct->save(); 
-            
-            /** translate pron cons */
-            
+            $translationProduct->product_link = $request->product_link;
+            $translationProduct->save();
 
-            $prosTranslation = $request->input('pros', []); 
-            $consTranslation = $request->input('cons', []); 
+            /** translate pron cons */
+
+
+            $prosTranslation = $request->input('pros', []);
+            $consTranslation = $request->input('cons', []);
 
             if (!empty($prosTranslation)) {
                 foreach ($prosTranslation as $pro) {
@@ -591,7 +595,7 @@ class AdminProductController extends Controller
                     $prosTranslation->type = 'pross';
                     $prosTranslation->save();
 
-                
+
                 }
             }
 
@@ -607,14 +611,14 @@ class AdminProductController extends Controller
                     $consTranslation->description = $con['description'];
                     $consTranslation->type = 'cons';
                     $consTranslation->save();
-                    
+
                 }
             }
 
-        
+
             return redirect()->back()->with('success', 'Product updated successfully');
-            
-            
+
+
         }
 
     }

@@ -10,7 +10,7 @@ class ArticleTranslation extends Model
     use HasFactory;
     public function language()
     {
-        return $this->hasOne(SiteLanguages::class, 'id', 'language_id');
+        return $this->hasOne(Language::class, 'id', 'language_id');
     }
     protected $fillable = ['article_id', 'language_id', 'name', 'description', 'slug'];
 }

@@ -42,7 +42,7 @@
                 <table class="datatable-init nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
-                            <th class="nk-tb-col"><span class="sub-text">Id</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">S.No</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                             <th class="nk-tb-col tb-tnx-action">
                                 <span>Action</span>
@@ -57,7 +57,7 @@
                                         <div class="user-card">
                                             <div class="user-info">
                                                 <span class="tb-lead">
-                                                    {{ $key }}
+                                                    {{ $loop->iteration }}
                                                 </span>
                                             </div>
                                         </div>
