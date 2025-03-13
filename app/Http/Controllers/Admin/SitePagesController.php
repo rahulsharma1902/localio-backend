@@ -258,27 +258,61 @@ class SitePagesController extends Controller
             'answer' => 'required|string',
         ]);
 
-        $faqs = Faq::updateOrCreate(
-            ['id' => $request->faq_id],
-            [
-                'question'=> $validatedData['question'],
-                'answer' => $validatedData['answer']
-            ]
-        );
+        $lang_code = getCurrentLocale();
 
-        $faqs_id = $faqs->id;
+        $language_id = Language::where('lang_code', $lang_code)->value('id');
 
-        $faq_translation = FaqTranslation::updateOrCreate(
-            ['faq_id' => $request->faq_id],
-            [
-                'language_id' => 1,
+
+        if ($request->faq_id) {
+            $faq_translation = FaqTranslation::where('faq_id', $request->faq_id)
+                                             ->where('language_id', $language_id)
+                                             ->first();
+
+            if ($faq_translation) {
+                $faq_translation->update([
+                    'question' => $validatedData['question'],
+                    'answer' => $validatedData['answer'],
+                ]);
+            } else {
+                FaqTranslation::create([
+                    'faq_id' => $request->faq_id, // Use the existing FAQ id
+                    'language_id' => $language_id,
+                    'question' => $validatedData['question'],
+                    'answer' => $validatedData['answer'],
+                ]);
+            }
+
+        } else {
+
+            // $faq = Faq::where('question', $validatedData['question'])
+            //           ->where('answer', $validatedData['answer'])
+            //           ->first();
+
+            // if (!$faq) {
+
+            $faq = Faq::create([
                 'question' => $validatedData['question'],
                 'answer' => $validatedData['answer'],
-                'faq_id' => $faqs_id
-            ]
-        );
-        return redirect()->route('faqs')->with('success', 'Successfully Faq Created !');
+            ]);
+            // }
+
+
+            FaqTranslation::create([
+                'faq_id' => $faq->id,
+                'language_id' => $language_id,
+                'question' => $validatedData['question'],
+                'answer' => $validatedData['answer'],
+            ]);
+        }
+
+        return redirect()->route('faqs')->with('success', 'FAQ Created or Updated Successfully!');
     }
+
+
+
+
+
+
 
     public function faqRemove($id)
     {

@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label class="form-label" for="product-link">Affiliate Link</label>
                                         <input class="form-control" type="url" class="form-control" name="product_link"
-                                            id="product-link" 
+                                            id="product-link"
                                             placeholder="Enter you Affiliate link "
                                             value="{{ old('product_link', $product->translations->product_link ?? $product->product_link ?? '') }}">
 
@@ -63,7 +63,7 @@
                                     <div class="form-group">
                                         <label class="form-label" for="description">Description</label>
                                         <div class="form-control-wrap">
-                                            <textarea class="description" name="description" id="description" rows="2" 
+                                            <textarea class="description" name="description" id="description" rows="2"
                                             cols="70">
                                                 {{ old('description', $product->translations->description ?? $product->description ?? '') }}
                                             </textarea>
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                             </div>
-<!--                             
+<!--
                             <div class="row g-3 mt-2">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -147,12 +147,12 @@
                                     </div>
 
                                     @foreach ($filter->filterOptions as $option)
-                                        <div class="col-md-6"> 
-                                            <div class="form-check"> 
+                                        <div class="col-md-6">
+                                            <div class="form-check">
                                                 <input type="checkbox" class="form-check-input filter-option"
-                                                    id="filter_{{ $option->id }}" 
+                                                    id="filter_{{ $option->id }}"
                                                     name="filter_options[]"
-                                                    value="{{ $option->id }}" 
+                                                    value="{{ $option->id }}"
                                                     data-category="{{ $filter->category_id }}"
                                                     data-filter="{{ $filter->id }}"
                                                     {{ $option->id }}
@@ -199,8 +199,8 @@
                                                         <label>Tenure:</label>
                                                         <div class="input-group">
                                                             <select name="tenures[]" class="form-control"
-                                                                {{ getCurrentLanguageID() != 1 ? 'readonly' : '' }}>
-                                                            
+                                                                {{ {{ getCurrentLanguageID() }}() != 1 ? 'readonly' : '' }}>
+
                                                             >
                                                                 <option value="Starting Price" {{ $price->tenure == 'Starting Price' ? 'selected' : '' }}>Starting Price</option>
                                                                 <option value="Standard Price" {{ $price->tenure == 'Standard Price' ? 'selected' : '' }}>Standard Price</option>
@@ -220,8 +220,8 @@
                                                             value="{{ $price->price }}" class="form-control"
                                                             {{ getCurrentLanguageID() != 1 ? 'readonly' : '' }}
                                                             />
-                                                            
-                                                            
+
+
                                                     </div>
 
                                                     <!-- Delete Button -->
@@ -289,7 +289,7 @@
                                         <select class="form-control product-feature" name="product_feature[]"
                                             multiple="multiple"
                                             {{ getCurrentLanguageID() != 1 ? 'disabled' : '' }}>
-                                            
+
                                             >
                                             @if ($features->isNotEmpty())
                                                 @foreach ($features as $feature)
@@ -327,7 +327,7 @@
                             <div class="row">
                             <div class="removeproncondata-container"></div>
 
-                                
+
                                 {{-- Pros Section --}}
                                 <div class="col-md-12 mt-4">
                                     <div class="card border">
@@ -343,7 +343,7 @@
                                                     <div class="row pros-group mt-2">
                                                         <input type="hidden" name="pros[{{ $index }}][id]" value="{{ $value['id'] }}">
                                                         <div class="col-lg-10">
-                                                            <input type="text" name="pros[{{ $index }}][name]" class="form-control" placeholder="Enter Pro" 
+                                                            <input type="text" name="pros[{{ $index }}][name]" class="form-control" placeholder="Enter Pro"
                                                                 value="{{ optional($value->translation)->name ?? $value['name'] ?? '' }}"
 
                                                                 />
@@ -351,7 +351,7 @@
                                                         <div class="col-lg-10 mt-2">
                                                             <textarea name="pros[{{ $index }}][description]" class="form-control" placeholder="Enter Description">
                                                                 {{ optional($value->translation)->description ?? $value['description'] ?? '' }}
-                                                            
+
                                                             </textarea>
                                                         </div>
                                                         @if(getCurrentLanguageID() == 1)
@@ -381,9 +381,9 @@
                                                     <div class="row cons-group mt-2">
                                                         <input type="hidden" name="cons[{{ $index }}][id]" value="{{ $value['id'] }}">
                                                         <div class="col-lg-10">
-                                                            <input type="text" name="cons[{{ $index }}][name]" class="form-control" placeholder="Enter Con" 
+                                                            <input type="text" name="cons[{{ $index }}][name]" class="form-control" placeholder="Enter Con"
                                                             value="{{ optional($value->translation)->name ?? $value['name'] ?? '' }}"
-                                                            
+
                                                             >
                                                         </div>
                                                         <div class="col-lg-10 mt-2">
@@ -446,9 +446,9 @@
                                             @enderror
 
                                             <!-- Hidden Input to Store Status Value -->
-                                            <input type="hidden" name="status" id="statusHidden" 
-                                                value="{{ !empty($product->translations) && $product->translations->language_id == getCurrentSiteLanguage()->id 
-                                                    ? $product->translations->status 
+                                            <input type="hidden" name="status" id="statusHidden"
+                                                value="{{ !empty($product->translations) && $product->translations->language_id == getCurrentSiteLanguage()->id
+                                                    ? $product->translations->status
                                                     : $product->status ?? 'private' }}">
 
 
@@ -549,7 +549,7 @@
 
     </script>
     <script>
-     
+
 
 
         // select 2

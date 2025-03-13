@@ -13,7 +13,12 @@
                     <form action="{{ url('admin-dashboard/faq-add-procc') ?? '' }}" class="form-validate"
                         novalidate="novalidate" method="post">
                         @csrf
-                        <input type="hidden" name="faq_id" value="{{ isset($faqTranslation) ? $faqTranslation->faq_id : '' }}">
+                        @if(isset($faq))
+                            <input type="hidden" name="faq_id" value="{{ $faq->id }}">
+                        @endif
+                        <input type="hidden" name="lang_code" value="{{ getCurrentLanguageID() }}" />
+
+                        {{-- <input type="hidden" name="faq_id" value="{{ isset($faqTranslation) ? $faqTranslation->faq_id : '' }}"> --}}
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-group">

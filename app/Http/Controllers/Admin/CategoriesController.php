@@ -16,18 +16,30 @@ class CategoriesController extends Controller
     public function index(Request $request)
     {
 
-        $locale = app()->getLocale();
-        $siteLanguage = Language::where('lang_code', $locale)->first();
-        $categories = collect();
-        if ($siteLanguage) {
-            $categories = CategoryTranslation::where('language_id', $siteLanguage->id)->get();
-        }
+        $locale = getCurrentLocale();
+        $siteLanguage = Language::where('lang_code', getCurrentLocale())->value('id');
+        //dd($siteLanguage); // Debug this to see if it is being set correctly.
 
-        return view('Admin.categories.index', compact('categories'));
+        $categories = collect();
+        //dd($categories);
+        if ($siteLanguage) {
+            // $categories = CategoryTranslation::where('language_id', $siteLanguage->id)->get();
+            $categories = CategoryTranslation::where('language_id', $siteLanguage)
+            ->get();
+        }
+       // dd($categories); // Debug this to see if any data is being fetched.
+
+        return view('Admin.categories.index', compact('categories','siteLanguage'));
     }
 
     public function add($id = null)
     {
+        // $lang_code = getCurrentLocale(); // This should give you the current locale (like 'en-us')
+
+        // // Pass the language code to the view
+        // return view('Admin.categories.add', [
+        //     'lang_code' => $lang_code
+        // ]);
         if($id != null){
             $category_data = Category::where('id',$id)->first()->toArray();
             return view('Admin.categories.add',compact('category_data'));
@@ -96,15 +108,20 @@ class CategoriesController extends Controller
         );
 
         if ($category) {
+            $lang_code = getCurrentLocale();
+
+            $language_id = Language::where('lang_code', $lang_code)->value('id');
             CategoryTranslation::updateOrCreate(
                 ['category_id' => (int) $category->id],
                 [
-                    'language_id' => 1,
+                    'language_id' => $language_id,
                     'name' => $validate['name'],
                     'description' => $validate['description'],
                     'slug' => $slug
                 ]
             );
+
+
 
             return redirect()->route('categories')->with('success', 'Category saved successfully');
         }

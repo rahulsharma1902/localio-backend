@@ -11,7 +11,7 @@ class CategoryTranslation extends Model
 
     protected $fillable = ['category_id', 'language_id', 'name', 'description', 'slug'];
 
- 
+
     // public function category(){
     //     return $this->hasOne(Country::class,'id','category_id');
     // }
@@ -32,5 +32,5 @@ class CategoryTranslation extends Model
         return $this->hasOne(Language::class, 'id','language_id');
     }
 
-    
+
 }
