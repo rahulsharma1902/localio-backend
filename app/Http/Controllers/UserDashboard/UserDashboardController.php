@@ -15,7 +15,7 @@ class UserDashboardController extends Controller
 {
     public function userAccount(){
 
-        return view('user_dashboard.user_account', compact('metaTitle', 'metaDescription'));
+        return view('user_dashboard.user_account');
     }
 
     public function userProduct(){

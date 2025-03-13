@@ -4,7 +4,7 @@
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
                 <h4 class="title nk-block-title">
-                    Add Category
+                    {{ isset($category_data) ? 'Update Category' : 'Add Category' }}
                 </h4>
             </div>
             <div>
@@ -15,6 +15,15 @@
                 <form action="{{ route('add-category-process') }}" class="form-validate" novalidate="novalidate" method="post"
                     enctype="multipart/form-data">
                     @csrf
+                    {{-- <div class="col-12">
+                        <div class="text alert-info">
+                            @if($lang_code == 'en-us')
+                                <strong>Note:</strong> You can only add categories in English (en-us) language.
+                            @else
+                                <strong>Note:</strong> You can not add categories in {{ strtoupper($lang_code) }} language.
+                            @endif
+                        </div>
+                    </div> --}}
                     <input type="hidden" name="category_id" value="{{isset($category_data)?$category_data['id']:''}}" />
                     <div class="row g-gs">
                         <div class="col-md-12">
