@@ -1,5 +1,7 @@
 @extends('admin_layout.master')
 @section('content')
+
+
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
@@ -19,7 +21,7 @@
                             <div class="nk-block">
                             </div>
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label" for="name">Business Name</label>
                                         <div class="d-flex">
@@ -36,7 +38,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mt-3">
+                                <div class="col-md-12 mt-3">
                                     <div class="form-group">
                                         <label class="form-label" for="product-link">Affiliate Link</label>
                                         <input type="url" class="form-control" name="product_link" id="product-link"
@@ -73,7 +75,7 @@
                             <!-- New Input Fields -->
                             <div class="row g-3 mt-2">
                                 @if (!isset($product))
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label" for="product-category">Business Category</label>
                                             <select class="form-control product-category" id="product-category"
@@ -92,7 +94,7 @@
                                     </div>
                                 @endif
                                 @if (isset($product))
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         @if ($lang == 'en-us')
                                             <div class="form-group">
                                                 <label class="form-label" for="product-category">Business Category</label>
@@ -141,7 +143,7 @@
                             <div id="selected-category-ids-container"></div>
                             <div id="selected-categories"></div>
                             <br>
-                            <div class="col-md-12">
+                            <!-- <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">Business Prices</label>
                                     <div id="price-container">
@@ -159,9 +161,57 @@
                                     <button type="button" class="btn btn-primary mt-2" id="add-price">+ Add More
                                         Price</button>
                                 </div>
+                            </div> -->
+
+                            <h4>Business Prices</h4>
+                            <!-- price -->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="base_price">Base Price ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" name="base_price" id="base_price"
+                                            placeholder="Enter Base Price"
+                                            value="{{ old('base_price') }}" />
+                                    </div>
+                                    @error('base_price')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="standard_price">Standard Price ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" name="standard_price" id="standard_price"
+                                            placeholder="Enter Standard Price"
+                                            value="{{ old('standard_price') }}" />
+                                    </div>
+                                    @error('standard_price')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="pro_price">Pro Price ($)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" name="pro_price" id="pro_price"
+                                            placeholder="Enter Pro Price"
+                                            value="{{ old('pro_price') }}" />
+                                    </div>
+                                    @error('pro_price')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
 
 
+                            <!-- price end here -->
 
 
 
@@ -204,7 +254,7 @@
                             </div>
                             <!-- Product Link -->
                             <div class="row mt-3">
-                                <div class="col-md-6 mt-3">
+                                <div class="col-md-12 mt-3">
                                     <div class="form-group">
                                         <label class="form-label" for="product-category">Business Feature</label>
                                         <select class="form-control product-feature" name="product_feature[]"
@@ -235,35 +285,35 @@
 
 
                             {{-- add cons and pross --}}
-                            <div class="col-md-12 mt-4">
-                                <div class="card border">
-                                    <div class="card-header d-flex justify-content-between">
-                                        <h4>
-                                            Add Pros Data
-                                        </h4>
-                                        <p class="btn btn-success" id="prose-option">Add data</button>
-                                    </div>
-                                    <div class="card-body prose-body">
+                            <div class="row">
+                                <div class="removeproncondata-container"></div>
 
-                                        {{-- prose add --}}
+                                    
+                                    {{-- Pros Section --}}
+                                    <div class="col-md-12 mt-4">
+                                        <div class="card border">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h4>Pros</h4>
+                                                    <button type="button" class="btn btn-success add-pros">Add</button>
+                                            </div>
+                                            <div class="card-body pros-container">
+                                                
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-
-                            <div class="col-md-12 mt-4">
-                                <div class="card border">
-                                    <div class="card-header d-flex justify-content-between">
-                                        <h4>
-                                            Add Cons Data
-                                        </h4>
-                                        <p class="btn btn-success" id="conse-option">Add data</button>
+                                    {{-- Cons Section --}}
+                                    <div class="col-md-12 mt-4">
+                                        <div class="card border">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h4>Cons</h4>
+                                                    <button type="button" class="btn btn-success add-cons">Add</button>
+                                            </div>
+                                            <div class="card-body cons-container">
+                                                
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="card-body conse-data">
-
-                                        {{-- conse add --}}
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -282,7 +332,7 @@
                                                 </a>
                                                 <button class="addCategory btn btn-primary text-center btn-localio"><em
                                                         class=""
-                                                        id="save-button"></em><span>{{ isset($product) ? 'Update Business' : 'Save Business' }}</span></button>
+                                                        id="save-button"></em><span>Save Business</span></button>
 
                                             </div>
                                             <div class="card-body">
@@ -290,12 +340,16 @@
                                                     <label class="form-label d-block text-left">Business Status</label>
                                                     <div class="d-flex align-items-center justify-content-left">
                                                         <!-- Private Label -->
-                                                        <label class="mb-0" style="margin-right: 20px;"><b>Private</b></label>
+                                                        <label class="mb-0 mr-3"><b>Private</b></label>
 
                                                         <!-- Toggle Switch -->
                                                         <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input" id="customSwitch">
-                                                            <label class="custom-control-label" for="customSwitch"></label>
+                                                            <!-- Hidden input to send 'private' when unchecked -->
+                                                            <input type="hidden" name="status" value="private">
+
+                                                            <input type="checkbox" class="custom-control-input" id="businessStatusSwitch"
+                                                                name="status" value="public">
+                                                            <label class="custom-control-label" for="businessStatusSwitch"></label>
                                                         </div>
 
                                                         <!-- Public Label -->
@@ -303,9 +357,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <!-- Hidden Input to Store Status Value -->
-                                            <input type="hidden" name="status" id="statusHidden" value="{{ $product->status ?? 'private' }}">
 
                                         </div>
                                     </div>
@@ -334,144 +385,7 @@
         });
     </script>
     <script>
-        // add ck editor
-        // ClassicEditor
-        //     .create(document.querySelector('#editor'), {
-        //         toolbar: [
-        //             'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
-        //             'insertTable',
-        //             'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
-        //         ],
-        //         image: {
-        //             toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-        //         },
-        //         language: 'en'
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
-
-        // ClassicEditor
-        //     .create(document.querySelector('#editor1'), {
-        //         toolbar: [
-        //             'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload',
-        //             'insertTable',
-        //             'blockQuote', 'undo', 'redo', 'alignment', 'fontSize', 'fontColor', 'codeBlock'
-        //         ],
-        //         image: {
-        //             toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-        //         },
-        //         language: 'en'
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
-
-        $(document).ready(function() {
-            let editor1Data = "",
-                editor2Data = "";
-            let overviewEditor1Data = "",
-                overviewEditor2Data = "";
-
-            // Function to initialize CKEditor
-            function initializeCKEditor(selector, callback) {
-                ClassicEditor
-                    .create($(selector)[0], {
-                        toolbar: [
-                            'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
-                            'imageUpload',
-                            'insertTable', 'blockQuote', 'undo', 'redo', 'alignment', 'fontSize',
-                            'fontColor', 'codeBlock'
-                        ],
-                        image: {
-                            toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block']
-                        },
-                        language: 'en',
-                        enterMode: 'p', // Ensures proper paragraph handling
-                        shiftEnterMode: 'br', // Shift+Enter inserts <br> instead of a new paragraph
-                        autoParagraph: true // Ensures paragraphs are auto-generated
-                    })
-                    .then(editor => {
-                        editor.model.document.on('change:data', () => {
-                            callback(editor.getData());
-                        });
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            }
-
-            // Initialize CKEditor for Description fields
-            initializeCKEditor("#editor1", function(data) {
-                editor1Data = `<p>${data}</p>`;
-            });
-
-            initializeCKEditor("#editor2", function(data) {
-                editor2Data = `<p>${data}</p>`;
-            });
-
-            // Initialize CKEditor for Overview fields
-            initializeCKEditor("#editor3", function(data) {
-                overviewEditor1Data = `<p>${data}</p>`;
-            });
-
-            initializeCKEditor("#editor4", function(data) {
-                overviewEditor2Data = `<p>${data}</p>`;
-            });
-
-            // Combine both descriptions & overviews before form submission
-            $("form").on("submit", function() {
-                $("#final_description").val(editor1Data + editor2Data);
-                $("#final_overview").val(overviewEditor1Data + overviewEditor2Data);
-            });
-        });
-
-
-        // add data
-
-        $(document).ready(function() {
-            // Add dynamic option fields
-            $('#prose-option').click(function() {
-                $('.prose-body').append(`
-                <div class="form-group row prose-option mt-2">
-                    <div class="col-lg-10 col-md-10 col-sm-10">
-                        <input type="text" name="pros_data[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
-                        <button type="button" class="btn btn-danger prose-option"><em class="icon ni ni-trash-fill"></em></button>
-                    </div>
-                </div>
-            `);
-            });
-            // Remove option field, ensuring at least one remains
-
-            $('.prose-body').on('click', '.prose-option', function() {
-                $(this).parents('.prose-option').remove();
-            });
-
-
-
-            // conse
-            $('#conse-option').click(function() {
-                $('.conse-data').append(`
-                <div class="form-group row conse-group mt-2">
-                    <div class="col-lg-10 col-md-10 col-sm-10">
-                        <input type="text" name="conse_data[]" class="form-control" placeholder="Enter option" style="border: 1px solid #7c88aa; ">
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 d-flex align-items-center">
-                        <button type="button" class="btn btn-danger conse-option"><em class="icon ni ni-trash-fill"></em></button>
-                    </div>
-                </div>
-            `);
-            });
-            // Remove option field, ensuring at least one remains
-            $('.conse-data').on('click ', '.conse-option ', function() {
-                $(this).parents('.conse-group').remove();
-            });
-        });
-
-
-        // select 2
+    
         $(document).ready(function() {
             $('.product-category').select2({
                 placeholder: "Select Business Category"
@@ -482,6 +396,51 @@
             });
         });
     </script>
+    <script>
+    $(document).ready(function () {
+        let prosCount = $(".pros-group").length;
+        let consCount = $(".cons-group").length;
+
+        const prosTemplate = (index) => `
+            <div class="row pros-group mt-2">
+                <div class="col-lg-10">
+                    <input type="text" name="pros[${index}][name]" class="form-control" placeholder="Enter Pro">
+                </div>
+                <div class="col-lg-10 mt-2">
+                    <textarea name="pros[${index}][description]" class="form-control" placeholder="Enter Description"></textarea>
+                </div>
+                <div class="col-lg-2 d-flex align-items-center">
+                    <button type="button" class="btn btn-danger remove-item"><em class="icon ni ni-trash-fill"></em></button>
+                </div>
+            </div>`;
+
+        const consTemplate = (index) => `
+            <div class="row cons-group mt-2">
+                <div class="col-lg-10">
+                    <input type="text" name="cons[${index}][name]" class="form-control" placeholder="Enter Con">
+                </div>
+                <div class="col-lg-10 mt-2">
+                    <textarea name="cons[${index}][description]" class="form-control" placeholder="Enter Description"></textarea>
+                </div>
+                <div class="col-lg-2 d-flex align-items-center">
+                    <button type="button" class="btn btn-danger remove-item"><em class="icon ni ni-trash-fill"></em></button>
+                </div>
+            </div>`;
+
+        $(".add-pros").click(function () {
+            $(".pros-container").append(prosTemplate(prosCount++));
+        });
+
+        $(".add-cons").click(function () {
+            $(".cons-container").append(consTemplate(consCount++));
+        });
+
+        $(document).on("click", ".remove-item", function () {
+            $(this).closest(".row").remove();
+        });
+    });
+</script>
+
     <script>
         document.getElementById('add-price').addEventListener('click', function() {
             let container = document.getElementById('price-container');

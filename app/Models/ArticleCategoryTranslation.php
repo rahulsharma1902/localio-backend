@@ -10,7 +10,7 @@ class ArticleCategoryTranslation extends Model
     use HasFactory;
     public function language()
     {
-        return $this->hasOne(SiteLanguages::class, 'id', 'language_id');
+        return $this->hasOne(Language::class, 'id', 'language_id');
     }
     // public function category(){
     //     return $this->hasOne(Country::class,'id','category_id');

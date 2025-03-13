@@ -41,3 +41,6 @@ a.nk-menu-link {
 .simplebar-mask {
     background: #06498B;
 }
+.ck.ck-content {
+    min-height: 10rem;
+}
